@@ -1,5 +1,8 @@
 <?php
 use MapasCulturais\i;
+$app = MapasCulturais\App::i();
+$termsArea = $app->repo('Term')->findBy(['taxonomy' => 'area']);
+$area = array_map(function($term) { return $term->term; }, $termsArea);
 
 return array(
     1 => array(
@@ -22,9 +25,7 @@ return array(
             'MapasCulturais\Entities\Space',
             'MapasCulturais\Entities\Agent'
         ),
-        'restricted_terms' => array(
-            \MapasCulturais\i::__("Saúde"),
-        )
+        'restricted_terms' => $area
     ),
 
     3 => array(

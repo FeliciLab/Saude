@@ -28,7 +28,7 @@ class Theme extends BaseV1\Theme{
             Com ela você pode acessar os dados públicos no nosso banco de dados e utilizá-los para desenvolver aplicações externas. Além disso, o Mapa da Saúde é construído a partir do software livre, recebendo contribuição para o seu desenvolvimento através do <a href="https://github.com/hacklabr/mapasculturais/" target="_blank">GitHub</a>.',
 
             'search: verified results' => 'Resultados da ESP-CE',
-            'search: verified' => "ESP-CE"
+            'search: verified' => "ESP-CE",
         );
     }
 
@@ -62,15 +62,7 @@ class Theme extends BaseV1\Theme{
                         'value' => 'IN({val})'
                     ]
                 ],
-                'instituicao_tipos_unidades' => [
-                    'label' => i::__('Tipos de unidade'),
-                    'placeholder' => i::__('Tipo de unidade'),
-                    'type' => 'metadata',
-                    'filter' => [
-                        'param' => 'instituicao_tipos_unidades',
-                        'value' => 'IN({val})'
-                    ]
-                ],
+                
                 'instituicao_tipos_gestao' => [
                     'label' => i::__('Tipo de gestão'),
                     'placeholder' => i::__('Tipo de gestão'),
@@ -80,12 +72,12 @@ class Theme extends BaseV1\Theme{
                         'value' => 'IN({val})'
                     ]
                 ],
-                'instituicao_servicos' => [
+                'instituicao_servicos_especializados' => [
                     'label' => i::__('Serviços'),
                     'placeholder' => i::__('Serviços'),
                     'type' => 'metadata',
                     'filter' => [
-                        'param' => 'instituicao_servicos',
+                        'param' => 'instituicao_servicos_especializados',
                         'value' => 'IN({val})'
                     ]
                 ],
@@ -148,6 +140,7 @@ class Theme extends BaseV1\Theme{
                     ]
                 ]
             ]
+            
         ];
 
         App::i()->applyHookBoundTo($this, 'search.filters', [&$filters]);

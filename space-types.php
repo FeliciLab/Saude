@@ -7,7 +7,7 @@ $termsUnidade = $app->repo('Term')->findBy(['taxonomy' => 'instituicao_tipos_uni
 $tiposUnidades = array_map(function($term) { return $term->term; }, $termsUnidade);
 $termsGestao = $app->repo('Term')->findBy(['taxonomy' => 'instituicao_tipos_gestao']);
 $tiposGestao = array_map(function($term) { return $term->term; }, $termsGestao);
-$termsServico = $app->repo('Term')->findBy(['taxonomy' => 'instituicao_servicos']);
+$termsServico = $app->repo('Term')->findBy(['taxonomy' => 'instituicao_servicos_especializados']);
 $tiposServico = array_map(function($term) { return $term->term; }, $termsServico);
 
 return array(
@@ -407,6 +407,14 @@ return array(
             ),
             'available_for_opportunities' => true
         ),
+        
+        'instituicao_servicos_especializados' => array(
+            'label' => \MapasCulturais\i::__('Serviços'),
+            'type' => 'multiselect',
+            'allowOther' => true,
+            'allowOtherText' => \MapasCulturais\i::__('Outros'),
+            'options' => $tiposServico
+        ),
         'instituicao_tipos_unidades' => [
             'label' => \MapasCulturais\i::__('Tipos de unidade'),
             'type' => 'select',
@@ -416,11 +424,6 @@ return array(
             'label' => \MapasCulturais\i::__('Tipo de gestão'),
             'type' => 'select',
             'options' => $tiposGestao
-        ],
-        'instituicao_servicos' => [
-            'label' => \MapasCulturais\i::__('Serviços'),
-            'type' => 'select',
-            'options' => $tiposServico
         ],
     ),
 
