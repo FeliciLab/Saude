@@ -21,9 +21,15 @@ return [
         'logout_url'            => env('LOGOUT_URL', ''),
         'client_id'             => env('CLIENT_ID', ''),
         'client_secret'         => env('CLIENT_SECRET', ''),
-	    'auth_endpoint'         => env('AUTH_ENDPOINT', ''),
+        'auth_endpoint'         => env('AUTH_ENDPOINT', ''),
         'token_endpoint'        => env('TOKEN_ENDPOINT', ''),
         'user_info_endpoint'    => env('USER_INFO_ENDPOINT', ''),
         'redirect_uri'          => env('REDIRECT_URI', ''),
     ],
+
+    // CEP API
+    'cep.endpoint'      => env('CEP_ENDPOINT', 'https://www.cepaberto.com/api/v3/cep?cep=%s'),
+
+    'cep.token_header'  => env('CEP_TOKEN_HEADER', 'Authorization: Token token="%s"'),
+    'cep.token'         => env('CEP_TOKEN', ''),
 ];
