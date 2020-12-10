@@ -81,6 +81,15 @@ class Theme extends BaseV1\Theme{
                         'value' => 'IN({val})'
                     ]
                 ],
+                'instituicao_tipos_unidades' => [
+                    'label' => i::__('Tipos de unidade'),
+                    'placeholder' => i::__('Tipos de unidade'),
+                    'type' => 'metadata',
+                    'filter' => [
+                        'param' => 'instituicao_tipos_unidades',
+                        'value' => 'IN({val})'
+                    ]
+                ],
             ],
             'agent' => [
                 'profissionais_graus_academicos' => [
