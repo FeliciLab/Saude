@@ -501,10 +501,7 @@ return array(
     'create table examination_room' => function () use($conn) {
         //
         $conn->executeQuery("CREATE TABLE public.examination_room (
-            id INT NOT NULL PRIMARY KEY,
-            agent_id INT NOT NULL,
             registration_id INT NOT NULL,
-            opportunity_id INT NOT NULL,
             agent_cpf TEXT NOT NULL,
             room_number TEXT NOT NULL, 
             room_link TEXT NOT NULL, 
@@ -512,7 +509,6 @@ return array(
             examination_date DATE DEFAULT NULL,
             initial_hour TEXT DEFAULT NULL,
             final_hour DATE DEFAULT NULL
-
         )");
 
     }
