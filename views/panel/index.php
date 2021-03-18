@@ -8,29 +8,6 @@ $posfin = 0;
 $msg = "";
 $button = "";
 
-$agent = $app->repo('AgentMeta')->findBy([
-    'owner' => $app->user->profile->id
-]);
-
-$all = $app->em->getConnection()->fetchAll("SELECT * FROM examination_room");
-
-$cpf    = '';
-$newcpf = '';
-foreach ($agent as $campo => $valor) {
-    if($agent[$campo]->key == 'documento'){
-        $cpf = $valor->value;
-    }
-}
-
-function limpaCPF_CNPJ($valor){
-    $valor = trim($valor);
-    $valor = str_replace(".", "", $valor);
-    $valor = str_replace(",", "", $valor);
-    $valor = str_replace("-", "", $valor);
-    $valor = str_replace("/", "", $valor);
-    return $valor;
-}
-$newcpf = limpaCPF_CNPJ($cpf);
 ?>
 
 <?php $this->applyTemplateHook('content','before'); ?>
@@ -43,31 +20,7 @@ $newcpf = limpaCPF_CNPJ($cpf);
     <p class="highlighted-message" style="margin-top:-2em;">
         <?php printf(\MapasCulturais\i::__('Você é administrador deste subsite. Clique %saqui%s para configurar.'), '<a rel="noopener noreferrer" href="' . $subsite->singleUrl . '">', '</a>'); ?>
     </p>
-    <?php endif; 
-    foreach ($all as $key => $value) {
-        $agent_cpf = limpaCPF_CNPJ($value['agent_cpf']);
-        if($newcpf == $agent_cpf) {
-    ?>
-    <div class="panel panel-primary">
-        <div class="panel-heading">Edital 02/2021</div>
-        <div class="panel-body">
-            <ul class="list-group">
-                <li class="list-group-item">
-                    Sala: <?php echo $value['room_number']; ?>
-                </li>
-                <li class="list-group-item">
-                    Para acesso à plataforma Moodle: <a href="<?php echo $value['room_link']; ?>" class="btn btn-primary" target="_blank">clique aqui</a>
-                </li>
-                <li class="list-group-item">
-                Para acessar plataforma Meet: <a href="<?php echo $value['meet_link']; ?>" class="btn btn-primary" target="_blank">clique aqui</a>
-                </li>
-            </ul>
-            
-        </div>
-    </div>
-    <?php 
-        }
-    } ?>
+    <?php endif; ?>
     <div class="panel panel-primary">
     <div class="panel-heading">Seus itens</div>
     <div class="panel-body">
