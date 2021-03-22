@@ -167,9 +167,6 @@ class Resources extends \MapasCulturais\Entity{
         $resource = $query->getResult();
         //dump($resource);
         if(!empty($resource)) {
-            //if($resource[0]->resourceText !== "" && $resource[0]->replyPublish == TRUE )
-            // dump($resource[0]->resourceText);
-            // dump($resource[0]->replyPublish);
             return ['text' => $resource[0]->resourceText, 'publish' => $resource[0]->replyPublish];
 
         }
@@ -179,23 +176,20 @@ class Resources extends \MapasCulturais\Entity{
     /**
      * Undocumented function
      *
-     * @param [type] $type agentOpportunity
+     * @param [opportunity] $opportunity opportunidade para verificar se existe recurso sem resposta
      * @return void
     */
-    public static function reportResource($type) {
-        switch ($type) {
-            case 'agentOpportunity':
-                
-                break;
-            
-            default:
-                # code...
-                break;
-        }
-    }
-
-    public function agentOpportunity() {
-
+    public static function verifyResourceNotReply($opportunity) {
+        $app = App::i();
+        $dql = "SELECT r
+        FROM 
+        Saude\Entities\Resources r
+        WHERE r.opportunityId = {$opportunity}
+        and r.resourceReply  = '' 
+        and r.replyPublish = false";
+        $query = $app->em->createQuery($dql);
+        $resource = $query->getResult();
+        return $resource;
     }
     /** @ORM\PrePersist */
     public function _prePersist($args = null){

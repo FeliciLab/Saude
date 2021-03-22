@@ -848,6 +848,8 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
         fileConfigurations: MapasCulturais.entity.registrationFileConfigurations
     };
 
+    $scope.data.birthDay = "";
+
     $timeout(function(){
         $scope.ibge = MapasCulturais.ibge;
     }, 200)
@@ -864,14 +866,13 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
         var val = $scope.entity[field.fieldName];
 
         field.unchangedFieldJSON = JSON.stringify(val);        
-        console.log(field.fieldType)
-        
+
         if (field.fieldType == 'date' && typeof val == 'string' ) {
-            val = moment(val).format('DD/MM/YYYY');
+            val = moment(val).toDate();
         } else if(field.fieldType == 'number' && typeof val == 'string' ) {
             val = parseFloat(val);
         } else if (/\d{4}-\d{2}-\d{2}/.test(val)) {
-            val = moment(val).format('DD/MM/YYYY');
+            val = moment(val).toDate();
         }
         console.log({val})
         $scope.entity[field.fieldName] = val;
@@ -1095,20 +1096,21 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
     }
 
     $scope.printField = function(field, value){
-
         if (field.fieldType === 'date') {
-            return moment(value).format('DD-MM-YYYY');
+            return moment(value).format('DD/MM/YYYY');
         } else if (field.fieldType === 'url'){
             return '<a href="' + value + '" target="_blank" rel="noopener noreferrer">' + value + '</a>';
         } else if (field.fieldType === 'email'){
             return '<a href="mailto:' + value + '"  target="_blank" rel="noopener noreferrer">' + value + '</a>';
-        } else if (value instanceof Array) {
+        }  else if (field.fieldType === 'agent-owner-field' && typeof value ==='object' || field.fieldType === 'agent-collective-field' && typeof value ==='object'){
+            // FORMATANDO A DATA DE NASCIMENTO
+            return moment(value).format('DD/MM/YYYY');
+        }else if (value instanceof Array) {
             return value.join(', ');
         } else {
             return value;
         }
     };
-
 }]);
 
 module.controller('EvaluationMethodConfigurationController', ['$scope', '$rootScope', 'RelatedAgentsService', 'EvaluationMethodConfigurationService', 'EditBox', 'OpportunityApiService', 'evaluationCandidate', function($scope, $rootScope, RelatedAgentsService, EvaluationMethodConfigurationService, EditBox, OpportunityApiService, evaluationCandidate) {
@@ -2085,9 +2087,6 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                 var registration = $scope.data.registration;
                 var ownerRegistration = [];
                 // @TODO: buscar na api
-                console.log('params')
-                console.log($scope.data.registration)
-                 console.log($scope.data.registrations)
                 for(var i in $scope.data.registrations) {
                     if(registration.owner && $scope.data.registrations[i].owner){
                         if($scope.data.registrations[i].owner.id == registration.owner.id) {

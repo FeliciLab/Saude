@@ -214,7 +214,7 @@ function clickPublish(opportunity) {
                 text: 'Publicar',
                 addClass: 'btn btn-primary btn-confirm-notify',
                 click: function(notice){
-                    publishResource(id);
+                    verifyResourceNotReply(id)
                     PNotify.removeAll();
                 }
             },
@@ -257,3 +257,25 @@ function publishResource(opportunity) {
     });
 }
 
+//VERIFICA SE EXISTE RECURSO SEM RESPOSTA
+function verifyResourceNotReply(opportunity) {
+
+    $.ajax({
+        type: "POST",
+        url: MapasCulturais.baseURL + 'recursos/verifyResource',
+        data: {opportunityId: opportunity},
+        dataType: "json",
+        success: function (response) {
+            publishResource(opportunity);
+        }
+    }).fail(function(error) {
+        console.log(error)
+        new PNotify({
+            title: 'Ops!',
+            text: error.responseJSON.message,
+            type: 'notice',
+            icon: 'fa fa-exclamation-triangle',
+            shadow: true
+        }); 
+    });;
+}

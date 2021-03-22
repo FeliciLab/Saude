@@ -123,4 +123,14 @@ class Resources extends \MapasCulturais\Controller{
         $this->render('printResource', ['report' => $report]);
     }
 
+    function POST_verifyResource() {
+        $app = App::i();
+        $reply = EntitiesResources::verifyResourceNotReply($this->postData['opportunityId']);
+        if(count($reply) > 0){
+            $this->json([ 'title' => 'Error', 'message' => 'Ainda existe recurso sem resposta', 'type' => 'error'], 401);
+        }else{
+            $this->json([ 'title' => 'Sucesso!', 'message' => 'Autorizado publicar', 'type' => 'success'], 200);
+        }
+    }
+
 }
