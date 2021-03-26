@@ -9,6 +9,11 @@ use \Saude\Entities\Resources as EntitiesResources;
 
 class Resources extends \MapasCulturais\Controller{
 
+    const STATUS_APPROVED = 10;
+    const STATUS_WAITLIST = 8;
+    const STATUS_NOTAPPROVED = 3;
+    const STATUS_INVALID = 2;
+
     function GET_index() {
         //$this->render('resources');
         ini_set('display_errors', 1);
@@ -68,9 +73,11 @@ class Resources extends \MapasCulturais\Controller{
     }
 
     function PUT_replyResource() {
+        
         if(
             empty($this->postData['resource_reply']) || 
-            empty($this->postData['resource_status']) ){
+            empty($this->postData['resource_status']) || 
+            empty($this->postData['status'])){
             $this->json(['title' => 'Erro','message' => 'Todos os campos deve ser preenchidos', 'type' => 'error'], 500);
         }
         $app = App::i();
@@ -89,6 +96,13 @@ class Resources extends \MapasCulturais\Controller{
             if($this->putData['new_consolidated_result'] > $max) {
                 $this->json(['title' => 'Ops!','message' => 'A nova nota não pode ser maior que a nota máxima', 'type' => 'error'], 401);
             }else{
+                
+                if(isset($this->putData['status']) && $this->putData['status'] == '1') {
+                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                    SET r.status = 10 WHERE r.id = {$reg->id}";
+                    $query      = $app->em->createQuery($dql);
+                    $upStatus   = $query->getResult();
+                }
                 $reg->consolidatedResult = $this->putData['new_consolidated_result'];
                 $app->em->persist($reg);
             }
