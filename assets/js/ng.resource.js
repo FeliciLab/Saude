@@ -1,7 +1,7 @@
 $(document).ready(function () {
     //OCULTANDO CAMPO NO FORMULÁRIO DE RESPOSTA
     $("#divDeferido").hide();
-
+    
     getAllResource();
     $("#formSendResource").submit(function (e) { 
         e.preventDefault();
@@ -71,6 +71,7 @@ $(document).ready(function () {
         var type = this.value;
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
             $("#divDeferido").show();
+            pointMax(MapasCulturais.entity.object.id);
         }else{
             $("#divDeferido").hide();
         }
@@ -198,6 +199,7 @@ function getNameOpportunity(id) {
         }
     });
 }
+
 function clickPublish(opportunity) {
     var id = opportunity;
     new PNotify({
@@ -278,4 +280,18 @@ function verifyResourceNotReply(opportunity) {
             shadow: true
         }); 
     });;
+}
+
+function pointMax(opportunity) {
+    $.ajax({
+        type: "GET",
+        url: MapasCulturais.baseURL + 'recursos/pointMax',
+        data: {opportunityId: opportunity},
+        dataType: "json",
+        success: function (response) {
+            console.log(response)
+            $("#infoNotaMaxima").html("Gostariamos de lhe lembrar que a nota máxima de pontuação é de: " + response.message);
+            $("#new_consolidated_result").attr('max' , response.message);
+        }
+    });
 }

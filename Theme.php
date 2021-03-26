@@ -55,6 +55,20 @@ class Theme extends BaseV1\Theme{
                 ]);
             empty($regis) ? $this->json(['message' => true]) : $this->json(['message' => false]);
         });
+        
+        $app->hook('POST(opportunity.setStatus)', function() use($app) { 
+            //$plugin = $app->plugins['EvaluationMethodTechnical'];
+            try {
+                $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                SET r.status = 10 WHERE r.opportunity = {$this->postData['opportunity']} AND r.status = 1";
+                $query      = $app->em->createQuery($dql);
+                $upStatus   = $query->getResult();
+                $this->json(['message' => 'Total de registro alterado: '.$upStatus], 200);
+ 
+            } catch (Exception $th) {
+                $this->json(['message' => $th->getMessage()], 500);
+            }
+        });
     }
 
     protected function _publishAssets() {
