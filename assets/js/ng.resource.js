@@ -93,6 +93,39 @@ function showModalReply(resourceId, opportunity, oppName, note) {
     $("#resource_id").val(0);
     $("#replyOpportunityNameLabel").html(oppName);
     $("#consolidated_result").val(note);
+
+    $.ajax({
+        type: "POST",
+        url: MapasCulturais.baseURL+'recursos/checksResourceEvaluator',
+        data: {id: resourceId},
+        dataType: "json",
+        success: function (response) {
+            new PNotify({
+                text: response.message,
+                type: 'notice'
+            });
+            inforesourceReply(resourceId);
+            var inst = $('[data-remodal-id=modal-resposta-recurso]').remodal();
+            //ABRE MODAL
+            inst.open();
+        }
+    }).fail(function(error) {
+        console.log(error)
+        new PNotify({
+            title: 'Ops!',
+            text: error.responseText.message,
+            type: 'notice',
+            icon: 'fa fa-exclamation-triangle',
+            shadow: true
+        }); 
+    });
+
+    
+    
+
+}
+//
+function inforesourceReply(resourceId) {
     var data = {
         id: resourceId
     }
@@ -112,12 +145,7 @@ function showModalReply(resourceId, opportunity, oppName, note) {
             
         }
     );
-    var inst = $('[data-remodal-id=modal-resposta-recurso]').remodal();
-    //ABRE MODAL
-    inst.open();
-
 }
-
 // para mudar a cor da class na tr > td
 function infoColorStatus(status) {
     var classStatus = '';
@@ -280,7 +308,7 @@ function verifyResourceNotReply(opportunity) {
             icon: 'fa fa-exclamation-triangle',
             shadow: true
         }); 
-    });;
+    });
 }
 
 function pointMax(opportunity) {
