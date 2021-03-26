@@ -255,6 +255,7 @@ function publishResource(opportunity) {
             });
             $("#div-publish").hide();
             $("#div-alert-publish").show();
+            location.reload();
         }
     });
 }

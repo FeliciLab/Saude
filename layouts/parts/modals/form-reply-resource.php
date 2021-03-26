@@ -47,6 +47,12 @@
             step=".01"
             name="new_consolidated_result" id="new_consolidated_result"
             class="form-control">
+            <label for="">Status do Candidato</label>
+            <select name="status" id="" class="form-control">
+                <option value="">--Selecione--</option>
+                <option value="1">Habilitar próxima fase</option>
+                <option value="2">Manter Status</option>
+            </select>
         </div>
         <hr>
         <button data-remodal-action="cancel" class="btn btn-default" title="Sair da resposta">
