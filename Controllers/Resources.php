@@ -178,7 +178,8 @@ class Resources extends \MapasCulturais\Controller{
             // dump($app->user->profile->id);
             if($evaluator->id !== $app->user->profile->id){
                 $this->json(['message' => 'Esse recurso está com '.$evaluator->name],401);
-            }   
+            }
+            $this->json(['message' => 'Continue'],200);
         }
         
         
