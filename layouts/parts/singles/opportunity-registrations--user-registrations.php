@@ -81,14 +81,13 @@ if(!empty($registrations)){
                     <?php if($verifyPublish->publishedRegistrations == true
                      && $typeEvaluation[0]->type->id == 'technical'): ?>
                         <td>
-                            <?php echo "---";
-                            //$registration->preliminaryResult;
+                            <?php echo $registration->preliminaryResult;
                             ?>
                         </td>
                         <?php
                         //entrou em recurso e já está publicado $registration->consolidatedResult
                         if($resource['text'] !== "" && $resource['publish'] == true) {
-                            echo '<td> --- </td>';
+                            echo $registration->consolidatedResult;
                         }else
                         //SE ENTROU EM RECURSO MAIS AINDA NAO FOI PUBLICADO
                         if($resource['text'] !== "" && $resource['publish'] == false) {

@@ -73,12 +73,14 @@ class Resources extends \MapasCulturais\Controller{
     }
 
     function PUT_replyResource() {
-        
+       
         if(
             empty($this->postData['resource_reply']) || 
-            empty($this->postData['resource_status']) || 
-            empty($this->postData['status'])){
+            empty($this->postData['resource_status'])){
             $this->json(['title' => 'Erro','message' => 'Todos os campos deve ser preenchidos', 'type' => 'error'], 500);
+        }
+        if($this->postData['resource_status'] === 'Deferido' && $this->postData['status'] === '0' || $this->postData['resource_status'] === 'ParcialmenteDeferido' && $this->postData['status'] === '0'){
+            $this->json(['title' => 'Erro','message' => 'Confira o Status do candidato. = ' .$this->postData['status'], 'type' => 'error'], 500);
         }
         $app = App::i();
         $date = new DateTime('now');
@@ -160,6 +162,27 @@ class Resources extends \MapasCulturais\Controller{
         }else{
             $this->json([ 'title' => 'Error', 'message' => 'Ainda existe recurso sem resposta', 'type' => 'error'], 401);   
         }
+    }
+
+    function POST_checksResourceEvaluator() {
+        $app = App::i();
+        $check = EntitiesResources::find($this->postData['id']);
+        if($check->replyAgentId == null){
+            $check->replyAgentId = $app->user->profile->id;
+            $app->em->persist($check);
+            $app->em->flush();
+            $this->json(['message' => 'Esse recurso está com você'],200);
+        }else{
+            $evaluator = $app->repo('Agent')->find($check->replyAgentId);
+            // dump($evaluator->id);
+            // dump($app->user->profile->id);
+            if($evaluator->id !== $app->user->profile->id){
+                $this->json(['message' => 'Esse recurso está com '.$evaluator->name],401);
+            }
+            $this->json(['message' => 'Continue'],200);
+        }
+        
+        
     }
 
 }

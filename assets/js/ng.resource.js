@@ -93,12 +93,45 @@ function showModalReply(resourceId, opportunity, oppName, note) {
     $("#resource_id").val(0);
     $("#replyOpportunityNameLabel").html(oppName);
     $("#consolidated_result").val(note);
+
+    $.ajax({
+        type: "POST",
+        url: MapasCulturais.baseURL+'recursos/checksResourceEvaluator',
+        data: {id: resourceId},
+        dataType: "json",
+        success: function (response) {
+            if(response.message !== 'Continue') {
+                new PNotify({
+                    text: response.message,
+                    type: 'notice'
+                });
+            }
+            inforesourceReply(resourceId);
+            var inst = $('[data-remodal-id=modal-resposta-recurso]').remodal();
+            //ABRE MODAL
+            inst.open();
+        }
+    }).fail(function(error) {
+        new PNotify({
+            title: 'Ops!',
+            text: error.responseJSON.message,
+            type: 'notice',
+            icon: 'fa fa-exclamation-triangle',
+            shadow: true
+        }); 
+    });
+
+    
+    
+
+}
+//
+function inforesourceReply(resourceId) {
     var data = {
         id: resourceId
     }
     $.get(MapasCulturais.baseURL+'recursos/inforesourceReply', data,
         function (response) {
-            console.log('status' , response);
             $("#resource_reply").val(response.resourceReply)
             $("#resourceText").html('<strong>Recurso: </strong>'+response.resourceText);
             $("#resource_id").val(response.id);
@@ -112,12 +145,7 @@ function showModalReply(resourceId, opportunity, oppName, note) {
             
         }
     );
-    var inst = $('[data-remodal-id=modal-resposta-recurso]').remodal();
-    //ABRE MODAL
-    inst.open();
-
 }
-
 // para mudar a cor da class na tr > td
 function infoColorStatus(status) {
     var classStatus = '';
@@ -151,7 +179,6 @@ function getAllResource() {
     $.get(MapasCulturais.baseURL+'recursos/allResource',
         function (data, textStatus, jqXHR) {
             $.each(data, function (indexInArray, value) { 
-                console.log(value)
                 getNameOpportunity(value.opportunity_id); 
                 //formatando a data padrão pt-br
                 var dtFormat = moment(value.resource_send).format('DD/MM/YYYY HH:mm:ss');
@@ -272,7 +299,6 @@ function verifyResourceNotReply(opportunity) {
             publishResource(opportunity);
         }
     }).fail(function(error) {
-        console.log(error)
         new PNotify({
             title: 'Ops!',
             text: error.responseJSON.message,
@@ -280,7 +306,7 @@ function verifyResourceNotReply(opportunity) {
             icon: 'fa fa-exclamation-triangle',
             shadow: true
         }); 
-    });;
+    });
 }
 
 function pointMax(opportunity) {
@@ -290,7 +316,6 @@ function pointMax(opportunity) {
         data: {opportunityId: opportunity},
         dataType: "json",
         success: function (response) {
-            console.log(response)
             $("#infoNotaMaxima").html("Gostariamos de lhe lembrar que a nota máxima de pontuação é de: " + response.message);
             $("#new_consolidated_result").attr('max' , response.message);
         }

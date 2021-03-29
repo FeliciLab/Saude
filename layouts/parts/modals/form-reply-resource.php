@@ -49,7 +49,7 @@
             class="form-control">
             <label for="">Status do Candidato</label>
             <select name="status" id="" class="form-control">
-                <option value="">--Selecione--</option>
+                <option value="0">--Selecione--</option>
                 <option value="1">Habilitar próxima fase</option>
                 <option value="2">Manter Status</option>
             </select>

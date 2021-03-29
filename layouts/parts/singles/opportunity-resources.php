@@ -13,15 +13,21 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                 <th>Agente</th>
                 <th>Status</th>
                 <th>Responder</th>
+                <th>Responsável</th>
             </tr>
         </thead>
         <tbody>
-        <?php 
+        <?php
+        $agentReply = "";
         foreach ($resources as $key => $resource) {
             //pegando a instancia do objecto com o relacionamento
             $rec = Resources::find($resources[$key]['id']);
 
             $registration = $app->repo('Registration')->find($rec->registrationId->id);
+            //  Se tiver avaliador responsável no banco
+            if($resources[$key]['reply_agent_id'] !== NULL) {
+               $agentReply = $app->repo('Agent')->find($resources[$key]['reply_agent_id']);
+            }
         ?>
             <tr>
                 <th><?php echo $rec->registrationId->number; ?></th>
@@ -40,6 +46,11 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                     <?php }else{
                         echo 'Recurso já foi publicado';
                     } ?>
+                </th>
+                <th>
+                    <?php 
+                        ($resources[$key]['reply_agent_id'] !== NULL) ? printf($agentReply->name) : $agentReply;
+                    ?>
                 </th>
             </tr>
         <?php } ?>
