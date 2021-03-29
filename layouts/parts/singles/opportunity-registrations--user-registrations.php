@@ -84,8 +84,9 @@ if(!empty($registrations)){
                             <?php echo $registration->preliminaryResult;
                             ?>
                         </td>
+                        <td>
                         <?php
-                        //entrou em recurso e já está publicado $registration->consolidatedResult
+                        //entrou em recurso e já está publicado
                         if($resource['text'] !== "" && $resource['publish'] == true) {
                             echo $registration->consolidatedResult;
                         }else
@@ -96,9 +97,9 @@ if(!empty($registrations)){
                         //SE NÃO ENTROU EM RECURSO
                         if($resource['text'] == 'Não existe texto' && $resource['publish'] == 'sem publicacao'){
                             echo '<td>'.$registration->consolidatedResult.'</td>';
-                        }   
+                        }
                         ?>
-
+                        </td>
                     <?php endif; ?>
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
                 </tr>
