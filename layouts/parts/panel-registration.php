@@ -1,3 +1,11 @@
+<style type="text/css">
+.classeDestaque{
+    border: 2px solid green;
+    border-radius: 5px;
+}
+</style>
+
+
 <?php
 use MapasCulturais\Entities\Registration;
 Use Saude\Entities\Resources;
@@ -7,8 +15,14 @@ $app = MapasCulturais\App::i();
 $url = $registration->status == Registration::STATUS_DRAFT ? $registration->editUrl : $registration->singleUrl;
 $proj = $registration->opportunity;
 $resources = Resources::validateOnlyResource($registration->id, $registration->opportunity->id, $registration->owner->id);
+$classeDestaque = "";
+
+if(isset($_GET['id']) && $_GET['id'] == $registration->id){
+    $classeDestaque = "classeDestaque";
+}
 ?>
-<article class="objeto clearfix">
+
+<article class="objeto clearfix <?php echo $classeDestaque; ?>" id="<?php echo $registration->id; ?>" name="<?php echo $registration->id; ?>">
     <?php if($avatar = $proj->avatar): ?>
     <div class="thumb">
         <img src="<?php echo $avatar->transform('avatarSmall')->url ?>" >
@@ -44,7 +58,5 @@ $resources = Resources::validateOnlyResource($registration->id, $registration->o
         <?php if($proj->registrationCategories): ?>
         <div><span class="label"><?php echo $proj->registrationCategTitle ?>:</span> <?php echo $registration->category ?></div>
         <?php endif; ?>
-
-
     </div>
 </article>
