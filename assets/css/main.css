@@ -7330,3 +7330,9 @@ nav {
   padding: 8px;
   border-radius: 5px;
 }
+
+/* Borda para destacar o recurso que o candidato selecionou */
+.classeDestaque{
+  border: 2px solid green;
+  border-radius: 5px;
+}

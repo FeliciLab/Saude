@@ -1,11 +1,3 @@
-<style type="text/css">
-.classeDestaque{
-    border: 2px solid green;
-    border-radius: 5px;
-}
-</style>
-
-
 <?php
 use MapasCulturais\Entities\Registration;
 Use Saude\Entities\Resources;
