@@ -81,14 +81,14 @@ if(!empty($registrations)){
                     <?php if($verifyPublish->publishedRegistrations == true
                      && $typeEvaluation[0]->type->id == 'technical'): ?>
                         <td>
-                            <?php echo "---";
-                            //$registration->preliminaryResult;
+                            <?php echo $registration->preliminaryResult;
                             ?>
                         </td>
+                        
                         <?php
-                        //entrou em recurso e já está publicado $registration->consolidatedResult
+                        //entrou em recurso e já está publicado
                         if($resource['text'] !== "" && $resource['publish'] == true) {
-                            echo '<td> --- </td>';
+                            echo '<td>'.$registration->consolidatedResult.'<td>';
                         }else
                         //SE ENTROU EM RECURSO MAIS AINDA NAO FOI PUBLICADO
                         if($resource['text'] !== "" && $resource['publish'] == false) {
@@ -97,9 +97,9 @@ if(!empty($registrations)){
                         //SE NÃO ENTROU EM RECURSO
                         if($resource['text'] == 'Não existe texto' && $resource['publish'] == 'sem publicacao'){
                             echo '<td>'.$registration->consolidatedResult.'</td>';
-                        }   
+                        }
                         ?>
-
+                       
                     <?php endif; ?>
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
                 </tr>

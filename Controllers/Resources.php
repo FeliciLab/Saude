@@ -9,6 +9,11 @@ use \Saude\Entities\Resources as EntitiesResources;
 
 class Resources extends \MapasCulturais\Controller{
 
+    const STATUS_APPROVED = 10;
+    const STATUS_WAITLIST = 8;
+    const STATUS_NOTAPPROVED = 3;
+    const STATUS_INVALID = 2;
+
     function GET_index() {
         //$this->render('resources');
         ini_set('display_errors', 1);
@@ -68,10 +73,14 @@ class Resources extends \MapasCulturais\Controller{
     }
 
     function PUT_replyResource() {
+       
         if(
             empty($this->postData['resource_reply']) || 
-            empty($this->postData['resource_status']) ){
+            empty($this->postData['resource_status'])){
             $this->json(['title' => 'Erro','message' => 'Todos os campos deve ser preenchidos', 'type' => 'error'], 500);
+        }
+        if($this->postData['resource_status'] === 'Deferido' && $this->postData['status'] === '0' || $this->postData['resource_status'] === 'ParcialmenteDeferido' && $this->postData['status'] === '0'){
+            $this->json(['title' => 'Erro','message' => 'Confira o Status do candidato. = ' .$this->postData['status'], 'type' => 'error'], 500);
         }
         $app = App::i();
         $date = new DateTime('now');
@@ -83,9 +92,22 @@ class Resources extends \MapasCulturais\Controller{
 
         //ALTERAR A NOTA FINAL
         if(!empty($this->putData['new_consolidated_result'])) {
+            $max = EntitiesResources::maxPoint($reply->opportunityId->id);
+
             $reg = $app->repo('Registration')->find($reply->registrationId->id);
-            $reg->consolidatedResult = $this->putData['new_consolidated_result'];
-            $app->em->persist($reg);
+            if($this->putData['new_consolidated_result'] > $max) {
+                $this->json(['title' => 'Ops!','message' => 'A nova nota não pode ser maior que a nota máxima', 'type' => 'error'], 401);
+            }else{
+                
+                if(isset($this->putData['status']) && $this->putData['status'] == '1') {
+                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                    SET r.status = 10 WHERE r.id = {$reg->id}";
+                    $query      = $app->em->createQuery($dql);
+                    $upStatus   = $query->getResult();
+                }
+                $reg->consolidatedResult = $this->putData['new_consolidated_result'];
+                $app->em->persist($reg);
+            }
         }
 
         try {
@@ -131,6 +153,36 @@ class Resources extends \MapasCulturais\Controller{
         }else{
             $this->json([ 'title' => 'Sucesso!', 'message' => 'Autorizado publicar', 'type' => 'success'], 200);
         }
+    }
+
+    function GET_pointMax() {
+        $max = EntitiesResources::maxPoint($this->getData['opportunityId']);
+        if(!empty($max)) {
+            $this->json(['message' => $max], 200);
+        }else{
+            $this->json([ 'title' => 'Error', 'message' => 'Ainda existe recurso sem resposta', 'type' => 'error'], 401);   
+        }
+    }
+
+    function POST_checksResourceEvaluator() {
+        $app = App::i();
+        $check = EntitiesResources::find($this->postData['id']);
+        if($check->replyAgentId == null){
+            $check->replyAgentId = $app->user->profile->id;
+            $app->em->persist($check);
+            $app->em->flush();
+            $this->json(['message' => 'Esse recurso está com você'],200);
+        }else{
+            $evaluator = $app->repo('Agent')->find($check->replyAgentId);
+            // dump($evaluator->id);
+            // dump($app->user->profile->id);
+            if($evaluator->id !== $app->user->profile->id){
+                $this->json(['message' => 'Esse recurso está com '.$evaluator->name],401);
+            }
+            $this->json(['message' => 'Continue'],200);
+        }
+        
+        
     }
 
 }

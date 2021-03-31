@@ -57,13 +57,9 @@ $newcpf = limpaCPF_CNPJ($cpf);
                     Sala: <?php echo $value['room_number']; ?>
                 </li>
                 <li class="list-group-item">
-                    Para acesso à plataforma Moodle: <a href="<?php echo $value['room_link']; ?>" class="btn btn-primary" target="_blank">clique aqui</a>
-                </li>
-                <li class="list-group-item">
                 Para acessar plataforma Meet: <a href="<?php echo $value['meet_link']; ?>" class="btn btn-primary" target="_blank">clique aqui</a>
                 </li>
             </ul>
-            
         </div>
     </div>
     <?php 

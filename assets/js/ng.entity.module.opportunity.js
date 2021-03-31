@@ -227,8 +227,34 @@ module.factory('RegistrationService', ['$http', '$rootScope', '$q', 'UrlService'
         publishedRegistrationStatusesNames: [
             {value: 8, label: labels['suplente']},
             {value: 10, label: labels['selected']}
-        ]
+        ],
 
+        setStatusCandidate: function() {
+            var dataStatus = {opportunity: MapasCulturais.entity.id}
+            return $http.post(MapasCulturais.baseURL+'opportunity/setStatus', dataStatus).
+            success(function(data, status){
+                PNotify.removeAll();
+                new PNotify({
+                    title: 'Sucesso!',
+                    text: data.message,
+                    type: 'success',
+                    icon: 'fa fa-check',
+                    shadow: true
+                }); 
+                setTimeout(() => {
+                    location.reload();
+                }, 2000);
+            }).
+            error(function(error, status){
+                new PNotify({
+                    title: 'Erro!',
+                    text: 'Ocorreu um erro inesperado',
+                    type: 'error',
+                    icon: 'fa fa-exclamation-circle',
+                    shadow: true
+                }); 
+            });
+        }
     };
 }]);
 
@@ -1926,336 +1952,351 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
         }
     };
 
-            $scope.getRegistrationStatus = function(registration){
-                return registration.status;
-            };
+    $scope.getRegistrationStatus = function(registration){
+        return registration.status;
+    };
 
-            $scope.getReadableLocation = function(location){
-                if(angular.isString(location) && location){
-                    location = JSON.parse(location);
-                }
+    $scope.getReadableLocation = function(location){
+        if(angular.isString(location) && location){
+            location = JSON.parse(location);
+        }
 
-                if(location){
-                    return location.latitude + ',' + location.longitude;
-                }
-            };
+        if(location){
+            return location.latitude + ',' + location.longitude;
+        }
+    };
 
-            var adjustBoxPosition = function () {
-                setTimeout(function () {
-                    adjustingBoxPosition = true;
-                    $('#select-registration-owner-button').click();
-                    adjustingBoxPosition = false;
-                });
-            };
+    var adjustBoxPosition = function () {
+        setTimeout(function () {
+            adjustingBoxPosition = true;
+            $('#select-registration-owner-button').click();
+            adjustingBoxPosition = false;
+        });
+    };
 
-            $rootScope.$on('repeatDone:findEntity:find-entity-registration-owner', adjustBoxPosition);
+    $rootScope.$on('repeatDone:findEntity:find-entity-registration-owner', adjustBoxPosition);
 
-            $scope.$watch('data.spinner', function (ov, nv) {
-                if (ov && !nv)
-                    adjustBoxPosition();
-            });
+    $scope.$watch('data.spinner', function (ov, nv) {
+        if (ov && !nv)
+            adjustBoxPosition();
+    });
 
-            function replaceRegistrationAgentBy(groupName, agent, relationStatus){
-                for(var i in $scope.data.entity.registrationAgents){
-                    var def = $scope.data.entity.registrationAgents[i];
-                    if(def.agentRelationGroupName === groupName){
-                        def.agent = agent;
-                        if(typeof relationStatus !== 'undefined'){
-                            def.relationStatus = relationStatus;
-                        }
-                    }
+    function replaceRegistrationAgentBy(groupName, agent, relationStatus){
+        for(var i in $scope.data.entity.registrationAgents){
+            var def = $scope.data.entity.registrationAgents[i];
+            if(def.agentRelationGroupName === groupName){
+                def.agent = agent;
+                if(typeof relationStatus !== 'undefined'){
+                    def.relationStatus = relationStatus;
                 }
             }
+        }
+    }
 
 
-            $scope.setRegistrationOwner = function(agent){
-                $scope.data.registration.owner = agent;
-                replaceRegistrationAgentBy('owner', agent);
-                jQuery('#ownerId').editable('setValue', agent.id);
-                setTimeout(function(){
-                    $('#submitButton').trigger('click');
-                });
-                EditBox.close('editbox-select-registration-owner');
+    $scope.setRegistrationOwner = function(agent){
+        $scope.data.registration.owner = agent;
+        replaceRegistrationAgentBy('owner', agent);
+        jQuery('#ownerId').editable('setValue', agent.id);
+        setTimeout(function(){
+            $('#submitButton').trigger('click');
+        });
+        EditBox.close('editbox-select-registration-owner');
 
-                RegistrationService.save();
-            };            
+        RegistrationService.save();
+    };            
 
-            $scope.setRegistrationAgent = function(entity, attrs){
-                if(attrs.name === 'owner'){
-                    $scope.setRegistrationOwner(entity);
-                    return;
-                }
-                var editBoxId = 'editbox-select-registration-' + attrs.name;
-                RelatedAgentsService.create(attrs.name, entity.id).success(function(response){
-                    if(response.agent.avatar && response.agent.avatar.avatarSmall){
-                        response.agent.avatarUrl = response.agent.avatar.avatarSmall.url;
+    $scope.setRegistrationAgent = function(entity, attrs){
+        if(attrs.name === 'owner'){
+            $scope.setRegistrationOwner(entity);
+            return;
+        }
+        var editBoxId = 'editbox-select-registration-' + attrs.name;
+        RelatedAgentsService.create(attrs.name, entity.id).success(function(response){
+            if(response.agent.avatar && response.agent.avatar.avatarSmall){
+                response.agent.avatarUrl = response.agent.avatar.avatarSmall.url;
+            }
+            replaceRegistrationAgentBy(attrs.name, response.agent, response.status);
+            EditBox.close(editBoxId);
+            if(response.status > 0)
+                MapasCulturais.Messages.success(labels['changesSaved']);
+        });
+    };
+
+    $scope.unsetRegistrationAgent = function(entityId, groupName){
+        if(groupName === 'owner')
+            return null;
+
+        var editBoxId = 'editbox-select-registration-' + groupName;
+        RelatedAgentsService.remove(groupName, entityId).success(function(){
+            for(var i in $scope.data.entity.registrationAgents){
+                var def = $scope.data.entity.registrationAgents[i];
+                if(def.agentRelationGroupName === groupName)
+                    delete def.agent;
+            }
+            EditBox.close(editBoxId);
+        });
+    };
+
+    $scope.setSpaceRelation = function(entity, attrs){
+        var baseUrl = MapasCulturais.baseURL.substr(-1) === '/' ?  MapasCulturais.baseURL : MapasCulturais.baseURL + '/',
+            editBoxId = 'editbox-select-registration-space-relation',
+            controllerId = null,
+            controllerName = 'createSpaceRelation',
+            entityId = null,
+            group = attrs.name,
+            spaceId = entity.id;
+
+        //retira msg de erro do espaço vinculado, caso haja
+        if($('#registration-space-title :first-child').hasClass('danger')){
+            $('#registration-space-title :first-child').remove();
+        }
+        
+        try{ controllerId = MapasCulturais.request.controller; }catch (e){};
+        try{ entityId = MapasCulturais.entity.id; }catch (e){};
+
+        var createSpaceRelationUrl = baseUrl + controllerId + '/' + controllerName + '/' + entityId;
+        
+        $http.post(createSpaceRelationUrl, {id: spaceId}).
+                success(function(response, status){
+                    if(status === 202){
+                        MapasCulturais.Messages.alert(labels['spaceRelationRequestSent'].replace('{{space}}', '<strong>'+response.space.name+'</strong>'));
                     }
-                    replaceRegistrationAgentBy(attrs.name, response.agent, response.status);
+                    
+                    if(response.space.avatar && response.space.avatar.avatarSmall){
+                        response.space.avatarUrl = response.space.avatar.avatarSmall.url;
+                    }
+
+                    $scope.data.entity.registrationSpace = response;
                     EditBox.close(editBoxId);
-                    if(response.status > 0)
-                        MapasCulturais.Messages.success(labels['changesSaved']);
+                    $rootScope.$emit('relatedSpace.created', response);
+                }).
+                error(function(response, status){
+                    $rootScope.$emit('error', { message: "Cannot create related space", response: response, status: status });
                 });
-            };
+    };
 
-            $scope.unsetRegistrationAgent = function(entityId, groupName){
-                if(groupName === 'owner')
-                    return null;
+    $scope.unsetRegistrationSpace = function(registrationEntity, attrs){
+        var baseUrl = MapasCulturais.baseURL.substr(-1) === '/' ?  MapasCulturais.baseURL : MapasCulturais.baseURL + '/',
+            controllerId = null,
+            controllerName = 'removeSpaceRelation',
+            entityId = null,
+            group = attrs.name,
+            spaceId = registrationEntity.space.id;
 
-                var editBoxId = 'editbox-select-registration-' + groupName;
-                RelatedAgentsService.remove(groupName, entityId).success(function(){
-                    for(var i in $scope.data.entity.registrationAgents){
-                        var def = $scope.data.entity.registrationAgents[i];
-                        if(def.agentRelationGroupName === groupName)
-                            delete def.agent;
-                    }
-                    EditBox.close(editBoxId);
-                });
-            };
+        //retira msg de erro do espaço vinculado, caso haja
+        if($('#registration-space-title :first-child').hasClass('danger')){
+            $('#registration-space-title :first-child').remove();
+        }
 
-            $scope.setSpaceRelation = function(entity, attrs){
-                var baseUrl = MapasCulturais.baseURL.substr(-1) === '/' ?  MapasCulturais.baseURL : MapasCulturais.baseURL + '/',
-                    editBoxId = 'editbox-select-registration-space-relation',
-                    controllerId = null,
-                    controllerName = 'createSpaceRelation',
-                    entityId = null,
-                    group = attrs.name,
-                    spaceId = entity.id;
+        try{ controllerId = MapasCulturais.request.controller; }catch (e){};
+        try{ entityId = MapasCulturais.entity.id; }catch (e){};
 
-                //retira msg de erro do espaço vinculado, caso haja
-                if($('#registration-space-title :first-child').hasClass('danger')){
-                    $('#registration-space-title :first-child').remove();
-                }
-                
-                try{ controllerId = MapasCulturais.request.controller; }catch (e){};
-                try{ entityId = MapasCulturais.entity.id; }catch (e){};
-
-                var createSpaceRelationUrl = baseUrl + controllerId + '/' + controllerName + '/' + entityId;
-                
-                $http.post(createSpaceRelationUrl, {id: spaceId}).
-                        success(function(response, status){
-                            if(status === 202){
-                                MapasCulturais.Messages.alert(labels['spaceRelationRequestSent'].replace('{{space}}', '<strong>'+response.space.name+'</strong>'));
-                            }
-                            
-                            if(response.space.avatar && response.space.avatar.avatarSmall){
-                                response.space.avatarUrl = response.space.avatar.avatarSmall.url;
-                            }
-
-                            $scope.data.entity.registrationSpace = response;
-                            EditBox.close(editBoxId);
-                            $rootScope.$emit('relatedSpace.created', response);
-                        }).
-                        error(function(response, status){
-                            $rootScope.$emit('error', { message: "Cannot create related space", response: response, status: status });
-                        });
-            };
-
-            $scope.unsetRegistrationSpace = function(registrationEntity, attrs){
-                var baseUrl = MapasCulturais.baseURL.substr(-1) === '/' ?  MapasCulturais.baseURL : MapasCulturais.baseURL + '/',
-                    controllerId = null,
-                    controllerName = 'removeSpaceRelation',
-                    entityId = null,
-                    group = attrs.name,
-                    spaceId = registrationEntity.space.id;
-
-                //retira msg de erro do espaço vinculado, caso haja
-                if($('#registration-space-title :first-child').hasClass('danger')){
-                    $('#registration-space-title :first-child').remove();
-                }
-
-                try{ controllerId = MapasCulturais.request.controller; }catch (e){};
-                try{ entityId = MapasCulturais.entity.id; }catch (e){};
-
-                const removeSpaceRelationUrl = baseUrl + controllerId + '/' + controllerName + '/' + entityId;
-                
-                $http.post(removeSpaceRelationUrl, {id: spaceId}).
-                    success(function(data, status){
-                        $scope.data.entity.registrationSpace = undefined;
-                        $rootScope.$emit('relatedSpace.removed', data);
-                    }).
-                    error(function(data, status){
-                        $rootScope.$emit('error', { message: "Cannot remove related space", data: data, status: status });
-                    });
-            }
-
-            $('#editbox-select-registration-owner').on('open', function () {
-                if (!adjustingBoxPosition)
-                    $('#find-entity-registration-owner').trigger('find',0);
+        const removeSpaceRelationUrl = baseUrl + controllerId + '/' + controllerName + '/' + entityId;
+        
+        $http.post(removeSpaceRelationUrl, {id: spaceId}).
+            success(function(data, status){
+                $scope.data.entity.registrationSpace = undefined;
+                $rootScope.$emit('relatedSpace.removed', data);
+            }).
+            error(function(data, status){
+                $rootScope.$emit('error', { message: "Cannot remove related space", data: data, status: status });
             });
+    }
 
-            $scope.register = function(){
-                var registration = $scope.data.registration;
-                var ownerRegistration = [];
-                // @TODO: buscar na api
-                for(var i in $scope.data.registrations) {
-                    if(registration.owner && $scope.data.registrations[i].owner){
-                        if($scope.data.registrations[i].owner.id == registration.owner.id) {
-                            ownerRegistration.push($scope.data.registrations[i].owner);
+    $('#editbox-select-registration-owner').on('open', function () {
+        if (!adjustingBoxPosition)
+            $('#find-entity-registration-owner').trigger('find',0);
+    });
+
+    $scope.register = function(){
+        var registration = $scope.data.registration;
+        var ownerRegistration = [];
+        // @TODO: buscar na api
+        for(var i in $scope.data.registrations) {
+            if(registration.owner && $scope.data.registrations[i].owner){
+                if($scope.data.registrations[i].owner.id == registration.owner.id) {
+                    ownerRegistration.push($scope.data.registrations[i].owner);
+                }
+            }
+        }
+
+        if(MapasCulturais.entity.object.registrationLimitPerOwner > 0 && ownerRegistration.length >= MapasCulturais.entity.object.registrationLimitPerOwner) {
+            MapasCulturais.Messages.error(labels['limitReached']);
+        }else if(MapasCulturais.entity.object.registrationLimit > 0 && registration.owner && $scope.data.registrations.length >= MapasCulturais.entity.object.registrationLimit){
+            MapasCulturais.Messages.error(labels['VacanciesOver']);
+        }else if(registration.owner && (MapasCulturais.entity.object.registrationLimit == 0 || $scope.data.registrations.length <= MapasCulturais.entity.object.registrationLimit)){
+            RegistrationService.register(registration).success(function(rs){
+                document.location = rs.editUrl;
+            });
+        }else {
+            setTimeout(function(){
+                $('#select-registration-owner-button').trigger("click");
+            }, 0);
+            MapasCulturais.Messages.error(labels['needResponsible']);
+        }
+    };
+
+    $scope.sendRegistrationRulesFile = function(){
+        $('#edibox-upload-rules form').submit();
+    };
+
+    $scope.openRulesUploadEditbox = function(event){
+        EditBox.open('edibox-upload-rules', event);
+        initAjaxUploader('edibox-upload-rules');
+    };
+
+    $scope.removeRegistrationRulesFile = function (id, $index) {
+        if(confirm('Deseja remover este anexo?')){
+            $http.get($scope.data.entity.registrationRulesFile.deleteUrl).success(function(response){
+                $scope.data.entity.registrationRulesFile = null;
+            });
+        }
+    };
+
+    $scope.scrollTo = function(id, offset) {
+        $anchorScroll.yOffset = offset;
+        $anchorScroll(id);
+    }
+
+    var initAjaxUploader = function(id){
+        var $form = $('#' + id + ' form');
+
+        if($form.data('initialized'))
+            return;
+
+        MapasCulturais.AjaxUploader.init($form);
+
+        $('#'+id).on('cancel', function(){
+            if($form.data('xhr')) $form.data('xhr').abort();
+            $form.get(0).reset();
+            MapasCulturais.AjaxUploader.resetProgressBar($form);
+        });
+
+        $form.on('ajaxForm.success', function(evt, response){
+            $scope.data.entity.registrationRulesFile = response['rules'];
+            $scope.$apply();
+            setTimeout(function(){
+                EditBox.close(id);
+            }, 700);
+        });
+    };
+
+    if(MapasCulturais.request.controller === 'registration'){
+        //hide submit button and category submit on change
+        $('#submitButton').hide();
+        $('.js-editable-registrationCategory').on('save', function(){
+            setTimeout(function(){
+                $('#submitButton').trigger('click');
+            });
+        });
+    }
+
+    $scope.validateRegistration = function(callback='') {
+        RegistrationService.validateEntity($scope.data.entity.id)
+            .success(function(response) {
+                if(response.error) {
+                    $scope.entityValidated = false;
+                    $scope.entityErrors = response.data;
+                    let errors = response.data;
+                    for (let index in $scope.data.fields){
+                        let field = $scope.data.fields[index];
+                        
+                        if(field.fieldType == 'file') {
+                            field.fieldName = 'file_' + field.id;
+                        } 
+                        
+                        if(errors[field.fieldName]) {
+                            field.error = errors[field.fieldName]
                         }
                     }
+
+                } else {
+                    $scope.entityErrors = {};
+                    $scope.entityValidated = true;
                 }
-
-                if(MapasCulturais.entity.object.registrationLimitPerOwner > 0 && ownerRegistration.length >= MapasCulturais.entity.object.registrationLimitPerOwner) {
-                    MapasCulturais.Messages.error(labels['limitReached']);
-                }else if(MapasCulturais.entity.object.registrationLimit > 0 && registration.owner && $scope.data.registrations.length >= MapasCulturais.entity.object.registrationLimit){
-                    MapasCulturais.Messages.error(labels['VacanciesOver']);
-                }else if(registration.owner && (MapasCulturais.entity.object.registrationLimit == 0 || $scope.data.registrations.length <= MapasCulturais.entity.object.registrationLimit)){
-                    RegistrationService.register(registration).success(function(rs){
-                        document.location = rs.editUrl;
+            })
+            .error(function(response) {
+                console.log('error', response);
+            });
+    }; 
+    $scope.data.sent = false;
+    $scope.sendRegistration = function(redirectUrl){
+        RegistrationService.send($scope.data.entity.id).success(function(response){
+            $('.js-response-error').remove();
+            if(response.error){
+                var focused = false;
+                Object.keys(response.data).forEach(function(field, index){
+                    var $el;
+                    if(field === 'projectName'){
+                        $el = $('#projectName').parent().find('.label');
+                    }else if(field === 'category'){
+                        $el = $('.js-editable-registrationCategory').parent();
+                    }else if(field.indexOf('agent') !== -1){
+                        $el = $('#' + field).parent().find('.registration-label');
+                    }else if(field.indexOf('space') !== -1){
+                        $el = $('#registration-space-title').parent().find('.registration-label');
+                    }else {
+                        $el = $('#' + field).find('div:first');
+                    }
+                    var message = response.data[field] instanceof Array ? response.data[field].join(' ') : response.data[field];
+                    message = message.replace(/"/g, '&quot;');
+                    $scope.data.propLabels.forEach(function(prop){
+                        message = message.replace('{{'+prop.name+'}}', prop.label);
                     });
-                }else {
-                    setTimeout(function(){
-                        $('#select-registration-owner-button').trigger("click");
-                    }, 0);
-                    MapasCulturais.Messages.error(labels['needResponsible']);
-                }
-            };
-
-            $scope.sendRegistrationRulesFile = function(){
-                $('#edibox-upload-rules form').submit();
-            };
-
-            $scope.openRulesUploadEditbox = function(event){
-                EditBox.open('edibox-upload-rules', event);
-                initAjaxUploader('edibox-upload-rules');
-            };
-
-            $scope.removeRegistrationRulesFile = function (id, $index) {
-                if(confirm('Deseja remover este anexo?')){
-                    $http.get($scope.data.entity.registrationRulesFile.deleteUrl).success(function(response){
-                        $scope.data.entity.registrationRulesFile = null;
-                    });
-                }
-            };
-
-            $scope.scrollTo = function(id, offset) {
-                $anchorScroll.yOffset = offset;
-                $anchorScroll(id);
-            }
-
-            var initAjaxUploader = function(id){
-                var $form = $('#' + id + ' form');
-
-                if($form.data('initialized'))
-                    return;
-
-                MapasCulturais.AjaxUploader.init($form);
-
-                $('#'+id).on('cancel', function(){
-                    if($form.data('xhr')) $form.data('xhr').abort();
-                    $form.get(0).reset();
-                    MapasCulturais.AjaxUploader.resetProgressBar($form);
-                });
-
-                $form.on('ajaxForm.success', function(evt, response){
-                    $scope.data.entity.registrationRulesFile = response['rules'];
-                    $scope.$apply();
-                    setTimeout(function(){
-                        EditBox.close(id);
-                    }, 700);
-                });
-            };
-
-            if(MapasCulturais.request.controller === 'registration'){
-                //hide submit button and category submit on change
-                $('#submitButton').hide();
-                $('.js-editable-registrationCategory').on('save', function(){
-                    setTimeout(function(){
-                        $('#submitButton').trigger('click');
-                    });
-                });
-            }
-
-            $scope.validateRegistration = function(callback='') {
-                RegistrationService.validateEntity($scope.data.entity.id)
-                    .success(function(response) {
-                        if(response.error) {
-                            $scope.entityValidated = false;
-                            $scope.entityErrors = response.data;
-                            let errors = response.data;
-                            for (let index in $scope.data.fields){
-                                let field = $scope.data.fields[index];
-                                
-                                if(field.fieldType == 'file') {
-                                    field.fieldName = 'file_' + field.id;
-                                } 
-                                
-                                if(errors[field.fieldName]) {
-                                    field.error = errors[field.fieldName]
-                                }
-                            }
-
-                        } else {
-                            $scope.entityErrors = {};
-                            $scope.entityValidated = true;
-                        }
-                    })
-                    .error(function(response) {
-                        console.log('error', response);
-                    });
-            }; 
-            $scope.data.sent = false;
-            $scope.sendRegistration = function(redirectUrl){
-                RegistrationService.send($scope.data.entity.id).success(function(response){
-                    $('.js-response-error').remove();
-                    if(response.error){
-                        var focused = false;
-                        Object.keys(response.data).forEach(function(field, index){
-                            var $el;
-                            if(field === 'projectName'){
-                                $el = $('#projectName').parent().find('.label');
-                            }else if(field === 'category'){
-                                $el = $('.js-editable-registrationCategory').parent();
-                            }else if(field.indexOf('agent') !== -1){
-                                $el = $('#' + field).parent().find('.registration-label');
-                            }else if(field.indexOf('space') !== -1){
-                                $el = $('#registration-space-title').parent().find('.registration-label');
-                            }else {
-                                $el = $('#' + field).find('div:first');
-                            }
-                            var message = response.data[field] instanceof Array ? response.data[field].join(' ') : response.data[field];
-                            message = message.replace(/"/g, '&quot;');
-                            $scope.data.propLabels.forEach(function(prop){
-                                message = message.replace('{{'+prop.name+'}}', prop.label);
-                            });
-                            $el.append('<span title="' + message + '" class="danger hltip js-response-error" data-hltip-classes="hltip-danger"></span>');
-                            if(!focused){
-                                $('html,body').animate({scrollTop: $el.parents('li').get(0).offsetTop - 10}, 300);
-                                focused = true;
-                            }
-                        });
-                        MapasCulturais.Messages.error(labels['correctErrors']);
-                    }else{
-                        $scope.data.sent = true;
-                        MapasCulturais.Messages.success(labels['registrationSent']);
-
-                        if (redirectUrl) {
-                            document.location = redirectUrl;
-                        } 
-                        else if(redirectUrl === undefined) {
-                            document.location = response.redirect || response.singleUrl;
-                        } 
+                    $el.append('<span title="' + message + '" class="danger hltip js-response-error" data-hltip-classes="hltip-danger"></span>');
+                    if(!focused){
+                        $('html,body').animate({scrollTop: $el.parents('li').get(0).offsetTop - 10}, 300);
+                        focused = true;
                     }
                 });
-            };
+                MapasCulturais.Messages.error(labels['correctErrors']);
+            }else{
+                $scope.data.sent = true;
+                MapasCulturais.Messages.success(labels['registrationSent']);
 
-            var url = new UrlService('opportunity');
+                if (redirectUrl) {
+                    document.location = redirectUrl;
+                } 
+                else if(redirectUrl === undefined) {
+                    document.location = response.redirect || response.singleUrl;
+                } 
+            }
+        });
+    };
 
-            $scope.publish = function(){
-                $http.post(url.create('publish', $scope.data.entity.id)).
-                success(function(r){
-                    alert('publicado');
-                }).error(function(r){
-                    alert('erro');
-                });
-            };
+    var url = new UrlService('opportunity');
 
-            $timeout(function() {
-                //Se não existir agentes registrado ao carregar o modúlo, adiciona o agente padrão ao registro.
-                //if (!MapasCulturais.entity.registrationAgents) {
-                //    $scope.setRegistrationOwner(MapasCulturais.userProfile);
-                //}
-            });
+    $scope.publish = function(){
+        $http.post(url.create('publish', $scope.data.entity.id)).
+        success(function(r){
+            alert('publicado');
+        }).error(function(r){
+            alert('erro');
+        });
+    };
+
+    $timeout(function() {
+        //Se não existir agentes registrado ao carregar o modúlo, adiciona o agente padrão ao registro.
+        //if (!MapasCulturais.entity.registrationAgents) {
+        //    $scope.setRegistrationOwner(MapasCulturais.userProfile);
+        //}
+    });
+
+    $scope.setStatusToSelected = function () {
+        new PNotify({
+            title: 'Um minuto!',
+            text: 'Já estamos processando a alteração...',
+            type: 'info',
+            width: "400px",
+            icon: 'fa fa-spinner fa-pulse fa-3x fa-fw',
+            shadow: true,
+            hide: false,
+            addclass: 'stack-modal',
+            stack: {'dir1': 'down', 'dir2': 'right', 'modal': true}
+        }); 
+        RegistrationService.setStatusCandidate();
+    }
 
 }]);
 

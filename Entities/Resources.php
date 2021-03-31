@@ -185,12 +185,33 @@ class Resources extends \MapasCulturais\Entity{
         FROM 
         Saude\Entities\Resources r
         WHERE r.opportunityId = {$opportunity}
-        and r.resourceReply  = '' 
+        and r.resourceReply is null
         and r.replyPublish = false";
         $query = $app->em->createQuery($dql);
         $resource = $query->getResult();
         return $resource;
     }
+
+    /**
+     * Verifica a pontuação máxima configurada na avaliação para a banca poder alterar a nota
+     *
+     * @param [integer] $opportunity id da Oportunidade
+     * @return integer
+     */
+    public static function maxPoint($opportunity) {
+        $app = App::i();
+        $pointMax = $app->repo("EvaluationMethodConfigurationMeta")->findBy([
+            'owner' => $opportunity,
+            'key' => 'criteria'
+        ]);
+        $spotsToarray = json_decode($pointMax[0]->value);
+        $spots = 0;
+        foreach ($spotsToarray as $value) {
+            $spots = ($spots + $value->max);
+        }
+        return $spots;
+    }
+
     /** @ORM\PrePersist */
     public function _prePersist($args = null){
         App::i()->applyHookBoundTo($this, 'entity(Resources).meta(' . $this->key . ').insert:before', $args);

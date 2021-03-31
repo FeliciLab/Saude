@@ -510,7 +510,6 @@ return array(
             initial_hour TEXT DEFAULT NULL,
             final_hour DATE DEFAULT NULL
         )");
-
     }
 );
 
