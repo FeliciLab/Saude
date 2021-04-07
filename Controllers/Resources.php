@@ -88,7 +88,6 @@ class Resources extends \MapasCulturais\Controller{
         $reply->resourceReply = $this->putData['resource_reply'];
         $reply->resourceStatus = $this->putData['resource_status'];
         $reply->resourceDateReply = $date;
-        $reply->replyAgentId = $app->user->id;
 
         //ALTERAR A NOTA FINAL
         if(!empty($this->putData['new_consolidated_result'])) {
@@ -103,7 +102,7 @@ class Resources extends \MapasCulturais\Controller{
                     $dql = "UPDATE MapasCulturais\Entities\Registration r 
                     SET r.status = 10 WHERE r.id = {$reg->id}";
                     $query      = $app->em->createQuery($dql);
-                    $upStatus   = $query->getResult();
+                    $query->getResult();
                 }
                 $reg->consolidatedResult = $this->putData['new_consolidated_result'];
                 $app->em->persist($reg);
@@ -176,9 +175,7 @@ class Resources extends \MapasCulturais\Controller{
             $app->em->flush();
             $this->json(['message' => 'Esse recurso está com você'],200);
         }else{
-            $evaluator = $app->repo('Agent')->findBy([
-                'id' => $check->replyAgentId
-            ]);
+            $evaluator = $app->repo('Agent')->find($check->replyAgentId);
             if($evaluator->id !== $app->user->profile->id){
                 $this->json(['message' => 'Esse recurso está com '.$evaluator->name],401);
             }
