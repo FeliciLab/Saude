@@ -166,16 +166,19 @@ class Resources extends \MapasCulturais\Controller{
 
     function POST_checksResourceEvaluator() {
         $app = App::i();
+        //BUSCA E INSTANCIA UM OBJETO
         $check = EntitiesResources::find($this->postData['id']);
+        //VERIFICANDO SE TEM UM ID DO AGENTE RESPONSÁVEL
         if($check->replyAgentId == null){
+            //SALVANDO O ID DO USUARIO PARA CONSULTA NA TABELA AGENT NO CAMPO user_id
             $check->replyAgentId = $app->user->profile->id;
             $app->em->persist($check);
             $app->em->flush();
             $this->json(['message' => 'Esse recurso está com você'],200);
         }else{
-            $evaluator = $app->repo('Agent')->find($check->replyAgentId);
-            // dump($evaluator->id);
-            // dump($app->user->profile->id);
+            $evaluator = $app->repo('Agent')->findBy([
+                'id' => $check->replyAgentId
+            ]);
             if($evaluator->id !== $app->user->profile->id){
                 $this->json(['message' => 'Esse recurso está com '.$evaluator->name],401);
             }
