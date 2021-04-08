@@ -4,6 +4,7 @@ namespace Saude\Controllers;
 use DateTime;
 use \MapasCulturais\App;
 use \Saude\Entities\Resources as EntitiesResources;
+use \Saude\Entities\ResourceMeta;
 // use Dompdf\Dompdf;
 // require_once PROTECTED_PATH. 'vendor/dompdf/autoload.inc.php';
 
@@ -183,6 +184,13 @@ class Resources extends \MapasCulturais\Controller{
         }
         
         
+    }
+
+    function POST_opportunityEnabled(){
+
+        $app = App::i();
+        $meta = new ResourceMeta;
+
     }
 
 }
