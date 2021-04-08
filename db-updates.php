@@ -511,6 +511,16 @@ return array(
             final_hour DATE DEFAULT NULL
         )");
 
+    },
+
+    'create table resources_meta' => function () use($conn) {
+        //Adicionando a tabela de informações adicionais para recurso
+        $conn->executeQuery("CREATE TABLE public.resources_meta (
+            object_id integer NOT NULL,
+            key character varying(255) NOT NULL,
+            value text,
+            id integer NOT NULL
+        )");
     }
 );
 
