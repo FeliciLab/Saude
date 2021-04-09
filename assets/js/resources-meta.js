@@ -12,6 +12,15 @@ $(function () {
         if (opt == '0'){
             $('#insertData').show();
         }else{
+            $.ajax({
+                type: "POST",
+                url: MapasCulturais.baseURL+'recursos/getIdOpportunityMeta',
+                data: {id:MapasCulturais.entity.id},
+                dataType: "json",
+                success: function (response) {
+                    console.log(response);
+                }
+            });
             $('#insertData').hide();
         }
       });

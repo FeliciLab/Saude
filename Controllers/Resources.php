@@ -195,4 +195,18 @@ class Resources extends \MapasCulturais\Controller{
         }
     }
 
+    function POST_getIdOpportunityMeta(){
+        $app = App::i();
+
+        $opp = $app->repo('OpportunityMeta')->findBy(['owner'=>$this->postData['id'],'key'=>'claimDisabled']);
+        $check = $app->repo('OpportunityMeta')->findBy(['key'=>'claimDisabled']);
+        if($check == 0){
+  
+
+        }else{
+
+            dump($check);
+         }
+
+    }
 }
