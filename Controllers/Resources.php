@@ -5,6 +5,7 @@ use DateTime;
 use \MapasCulturais\App;
 use \Saude\Entities\Resources as EntitiesResources;
 use \Saude\Entities\ResourceMeta;
+use MapasCulturais\Entities\OpportunityMeta;
 // use Dompdf\Dompdf;
 // require_once PROTECTED_PATH. 'vendor/dompdf/autoload.inc.php';
 
@@ -183,32 +184,15 @@ class Resources extends \MapasCulturais\Controller{
 
     function POST_opportunityEnabled(){
         $app = App::i();
-        // $meta = new ResourceMeta;
-        // $meta->key = 'date-init';
-        // $meta->value = $this->postData['data-init'];
-        // $meta->owner = $this->postData['opportunity'];
        
-        $id = $this->postData['opportunity'];
-        $postdata = $this->postData;
-        unset($postdata['opportunity']);
-        //$opportunity = $app->repo('Opportunity')->find($id);
-       
-        // $oppId = $app->repo('Opportunity')->find($this->postData['opportunity_id']);
-        foreach ($postdata as $key => $value) {
-            
-            $meta = new ResourceMeta;
-            $meta->key = $key;
-            $meta->value = $this->postData['data-init'];
-            $meta->owner = $id;
-            
-            // dump($opportunity);
-            $app->em->persist($meta);
-            dump($meta);
-            $meta->save(true);
-            //$app->em->flush();
-            
+        $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
+        foreach ($this->postData as $key => $value) {
+            $newOpMeta = new OpportunityMeta;
+            $newOpMeta->owner = $opportunity;
+            $newOpMeta->key = $key;
+            $newOpMeta->value = $value;
+            $newOpMeta->save(true);
         }
-        //$app->em->flush();
     }
 
 }
