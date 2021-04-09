@@ -3,7 +3,7 @@ namespace Saude\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\App;
-use MapasCulturais\Entities\Opportunity;
+
 
 /**
  * ResourceMeta
@@ -11,11 +11,9 @@ use MapasCulturais\Entities\Opportunity;
  * @ORM\Table(name="resources_meta", indexes={
  *      @ORM\Index(name="resources_meta_owner_idx", columns={"object_id"}),
  *      @ORM\Index(name="resources_meta_owner_key_idx", columns={"object_id", "key"}),
- *      @ORM\Index(name="resources_meta_key_idx", columns={"key"}),
- *      @ORM\Index(name="resources_meta_value_idx", columns={"value"}, flags={"fulltext"})
+ *      @ORM\Index(name="resources_meta_key_value_idx", columns={"key", "value"})
  * })
  * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
  */
 class ResourceMeta extends \MapasCulturais\Entity {
     /**
@@ -43,18 +41,12 @@ class ResourceMeta extends \MapasCulturais\Entity {
     protected $value;
 
     /**
-     * @var \MapasCulturais\Entities\Opportunity
+     * @var integer
      *
-     * @ORM\ManyToOne(targetEntity="MapasCulturais\Entities\Opportunity")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="object_id", referencedColumnName="id", nullable=false, onDelete="CASCADE")
-     * })
+     * @ORM\Column(name="object_id", type="integer", nullable=true)
      */
     protected $owner;
 
-    public function canUser($action, $userOrAgent = null){
-        return $this->owner->canUser($action, $userOrAgent);
-    }
 
     /** @ORM\PrePersist */
     public function _prePersist($args = null){

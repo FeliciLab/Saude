@@ -10,11 +10,6 @@ use \Saude\Entities\ResourceMeta;
 
 class Resources extends \MapasCulturais\Controller{
 
-    const STATUS_APPROVED = 10;
-    const STATUS_WAITLIST = 8;
-    const STATUS_NOTAPPROVED = 3;
-    const STATUS_INVALID = 2;
-
     function GET_index() {
         //$this->render('resources');
         ini_set('display_errors', 1);
@@ -187,10 +182,33 @@ class Resources extends \MapasCulturais\Controller{
     }
 
     function POST_opportunityEnabled(){
-
         $app = App::i();
-        $meta = new ResourceMeta;
-
+        // $meta = new ResourceMeta;
+        // $meta->key = 'date-init';
+        // $meta->value = $this->postData['data-init'];
+        // $meta->owner = $this->postData['opportunity'];
+       
+        $id = $this->postData['opportunity'];
+        $postdata = $this->postData;
+        unset($postdata['opportunity']);
+        //$opportunity = $app->repo('Opportunity')->find($id);
+       
+        // $oppId = $app->repo('Opportunity')->find($this->postData['opportunity_id']);
+        foreach ($postdata as $key => $value) {
+            
+            $meta = new ResourceMeta;
+            $meta->key = $key;
+            $meta->value = $this->postData['data-init'];
+            $meta->owner = $id;
+            
+            // dump($opportunity);
+            $app->em->persist($meta);
+            dump($meta);
+            $meta->save(true);
+            //$app->em->flush();
+            
+        }
+        //$app->em->flush();
     }
 
 }
