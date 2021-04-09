@@ -41,37 +41,40 @@
    <div class="panel panel-default">
       <div class="panel-heading"> <label><?php i::_e("Formulário para recursos");?></label></div>
       <div class="panel-body">
-         <select id="resourceOptions" class="form-control" name="resourceOptions">
-            <!-- 
-               <option value=""><?php i::_e('Selecione');?></option> 
-               -->
-            <option value="0"><?php i::_e('Habilitar formulário de Recurso');?></option>
-            <option selected value="1"><?php i::_e('Desabilitar formulário de Recurso');?></option>
-         </select>
-         <div id="insertData">
-            <div class="form-group">
-               <label for="hora-inicial">Data de início </label>
-               <input type="text" class="time form-control" name="date-init" value="08/04/2021">
+         <form id="resourceFormData">
+            <select id="resourceOptions" name="claimDisabled" class="form-control" name="resourceOptions">
+               <option value="0">
+                  <?php i::_e('Habilitar formulário de Recurso');?>
+               </option>
+               <option selected value="1">
+                  <?php i::_e('Desabilitar formulário de Recurso');?>
+               </option>
+            </select>
+            <div id="insertData">
+               <div class="form-group">
+                  <label for="hora-inicial">Data de início </label>
+                  <input type="text" class="date form-control" name="date-init" value="08/04/2021">
+               </div>
+               <div class="">
+                  <label for="hora-inicial">Hora de início </label>
+                  <input type="text" class="time form-control" name="hora-init" value="12:00:00">
+               </div>
+               <div class="form-group">
+                  <label for="data-final">Data final </label>
+                  <input type="text" class="date form-control" name="data-end" value="10/04/2021">
+               </div>
+               <div class="form-group">
+                  <label for="hora-final">Hora final </label>
+                  <input type="text" class="time form-control" name="hora-end" value="23:00:00">
+               </div>
+               <div class="form-group">
+                  <input type="hidden" name="opportunity" id="opportunityIdResources">
+                  <button class="btn btn-primary" id="buttonSendData">
+                  <i class="fa fa-save"></i> Salvar
+                  </button>
+               </div>
             </div>
-            <div class="">
-               <label for="hora-inicial">Hora de início </label>
-               <input type="text" class="time form-control" name="hora-init" value="12:00:00">
-            </div>
-            <div class="form-group">
-               <label for="data-final">Data final </label>
-               <input type="text" class="date form-control" name="data-end" value="10/04/2021">
-            </div>
-            <div class="form-group">
-               <label for="hora-final">Hora final </label>
-               <input type="text" class="time form-control" name="hora-end" value="23:00:00">
-            </div>
-            <div class="form-group">
-               <input type="hidden" name="opportunity" id="opportunityIdResources">
-               <button class="btn btn-primary" id="buttonSendData">
-               <i class="fa fa-save"></i> Salvar
-               </button>
-            </div>
-         </div>
+         </form>
       </div>
    </div>
    </p>

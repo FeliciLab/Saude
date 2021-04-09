@@ -184,7 +184,7 @@ class Resources extends \MapasCulturais\Controller{
 
     function POST_opportunityEnabled(){
         $app = App::i();
-       
+
         $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
         foreach ($this->postData as $key => $value) {
             $newOpMeta = new OpportunityMeta;
