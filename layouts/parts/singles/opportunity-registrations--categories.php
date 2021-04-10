@@ -53,19 +53,19 @@
             <div id="insertData">
                <div class="form-group">
                   <label for="hora-inicial">Data de início </label>
-                  <input type="text" class="date form-control" name="date-init" value="08/04/2021">
+                  <input type="text" class="date form-control" name="date-initial" value="08/04/2021">
                </div>
                <div class="">
                   <label for="hora-inicial">Hora de início </label>
-                  <input type="text" class="time form-control" name="hora-init" value="12:00:00">
+                  <input type="text" class="time form-control" name="hour-initial" value="12:00:00">
                </div>
                <div class="form-group">
                   <label for="data-final">Data final </label>
-                  <input type="text" class="date form-control" name="data-end" value="10/04/2021">
+                  <input type="text" class="date form-control" name="date-final" value="10/04/2021">
                </div>
                <div class="form-group">
                   <label for="hora-final">Hora final </label>
-                  <input type="text" class="time form-control" name="hora-end" value="23:00:00">
+                  <input type="text" class="time form-control" name="hour-final" value="23:00:00">
                </div>
                <div class="form-group">
                   <input type="hidden" name="opportunity" id="opportunityIdResources">

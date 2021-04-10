@@ -184,15 +184,88 @@ class Resources extends \MapasCulturais\Controller{
 
     function POST_opportunityEnabled(){
         $app = App::i();
-
+        
+        $id = $this->postData['opportunity'];
         $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
-        foreach ($this->postData as $key => $value) {
-            $newOpMeta = new OpportunityMeta;
-            $newOpMeta->owner = $opportunity;
-            $newOpMeta->key = $key;
-            $newOpMeta->value = $value;
-            $newOpMeta->save(true);
+        // $check = $app->repo('OpportunityMeta')->findBy(
+        //     [
+        //         'owner'=> $this->postData['opportunity']
+        //     ]);
+
+        $dql = "SELECT o
+        FROM 
+        MapasCulturais\Entities\OpportunityMeta o
+        WHERE o.owner = {$id}";
+        $query = $app->em->createQuery($dql);
+        $check = $query->getResult();
+       
+        if(empty($check)) {
+            foreach ($this->postData as $key => $value) {
+                $newOpMeta = new OpportunityMeta;
+                $newOpMeta->owner = $opportunity;
+                $newOpMeta->key = $key;
+                $newOpMeta->value = $value;
+                $app->em->persist($newOpMeta);
+                dump($newOpMeta);
+                $newOpMeta->save(true);
+            }
+        }else{
+            dump($this->postData);
+        //    $checkjson = json_encode($check);
+        //    dump($checkjson);
+        //    die();
+        $isDatInit = false;
+            foreach ($check as $key => $value) {
+                //dump($value->id.' - '.$value->key.' - '.$value->value);
+                if($value->key == 'claimDisabled' && $value->value == 1 && $this->postData['claimDisabled'] == 0 ) {
+                    $upOpMeta = $app->repo('OpportunityMeta')->find($value->id);
+                    //dump($upOpMeta->value);
+                    $upOpMeta->value = $this->postData['claimDisabled'];
+                    $upOpMeta->save(true);
+                    
+                }
+                if(
+                    $value->key == 'date-initial' || 
+                    $value->key == 'hour-initial' || 
+                    $value->key == 'date-final' ||
+                    $value->key == 'hour-final'
+                ) {
+                    $this->updateOpportunityMetaPeriod($value->id, $value->key, $value->value);
+                    $isDatInit = false;
+                }else{
+                    $isDatInit = true;
+                }
+      
+            }
+            if($isDatInit) {
+                $postData = $this->postData;
+                unset($postData['claimDisabled']);
+                foreach ( $postData as $key => $value) {
+                    $newOpMeta = new OpportunityMeta;
+                    $newOpMeta->owner = $opportunity;
+                    $newOpMeta->key = $key;
+                    $newOpMeta->value = $value;
+                    $app->em->persist($newOpMeta);
+                    dump($newOpMeta->key);
+                    $newOpMeta->save(true);
+                }
+            }
+            dump($isDatInit);
+            
         }
+    }
+
+    function updateOpportunityMetaPeriod($id, $key, $value) {
+        dump($key.' - '.$value);
+        $app = App::i();
+        $upOpMeta = $app->repo('OpportunityMeta')->find($id);
+        $upOpMeta->key = $key;
+        $upOpMeta->value = $value;
+        $upOpMeta->save(true);
+    }
+
+    function createOpportunityMetaPeriod($id, $key, $value) {
+
     }
 
     function POST_getIdOpportunityMeta(){
