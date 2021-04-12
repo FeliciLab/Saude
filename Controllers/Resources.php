@@ -184,22 +184,43 @@ class Resources extends \MapasCulturais\Controller{
 
     function POST_opportunityEnabled(){
         $app = App::i();
-        
+        //id oportunidade
         $id = $this->postData['opportunity'];
+        //instancia da oportunidade
         $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
-        // $check = $app->repo('OpportunityMeta')->findBy(
-        //     [
-        //         'owner'=> $this->postData['opportunity']
-        //     ]);
-
         $dql = "SELECT o
-        FROM 
-        MapasCulturais\Entities\OpportunityMeta o
-        WHERE o.owner = {$id}";
+                FROM 
+                MapasCulturais\Entities\OpportunityMeta o
+                WHERE o.owner = {$id}
+                ";
         $query = $app->em->createQuery($dql);
         $check = $query->getResult();
-       
-        if(empty($check)) {
+        foreach ($check as $key => $value) {
+            if($value->key == 'claimDisabled' && $value->value == 1 && $this->postData['claimDisabled'] == 0 ) {
+                $upOpMeta = $app->repo('OpportunityMeta')->find($value->id);
+                $upOpMeta->value = $this->postData['claimDisabled'];
+            }
+        }
+        foreach ($this->postData as $key => $value) {
+            foreach ($check as $key2 => $value2) {
+                if($key == $value2->key){
+                    $upOpMeta = $app->repo('OpportunityMeta')->find($value2->id);
+                    $upOpMeta->value = $value;
+                    $upOpMeta->save(true);
+                }
+            }
+        }
+        $countLoop = 0;
+        for ($i=0; $i < count($check); $i++) { 
+            dump($check[$i]->key);
+            if($check[$i]->key !== 'date-initial'){
+                $countLoop++;
+                echo "countLoop = ".$countLoop;
+            }else{
+                $countLoop = 0;
+            }
+        }
+        if($countLoop == count($check)) {
             foreach ($this->postData as $key => $value) {
                 $newOpMeta = new OpportunityMeta;
                 $newOpMeta->owner = $opportunity;
@@ -209,49 +230,6 @@ class Resources extends \MapasCulturais\Controller{
                 dump($newOpMeta);
                 $newOpMeta->save(true);
             }
-        }else{
-            dump($this->postData);
-        //    $checkjson = json_encode($check);
-        //    dump($checkjson);
-        //    die();
-        $isDatInit = false;
-            foreach ($check as $key => $value) {
-                //dump($value->id.' - '.$value->key.' - '.$value->value);
-                if($value->key == 'claimDisabled' && $value->value == 1 && $this->postData['claimDisabled'] == 0 ) {
-                    $upOpMeta = $app->repo('OpportunityMeta')->find($value->id);
-                    //dump($upOpMeta->value);
-                    $upOpMeta->value = $this->postData['claimDisabled'];
-                    $upOpMeta->save(true);
-                    
-                }
-                if(
-                    $value->key == 'date-initial' || 
-                    $value->key == 'hour-initial' || 
-                    $value->key == 'date-final' ||
-                    $value->key == 'hour-final'
-                ) {
-                    $this->updateOpportunityMetaPeriod($value->id, $value->key, $value->value);
-                    $isDatInit = false;
-                }else{
-                    $isDatInit = true;
-                }
-      
-            }
-            if($isDatInit) {
-                $postData = $this->postData;
-                unset($postData['claimDisabled']);
-                foreach ( $postData as $key => $value) {
-                    $newOpMeta = new OpportunityMeta;
-                    $newOpMeta->owner = $opportunity;
-                    $newOpMeta->key = $key;
-                    $newOpMeta->value = $value;
-                    $app->em->persist($newOpMeta);
-                    dump($newOpMeta->key);
-                    $newOpMeta->save(true);
-                }
-            }
-            dump($isDatInit);
-            
         }
     }
 
