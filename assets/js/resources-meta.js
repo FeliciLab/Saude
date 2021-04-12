@@ -35,7 +35,11 @@ $(function () {
             data: form,
             dataType: "json",
             success: function (response) {
-                console.log(response);
+                new PNotify({
+                    title: response.title,
+                    text: response.message,
+                    type: response.type
+                });   
                 
             }
         });

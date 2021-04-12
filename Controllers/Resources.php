@@ -195,31 +195,34 @@ class Resources extends \MapasCulturais\Controller{
                 ";
         $query = $app->em->createQuery($dql);
         $check = $query->getResult();
-        foreach ($check as $key => $value) {
-            if($value->key == 'claimDisabled' && $value->value == 1 && $this->postData['claimDisabled'] == 0 ) {
-                $upOpMeta = $app->repo('OpportunityMeta')->find($value->id);
-                $upOpMeta->value = $this->postData['claimDisabled'];
-            }
-        }
+        $verify = false;
         foreach ($this->postData as $key => $value) {
             foreach ($check as $key2 => $value2) {
                 if($key == $value2->key){
                     $upOpMeta = $app->repo('OpportunityMeta')->find($value2->id);
                     $upOpMeta->value = $value;
                     $upOpMeta->save(true);
+                    $verify = true;
                 }
-            }
+            }  
         }
+
         $countLoop = 0;
+        /*
+        Verifica se já existe dados do recurso pela data de inicio
+        percorrendo todo o objeto e adicionando valor ao countLoop 
+        se não existir date-initial. 
+        Se existir date-initial, o countLoop volta para zero.
+        */
         for ($i=0; $i < count($check); $i++) { 
-            dump($check[$i]->key);
             if($check[$i]->key !== 'date-initial'){
                 $countLoop++;
-                echo "countLoop = ".$countLoop;
             }else{
                 $countLoop = 0;
             }
         }
+        $countVerify = false;
+        //Verifica se o total de countLoop é igual ao tamnho do objeto. 
         if($countLoop == count($check)) {
             foreach ($this->postData as $key => $value) {
                 $newOpMeta = new OpportunityMeta;
@@ -227,9 +230,19 @@ class Resources extends \MapasCulturais\Controller{
                 $newOpMeta->key = $key;
                 $newOpMeta->value = $value;
                 $app->em->persist($newOpMeta);
-                dump($newOpMeta);
                 $newOpMeta->save(true);
+                $countVerify = true;
             }
+        }
+
+        //Retorna quando a data for altera. 
+        if($verify){
+            $this->json(['title' => 'Sucesso','message' => 'A data de recurso foi alterada com sucesso', 'type' => 'success'], 200);
+        }
+
+        //Retorna quando o período for inserido.
+        if($countVerify){
+            $this->json(['title' => 'Sucesso','message' => 'Período de recurso habilitado com sucesso', 'type' => 'success'], 200);
         }
     }
 
