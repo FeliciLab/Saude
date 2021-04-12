@@ -5,13 +5,28 @@
    $app->applyHookBoundTo($this, 'opportunity.blockedCategoryFields', [&$entity,&$can_edit]);
    
    $editable_class = $can_edit ? 'js-editable' : '';
-   
    if ($can_edit) {
        $registration_categories = $entity->registrationCategories ? implode("\n", $entity->registrationCategories) : '';
    } else {
        $registration_categories = is_array($entity->registrationCategories) ? implode('; ', $entity->registrationCategories) : '';
    }
-   ?>
+
+   //VERIFICANDO SE TEM RECURSO HABILITADO
+   $enabledDiv = 'hidden';
+   $selectedEnabled  = 'selected';
+   $selectedDisabled = '';
+   $resource = $app->repo('OpportunityMeta')->findBy([
+      'key' => 'claimDisabled',
+      'owner' => $entity->id
+   ]);
+   dump($resource[0]->id);
+   if(isset($resource[0]) && $resource[0]->value == 0){
+      $enabledDiv = 'visible';
+      $selectedEnabled  = '';
+      $selectedDisabled = 'selected';
+   }
+
+?>
 <div id="registration-categories" class="registration-fieldset">
    <h4><?php \MapasCulturais\i::_e("Opções");?></h4>
    <p ng-if="data.entity.canUserModifyRegistrationFields" class="registration-help"><?php \MapasCulturais\i::_e('É possível criar opções para os proponentes escolherem na hora de se inscrever, como, por exemplo, "categorias" ou "modalidades". Se não desejar utilizar este recurso, deixe em branco o campo "Opções".');?></p>
@@ -37,20 +52,26 @@
       <span class="js-editable" data-edit="opportunity_taxonomia" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Tipos de unidade');?>"><?php echo $entity->opportunity_taxonomia; ?>
       </span>
    </p>
+   <p><hr>
+      <h4><?php \MapasCulturais\i::_e("Recurso");?></h4>
+   </p>
+   <p class="registration-help">
+      Espaço para configurar se a oportunidade receberá a modalidade de recurso.
+   </p>
    <p>
    <div class="panel panel-default">
       <div class="panel-heading"> <label><?php i::_e("Formulário para recursos");?></label></div>
       <div class="panel-body">
          <form id="resourceFormData">
             <select id="resourceOptions" name="claimDisabled" class="form-control" name="resourceOptions">
-               <option value="0">
+               <option value="0" <?php echo $selectedDisabled; ?>>
                   <?php i::_e('Habilitar formulário de Recurso');?>
                </option>
-               <option selected value="1">
+               <option <?php echo $selectedEnabled; ?> value="1">
                   <?php i::_e('Desabilitar formulário de Recurso');?>
                </option>
             </select>
-            <div id="insertData">
+            <div id="insertData" class="<?php echo $enabledDiv; ?>">
                <div class="form-group">
                   <label for="hora-inicial">Data de início </label>
                   <input type="text" class="date form-control" name="date-initial" value="08/04/2021">

@@ -2,7 +2,7 @@ $(document).ready(function () {
     $('.date').mask('00/00/0000');
     $('.time').mask('00:00:00');
     $('#opportunityIdResources').val(MapasCulturais.entity.id);
-    $('#insertData').hide();
+    //$('#insertData').hide();
 });
 
 $(function () {
@@ -11,10 +11,12 @@ $(function () {
         
         if (opt == '0'){
             $('#insertData').show();
+            //$('#resourceOptions option[value=0]').attr('selected','selected');
         }else{
+            $('#insertData').removeClass('visible');
             $.ajax({
                 type: "POST",
-                url: MapasCulturais.baseURL+'recursos/getIdOpportunityMeta',
+                url: MapasCulturais.baseURL+'recursos/disabledResource',
                 data: {id:MapasCulturais.entity.id},
                 dataType: "json",
                 success: function (response) {

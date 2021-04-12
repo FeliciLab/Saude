@@ -12,6 +12,9 @@ $classeDestaque = "";
 if(isset($_GET['id']) && $_GET['id'] == $registration->id){
     $classeDestaque = "classeDestaque";
 }
+
+$rec = Resources::getEnabledResource($registration->opportunity->id);
+
 ?>
 
 <article class="objeto clearfix <?php echo $classeDestaque; ?>" id="<?php echo $registration->id; ?>" name="<?php echo $registration->id; ?>">

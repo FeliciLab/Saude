@@ -212,6 +212,57 @@ class Resources extends \MapasCulturais\Entity{
         return $spots;
     }
 
+    public static function getEnabledResource($opportunity) {
+        $app = App::i();
+        //dump($opportunity);
+        // $opp = $app->repo('OpportunityMeta')->findBy(['owner'=>$opportunity,'key'=>'claimDisabled']);
+        // if(isset($opp[0])) {
+        //     return $opp[0];
+        // }
+        $dql = "SELECT o
+                FROM 
+                MapasCulturais\Entities\OpportunityMeta o
+                WHERE o.owner = {$opportunity}
+                ";
+        $query = $app->em->createQuery($dql);
+        $check = $query->getResult();
+        $date = '';
+        $hour = '';
+        $dateinit = '';
+        foreach ($check as $key2 => $value2) {
+            //dump($value2->key.' - '.$value2->value);
+            
+            if($value2->key == 'date-initial') {
+                
+                $dt = self::DataBRtoMySQL( $value2->value );
+                $date = $dt;
+                // dump($opportunity);
+                // dump($value2->id.' - '.$value2->key.' - '.$value2->value);
+                // $dtInit = $value2->value;
+               
+            }
+            
+            if($value2->key == 'hour-initial') {
+                //dump($value2->id.' - '.$value2->key.' - '.$value2->value);
+                //$dtInit .= ' '.$value2->value;
+                //$date = $date.' '.$value2->value;
+                dump($date);
+            }
+        }
+        //dump($date);
+        // $dateinit = \DateTime::createFromFormat('Y-m-d',$dt );
+        // dump($dateinit);
+        // // $dateinit = \DateTime::createFromFormat('Y-m-d',$dtInit);
+        // dump($dateinit);
+    }
+
+    public static function DataBRtoMySQL( $DataBR ) 
+    {
+		$DataBR = str_replace(array(" – ","-"," "," "), " ", $DataBR);
+		list($data) = explode(" ", $DataBR);
+		return implode("-",array_reverse(explode("/",$data))) ;
+	}
+    
     /** @ORM\PrePersist */
     public function _prePersist($args = null){
         App::i()->applyHookBoundTo($this, 'entity(Resources).meta(' . $this->key . ').insert:before', $args);

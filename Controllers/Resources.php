@@ -246,31 +246,17 @@ class Resources extends \MapasCulturais\Controller{
         }
     }
 
-    function updateOpportunityMetaPeriod($id, $key, $value) {
-        dump($key.' - '.$value);
+    function POST_disabledResource(){
         $app = App::i();
-        $upOpMeta = $app->repo('OpportunityMeta')->find($id);
-        $upOpMeta->key = $key;
-        $upOpMeta->value = $value;
-        $upOpMeta->save(true);
-    }
-
-    function createOpportunityMetaPeriod($id, $key, $value) {
-
-    }
-
-    function POST_getIdOpportunityMeta(){
-        $app = App::i();
-
         $opp = $app->repo('OpportunityMeta')->findBy(['owner'=>$this->postData['id'],'key'=>'claimDisabled']);
-        $check = $app->repo('OpportunityMeta')->findBy(['key'=>'claimDisabled']);
-        if($check == 0){
-  
-
-        }else{
-
-            dump($check);
-         }
-
+        $opp[0]->value = 1;
+        $opp[0]->save(true);
     }
+
+    function DataBRtoMySQL( $DataBR ) 
+    {
+		$DataBR = str_replace(array(" – ","-"," "," "), " ", $DataBR);
+		list($data) = explode(" ", $DataBR);
+		return implode("-",array_reverse(explode("/",$data))) ;
+	}
 }
