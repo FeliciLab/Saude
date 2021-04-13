@@ -29,7 +29,6 @@ $(function () {
 
     $("#buttonSendData").click(function (e) { 
         e.preventDefault();
-        
         var form = $("#resourceFormData").serialize();
         $.ajax({
             type: "POST",
@@ -41,8 +40,7 @@ $(function () {
                     title: response.title,
                     text: response.message,
                     type: response.type
-                });   
-                
+                });
             }
         });
     });

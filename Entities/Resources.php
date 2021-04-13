@@ -1,6 +1,7 @@
 <?php
 namespace Saude\Entities;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\App;
 use MapasCulturais\Entities\Opportunity;
@@ -214,11 +215,7 @@ class Resources extends \MapasCulturais\Entity{
 
     public static function getEnabledResource($opportunity) {
         $app = App::i();
-        //dump($opportunity);
-        // $opp = $app->repo('OpportunityMeta')->findBy(['owner'=>$opportunity,'key'=>'claimDisabled']);
-        // if(isset($opp[0])) {
-        //     return $opp[0];
-        // }
+        
         $dql = "SELECT o
                 FROM 
                 MapasCulturais\Entities\OpportunityMeta o
@@ -228,35 +225,50 @@ class Resources extends \MapasCulturais\Entity{
         $check = $query->getResult();
         $date = '';
         $hour = '';
+        $dateEnd = '';
+        $hourEnd = '';
         $dateinit = '';
         foreach ($check as $key2 => $value2) {
-            //dump($value2->key.' - '.$value2->value);
-            
             if($value2->key == 'date-initial') {
-                
-                $dt = self::DataBRtoMySQL( $value2->value );
-                $date = $dt;
-                // dump($opportunity);
-                // dump($value2->id.' - '.$value2->key.' - '.$value2->value);
-                // $dtInit = $value2->value;
-               
+                // formato de data brasileiro
+                $date  = self::DataBRtoSQL( $value2->value );
             }
             
             if($value2->key == 'hour-initial') {
-                //dump($value2->id.' - '.$value2->key.' - '.$value2->value);
-                //$dtInit .= ' '.$value2->value;
-                //$date = $date.' '.$value2->value;
-                dump($date);
+                $hour = $value2->value;
+            }
+            if($value2->key == 'date-final') {
+                // formato de data brasileiro
+                $dateEnd  = self::DataBRtoSQL( $value2->value );
+            }
+            
+            if($value2->key == 'hour-final') {
+                $hourEnd = $value2->value;
             }
         }
-        //dump($date);
-        // $dateinit = \DateTime::createFromFormat('Y-m-d',$dt );
-        // dump($dateinit);
-        // // $dateinit = \DateTime::createFromFormat('Y-m-d',$dtInit);
-        // dump($dateinit);
+        $dt = $date.' '.$hour;
+        $dtFim = $dateEnd .' ' .$hourEnd;
+        $dateinit = \DateTime::createFromFormat('Y-m-d H:i:s', $dt);
+        //dump($dateinit);
+        $now = new DateTime('now');
+        //dump($now);
+        $dateFinal = \DateTime::createFromFormat('Y-m-d H:i:s', $dtFim);
+        //dump($dateFinal);
+
+        $open = false;
+        $close = false;
+        if($now >= $dateinit) {
+           $open = true;
+        }
+        if($now <= $dateFinal) {
+           $close = true;
+        }
+       
+        return ['open' => $open, 'close' => $close];
     }
 
-    public static function DataBRtoMySQL( $DataBR ) 
+    //FORMATANDO A DATA DE FORMATO BRASILEIRO PARA AMERICANO
+    public static function DataBRtoSQL( $DataBR ) 
     {
 		$DataBR = str_replace(array(" – ","-"," "," "), " ", $DataBR);
 		list($data) = explode(" ", $DataBR);
