@@ -19,7 +19,6 @@
       'key' => 'claimDisabled',
       'owner' => $entity->id
    ]);
-   dump($resource[0]->id);
    if(isset($resource[0]) && $resource[0]->value == 0){
       $enabledDiv = 'visible';
       $selectedEnabled  = '';

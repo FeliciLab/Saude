@@ -29,6 +29,9 @@ class Resources extends \MapasCulturais\Controller{
         $regId = $app->repo('Registration')->find($this->postData['registration_id']);
         $oppId = $app->repo('Opportunity')->find($this->postData['opportunity_id']);
         $ageId = $app->repo('Agent')->find($this->postData['agent_id']);
+        $verifyPeriod = EntitiesResources::getEnabledResource($oppId);
+        dump($verifyPeriod);
+        die();
         // INICIANDO A INSTANCIA
         $app->disableAccessControl();
         $rec = new EntitiesResources;
