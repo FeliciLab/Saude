@@ -1,5 +1,7 @@
 <?php
    use MapasCulturais\i;
+   Use Saude\Entities\Resources;
+
    $can_edit = $entity->canUser('modifyRegistrationFields');
    
    $app->applyHookBoundTo($this, 'opportunity.blockedCategoryFields', [&$entity,&$can_edit]);
@@ -24,7 +26,7 @@
       $selectedEnabled  = '';
       $selectedDisabled = 'selected';
    }
-
+   $period = Resources::getTimeOpportunityResource($entity->id);
 ?>
 <div id="registration-categories" class="registration-fieldset">
    <h4><?php \MapasCulturais\i::_e("Opções");?></h4>
@@ -73,19 +75,19 @@
             <div id="insertData" class="<?php echo $enabledDiv; ?>">
                <div class="form-group">
                   <label for="hora-inicial">Data de início </label>
-                  <input type="text" class="date form-control" name="date-initial" value="08/04/2021">
+                  <input type="text" class="date form-control dateResource" name="date-initial" value="<?php echo $period['datIni']; ?>">
                </div>
                <div class="">
                   <label for="hora-inicial">Hora de início </label>
-                  <input type="text" class="time form-control" name="hour-initial" value="12:00:00">
+                  <input type="text" class="time form-control" name="hour-initial" value="<?php echo $period['horIni']; ?>">
                </div>
                <div class="form-group">
                   <label for="data-final">Data final </label>
-                  <input type="text" class="date form-control" name="date-final" value="10/04/2021">
+                  <input type="text" class="date form-control dateResource" name="date-final" value="<?php echo $period['datFim']; ?>">
                </div>
                <div class="form-group">
                   <label for="hora-final">Hora final </label>
-                  <input type="text" class="time form-control" name="hour-final" value="23:00:00">
+                  <input type="text" class="time form-control" name="hour-final" value="<?php echo $period['horFim']; ?>">
                </div>
                <div class="form-group">
                   <input type="hidden" name="opportunity" id="opportunityIdResources">

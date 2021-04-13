@@ -29,9 +29,12 @@ class Resources extends \MapasCulturais\Controller{
         $regId = $app->repo('Registration')->find($this->postData['registration_id']);
         $oppId = $app->repo('Opportunity')->find($this->postData['opportunity_id']);
         $ageId = $app->repo('Agent')->find($this->postData['agent_id']);
-        $verifyPeriod = EntitiesResources::getEnabledResource($oppId);
-        dump($verifyPeriod);
-        die();
+        $verifyPeriod = EntitiesResources::getEnabledResource($oppId, 'send');
+       
+        if($verifyPeriod['open'] != true || $verifyPeriod['close'] != true) {
+            $this->json(['title' => 'Ops!','message' => 'Você não tem permissão para salvar recurso fora do período.','type' => 'error'], 403);
+        }
+        
         // INICIANDO A INSTANCIA
         $app->disableAccessControl();
         $rec = new EntitiesResources;

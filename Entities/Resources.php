@@ -213,16 +213,26 @@ class Resources extends \MapasCulturais\Entity{
         return $spots;
     }
 
-    public static function getEnabledResource($opportunity) {
+    public static function getEnabledResource($opportunity, $type) {
+       
         $app = App::i();
-        
+        $opp = '';
+        switch ($type) {
+            case 'period':
+                $opp = $opportunity;
+                break;
+            case 'send':
+                $opp = $opportunity->id;
+                break;
+        }
         $dql = "SELECT o
                 FROM 
                 MapasCulturais\Entities\OpportunityMeta o
-                WHERE o.owner = {$opportunity}
+                WHERE o.owner = {$opp}
                 ";
         $query = $app->em->createQuery($dql);
         $check = $query->getResult();
+        
         $date = '';
         $hour = '';
         $dateEnd = '';
@@ -253,7 +263,6 @@ class Resources extends \MapasCulturais\Entity{
         $now = new DateTime('now');
         //dump($now);
         $dateFinal = \DateTime::createFromFormat('Y-m-d H:i:s', $dtFim);
-        //dump($dateFinal);
 
         $open = false;
         $close = false;
@@ -265,6 +274,41 @@ class Resources extends \MapasCulturais\Entity{
         }
        
         return ['open' => $open, 'close' => $close];
+    }
+
+    public static function getTimeOpportunityResource($opportunity) {
+        $app = App::i();
+        $dql = "SELECT o
+        FROM 
+        MapasCulturais\Entities\OpportunityMeta o
+        WHERE o.owner = {$opportunity}
+        ";
+        $query = $app->em->createQuery($dql);
+        $check = $query->getResult();
+        $datIni = "";
+        $horIni = "";
+        $datFim = "";
+        $horFim = "";
+        foreach ($check as $key => $value) {
+            if($value->key == 'date-initial') {
+                // formato de data brasileiro
+                $datIni = $value->value;
+            }
+            
+            if($value->key == 'hour-initial') {
+                $horIni = $value->value;
+            }
+            if($value->key == 'date-final') {
+                // formato de data brasileiro
+                $datFim  = $value->value;
+            }
+            
+            if($value->key == 'hour-final') {
+                $horFim = $value->value;
+            }
+        }
+
+        return ['datIni' => $datIni,'horIni' => $horIni,'datFim' => $datFim,'horFim' => $horFim];
     }
 
     //FORMATANDO A DATA DE FORMATO BRASILEIRO PARA AMERICANO
