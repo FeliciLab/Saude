@@ -89,6 +89,12 @@ foreach ($resultCNSS as $cns) {
             $sqlInsertAgentRelation = "INSERT INTO public.agent_relation (agent_id, object_type, object_id, type, has_control, create_timestamp, status) 
             VALUES ({$idAgent}, 'MapasCulturais\Entities\Space', '{$idSpace}', '{$result->ProfissionalSaude->CBO->descricaoCBO}', 'FALSE', '{$data}', 1)";
             $conMap->query($sqlInsertAgentRelation);
+
+            $location = retornaLatitudeLongitudeDoEstabelecimento($cnessss->CodigoCNES->codigo);
+            if ($location != null) {
+                $sqlUpdateLocation = "UPDATE public.agent SET location = '{$location}', _geo_location = '0101000020E610000000000008A63E43C090B78B3B9BCF0DC0' WHERE id = {$idAgent}";
+                $conMap->query($sqlUpdateLocation);
+            }
         }
 
 
@@ -204,3 +210,38 @@ function retornaTipoDeVinculo($cns, $cnes)
 
     return $result->Vinculacaos->Vinculacao->codigoModVinculo;
 }
+
+function retornaLatitudeLongitudeDoEstabelecimento($cnes) 
+{
+    $options = array('location' => 'https://servicoshm.saude.gov.br/cnes/EstabelecimentoSaudeService/v1r0',
+            'encoding' => 'utf-8',
+            'soap_version' => SOAP_1_2,
+            'connection_timeout' => 1800000,
+            'trace' => 1,
+            'exceptions' => 1);
+
+    $client = new SoapClient('https://servicoshm.saude.gov.br/cnes/EstabelecimentoSaudeService/v1r0?wsdl', $options);
+    $client->__setSoapHeaders(soapClientWSSecurityHeader('CNES.PUBLICO', 'cnes#2015public'));
+
+    $function = 'consultarEstabelecimentoSaude';
+
+    $arguments = array('est' =>
+        array(
+            'FiltroPesquisaEstabelecimentoSaude' => array(
+                'CodigoCNES' => array(
+                    'codigo' => $cnes
+                )
+            )
+        )
+    );
+
+    $result = $client->__soapCall($function, $arguments);
+
+    $location = '(' . $result->DadosGeraisEstabelecimentoSaude->Localizacao->longitude . ', ' . $result->DadosGeraisEstabelecimentoSaude->Localizacao->latitude . ')';
+
+    if ($result->DadosGeraisEstabelecimentoSaude->Localizacao->longitude == null) {
+        $location = '(0, 0)';
+    }
+
+    return $location;
+} 
