@@ -45,7 +45,11 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
         });
-
+        //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
+        $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
+            $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
+        });
+       
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
             $app = App::i();
             
@@ -78,6 +82,7 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueScript('app', 'taxonomies', 'js/ng.taxonomies.js');
         //RECURSOS
         $app->view->enqueueScript('app', 'resource', 'js/ng.resource.js');
+       
         
         $app->view->enqueueStyle('app', 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
         //alertas

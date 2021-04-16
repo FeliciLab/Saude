@@ -1,6 +1,7 @@
 <?php
 namespace Saude\Entities;
 
+use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\App;
 use MapasCulturais\Entities\Opportunity;
@@ -212,6 +213,112 @@ class Resources extends \MapasCulturais\Entity{
         return $spots;
     }
 
+    public static function getEnabledResource($opportunity, $type) {
+       
+        $app = App::i();
+        $opp = '';
+        switch ($type) {
+            case 'period':
+                $opp = $opportunity;
+                break;
+            case 'send':
+                $opp = $opportunity->id;
+                break;
+        }
+        $dql = "SELECT o
+                FROM 
+                MapasCulturais\Entities\OpportunityMeta o
+                WHERE o.owner = {$opp}
+                ";
+        $query = $app->em->createQuery($dql);
+        $check = $query->getResult();
+        
+        $date = '';
+        $hour = '';
+        $dateEnd = '';
+        $hourEnd = '';
+        $dateinit = '';
+        foreach ($check as $key2 => $value2) {
+            if($value2->key == 'date-initial') {
+                // formato de data brasileiro
+                $date  = self::DataBRtoSQL( $value2->value );
+            }
+            
+            if($value2->key == 'hour-initial') {
+                $hour = $value2->value;
+            }
+            if($value2->key == 'date-final') {
+                // formato de data brasileiro
+                $dateEnd  = self::DataBRtoSQL( $value2->value );
+            }
+            
+            if($value2->key == 'hour-final') {
+                $hourEnd = $value2->value;
+            }
+        }
+        $dt = $date.' '.$hour;
+        $dtFim = $dateEnd .' ' .$hourEnd;
+        $dateinit = \DateTime::createFromFormat('Y-m-d H:i:s', $dt);
+        //dump($dateinit);
+        $now = new DateTime('now');
+        //dump($now);
+        $dateFinal = \DateTime::createFromFormat('Y-m-d H:i:s', $dtFim);
+
+        $open = false;
+        $close = false;
+        if($now >= $dateinit) {
+           $open = true;
+        }
+        if($now <= $dateFinal) {
+           $close = true;
+        }
+       
+        return ['open' => $open, 'close' => $close];
+    }
+
+    public static function getTimeOpportunityResource($opportunity) {
+        $app = App::i();
+        $dql = "SELECT o
+        FROM 
+        MapasCulturais\Entities\OpportunityMeta o
+        WHERE o.owner = {$opportunity}
+        ";
+        $query = $app->em->createQuery($dql);
+        $check = $query->getResult();
+        $datIni = "";
+        $horIni = "";
+        $datFim = "";
+        $horFim = "";
+        foreach ($check as $key => $value) {
+            if($value->key == 'date-initial') {
+                // formato de data brasileiro
+                $datIni = $value->value;
+            }
+            
+            if($value->key == 'hour-initial') {
+                $horIni = $value->value;
+            }
+            if($value->key == 'date-final') {
+                // formato de data brasileiro
+                $datFim  = $value->value;
+            }
+            
+            if($value->key == 'hour-final') {
+                $horFim = $value->value;
+            }
+        }
+
+        return ['datIni' => $datIni,'horIni' => $horIni,'datFim' => $datFim,'horFim' => $horFim];
+    }
+
+    //FORMATANDO A DATA DE FORMATO BRASILEIRO PARA AMERICANO
+    public static function DataBRtoSQL( $DataBR ) 
+    {
+		$DataBR = str_replace(array(" – ","-"," "," "), " ", $DataBR);
+		list($data) = explode(" ", $DataBR);
+		return implode("-",array_reverse(explode("/",$data))) ;
+	}
+    
     /** @ORM\PrePersist */
     public function _prePersist($args = null){
         App::i()->applyHookBoundTo($this, 'entity(Resources).meta(' . $this->key . ').insert:before', $args);
