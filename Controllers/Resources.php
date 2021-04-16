@@ -4,15 +4,12 @@ namespace Saude\Controllers;
 use DateTime;
 use \MapasCulturais\App;
 use \Saude\Entities\Resources as EntitiesResources;
+use \Saude\Entities\ResourceMeta;
+use MapasCulturais\Entities\OpportunityMeta;
 // use Dompdf\Dompdf;
 // require_once PROTECTED_PATH. 'vendor/dompdf/autoload.inc.php';
 
 class Resources extends \MapasCulturais\Controller{
-
-    const STATUS_APPROVED = 10;
-    const STATUS_WAITLIST = 8;
-    const STATUS_NOTAPPROVED = 3;
-    const STATUS_INVALID = 2;
 
     function GET_index() {
         //$this->render('resources');
@@ -32,6 +29,12 @@ class Resources extends \MapasCulturais\Controller{
         $regId = $app->repo('Registration')->find($this->postData['registration_id']);
         $oppId = $app->repo('Opportunity')->find($this->postData['opportunity_id']);
         $ageId = $app->repo('Agent')->find($this->postData['agent_id']);
+        $verifyPeriod = EntitiesResources::getEnabledResource($oppId, 'send');
+       
+        if($verifyPeriod['open'] != true || $verifyPeriod['close'] != true) {
+            $this->json(['title' => 'Ops!','message' => 'Você não tem permissão para salvar recurso fora do período.','type' => 'error'], 403);
+        }
+        
         // INICIANDO A INSTANCIA
         $app->disableAccessControl();
         $rec = new EntitiesResources;
@@ -185,4 +188,81 @@ class Resources extends \MapasCulturais\Controller{
         
     }
 
+    function POST_opportunityEnabled(){
+        $app = App::i();
+        //id oportunidade
+        $id = $this->postData['opportunity'];
+        //instancia da oportunidade
+        $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
+        $dql = "SELECT o
+                FROM 
+                MapasCulturais\Entities\OpportunityMeta o
+                WHERE o.owner = {$id}
+                ";
+        $query = $app->em->createQuery($dql);
+        $check = $query->getResult();
+        $verify = false;
+        foreach ($this->postData as $key => $value) {
+            foreach ($check as $key2 => $value2) {
+                if($key == $value2->key){
+                    $upOpMeta = $app->repo('OpportunityMeta')->find($value2->id);
+                    $upOpMeta->value = $value;
+                    $upOpMeta->save(true);
+                    $verify = true;
+                }
+            }  
+        }
+
+        $countLoop = 0;
+        /*
+        Verifica se já existe dados do recurso pela data de inicio
+        percorrendo todo o objeto e adicionando valor ao countLoop 
+        se não existir date-initial. 
+        Se existir date-initial, o countLoop volta para zero.
+        */
+        for ($i=0; $i < count($check); $i++) { 
+            if($check[$i]->key !== 'date-initial'){
+                $countLoop++;
+            }else{
+                $countLoop = 0;
+            }
+        }
+        $countVerify = false;
+        //Verifica se o total de countLoop é igual ao tamnho do objeto. 
+        if($countLoop == count($check)) {
+            foreach ($this->postData as $key => $value) {
+                $newOpMeta = new OpportunityMeta;
+                $newOpMeta->owner = $opportunity;
+                $newOpMeta->key = $key;
+                $newOpMeta->value = $value;
+                $app->em->persist($newOpMeta);
+                $newOpMeta->save(true);
+                $countVerify = true;
+            }
+        }
+
+        //Retorna quando a data for altera. 
+        if($verify){
+            $this->json(['title' => 'Sucesso','message' => 'A data de recurso foi alterada com sucesso', 'type' => 'success'], 200);
+        }
+
+        //Retorna quando o período for inserido.
+        if($countVerify){
+            $this->json(['title' => 'Sucesso','message' => 'Período de recurso habilitado com sucesso', 'type' => 'success'], 200);
+        }
+    }
+
+    function POST_disabledResource(){
+        $app = App::i();
+        $opp = $app->repo('OpportunityMeta')->findBy(['owner'=>$this->postData['id'],'key'=>'claimDisabled']);
+        $opp[0]->value = 1;
+        $opp[0]->save(true);
+    }
+
+    function DataBRtoMySQL( $DataBR ) 
+    {
+		$DataBR = str_replace(array(" – ","-"," "," "), " ", $DataBR);
+		list($data) = explode(" ", $DataBR);
+		return implode("-",array_reverse(explode("/",$data))) ;
+	}
 }

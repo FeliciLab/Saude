@@ -12,6 +12,8 @@ $classeDestaque = "";
 if(isset($_GET['id']) && $_GET['id'] == $registration->id){
     $classeDestaque = "classeDestaque";
 }
+
+$rec = Resources::getEnabledResource($registration->opportunity->id, 'period');
 ?>
 
 <article class="objeto clearfix <?php echo $classeDestaque; ?>" id="<?php echo $registration->id; ?>" name="<?php echo $registration->id; ?>">
@@ -26,13 +28,24 @@ if(isset($_GET['id']) && $_GET['id'] == $registration->id){
         <strong>Inscrição:</strong> <?php echo $registration->number; ?>
     </small> <br>
     <?php if( $registration->canUser('sendClaimMessage') ) : ?>
-        <?php if($resources == false){ ?>
-        <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
-            <i class="fa fa-edit"></i> Abrir Recurso
-        </a>
-        <?php }else{
-            echo '<label class="text-info">Recurso enviado</label>';
-        } ?>
+        <?php 
+        //VERIFICA SE ENVIOU O RECURSO
+        if($resources == false){ 
+            if($rec['open'] == 1 && $rec['close'] == 1) {?>
+                <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
+                    <i class="fa fa-edit"></i> Abrir Recurso
+                </a>
+                <?php 
+            }
+        }else{
+            echo '<label class="text-info">Recurso enviado</label><br/>';
+        }
+        //MENSAGEM FORA DO PERIODO
+        if($rec['open'] != 1 || $rec['close'] != 1) {
+            echo '<label class="text-danger">Fora do período do recurso</label><br/>';
+        }
+        
+       ?>
     <?php endif; ?>
     <div class="objeto-meta">
         <div><span class="label"<?php \MapasCulturais\i::esc_attr_e("Responsável:");?>></span> <?php echo $registration->owner->name ?></div>
