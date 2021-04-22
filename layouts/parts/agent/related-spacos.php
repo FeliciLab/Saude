@@ -1,14 +1,27 @@
-    <!-- Spaces BEGIN -->
+<?php
 
-<!-- Nav tabs -->
-<ul class="nav nav-tabs" role="tablist">
-  <li role="presentation" class="active"><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Home</a></li>
-  <li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Profile</a></li>
-  <li role="presentation"><a href="#messages" aria-controls="messages" role="tab" data-toggle="tab">Messages</a></li>
-  <li role="presentation"><a href="#settings" aria-controls="settings" role="tab" data-toggle="tab">Settings</a></li>
-</ul>
+  $entities = $this->controller->requestedEntity;
 
-    <!-- Spaces END -->
+  $groups = $entities->getGroupRelationsAgent();
 
+    if(is_array($groups) && count($groups) > 0): ?>
+    
+        <div class="widget">
+            <h3><?php \MapasCulturais\i::_e("Unidades de saúde que participa e suas funções");?></h3>
+            <ul class="js-slimScroll widget-list">
+                <?php foreach ($groups as $group): ?>
+                    
+                    <li class="widget-list-item">
+                        <?php echo $group['group']; ?> <?php \MapasCulturais\i::_e("em"); ?> 
+                        <a href="<?php echo $group['url']; ?>" style="display: initial;">
+                            <?php echo $group['entitie']; ?>
+                        </a>
+                    </li>
+                    
+                <?php endforeach; ?>
+            </ul>    
+        </div>
+    
+<?php endif; ?>
 
     

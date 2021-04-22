@@ -89,7 +89,7 @@
         });
     }]);
 
-    module.controller('getGroupRelationsAgent', ['$scope', '$rootScope', 'RelatedAgentsService', 'EditBox', function($scope, $rootScope, RelatedAgentsService, EditBox) {
+    module.controller('RelatedAgentsController', ['$scope', '$rootScope', 'RelatedAgentsService', 'EditBox', function($scope, $rootScope, RelatedAgentsService, EditBox) {
         $scope.editbox = EditBox;
 
         $scope.groups = [];
