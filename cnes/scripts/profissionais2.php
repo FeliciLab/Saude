@@ -27,6 +27,8 @@ foreach ($profissionais as $profissional) {
     $cbo = $profissional[6] . ' - '. $profissional[7];
     $cnes = $profissional[8];
 
+    $descricao = "CNS: {$cns}";
+
     $data = date('Y-m-d H:i:s');
 
     $sqlExisteProfissional = "SELECT id FROM public.agent WHERE name = '{$nome}'";
@@ -48,11 +50,12 @@ foreach ($profissionais as $profissional) {
     } else {
         $idUsr = $argv[1]; 
         $sqlInsert = "INSERT INTO public.agent (user_id, type, name,  create_timestamp, status, is_verified, public_location, update_timestamp, short_description) 
-            VALUES ({$idUsr}, 1, '{$nome}', '{$data}', '1', 'FALSE', 'TRUE', '{$data}', '{$nome}')";
+            VALUES ({$idUsr}, 1, '{$nome}', '{$data}', '1', 'FALSE', 'TRUE', '{$data}', '{$descricao}')";
         $conMap->exec($sqlInsert);
         $idAgent = $conMap->lastInsertId();
     
         salvarProfissionalMeta($conMap, $idAgent, 'cns', $cns);
+        salvarTermsSaude($conMap, $idAgent);
 
         $sql3 = "SELECT object_id FROM public.space_meta WHERE key = 'instituicao_cnes' AND value = '{$cnes}'";
         $query3 = $conMap->query($sql3);
@@ -83,6 +86,27 @@ function salvarProfissionalMeta($conMap, $agentId, $meta, $valor)
                                                                 {$agentId}, 
                                                                 '{$meta}', 
                                                                 '{$valor}',  
+                                                                $id
+                                                    )";
+    $conMap->exec($sqlInsertMeta);
+}
+
+function salvarTermsSaude($conMap, $agentId)
+{
+
+    $sql = "SELECT MAX(id)+1 FROM public.term_relation";
+    $maxAgentTerm = $conMap->query($sql);
+    $id = $maxAgentTerm->fetchColumn();
+
+    $id = !empty($id) ? $id : 1;
+    
+    $saudeid = 250;
+
+
+    $sqlInsertMeta = "INSERT INTO public.term_relation (term_id, object_type, object_id, id) VALUES (
+                                                                $saudeid, 
+                                                                'MapasCulturais\Entities\Agent', 
+                                                                $agentId,  
                                                                 $id
                                                     )";
     $conMap->exec($sqlInsertMeta);
