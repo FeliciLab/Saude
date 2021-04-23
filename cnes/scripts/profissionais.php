@@ -89,12 +89,6 @@ foreach ($resultCNSS as $cns) {
             $sqlInsertAgentRelation = "INSERT INTO public.agent_relation (agent_id, object_type, object_id, type, has_control, create_timestamp, status) 
             VALUES ({$idAgent}, 'MapasCulturais\Entities\Space', '{$idSpace}', '{$result->ProfissionalSaude->CBO->descricaoCBO}', 'FALSE', '{$data}', 1)";
             $conMap->query($sqlInsertAgentRelation);
-
-            $location = retornaLatitudeLongitudeDoEstabelecimento($cnessss->CodigoCNES->codigo);
-            if ($location != null) {
-                $sqlUpdateLocation = "UPDATE public.agent SET location = '{$location}', _geo_location = '0101000020E610000000000008A63E43C090B78B3B9BCF0DC0' WHERE id = {$idAgent}";
-                $conMap->query($sqlUpdateLocation);
-            }
         }
 
 
