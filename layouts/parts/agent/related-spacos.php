@@ -12,8 +12,16 @@
                 <?php foreach ($groups as $group): ?>
                     
                     <li class="widget-list-item">
-                        <?php echo $group['group']; ?> <?php \MapasCulturais\i::_e("em"); ?> 
-                        <a href="<?php echo $group['url']; ?>" style="display: initial;">
+                        <?php 
+                        
+                        if($group['group'] == 'group-admin'){
+                            \MapasCulturais\i::_e("Admininstrador(a)");
+                        }else{
+                            echo $group['group'];
+                        }
+                        \MapasCulturais\i::_e(" em"); 
+                        ?> 
+                        <a href="<?php echo $group['url']; ?>" style="display: initial; color: #4963ad;">
                             <?php echo $group['entitie']; ?>
                         </a>
                     </li>
