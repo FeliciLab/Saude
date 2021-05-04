@@ -150,7 +150,7 @@ class Theme extends BaseV1\Theme{
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
         $app->registerController('recursos', 'Saude\Controllers\Resources');
-
+        $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
     }
     
 

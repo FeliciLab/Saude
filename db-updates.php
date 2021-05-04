@@ -511,7 +511,21 @@ return array(
             final_hour DATE DEFAULT NULL
         )");
 
-    }
+    },
+
+    'create table professional_category' => function () use($conn) {
+        //
+        $conn->executeQuery("CREATE TABLE public.professional_category (
+            id INT NOT NULL,
+            name TEXT NOT NULL,
+            create_timestamp  timestamp(0) without time zone NOT NULL, 
+            update_timestamp timestamp(0) without time zone
+        )");
+    },
+
+    'create sequence professional_category' => function () use($conn) {
+        $conn->executeQuery("CREATE SEQUENCE professional_category_id_seq INCREMENT BY 1 MINVALUE 1 START 1;");
+    },
 );
 
 
