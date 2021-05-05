@@ -4,6 +4,7 @@ namespace Saude\Controllers;
 use DateTime;
 use \MapasCulturais\App;
 use \Saude\Entities\ProfessionalCategory as CategoryPro;
+use \Saude\Entities\CategoryMeta;
 
 class ProfessionalCategory extends \MapasCulturais\Controller{
 
@@ -50,6 +51,8 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     }
 
     function GET_especialidade() {
-        dump($this->urlData);
+        $app = App::i();
+        $cat = $app->em->find('Saude\Entities\ProfessionalCategory',$this->data['id']);
+        $this->render('specialty',['cat' => $cat]);
     }
 }
