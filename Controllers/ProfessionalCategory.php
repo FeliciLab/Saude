@@ -24,6 +24,32 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $catPro->name = $this->postData['name'];
         $app->em->persist($catPro);
         $app->em->flush();
-        return $this->json(['title' => 'Sucesso','type' => 'success', 'status' => 200], 200);
+        return $this->json(['title' => 'Sucesso','message' => 'Categoria profissional cadastrada com sucesso','type' => 'success', 'status' => 200], 200);
+    }
+
+    function POST_update() {
+        $app = App::i();
+        $cat = $app->em->find('Saude\Entities\ProfessionalCategory', $this->postData['id']);
+        //dump($cat);
+        $cat->name = $this->postData['name'];
+        //dump($cat->name);
+        $app->em->persist($cat);
+        $app->em->flush();
+        return $this->json(['title' => 'Sucesso','message' => 'Categoria profissional alterada com sucesso','type' => 'success', 'status' => 200], 200);
+    }
+
+    function DELETE_delete() {
+        // dump($this->data);
+        // dump($this->data['id']);
+        // die;
+        $app = App::i();
+        $cat = $app->em->find('Saude\Entities\ProfessionalCategory',$this->data['id']);
+        $cat->delete();
+        $app->em->flush();
+        return $this->json(['title' => 'Sucesso','message' => 'Categoria profissional excluida com sucesso','type' => 'success', 'status' => 200], 200);
+    }
+
+    function GET_especialidade() {
+        dump($this->urlData);
     }
 }

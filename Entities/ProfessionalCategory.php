@@ -43,7 +43,7 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
 
     public static function allProfessional() {
         $app = App::i();
-        $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p";
+        $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p ORDER BY p.id";
         $query = $app->em->createQuery($dql);
         $all = $query->getResult();
         return $all;

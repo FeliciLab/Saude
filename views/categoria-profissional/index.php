@@ -14,7 +14,6 @@ $this->bodyProperties['ng-app'] = "professional.category";
             <div class="form-group">
                 <label>Nome: </label> <span class="required_form">Obrigatório</span><br>
                 <input type="text" ng-model="data.name" id="catPro" class="form-control" placeholder="Ex: Comunicação">
-                <span>{{data.name}}</span>
             </div>
             <div class="form-group">
                 <button id="btn-taxonomy-form" ng-click="saveCatPro(data.name)" class="btn btn-primary"> 
@@ -33,19 +32,30 @@ $this->bodyProperties['ng-app'] = "professional.category";
                     <tr>
                         <th>Categoria Profissional</th>
                         <th>Editar</th>
+                        <th>Especialidade</th>
                         <th>Excluir</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr  ng-repeat="g in graus">
-                        <td>{{g.name}}</td>
+                    <tr ng-repeat="c in cat">
                         <td>
-                            <a href="#" class="btn btn-primary" title="Editar">
+                            {{c.name}}
+                            <input type="text" ng-model="c.name" class="form-control" id="input_{{c.id}}" style="display: none;">
+                            <a href="#" class="btn btn-success" id="saveInput_{{c.id}}" data-cod="{{c.id}}" data-name="{{c.name}}" ng-click="alterCat($event)" style="display: none;">Salvar</a>
+                            <button id="cancelarSave_{{c.id}}" class="btn-cancel-save" ng-click="cancelarSave(c.id)" style="display: none;"> Cancelar </button>
+                        </td>
+                        <td>
+                            <a href="#" data-id="{{c.id}}" data-nome="{{c.nome}}" ng-click="editCatPro(c.id)" class="btn btn-default" title="Editar">
                                 <i class="fa fa-edit"></i>
                             </a>
                         </td>
                         <td>
-                            <a href="#" class="btn btn-danger" title="Editar">
+                            <a href="<?php echo $app->createUrl('categoria-profissional/especialidade'); ?>{{c.id}}" class="btn btn-primary" title="Cadastrar especialidade">
+                                <i class="fa fa-save"></i>
+                            </a>
+                        </td>
+                        <td>
+                            <a href="#" ng-click="excluirCat(c.id)" class="btn btn-danger" title="Editar">
                                 <i class="fa fa-trash"></i>
                             </a>
                         </td>

@@ -39,15 +39,15 @@
 
     module.controller('professionalCategoryController', ['$scope' , '$http', 'professionalCategoryService', function ($scope , $http, professionalCategoryService) {
         $scope.data = {name : ""};
-        $scope.graus = [];
+        $scope.cat = [];
         $scope.allProfessionalCategory = function () {
             professionalCategoryService.getProfessionalCategory().then(function successCallback(response) {
                //console.log(response.data)
-               $scope.graus = response.data
+               $scope.cat = response.data
                 // response.forEach(element => {
                 //     $scope.graus.push({'id' : element.id, 'name' : element.name});
                 // });
-                console.log($scope.graus);
+                
                 //return response;
             });
         };
@@ -60,10 +60,108 @@
                 console.log(response);
                 if(response.data.status == 200) {
                     $scope.allProfessionalCategory();
-                    alert('Cadastrado');
+                    $scope.data.name = "";
+                    new PNotify({
+                        icon: 'fa fa-check',
+                        title: response.data.title,
+                        text: response.data.message,
+                        type: response.data.type
+                    });
                 }
                 //return response;
             });;
+        }
+        //CLICK QUE MOSTRA O INPUT PARA EDIÇÃO E OS BOTÕES
+        $scope.editCatPro = function (id) {
+            console.log({id})
+            jQuery("#input_"+id).removeAttr('style');
+            jQuery("#saveInput_"+id).removeAttr('style');
+            jQuery("#cancelarSave_"+id).removeAttr('style');
+        }
+        //CLICK PARA CANCELAR EDIÇÃO
+        $scope.cancelarSave = function (id) {
+            jQuery("#input_"+id).css("display", "none");
+            jQuery("#saveInput_"+id).css("display", "none");
+            jQuery("#cancelarSave_"+id).css("display", "none");
+        }
+
+        $scope.alterCat = function($event) {
+            console.log($event)
+            var data = {id: $event.currentTarget.dataset.cod, name: $event.target.dataset.name};
+            console.log(data);
+            $http.post( MapasCulturais.baseURL+'categoria-profissional/update', data).then(function successCallback(response) {
+                $scope.allProfessionalCategory();
+                $("#input_"+$event.currentTarget.dataset.cod).css("display","none");
+                $("#saveInput_"+$event.currentTarget.dataset.cod).css("display","none");
+                // //$scope.getDataGrau(taxo);
+                new PNotify({
+                    icon: 'fa fa-exclamation-circle',
+                    title: 'Sucesso!',
+                    text: 'Alteração realizado com sucesso.',
+                    type: 'success'
+                });
+            });
+        }
+
+        $scope.excluirCat = function(cat) {
+            console.log({cat})
+            new PNotify({
+                title: 'Excluir Categoria',
+                text: 'Você realmente deseja excluir essa categoria profissional?',
+                icon: 'fa fa-question-circle',
+                type: 'info',
+                hide: false,
+                confirm: {
+                  confirm: true,
+                  buttons: [
+                    {
+                      text: 'Sim',
+                      addClass: 'btn-primary',
+                      click: function(notice){
+                        $http.delete(MapasCulturais.baseURL+'categoria-profissional/delete/'+cat).then(function (response) {
+                            console.log(response)
+                            PNotify.removeAll();
+                            $scope.allProfessionalCategory();
+                            new PNotify({
+                                icon: 'fa fa-check',
+                                title: response.data.title,
+                                text: response.data.message,
+                                type: response.data.type
+                            });
+                        }).catch();
+                      }
+                    },
+                    {
+                      text: 'Cancelar',
+                      click: function(notice){
+                        notice.update({
+                          title: 'You\'ve Chosen a Side', text: 'You want mashed potatoes.', icon: true, type: 'info', hide: true,
+                          confirm: {
+                            confirm: false
+                          },
+                          buttons: {
+                            closer: true,
+                            sticker: true
+                          }
+                        });
+                      }
+                    }
+                  ]
+                },
+                buttons: {
+                  closer: false,
+                  sticker: false
+                },
+                history: {
+                  history: false
+                },
+                addclass: 'stack-modal',
+                stack: {'dir1': 'down', 'dir2': 'right', 'modal': true}
+              }).get().on('pnotify.confirm', function(){
+                alert('Fazer alguma coisa');
+              }).on('pnotify.cancel', function(){
+               PNotify.removeAll();
+              });
         }
 
     }]);
