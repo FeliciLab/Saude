@@ -1,7 +1,6 @@
 <?php
 namespace Saude\Entities;
 
-use DateTime;
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\App;
 
@@ -27,7 +26,7 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
      * @ORM\Column(name="name", type="text", nullable=false)
      */
     protected $name;
-     
+
     /**
      * @var \DateTime
      *
@@ -35,12 +34,20 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
      */
     protected $createTimestamp;
 
-      /**
+     /**
      * @var \DateTime
      *
      * @ORM\Column(name="update_timestamp", type="datetime", nullable=true)
      */
     protected $updateTimestamp;
+
+    public static function allProfessional() {
+        $app = App::i();
+        $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p";
+        $query = $app->em->createQuery($dql);
+        $all = $query->getResult();
+        return $all;
+    }
 
     /** @ORM\PrePersist */
     public function _prePersist($args = null){

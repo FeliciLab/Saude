@@ -517,9 +517,7 @@ return array(
         //
         $conn->executeQuery("CREATE TABLE public.professional_category (
             id INT NOT NULL,
-            name TEXT NOT NULL,
-            create_timestamp  timestamp(0) without time zone NOT NULL, 
-            update_timestamp timestamp(0) without time zone
+            name TEXT NOT NULL
         )");
     },
 
