@@ -8,13 +8,13 @@ use \Saude\Entities\CategoryMeta;
 
 class ProfessionalCategory extends \MapasCulturais\Controller{
 
-    public function __construct(){
-        $app = App::i();
-        $user = $app->user;
-        if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
-            return $app->redirect($app->createUrl('painel', 401));
-        }
-    }
+    // public function __construct(){
+    //     $app = App::i();
+    //     $user = $app->user;
+    //     if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
+    //         return $app->redirect($app->createUrl('painel', 401));
+    //     }
+    // }
 
     function GET_index() {
         $this->render('index');
@@ -95,5 +95,17 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $app->em->persist($agentMeta[0]);
         $app->em->flush();
         
+    }
+
+    function GET_categoriaEspecialidade() {
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        $app = App::i();
+        $catEsp = $app->repo('Term')->findBy(['taxonomy' => 'profissionais_especialidades'], ['term' => 'ASC']);
+        $arrayEsp = [];
+        foreach ($catEsp as $key => $value) {
+            $arrayEsp[$key] = ['id' => $value->id, 'text' => $value->term];
+        }
+        $this->json($arrayEsp);
     }
 }

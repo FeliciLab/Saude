@@ -13,6 +13,7 @@ $categoriasProfissionais = array_map(function($term) { return $term->term; }, $t
 
 //CATEGORIAS PROFISSIONAIS
 $allPro = ProfessionalCategory::allProfessional();
+
 //FORMANDO O ARRAY COM INDICE
 $proAll = [];
 foreach ($allPro as $key => $value) {

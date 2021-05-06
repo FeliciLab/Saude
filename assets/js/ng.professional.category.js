@@ -171,10 +171,17 @@
 })(angular);
 
 $(document).ready(function () {
-  //$( "#professionalCategory option:selected" ).value($("#nameSelectAgentMeta").val());
-  // $( "#professionalCategory option:selected" ).text($("#nameSelectAgentMeta").val()).attr('selected','selected');
-  // var valSelect = $("#nameSelectAgentMeta").val();
-  // $('#professionalCategory option[text='+valSelect+']').attr('selected','selected');
+  //REQUISITANDO AS ESPECIALIDADES
+  $.get(MapasCulturais.baseURL+'categoria-profissional/categoriaEspecialidade',
+    function (response, textStatus, jqXHR) {
+      //POPULANDO O SELECT
+      $('#specialtyCategoryProfessional').select2({
+          data: response,
+          multiple: true,
+          placeholder: 'Selecione uma ou mais especialidade'
+        });
+    }
+  );
   $("#professionalCategory").change(function (e) { 
     e.preventDefault();
     console.log($( "#professionalCategory option:selected" ).text());

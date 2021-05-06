@@ -156,9 +156,13 @@ $allPro = ProfessionalCategory::allProfessional();
         <?php endif; ?>
         <!-- Especialidades -->
         <p>
+        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
+        <input type="hidden" name="states[]" id="specialtyCategoryProfessional" />
+        </p>
+        <!-- <p>
             <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
             <editable-multiselect entity-property="profissionais_especialidades" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Especialidade física:');?>"></editable-multiselect>
-        </p>
+        </p> -->
         <?php $this->applyTemplateHook('tab-about-service','end'); ?><!--. hook tab-about-service:end -->
     </div><!--.servico -->
 
