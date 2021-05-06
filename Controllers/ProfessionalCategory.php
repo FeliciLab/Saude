@@ -81,4 +81,19 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $app->em->flush();
         $this->json(['title' => 'Sucesso','message' => 'Especialidade profissional cadastrada com sucesso','type' => 'success', 'status' => 200], 200);
     }
+
+    function POST_alterAgentMeta() {
+        dump($this->postData);
+        $app = App::i();
+        $agentMeta = $app->repo('AgentMeta')->findBy([
+            'owner' => $this->postData['id'],
+            'key' => $this->postData['key']
+        ]);
+        // dump($agentMeta[0]->value);
+        // die;
+        $agentMeta[0]->value = $this->postData['value'];
+        $app->em->persist($agentMeta[0]);
+        $app->em->flush();
+        
+    }
 }

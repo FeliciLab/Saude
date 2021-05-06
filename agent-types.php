@@ -2,12 +2,22 @@
 /**
  * See https://github.com/Respect/Validation to know how to write validations
  */
+use \Saude\Entities\ProfessionalCategory;
+
 $app = MapasCulturais\App::i();
 $termsGraus = $app->repo('Term')->findBy(['taxonomy' => 'profissionais_graus_academicos']);
 $graus = array_map(function($term) { return $term->term; }, $termsGraus);
 
 $termsCategoria = $app->repo('Term')->findBy(['taxonomy' => 'profissionais_categorias_profissionais']);
 $categoriasProfissionais = array_map(function($term) { return $term->term; }, $termsCategoria);
+
+//CATEGORIAS PROFISSIONAIS
+$allPro = ProfessionalCategory::allProfessional();
+//FORMANDO O ARRAY COM INDICE
+$proAll = [];
+foreach ($allPro as $key => $value) {
+    array_push($proAll, $value['name']);
+}
 
 $termsSpecialties = $app->repo('Term')->findBy(['taxonomy' => 'profissionais_especialidades'], ['term' => 'ASC']);
 $specialties = array_map(function($term) { return $term->term; }, $termsSpecialties);
@@ -500,7 +510,7 @@ return array(
         'profissionais_categorias_profissionais' => [
             'label' => \MapasCulturais\i::__('Categoria profissional'),
             'type' => 'select',
-            'options' => $categoriasProfissionais
+            'options' => $proAll
         ],
         #NO DB profissionais_especialidades
         'profissionais_especialidades' => [

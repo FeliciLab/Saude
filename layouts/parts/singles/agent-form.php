@@ -136,13 +136,23 @@ $allPro = ProfessionalCategory::allProfessional();
             <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
             <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
         </p>
-        <?php if($this->isEditable()): ?>
-            <select name="" id="">
-                <option value="">--Selecione--</option>
+        <p>
+            <div>
+            
+            </div>
+        </p>
+        <?php 
+        //  dump($entity->metadata['profissionais_categorias_profissionais']);
+        //  die;
+        if($this->isEditable()): ?>
+            <input type="hidden" id="nameSelectAgentMeta" value="<?php echo $entity->metadata['profissionais_categorias_profissionais']; ?>">
+            <!-- <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span> -->
+            <!-- <select name="professionalCategory" id="professionalCategory">
+                <option value="0">--Selecione--</option>
                 <?php foreach ($allPro as $key => $value) : ?>
                     <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
                 <?php endforeach; ?>
-            </select>
+            </select> -->
         <?php endif; ?>
         <!-- Especialidades -->
         <p>

@@ -38,6 +38,7 @@
     }]);
 
     module.controller('professionalCategoryController', ['$scope' , '$http', 'professionalCategoryService', function ($scope , $http, professionalCategoryService) {
+      console.log('professionalCategoryController');
         $scope.data = {name : ""};
         $scope.cat = [];
         $scope.allProfessionalCategory = function () {
@@ -168,3 +169,28 @@
 
 
 })(angular);
+
+$(document).ready(function () {
+  //$( "#professionalCategory option:selected" ).value($("#nameSelectAgentMeta").val());
+  // $( "#professionalCategory option:selected" ).text($("#nameSelectAgentMeta").val()).attr('selected','selected');
+  // var valSelect = $("#nameSelectAgentMeta").val();
+  // $('#professionalCategory option[text='+valSelect+']').attr('selected','selected');
+  $("#professionalCategory").change(function (e) { 
+    e.preventDefault();
+    console.log($( "#professionalCategory option:selected" ).text());
+    var dataPost = {
+      id: MapasCulturais.entity.id,
+      key: 'profissionais_categorias_profissionais',
+      value: $( "#professionalCategory option:selected" ).text()
+    }
+    $.ajax({
+      type: "POST",
+      url: MapasCulturais.baseURL+'categoria-profissional/alterAgentMeta',
+      data: dataPost,
+      dataType: "json",
+      success: function (response) {
+        console.log(response)
+      }
+    });
+  });
+});
