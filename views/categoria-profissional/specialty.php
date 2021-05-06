@@ -21,11 +21,15 @@ $this->bodyProperties['ng-app'] = "category.meta";
             </div>
             <div>
                 <div class="form-group">
-                    <label for="">Nome da Especialidade</label>
-                    <input type="text" class="form-control" id="" placeholder="Ex: Bioquímica">
-                    <button type="submit" class="btn btn-default">
-                        Cadastrar <i class="fa fa-save"></i>
-                    </button>
+                    <form id="createSpecialtyProfessional">
+                        <label for="">Nome da Especialidade</label>
+                        <input type="text" name="nameSpecialty" class="form-control" id="nameSpecialty" placeholder="Ex: Bioquímica" ng-model="data.name">
+                        <input type="hidden" name="idProfessional" id="idProfessional" value="<?php echo $cat->id; ?>">
+                        <input type="hidden" name="nameProfessional" value="especialidade">
+                        <button type="button" ng-click="saveCatMeta()" class="btn btn-primary">
+                            Cadastrar <i class="fa fa-save"></i>
+                        </button>
+                    </form>
                 </div>
             </div>
             <div class="table-responsive">
@@ -38,27 +42,9 @@ $this->bodyProperties['ng-app'] = "category.meta";
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
+                        <tr ng-repeat="c in catPro">
                             
-                            <td>Mark Auditoria Auditoria</td>
-                            <td>
-                                <a class="btn btn-default" href="#" role="button">Link</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger" href="#" role="button">Link</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Jacob Auditoria</td>
-                            <td>
-                                <a class="btn btn-default" href="#" role="button">Link</a>
-                            </td>
-                            <td>
-                                <a class="btn btn-danger" href="#" role="button">Link</a>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>Larry Auditoria</td>
+                            <td>{{c.value}}</td>
                             <td>
                                 <a class="btn btn-default" href="#" role="button">Link</a>
                             </td>

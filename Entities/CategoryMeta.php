@@ -51,6 +51,14 @@ class CategoryMeta extends \MapasCulturais\Entity{
         return $owner;
     }
 
+    static public function getAllCategory($id, $key) {
+        $app = App::i();
+        $dql = "SELECT c.id, c.value FROM \Saude\Entities\CategoryMeta c WHERE c.owner = {$id} AND c.key = '{$key}'";
+        $query = $app->em->createQuery($dql);
+        return $query->getResult();
+       
+    }
+
     /** @ORM\PrePersist */
     public function _prePersist($args = null){
         App::i()->applyHookBoundTo($this, 'entity(CategoryMeta).meta(' . $this->key . ').insert:before', $args);

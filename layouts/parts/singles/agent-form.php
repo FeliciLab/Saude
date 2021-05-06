@@ -3,6 +3,11 @@
     top: 0px !important
 }
 </style>
+<?php 
+use \Saude\Entities\ProfessionalCategory;
+$allPro = ProfessionalCategory::allProfessional();
+
+?>
 <div class="ficha-spcultura">
     <?php if($this->isEditable() && $entity->shortDescription && strlen($entity->shortDescription) > 2000): ?>
         <div class="alert warning">
@@ -131,6 +136,14 @@
             <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
             <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
         </p>
+        <?php if($this->isEditable()): ?>
+            <select name="" id="">
+                <option value="">--Selecione--</option>
+                <?php foreach ($allPro as $key => $value) : ?>
+                    <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                <?php endforeach; ?>
+            </select>
+        <?php endif; ?>
         <!-- Especialidades -->
         <p>
             <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>

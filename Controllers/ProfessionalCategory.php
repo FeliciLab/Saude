@@ -8,6 +8,14 @@ use \Saude\Entities\CategoryMeta;
 
 class ProfessionalCategory extends \MapasCulturais\Controller{
 
+    public function __construct(){
+        $app = App::i();
+        $user = $app->user;
+        if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
+            return $app->redirect($app->createUrl('painel', 401));
+        }
+    }
+
     function GET_index() {
         $this->render('index');
     }
@@ -15,6 +23,11 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     function GET_allProfessional() {
         $all = CategoryPro::allProfessional();
         $this->json($all);
+    }
+
+    function POST_allCategory() {
+        $cat = CategoryMeta::getAllCategory($this->postData['id'],  $this->postData['key']);
+        $this->json($cat);
     }
 
     function POST_store() {
@@ -52,7 +65,20 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
 
     function GET_especialidade() {
         $app = App::i();
+        $user = $app->user;
         $cat = $app->em->find('Saude\Entities\ProfessionalCategory',$this->data['id']);
         $this->render('specialty',['cat' => $cat]);
+    }
+
+    function POST_categoria_meta() {
+        //dump($this->postData);
+        $app = App::i();
+        $cat = new CategoryMeta;
+        $cat->key   = $this->postData['nameProfessional'];
+        $cat->value = $this->postData['nameSpecialty'];
+        $cat->owner = $this->postData['idProfessional'];
+        $app->em->persist($cat);
+        $app->em->flush();
+        $this->json(['title' => 'Sucesso','message' => 'Especialidade profissional cadastrada com sucesso','type' => 'success', 'status' => 200], 200);
     }
 }

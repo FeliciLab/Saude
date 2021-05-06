@@ -1,4 +1,5 @@
 <?php
+
 $action = preg_replace("#^(\w+/)#", "", $this->template);
 $this->bodyProperties['ng-app'] = "entity.app";
 $this->bodyProperties['ng-controller'] = "EntityController";
@@ -24,7 +25,8 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
 
 <?php $this->part('singles/breadcrumb', ['entity' => $entity,'entity_panel' => 'agents','home_title' => 'entities: My Agents']); ?><!--.part/singles/breadcrumb.php -->
 
-<?php $this->applyTemplateHook('breadcrumb','end'); ?>
+<?php $this->applyTemplateHook('breadcrumb','end')
+; ?>
 
 <?php /*if($can_edit) */$this->part('editable-entity', array('entity'=>$entity, 'action'=>$action)); ?><!--.part/editable-entity.php -->
 
@@ -70,7 +72,9 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
         <div id="sobre" class="aba-content">
             <?php $this->applyTemplateHook('tab-about','begin'); ?>
             
-            <?php $this->part('singles/agent-form', ['entity' => $entity, 'editEntity' => $editEntity]); ?><!--.part/singles/agent-form.php -->
+            <?php 
+           
+            $this->part('singles/agent-form', ['entity' => $entity, 'editEntity' => $editEntity]); ?><!--.part/singles/agent-form.php -->
             
             <?php $this->part('singles/location', ['entity' => $entity, 'has_private_location' => true]); ?><!--.part/singles/location.php -->
 
