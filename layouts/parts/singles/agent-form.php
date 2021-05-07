@@ -122,9 +122,17 @@ $allPro = ProfessionalCategory::allProfessional();
                 </span>
             </p>
         <?php endif; ?>
-
-        <!-- Grau acadêmico -->
+        <!-- <p>
+            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
+            <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
+        </p> -->
         <p>
+        <hr>
+        <small style="color: black;">
+            <strong>Adicione suas qualidade profissionais.</strong>
+        </small>
+         <!-- Grau acadêmico -->
+         <p>
             <span class="label"><?php \MapasCulturais\i::_e("Grau acadêmico");?>:</span>
             <span class="js-editable  <?php echo ($entity->isPropertyRequired($entity,"profissionais_graus_academicos") && $editEntity? 'required': '');?>" data-edit="profissionais_graus_academicos" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Grau académico");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione o grau académico");?>">
                 <?php echo $entity->profissionais_graus_academicos; ?>
@@ -132,32 +140,24 @@ $allPro = ProfessionalCategory::allProfessional();
         </p>   
 
         <!-- Categoria profissional -->
-        <p>
-            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
-            <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
-        </p>
-        <p>
+            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span><br>
+            <small>Selecione uma categoria e suas especialidades</small><br>
             <div>
-            
-            </div>
-        </p>
-        <?php 
-        //  dump($entity->metadata['profissionais_categorias_profissionais']);
-        //  die;
-        if($this->isEditable()): ?>
-            <input type="hidden" id="nameSelectAgentMeta" value="<?php echo $entity->metadata['profissionais_categorias_profissionais']; ?>">
-            <!-- <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span> -->
-            <!-- <select name="professionalCategory" id="professionalCategory">
+            <select name="professionalCategory" id="professionalCategory">
                 <option value="0">--Selecione--</option>
                 <?php foreach ($allPro as $key => $value) : ?>
                     <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
                 <?php endforeach; ?>
-            </select> -->
-        <?php endif; ?>
-        <!-- Especialidades -->
+            </select>
+            </div>
+            <input type="text" id="nameSelectAgentMeta" value="<?php (empty($entity->metadata['profissionais_categorias_profissionais']) ? '0': $entity->metadata['profissionais_categorias_profissionais']) ?>">
+            </p>
         <p>
-        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
+        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span><br>
+        <small>Selecione sua(s) especialidade(s)</small><br>
         <input type="hidden" name="states[]" id="specialtyCategoryProfessional" />
+        <br>
+        <button class="btn btn-primary" id="btnSaveCatSpecialty">Ok</button>
         </p>
         <!-- <p>
             <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>

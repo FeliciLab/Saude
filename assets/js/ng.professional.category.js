@@ -171,24 +171,37 @@
 })(angular);
 
 $(document).ready(function () {
+  
   //REQUISITANDO AS ESPECIALIDADES
-  $.get(MapasCulturais.baseURL+'categoria-profissional/categoriaEspecialidade',
+  $.get(MapasCulturais.baseURL+'categoria-profissional/getCategoryProfessional',
     function (response, textStatus, jqXHR) {
       //POPULANDO O SELECT
-      $('#specialtyCategoryProfessional').select2({
-          data: response,
-          multiple: true,
-          placeholder: 'Selecione uma ou mais especialidade'
-        });
+     console.log(response);
     }
   );
+  
   $("#professionalCategory").change(function (e) { 
     e.preventDefault();
     console.log($( "#professionalCategory option:selected" ).text());
+    getSpecialtyProfessional($( "#professionalCategory" ).val());
+    // var dataPost = {
+    //   id: MapasCulturais.entity.id,
+    //   key: 'profissionais_categorias_profissionais',
+    //   idCat: $( "#professionalCategory" ).val()
+    // }
+    
+    
+  });
+
+  $("#btnSaveCatSpecialty").click(function (e) { 
+    e.preventDefault();
+    console.log(e);
+    console.log($("#specialtyCategoryProfessional").val());
+    console.log($("#professionalCategory").val());
     var dataPost = {
       id: MapasCulturais.entity.id,
-      key: 'profissionais_categorias_profissionais',
-      value: $( "#professionalCategory option:selected" ).text()
+      idCat: $("#professionalCategory").val(),
+      idSpe: $("#specialtyCategoryProfessional").val()
     }
     $.ajax({
       type: "POST",
@@ -196,8 +209,37 @@ $(document).ready(function () {
       data: dataPost,
       dataType: "json",
       success: function (response) {
-        console.log(response)
+        getSpecialtyProfessional(response.id)
       }
     });
   });
+
+  $("#specialtyCategoryProfessional").on('change', function () {
+    console.log($("#specialtyCategoryProfessional").val());
+    var allSpe = [];
+    allSpe.push($("#specialtyCategoryProfessional").val());
+    console.log(allSpe);
+  });
+
 });
+
+function getSpecialtyProfessional(id) {
+  var dataPost = {
+    id: id,
+    type: 'especialidade'
+  }
+  $.ajax({
+    type: "POST",
+    url: MapasCulturais.baseURL+'categoria-profissional/categoriaEspecialidade',
+    data: dataPost,
+    dataType: 'json',
+    success: function (response) {
+      console.log(response);
+      $('#specialtyCategoryProfessional').select2({
+          data: response,
+          multiple: true,
+          placeholder: 'Selecione uma ou mais especialidade'
+      });
+    }
+  });
+}
