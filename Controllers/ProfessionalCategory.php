@@ -139,8 +139,7 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
 
     function GET_getCategoryProfessional() {
         $app = App::i();
-
-        $agent = $app->repo('Agent')->find($app->user->profile->id);
+        $agent = $app->repo('Agent')->find(2);
         $cat = $app->repo('AgentMeta')->findBy(
             [
             'key' => 'profissionais_categorias_profissionais',
@@ -157,5 +156,21 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $query  = $app->em->createQuery($dql);
         $catPro = $query->getResult();
         $this->json($catPro);
+    }
+
+    function GET_getEspecialtyProfessional() {
+        $app = App::i();
+        $agent = $app->repo('Agent')->find(2);
+        $cat = $app->repo('AgentMeta')->findBy(
+            [
+            'key' => 'profissionais_especialidades',
+            'owner' => $agent
+            ]
+        );
+        $arrayEsp = [];
+        foreach ($cat as $key => $value) {
+            $arrayEsp[$key] = ['id' => $value->id, 'text' => $value->value];
+        }
+        $this->json($arrayEsp);
     }
 }

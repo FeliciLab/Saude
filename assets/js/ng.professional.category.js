@@ -176,28 +176,35 @@ $(document).ready(function () {
   $.get(MapasCulturais.baseURL+'categoria-profissional/getCategoryProfessional',
     function (response, textStatus, jqXHR) {
       //POPULANDO O SELECT
-     console.log(response);
+     
+     $.each(response, function (indexInArray, valueOfElement) { 
+      console.log(valueOfElement.text);
+      $("#labelCategoriaProfissional").append('<span class="badge_default">'+valueOfElement.text+'<a href="#" class="closeCategoryProfessional"><i class="fa fa-close">'+
+      '</a></span>')
+     });
     }
   );
-  
+
+  $.get(MapasCulturais.baseURL+'categoria-profissional/getEspecialtyProfessional',
+    function (response, textStatus, jqXHR) {
+      console.log(response)
+      //POPULANDO O SELECT
+     $.each(response, function (indexInArray, valueOfElement) { 
+      console.log(valueOfElement.text);
+      $("#labelEspecialidadeProfissional").append('<br><span class="badge_default" style="margin: 2px;">'+valueOfElement.text+'<a href="#" class="closeCategoryProfessional"><i class="fa fa-close">'+
+      '</a></span>')
+     });
+    }
+  );
+
   $("#professionalCategory").change(function (e) { 
     e.preventDefault();
     console.log($( "#professionalCategory option:selected" ).text());
     getSpecialtyProfessional($( "#professionalCategory" ).val());
-    // var dataPost = {
-    //   id: MapasCulturais.entity.id,
-    //   key: 'profissionais_categorias_profissionais',
-    //   idCat: $( "#professionalCategory" ).val()
-    // }
-    
-    
   });
 
   $("#btnSaveCatSpecialty").click(function (e) { 
     e.preventDefault();
-    console.log(e);
-    console.log($("#specialtyCategoryProfessional").val());
-    console.log($("#professionalCategory").val());
     var dataPost = {
       id: MapasCulturais.entity.id,
       idCat: $("#professionalCategory").val(),
@@ -215,12 +222,9 @@ $(document).ready(function () {
   });
 
   $("#specialtyCategoryProfessional").on('change', function () {
-    console.log($("#specialtyCategoryProfessional").val());
     var allSpe = [];
     allSpe.push($("#specialtyCategoryProfessional").val());
-    console.log(allSpe);
   });
-
 });
 
 function getSpecialtyProfessional(id) {

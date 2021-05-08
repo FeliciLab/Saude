@@ -140,7 +140,8 @@ $allPro = ProfessionalCategory::allProfessional();
         </p>   
 
         <!-- Categoria profissional -->
-            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span><br>
+            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
+            <span id="labelCategoriaProfissional"></span><br>
             <small>Selecione uma categoria e suas especialidades</small><br>
             <div>
             <select name="professionalCategory" id="professionalCategory">
@@ -150,10 +151,10 @@ $allPro = ProfessionalCategory::allProfessional();
                 <?php endforeach; ?>
             </select>
             </div>
-            <input type="text" id="nameSelectAgentMeta" value="<?php (empty($entity->metadata['profissionais_categorias_profissionais']) ? '0': $entity->metadata['profissionais_categorias_profissionais']) ?>">
             </p>
         <p>
-        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span><br>
+        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
+        <span id="labelEspecialidadeProfissional"></span><br>
         <small>Selecione sua(s) especialidade(s)</small><br>
         <input type="hidden" name="states[]" id="specialtyCategoryProfessional" />
         <br>
