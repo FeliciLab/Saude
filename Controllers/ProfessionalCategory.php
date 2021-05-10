@@ -86,13 +86,17 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     function POST_alterAgentMeta() {
         
         $app = App::i();
-        dump($this->postData['idSpe']);
-        $pieces = explode("; ", $this->postData['idSpe']);
-        dump($pieces);
+        $pieces = [];
+        $strstr1 = strstr($this->postData['idSpe'], ',');
+        if($strstr1 == false) {
+            $pieces = explode("; ", $this->postData['idSpe']);
+        }else{
+            $pieces = explode(",", $this->postData['idSpe']);
+        }
         $agent = $app->repo('Agent')->find($this->postData['id']);
         // $this->json(['id' => $this->postData['idCat']]);
+        
         if($this->postData['idCat'] > 0) {
-            $agent = $app->repo('Agent')->find($this->postData['id']);
             $agentMeta = new AgentMeta;
             $agentMeta->key   = 'profissionais_categorias_profissionais';
             $agentMeta->value = $this->postData['idCat'];
@@ -101,21 +105,20 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
             $app->em->flush();
         }
         if(count($pieces) > 0) {
+           
             foreach ($pieces as $key => $value) {
-                echo $value;
+                //dump($value);
                 $cat = $app->em->find('\Saude\Entities\CategoryMeta',$value);
-                dump($cat->value);
-                $agent = $app->repo('Agent')->find($this->postData['id']);
+                //dump($cat);
                 $agentMeta = new AgentMeta;
                 $agentMeta->key   = 'profissionais_especialidades';
                 $agentMeta->value = $cat->value;
                 $agentMeta->owner = $agent;
                 $app->em->persist($agentMeta);
                 $app->em->flush();
+                $this->json(['message' => 'Categoria e Especialidade registrada', 'type' => 'success'], 200);
             }
-            
         }
-        
     }
 
     function POST_categoriaEspecialidade() {
@@ -130,16 +133,11 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $query  = $app->em->createQuery($dql);
         $catEsp = $query->getResult();
         $this->json($catEsp);
-        // $arrayEsp = [];
-        // foreach ($catEsp as $key => $value) {
-        //     $arrayEsp[$key] = ['id' => $value->id, 'text' => $value->term];
-        // }
-        // $this->json($arrayEsp);
     }
 
     function GET_getCategoryProfessional() {
         $app = App::i();
-        $agent = $app->repo('Agent')->find(2);
+        $agent = $app->repo('Agent')->find($this->data['id']);
         $cat = $app->repo('AgentMeta')->findBy(
             [
             'key' => 'profissionais_categorias_profissionais',
@@ -147,6 +145,8 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
             ]
         );
         $idCatPro = '';
+        // dump($cat);
+        // die;
         foreach ($cat as $key => $agentMeta) {
            $idCatPro .= $agentMeta->value.',';
         }
@@ -158,9 +158,9 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $this->json($catPro);
     }
 
-    function GET_getEspecialtyProfessional() {
+    function GET_getSpecialtyProfessional() {
         $app = App::i();
-        $agent = $app->repo('Agent')->find(2);
+        $agent = $app->repo('Agent')->find($this->data['id']);
         $cat = $app->repo('AgentMeta')->findBy(
             [
             'key' => 'profissionais_especialidades',
@@ -172,5 +172,24 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
             $arrayEsp[$key] = ['id' => $value->id, 'text' => $value->value];
         }
         $this->json($arrayEsp);
+    }
+
+    function DELETE_deleteSpecialty() {
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        $app = App::i();
+        $agent = $app->repo('Agent')->find($this->data['id']);
+        $del = $app->repo('AgentMeta')->findBy(
+            [
+            'key' => 'profissionais_especialidades',
+            'owner' => $agent,
+            'value' => $this->data['value']
+            ]
+        );
+        $app->disableAccessControl();
+        foreach ($del as $req)
+            $req->delete();
+        $app->em->flush();
+        $this->json(['message' => 'Categoria e Especialidade excluida', 'type' => 'success'], 200);
     }
 }
