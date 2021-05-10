@@ -138,9 +138,9 @@ $allPro = ProfessionalCategory::allProfessional();
                 <?php echo $entity->profissionais_graus_academicos; ?>
             </span>
         </p>   
-
+        <p>
         <!-- Categoria profissional -->
-            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
+            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span><br>
             <span id="labelCategoriaProfissional"></span><br>
             <small>Selecione uma categoria e suas especialidades</small><br>
             <div>
@@ -153,12 +153,12 @@ $allPro = ProfessionalCategory::allProfessional();
             </div>
             </p>
         <p>
-        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
+        <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span><br>
         <span id="labelEspecialidadeProfissional"></span><br>
         <small>Selecione sua(s) especialidade(s)</small><br>
         <input type="hidden" name="states[]" id="specialtyCategoryProfessional" />
         <br>
-        <button class="btn btn-primary" id="btnSaveCatSpecialty">Ok</button>
+        <button class="btn btn-primary" id="btnSaveCatSpecialty" style="margin-top: 10px;">Ok</button>
         </p>
         <!-- <p>
             <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
