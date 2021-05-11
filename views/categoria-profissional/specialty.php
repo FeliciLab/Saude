@@ -44,12 +44,20 @@ $this->bodyProperties['ng-app'] = "category.meta";
                     <tbody>
                         <tr ng-repeat="c in catPro">
                             
-                            <td>{{c.value}}</td>
-                            <td>
-                                <a class="btn btn-default" href="#" role="button">Link</a>
+                            <td>{{c.value}}
+                                <input type="text" ng-model="c.value" class="form-control" id="input_{{c.id}}" style="display: none;">
+                                <a href="#" class="btn btn-success" id="saveInput_{{c.id}}" data-cod="{{c.id}}" data-name="{{c.value}}" ng-click="alterCatMeta($event)" style="display: none;">Salvar</a>
+                                <button id="cancelarSave_{{c.id}}" class="btn-cancel-save" ng-click="cancelarSave(c.id)" style="display: none;"> Cancelar </button>
                             </td>
                             <td>
-                                <a class="btn btn-danger" href="#" role="button">Link</a>
+                                <a href="#" data-id="{{c.id}}" data-nome="{{c.nome}}" ng-click="editCatMeta(c.id)" class="btn btn-default" title="Editar">
+                                    <i class="fa fa-edit"></i>
+                                </a>
+                            </td>
+                            <td>
+                                <a href="#" ng-click="excluirCatMeta(c.id)" class="btn btn-danger" title="Excluir">
+                                <i class="fa fa-trash"></i>
+                            </a>
                             </td>
                         </tr>
                     </tbody>

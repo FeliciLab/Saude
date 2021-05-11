@@ -53,7 +53,7 @@ class CategoryMeta extends \MapasCulturais\Entity{
 
     static public function getAllCategory($id, $key) {
         $app = App::i();
-        $dql = "SELECT c.id, c.value FROM \Saude\Entities\CategoryMeta c WHERE c.owner = {$id} AND c.key = '{$key}'";
+        $dql = "SELECT c.id, c.value FROM \Saude\Entities\CategoryMeta c WHERE c.owner = {$id} AND c.key = '{$key}' ORDER BY c.id asc";
         $query = $app->em->createQuery($dql);
         return $query->getResult();
        

@@ -49,6 +49,59 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         return $all;
     }
 
+    public static function getCategoryEntity($entity, $key) {
+        $app = App::i();
+        $namePro = [];
+        $agent = $app->repo('Agent')->find($entity);
+        $categoryPro = $app->repo('AgentMeta')->findBy(
+            [
+            'key' => $key,
+            'owner' => $agent
+            ]
+        );
+
+        if(!empty($categoryPro)) {
+            $resCatPro = [];
+            foreach ($categoryPro as $catPro) {
+                array_push($resCatPro, $catPro->value);
+            }
+            $result = array_unique($resCatPro);
+            $convertedResult = implode(",", $result);
+            $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
+            $query = $app->em->createQuery($dql);
+            $all = $query->getResult();
+            
+            foreach ($all as $key => $valueName) {
+               array_push($namePro, $valueName['name']);
+            }
+        }
+
+        return $namePro;
+    }
+
+    public static function getSpecialtyEntity($entity, $key) {
+        $app = App::i();
+        $agent = $app->repo('Agent')->find($entity);
+        $categoryPro = $app->repo('AgentMeta')->findBy(
+            [
+            'key' => $key,
+            'owner' => $agent
+            ]
+        );
+        if(!empty($categoryPro)) {
+
+            $resCatPro = [];
+            foreach ($categoryPro as $catPro) {
+                array_push($resCatPro, $catPro->value);
+            }
+            $result = array_unique($resCatPro);
+            $convertedResult = implode(", ", $result);
+            return $convertedResult;
+        }
+        
+        return null;
+    }
+
     /** @ORM\PrePersist */
     public function _prePersist($args = null){
         App::i()->applyHookBoundTo($this, 'entity(ProfessionalCategory).meta(' . $this->key . ').insert:before', $args);

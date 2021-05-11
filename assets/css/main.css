@@ -7342,3 +7342,17 @@ nav {
   margin-left: 10px;
   margin-right: 5px;
 }
+
+#editable-multiselect-profissionais_especialidades .edit-box {
+    top: 0px !important
+}
+.info-pro {
+    background: #c3c3c3;
+    padding-left: 5px;
+    color: black;
+    border-radius: 10px;
+    padding-top: 1px;
+    padding-bottom: 2px;
+    padding-right: 3px;
+    margin-right: 2px;
+}

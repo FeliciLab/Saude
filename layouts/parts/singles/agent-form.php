@@ -1,12 +1,11 @@
-<style>
-#editable-multiselect-profissionais_especialidades .edit-box {
-    top: 0px !important
-}
-</style>
 <?php 
 use \Saude\Entities\ProfessionalCategory;
-$allPro = ProfessionalCategory::allProfessional();
 
+$allPro = ProfessionalCategory::allProfessional();
+//RETORNA AS CATEGORIAS DO AGENTE
+$getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_categorias_profissionais');
+//RETORNA AS ESPECIALIDADES DO AGENTE
+$getSpecialty = ProfessionalCategory::getSpecialtyEntity($entity,'profissionais_especialidades');
 ?>
 <div class="ficha-spcultura">
     <?php if($this->isEditable() && $entity->shortDescription && strlen($entity->shortDescription) > 2000): ?>
@@ -126,18 +125,12 @@ $allPro = ProfessionalCategory::allProfessional();
             <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
             <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
         </p> -->
-        <p>
-        <hr>
-        <small style="color: black;">
-            <strong>Adicione suas qualidade profissionais.</strong>
-        </small>
-         <!-- Grau acadêmico -->
-         <p>
-            <span class="label"><?php \MapasCulturais\i::_e("Grau acadêmico");?>:</span>
-            <span class="js-editable  <?php echo ($entity->isPropertyRequired($entity,"profissionais_graus_academicos") && $editEntity? 'required': '');?>" data-edit="profissionais_graus_academicos" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Grau académico");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione o grau académico");?>">
-                <?php echo $entity->profissionais_graus_academicos; ?>
-            </span>
-        </p>   
+        <?php 
+        
+        // dump($this);
+        // dump($entity);
+        // dump($app);
+        if($this->controller->action === 'edit'): ?>
         <p>
         <!-- Categoria profissional -->
             <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span><br>
@@ -151,7 +144,34 @@ $allPro = ProfessionalCategory::allProfessional();
                 <?php endforeach; ?>
             </select>
             </div>
-            </p>
+        </p>
+        <?php endif;
+        if($this->controller->action === 'single'): ?>
+        <p>
+        <!-- Categoria profissional -->
+            <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
+            <?php 
+            if(!empty($allPro)):
+                foreach ($getCat as $key => $nameCategory) : ?>
+                   <span class="info-pro">
+                    <?php echo $nameCategory; ?>
+                   </span>
+            <?php endforeach; 
+            endif;
+            ?>
+        </p>
+        <p>
+        <!-- Especialidade(s) profissional(is) -->
+        <span class="label"><?php \MapasCulturais\i::_e("Especialidade(s)");?>:</span>
+            <?php if(!empty($getSpecialty)): ?>
+                <span class="">
+                    <?php echo $getSpecialty; ?>
+                </span>
+            <?php endif;
+            ?>
+        </p>
+        <?php endif;
+        if($this->controller->action === 'edit'): ?>
         <p>
         <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span><br>
         <span id="labelEspecialidadeProfissional"></span><br>
@@ -160,10 +180,7 @@ $allPro = ProfessionalCategory::allProfessional();
         <br>
         <button class="btn btn-primary" id="btnSaveCatSpecialty" style="margin-top: 10px;">Ok</button>
         </p>
-        <!-- <p>
-            <span class="label"><?php \MapasCulturais\i::_e("Especialidade");?>: </span>
-            <editable-multiselect entity-property="profissionais_especialidades" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Especialidade física:');?>"></editable-multiselect>
-        </p> -->
+        <?php endif; ?>
         <?php $this->applyTemplateHook('tab-about-service','end'); ?><!--. hook tab-about-service:end -->
     </div><!--.servico -->
 

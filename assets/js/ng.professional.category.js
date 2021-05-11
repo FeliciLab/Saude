@@ -17,7 +17,6 @@
         return {
             getProfessionalCategory: function() {
                 return $http.get(MapasCulturais.baseURL + 'categoria-profissional/allProfessional').then(function successCallback(response) {
-                    //console.log(response);
                     return response;
                 });
             },
@@ -38,18 +37,11 @@
     }]);
 
     module.controller('professionalCategoryController', ['$scope' , '$http', 'professionalCategoryService', function ($scope , $http, professionalCategoryService) {
-      console.log('professionalCategoryController');
         $scope.data = {name : ""};
         $scope.cat = [];
         $scope.allProfessionalCategory = function () {
             professionalCategoryService.getProfessionalCategory().then(function successCallback(response) {
-               //console.log(response.data)
                $scope.cat = response.data
-                // response.forEach(element => {
-                //     $scope.graus.push({'id' : element.id, 'name' : element.name});
-                // });
-                
-                //return response;
             });
         };
         //professionalCategoryService.getTest();
@@ -58,7 +50,6 @@
         $scope.saveCatPro = function (data) {
             var newdata = {name: data};
             professionalCategoryService.store(newdata).then(function successCallback(response) {
-                console.log(response);
                 if(response.data.status == 200) {
                     $scope.allProfessionalCategory();
                     $scope.data.name = "";
@@ -74,7 +65,6 @@
         }
         //CLICK QUE MOSTRA O INPUT PARA EDIÇÃO E OS BOTÕES
         $scope.editCatPro = function (id) {
-            console.log({id})
             jQuery("#input_"+id).removeAttr('style');
             jQuery("#saveInput_"+id).removeAttr('style');
             jQuery("#cancelarSave_"+id).removeAttr('style');
@@ -87,9 +77,7 @@
         }
 
         $scope.alterCat = function($event) {
-            console.log($event)
             var data = {id: $event.currentTarget.dataset.cod, name: $event.target.dataset.name};
-            console.log(data);
             $http.post( MapasCulturais.baseURL+'categoria-profissional/update', data).then(function successCallback(response) {
                 $scope.allProfessionalCategory();
                 $("#input_"+$event.currentTarget.dataset.cod).css("display","none");
@@ -105,7 +93,6 @@
         }
 
         $scope.excluirCat = function(cat) {
-            console.log({cat})
             new PNotify({
                 title: 'Excluir Categoria',
                 text: 'Você realmente deseja excluir essa categoria profissional?',
@@ -120,7 +107,6 @@
                       addClass: 'btn-primary',
                       click: function(notice){
                         $http.delete(MapasCulturais.baseURL+'categoria-profissional/delete/'+cat).then(function (response) {
-                            console.log(response)
                             PNotify.removeAll();
                             $scope.allProfessionalCategory();
                             new PNotify({
@@ -177,7 +163,6 @@ $(document).ready(function () {
   $("#btnSaveCatSpecialty").css('display', 'none');
   $("#professionalCategory").change(function (e) { 
     e.preventDefault();
-    console.log($( "#professionalCategory option:selected" ).text());
     getSpecialtyProfessional($( "#professionalCategory" ).val());
     
   });
@@ -195,7 +180,6 @@ $(document).ready(function () {
       data: dataPost,
       dataType: "json",
       success: function (response) {
-        console.log(response);
         $("#labelEspecialidadeProfissional span").remove();
         $("#labelCategoriaProfissional span").remove();
         getAllCategoryProfessional();
@@ -210,35 +194,39 @@ $(document).ready(function () {
   $("#specialtyCategoryProfessional").on('change', function () {
     var allSpe = [];
     allSpe.push($("#specialtyCategoryProfessional").val());
-    console.log(allSpe);
   });
 
   
 });
 
 function getAllCategoryProfessional() {
-  $.get(MapasCulturais.baseURL+'categoria-profissional/getCategoryProfessional/'+MapasCulturais.entity.id,
-  function (response, textStatus, jqXHR) {
-      //POPULANDO O SELECT      
-    $.each(response, function (indexInArray, value) { 
-      $("#labelCategoriaProfissional").append('<span class="badge_default">'+value.text+'<a href="#" class="closeCategoryProfessional" onclick="deleteCategory('+value.id+')"><i class="fa fa-close">'+
-      '</a></span>')
-    });
-    }
-  );
+  if(MapasCulturais.hasOwnProperty('entity')) {
+    $.get(MapasCulturais.baseURL+'categoria-profissional/getCategoryProfessional/'+MapasCulturais.entity.id,
+    function (response, textStatus, jqXHR) {
+        //POPULANDO O SELECT      
+      $.each(response, function (indexInArray, value) { 
+        $("#labelCategoriaProfissional").append('<span class="badge_default">'+value.text+'<a href="#" class="closeCategoryProfessional" onclick="deleteCategory('+value.id+')"><i class="fa fa-close">'+
+        '</a></span>')
+      });
+      }
+    );
+  }
+  
 }
 
 function getAllSpecialtyProfessional() {
-  $.get(MapasCulturais.baseURL+'categoria-profissional/getSpecialtyProfessional/'+MapasCulturais.entity.id,
-    function (response, textStatus, jqXHR) {
-      //POPULANDO O SELECT
-    $.each(response, function (indexInArray, value) { 
-      var text = value.text;
-      $("#labelEspecialidadeProfissional").append('<span class="badge_default" style="margin: 2px;">'+value.text+'<a href="#" class="closeCategoryProfessional" onclick="deleteSpecialty(\''+value.text+'\')"><i class="fa fa-close">'+
-      '</a></span>')
-    });
-    }
-  );
+  if(MapasCulturais.hasOwnProperty('entity')) {
+    $.get(MapasCulturais.baseURL+'categoria-profissional/getSpecialtyProfessional/'+MapasCulturais.entity.id,
+      function (response, textStatus, jqXHR) {
+        //POPULANDO O SELECT
+      $.each(response, function (indexInArray, value) { 
+        var text = value.text;
+        $("#labelEspecialidadeProfissional").append('<span class="badge_default" style="margin: 2px;">'+value.text+'<a href="#" class="closeCategoryProfessional" onclick="deleteSpecialty(\''+value.text+'\')"><i class="fa fa-close">'+
+        '</a></span>')
+      });
+      }
+    );
+  }
 }
 $('#specialtyCategoryProfessional').select2();
 function deleteSpecialty(text) {
@@ -252,7 +240,6 @@ function deleteSpecialty(text) {
     data: dataDelete,
     dataType: "json",
     success: function (response) {
-      console.log(response)
       $("#labelEspecialidadeProfissional span").remove();
       $("#labelCategoriaProfissional span").remove();
       getAllCategoryProfessional();
@@ -262,7 +249,6 @@ function deleteSpecialty(text) {
 }
 
 function deleteCategory(id) {
-  console.log({id});
   var dataDelete = {
     idEntity: MapasCulturais.entity.id,
     idCat: id
@@ -273,7 +259,6 @@ function deleteCategory(id) {
     data: dataDelete,
     dataType: "json",
     success: function (response) {
-      console.log(response)
       $("#labelEspecialidadeProfissional span").remove();
       $("#labelCategoriaProfissional span").remove();
       getAllCategoryProfessional();

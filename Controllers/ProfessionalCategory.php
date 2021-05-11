@@ -9,13 +9,15 @@ use \MapasCulturais\Entities\AgentMeta;
 
 class ProfessionalCategory extends \MapasCulturais\Controller{
 
-    // public function __construct(){
-    //     $app = App::i();
-    //     $user = $app->user;
-    //     if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
-    //         return $app->redirect($app->createUrl('painel', 401));
-    //     }
-    // }
+    public function __construct(){
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        $app = App::i();
+        $user = $app->user;
+        if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
+            return $app->redirect($app->createUrl('painel', 401));
+        }
+    }
 
     function GET_index() {
         $this->render('index');
@@ -45,18 +47,13 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     function POST_update() {
         $app = App::i();
         $cat = $app->em->find('Saude\Entities\ProfessionalCategory', $this->postData['id']);
-        //dump($cat);
         $cat->name = $this->postData['name'];
-        //dump($cat->name);
         $app->em->persist($cat);
         $app->em->flush();
         return $this->json(['title' => 'Sucesso','message' => 'Categoria profissional alterada com sucesso','type' => 'success', 'status' => 200], 200);
     }
 
     function DELETE_delete() {
-        // dump($this->data);
-        // dump($this->data['id']);
-        // die;
         $app = App::i();
         $cat = $app->em->find('Saude\Entities\ProfessionalCategory',$this->data['id']);
         $cat->delete();
@@ -72,7 +69,6 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     }
 
     function POST_categoria_meta() {
-        //dump($this->postData);
         $app = App::i();
         $cat = new CategoryMeta;
         $cat->key   = $this->postData['nameProfessional'];
@@ -107,14 +103,11 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         }
         if(count($pieces) > 0) {
             foreach ($pieces as $key => $value) {
-                //dump($value);
                 $cat = $app->em->find('\Saude\Entities\CategoryMeta',$value);
-                //dump($cat);
                 $agentMeta          = new AgentMeta;
                 $agentMeta->key     = 'profissionais_especialidades';
                 $agentMeta->value   = $cat->value;
                 $agentMeta->owner   = $agent;
-                //dump($agentMeta);
                 $app->em->persist($agentMeta);
                 $app->em->flush();
             }
@@ -124,11 +117,8 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     }
 
     function POST_categoriaEspecialidade() {
-        //dump($this->postData);
         $id = $this->postData['id'];
         $type = $this->postData['type'];
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
         $app = App::i();
         $dql = "SELECT c.id, c.value as text FROM Saude\Entities\CategoryMeta c 
         WHERE c.owner = {$id} AND c.key = '{$type}'";
@@ -147,8 +137,6 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
             ]
         );
         $idCatPro = '';
-        // dump($cat);
-        // die;
         foreach ($cat as $key => $agentMeta) {
            $idCatPro .= $agentMeta->value.',';
         }
@@ -196,8 +184,6 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     }
 
     function DELETE_deleteCategory() {
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
         $app = App::i();
         $agent = $app->repo('Agent')->find($this->data['idEntity']);
         $del = $app->repo('AgentMeta')->findBy(
@@ -212,5 +198,14 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
             $req->delete();
         $app->em->flush();
         $this->json(['message' => 'Categoria excluida', 'type' => 'success'], 200);
+    }
+
+    function POST_updateSpecialty() {
+        $app = App::i();
+        $specialty = $app->em->find('Saude\Entities\CategoryMeta',$this->postData['id']);
+        $specialty->value = $this->postData['name'];
+        $app->em->persist($specialty);
+        $app->em->flush();
+        $this->json(['message' => 'Especialidade alterada com sucesso', 'type' => 'success', 'title' => 'Sucesso'], 200);
     }
 }

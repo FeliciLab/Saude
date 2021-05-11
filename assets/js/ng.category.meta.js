@@ -26,7 +26,6 @@
                     key: type
                 }
                 return $http.post(MapasCulturais.baseURL + 'categoria-profissional/allCategory', data).then(function successCallback(response) {
-                    //console.log(response);
                     return response;
                 });
                
@@ -51,20 +50,97 @@
         //$("#createSpecialtyProfessional").serialize();
         $scope.allCategory = function() {
             var id = document.getElementById("idProfessional").value;
-            console.log({id})
             CategoryMetaService.getAll(id, 'especialidade').then(function successCallback(response) {
                 $scope.catPro = response.data
-                console.log($scope.catPro);
             });;
         }
         $scope.allCategory();
 
         $scope.saveCatMeta = function () {
             var jq = $("#createSpecialtyProfessional").serialize();
-            console.log(jq);
             CategoryMetaService.store(jq);
             $scope.allCategory();
             $scope.data.name = "";
+        }
+
+        $scope.editCatMeta = function (id) {
+            jQuery("#input_"+id).removeAttr('style');
+            jQuery("#saveInput_"+id).removeAttr('style');
+            jQuery("#cancelarSave_"+id).removeAttr('style');
+        }
+
+        $scope.cancelarSave = function (id) {
+            jQuery("#input_"+id).css("display", "none");
+            jQuery("#saveInput_"+id).css("display", "none");
+            jQuery("#cancelarSave_"+id).css("display", "none");
+        }
+
+        $scope.alterCatMeta = function($event) {
+            var data = {
+                id: $event.currentTarget.dataset.cod, 
+                name: $event.target.dataset.name,
+            };
+            $http.post( MapasCulturais.baseURL+'categoria-profissional/updateSpecialty', data).then(function successCallback(response) {
+                $scope.allCategory();
+                $("#input_"+$event.currentTarget.dataset.cod).css("display","none");
+                $("#saveInput_"+$event.currentTarget.dataset.cod).css("display","none");
+                new PNotify({
+                    icon: 'fa fa-check',
+                    title: response.data.title,
+                    text: response.data.message,
+                    type: response.data.type
+                });
+            });
+        }
+
+        $scope.excluirCatMeta = function(cat) {
+            new PNotify({
+                title: 'Excluir Especialidade',
+                text: 'Você realmente deseja excluir essa especialidade profissional?',
+                icon: 'fa fa-question-circle',
+                type: 'info',
+                hide: false,
+                confirm: {
+                  confirm: true,
+                  buttons: [
+                    {
+                      text: 'Sim',
+                      addClass: 'btn-primary',
+                      click: function(notice){
+                        $http.delete(MapasCulturais.baseURL+'categoria-profissional/delete/'+cat).then(function (response) {
+                            PNotify.removeAll();
+                            $scope.allProfessionalCategory();
+                            new PNotify({
+                                icon: 'fa fa-check',
+                                title: response.data.title,
+                                text: response.data.message,
+                                type: response.data.type
+                            });
+                        }).catch();
+                      }
+                    },
+                    {
+                      text: 'Cancelar',
+                      click: function(notice){
+                        PNotify.removeAll();
+                      }
+                    }
+                  ]
+                },
+                buttons: {
+                  closer: false,
+                  sticker: false
+                },
+                history: {
+                  history: false
+                },
+                addclass: 'stack-modal',
+                stack: {'dir1': 'down', 'dir2': 'right', 'modal': true}
+              }).get().on('pnotify.confirm', function(){
+                alert('Fazer alguma coisa');
+              }).on('pnotify.cancel', function(){
+               PNotify.removeAll();
+              });
         }
     }]);
 
