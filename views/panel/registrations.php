@@ -6,9 +6,15 @@ error_reporting(E_ALL);
     
     $drafts = $app->repo('Registration')->findByUser($app->user, Registration::STATUS_DRAFT);
     $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
-    // ORDENANDO O ARRAY EM ORDEM DECRESCENTE
-    krsort($sent);
+
+    // ORDENANDO O ARRAY POR DATA DE ENVIO DA INSCRIÇÃO EM ORDEM DECRESCENTE
+    $ord = array();
+    foreach ($sent as $key => $value){
+    $dateTime[] = $value->sentTimestamp->format('d-m-Y H:i:s');
+    }
+    array_multisort($dateTime,SORT_DESC,SORT_STRING,$sent);   
     ?>
+
 <div class="panel-list panel-main-content">
     <?php $this->applyTemplateHook('panel-header','before'); ?>
     <header class="panel-header clearfix">
