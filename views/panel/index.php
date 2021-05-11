@@ -49,7 +49,7 @@ $newcpf = limpaCPF_CNPJ($cpf);
         $agent_cpf = limpaCPF_CNPJ($value['agent_cpf']);
         if($newcpf == $agent_cpf) {
     ?>
-    <div class="panel panel-primary">
+    <!-- <div class="panel panel-primary">
         <div class="panel-heading">Edital 02/2021</div>
         <div class="panel-body">
             <ul class="list-group">
@@ -61,7 +61,7 @@ $newcpf = limpaCPF_CNPJ($cpf);
                 </li>
             </ul>
         </div>
-    </div>
+    </div> -->
     <?php 
         }
     } ?>

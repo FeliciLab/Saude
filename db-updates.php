@@ -511,7 +511,33 @@ return array(
             final_hour DATE DEFAULT NULL
         )");
 
-    }
+    },
+
+    'create table professional_category' => function () use($conn) {
+        //
+        $conn->executeQuery("CREATE TABLE public.professional_category (
+            id INT NOT NULL,
+            name TEXT NOT NULL
+        )");
+    },
+
+    'create sequence professional_category' => function () use($conn) {
+        $conn->executeQuery("CREATE SEQUENCE professional_category_id_seq INCREMENT BY 1 MINVALUE 1 START 1;");
+    },
+
+    'create table category_meta' => function () use($conn) {
+        //
+        $conn->executeQuery("CREATE TABLE public.category_meta (
+            id INT NOT NULL,
+            object_id integer NOT NULL,
+            key VARCHAR(255) NOT NULL,
+            value text
+        )");
+    },
+
+    'create sequence category_meta' => function () use($conn) {
+        $conn->executeQuery("CREATE SEQUENCE category_meta_id_seq INCREMENT BY 1 MINVALUE 1 START 1;");
+    },
 );
 
 

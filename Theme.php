@@ -77,14 +77,16 @@ class Theme extends BaseV1\Theme{
     }
 
     protected function _publishAssets() {
-        $app = App::i();        
+        $app = App::i();
+        $app->view->enqueueStyle('app', 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
+
         $app->view->enqueueScript('app', 'entity.module.opportunity', 'js/ng.entity.module.opportunity.js', array('ng-mapasculturais'));
         $app->view->enqueueScript('app', 'taxonomies', 'js/ng.taxonomies.js');
+        $app->view->enqueueScript('app', 'professional.category', 'js/ng.professional.category.js');
+        $app->view->enqueueScript('app', 'category.meta', 'js/ng.category.meta.js');
         //RECURSOS
         $app->view->enqueueScript('app', 'resource', 'js/ng.resource.js');
-       
         
-        $app->view->enqueueStyle('app', 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
         //alertas
         $app->view->enqueueStyle('app', 'pnotify', 'css/pnotify.css');
         $app->view->enqueueStyle('app', 'pnotify.brighttheme', 'css/pnotify.brighttheme.css');
@@ -150,7 +152,7 @@ class Theme extends BaseV1\Theme{
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
         $app->registerController('recursos', 'Saude\Controllers\Resources');
-
+        $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
     }
     
 
