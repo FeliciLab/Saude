@@ -12,11 +12,11 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
     public function __construct(){
         ini_set('display_errors', 1);
         error_reporting(E_ALL);
-        $app = App::i();
-        $user = $app->user;
-        if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
-            return $app->redirect($app->createUrl('painel', 401));
-        }
+        // $app = App::i();
+        // $user = $app->user;
+        // if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
+        //     return $app->redirect($app->createUrl('painel', 401));
+        // }
     }
 
     function GET_index() {
@@ -185,19 +185,46 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
 
     function DELETE_deleteCategory() {
         $app = App::i();
+        $idCat = $this->data['idCat'];
         $agent = $app->repo('Agent')->find($this->data['idEntity']);
-        $del = $app->repo('AgentMeta')->findBy(
-            [
-            'key' => 'profissionais_categorias_profissionais',
-            'owner' => $agent,
-            'value' => $this->data['idCat']
-            ]
-        );
-        $app->disableAccessControl();
-        foreach ($del as $req)
-            $req->delete();
-        $app->em->flush();
-        $this->json(['message' => 'Categoria excluida', 'type' => 'success'], 200);
+
+        $dql = "SELECT c.id, c.value FROM Saude\Entities\CategoryMeta c 
+        WHERE c.owner = {$idCat} AND c.key = 'especialidade'";
+        $query  = $app->em->createQuery($dql);
+        $catEsp = $query->getResult();
+
+        if(!empty($catEsp)) {
+            $app->disableAccessControl();
+            foreach ($catEsp as $resultValue) {
+                $del = $app->repo('AgentMeta')->findBy(
+                    [
+                    'owner' => $agent,
+                    'key' => 'profissionais_especialidades',
+                    'value' => $resultValue['value']
+                    ]
+                );
+                
+                foreach ($del as $req){
+                    $req->delete();
+                    $app->em->flush();
+                }
+                    
+
+                $delCategory = $app->repo('AgentMeta')->findBy(
+                    [
+                    'owner' => $agent,
+                    'key' => 'profissionais_categorias_profissionais',
+                    'value' => $this->data['idCat']
+                    ]
+                ); 
+                foreach ($delCategory as $req){
+                    //dump($req);
+                    $req->delete();
+                    $app->em->flush();
+                }
+            }
+            $this->json(['message' => 'Categoria excluida', 'type' => 'success'], 200);
+        }
     }
 
     function POST_updateSpecialty() {
