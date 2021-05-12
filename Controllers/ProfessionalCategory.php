@@ -113,7 +113,6 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
             }
            $this->json(['message' => 'Categoria e Especialidade registrada', 'type' => 'success'], 200);
         }
-        die;
     }
 
     function POST_categoriaEspecialidade() {
@@ -192,7 +191,6 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         WHERE c.owner = {$idCat} AND c.key = 'especialidade'";
         $query  = $app->em->createQuery($dql);
         $catEsp = $query->getResult();
-
         if(!empty($catEsp)) {
             $app->disableAccessControl();
             foreach ($catEsp as $resultValue) {
@@ -235,4 +233,6 @@ class ProfessionalCategory extends \MapasCulturais\Controller{
         $app->em->flush();
         $this->json(['message' => 'Especialidade alterada com sucesso', 'type' => 'success', 'title' => 'Sucesso'], 200);
     }
+
+    
 }

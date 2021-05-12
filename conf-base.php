@@ -24,7 +24,7 @@ return [
         ]
     ],
 
-    'auth.provider' => 'Fake',
+    'auth.provider' => 'OpauthKeyCloak',
     'auth.config' => [
         'logout_url'            => env('LOGOUT_URL', ''),
         'client_id'             => env('CLIENT_ID', ''),

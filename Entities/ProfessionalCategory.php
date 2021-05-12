@@ -3,6 +3,7 @@ namespace Saude\Entities;
 
 use Doctrine\ORM\Mapping as ORM;
 use MapasCulturais\App;
+use \MapasCulturais\Entities\AgentMeta;
 
 /**
  * ProfessionalCategory
@@ -59,7 +60,7 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
             'owner' => $agent
             ]
         );
-
+       
         if(!empty($categoryPro)) {
             $resCatPro = [];
             foreach ($categoryPro as $catPro) {
@@ -100,6 +101,76 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         }
         
         return null;
+    }
+
+    public static function alterCategoryProfessional($entity) {
+        // PARA ESPECIALIDADES
+        ProfessionalCategory::alterCategorySpecialty($entity, 'profissionais_especialidades');
+        ProfessionalCategory::alterCategorySpecialty($entity, 'profissionais_categorias_profissionais');
+    }
+
+    /**
+     *  profissionais_especialidades
+     *  profissionais_categorias_profissionais
+     *  SEPARANDO OS ITENS DA STRING EM VARIAS OUTRAS OPÇÕES, FAZ O REGISTRO DESSAS OPÇÕES E APAGA O REGISTRO ANTIGO
+     *
+     * @param [type] $entity
+     * @param [type] $key o tipo do campos para categoria ou especialidade
+     * @return void
+     */
+    public static function alterCategorySpecialty($entity, $key) {
+        ini_set('display_errors', 1);
+        error_reporting(E_ALL);
+        $app = App::i();
+        $app->disableAccessControl();
+        
+        $agent = $app->repo('Agent')->find($entity);
+        $meta  = $app->repo('AgentMeta')->findBy([
+            'key' => $key,
+            'owner' => $agent 
+        ]);
+        $metaExplode = explode(";",$meta[0]->value);
+        //FAZENDO UMA VERIFICAÇÃO SE NA STRING TEM ALGUM ( ; )
+        $verify = strpos($meta[0]->value, ";");
+        //SE CONSTAR ALGUM INTEIRO,ENTRA NO IF
+        if($verify !== false)
+        {
+            if($key == 'profissionais_especialidades') {
+                foreach ($metaExplode as $specialty) {
+                    //REGISTRO PARA ESPECIALIDADES
+                    $newMeta = new AgentMeta;
+                    $newMeta->owner = $agent;
+                    $newMeta->key = $key;
+                    $newMeta->value = $specialty;
+                    $app->em->persist($newMeta);
+                    $app->em->flush();
+                }
+                //EXCLUINDO O REGISTRO ATUAL
+                foreach ($meta as $req)
+                    $req->delete();
+                    $app->em->flush();
+            }else{
+                $catEsp = [];
+                //REGISTRO PARA ESPECIALIDADE PROFISSIONAL
+                foreach ($metaExplode as $category) {
+                    $dql = "SELECT c.id, c.name FROM Saude\Entities\ProfessionalCategory c WHERE c.name = '{$category}'";
+                    $query          = $app->em->createQuery($dql);
+                    $catEsp         = $query->getResult();
+                
+                    $newMeta        = new AgentMeta;
+                    $newMeta->owner = $agent;
+                    $newMeta->key   = $key;
+                    $newMeta->value = $catEsp[0]['id'];
+                    $app->em->persist($newMeta);
+                    $app->em->flush();
+                }
+            
+                  foreach ($meta as $req)
+                    $req->delete();
+                    $app->em->flush();
+            }
+        }
+        //dump('alterCategoryProfessional');
     }
 
     /** @ORM\PrePersist */
