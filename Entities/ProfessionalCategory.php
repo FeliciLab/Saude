@@ -66,12 +66,11 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         );
         
         if(!empty($categoryPro)) {
-            
             $resCatPro = [];
             foreach ($categoryPro as $catPro) {
                 array_push($resCatPro, $catPro->value);
             }
-            
+
             $result = array_unique($resCatPro);
             $convertedResult = implode(",", $result);
 
@@ -115,12 +114,13 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         $app        = App::i();
         $namePro    = [];
         $dql = "";
-       
-        if(getType($convertedResult) == "integer")
+
+        $verify = strpos($convertedResult, ",");
+        if($verify !== false)
         {
             $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
 
-        }else if(getType($convertedResult) == "string")
+        }else
         {
             $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.name = '{$convertedResult}'";
         }
