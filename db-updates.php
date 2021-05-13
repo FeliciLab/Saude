@@ -517,7 +517,9 @@ return array(
         //
         $conn->executeQuery("CREATE TABLE public.professional_category (
             id INT NOT NULL,
-            name TEXT NOT NULL
+            name TEXT NOT NULL,
+            create_timestamp timestamp NULL,
+            update_timestamp timestamp NULL
         )");
     },
 
@@ -531,7 +533,9 @@ return array(
             id INT NOT NULL,
             object_id integer NOT NULL,
             key VARCHAR(255) NOT NULL,
-            value text
+            value text,
+            create_timestamp timestamp NULL,
+            update_timestamp timestamp NULL
         )");
     },
 

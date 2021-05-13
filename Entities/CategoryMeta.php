@@ -41,6 +41,19 @@ class CategoryMeta extends \MapasCulturais\Entity{
      */
     protected $owner;
 
+    /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="create_timestamp", type="datetime", nullable=false)
+     */
+    protected $createTimestamp;
+
+     /**
+     * @var \DateTime
+     *
+     * @ORM\Column(name="update_timestamp", type="datetime", nullable=true)
+     */
+    protected $updateTimestamp;
 
     static public function getOwner($id, $class) {
         $app = App::i();
