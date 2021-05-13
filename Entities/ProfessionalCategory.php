@@ -47,7 +47,11 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p ORDER BY p.id";
         $query = $app->em->createQuery($dql);
         $all = $query->getResult();
-        return $all;
+        if(empty($all)){
+            return ['id' =>0, 'name' => 'Saude' ];
+        }else{
+            return $all;
+        } 
     }
 
     public static function getCategoryEntity($entity, $key) {
@@ -60,24 +64,23 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
             'owner' => $agent
             ]
         );
-       
+        
         if(!empty($categoryPro)) {
+            
             $resCatPro = [];
             foreach ($categoryPro as $catPro) {
                 array_push($resCatPro, $catPro->value);
             }
+            
             $result = array_unique($resCatPro);
             $convertedResult = implode(",", $result);
-            $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
-            $query = $app->em->createQuery($dql);
-            $all = $query->getResult();
-            
-            foreach ($all as $key => $valueName) {
-               array_push($namePro, $valueName['name']);
-            }
-        }
 
-        return $namePro;
+            //PARA OS PRIMEIROS CASOS QUE SOMENTE EXISTE UMA CATEGORIA QUE NÃO TEM A VIRGULA OU PONTO E VIRGULA
+            $namePro = self::returnCategoryProfessional($convertedResult);
+            return $namePro;
+        }
+        
+        return [0 => 'Não Informado'];
     }
 
     public static function getSpecialtyEntity($entity, $key) {
@@ -90,7 +93,6 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
             ]
         );
         if(!empty($categoryPro)) {
-
             $resCatPro = [];
             foreach ($categoryPro as $catPro) {
                 array_push($resCatPro, $catPro->value);
@@ -99,14 +101,36 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
             $convertedResult = implode(", ", $result);
             return $convertedResult;
         }
-        
-        return null;
+        return 'Não Informado';
     }
 
     public static function alterCategoryProfessional($entity) {
         // PARA ESPECIALIDADES
         ProfessionalCategory::alterCategorySpecialty($entity, 'profissionais_especialidades');
         ProfessionalCategory::alterCategorySpecialty($entity, 'profissionais_categorias_profissionais');
+    }
+
+    public static function returnCategoryProfessional($convertedResult) {
+
+        $app        = App::i();
+        $namePro    = [];
+        $dql = "";
+       
+        if(getType($convertedResult) == "integer")
+        {
+            $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
+
+        }else if(getType($convertedResult) == "string")
+        {
+            $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.name = '{$convertedResult}'";
+        }
+        $query      = $app->em->createQuery($dql);
+        $all        = $query->getResult();
+        
+        foreach ($all as $key => $valueName) {
+            array_push($namePro, $valueName['name']);
+        }
+        return $namePro;
     }
 
     /**
@@ -129,46 +153,50 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
             'key' => $key,
             'owner' => $agent 
         ]);
-        $metaExplode = explode(";",$meta[0]->value);
-        //FAZENDO UMA VERIFICAÇÃO SE NA STRING TEM ALGUM ( ; )
-        $verify = strpos($meta[0]->value, ";");
-        //SE CONSTAR ALGUM INTEIRO,ENTRA NO IF
-        if($verify !== false)
-        {
-            if($key == 'profissionais_especialidades') {
-                foreach ($metaExplode as $specialty) {
-                    //REGISTRO PARA ESPECIALIDADES
-                    $newMeta = new AgentMeta;
-                    $newMeta->owner = $agent;
-                    $newMeta->key = $key;
-                    $newMeta->value = $specialty;
-                    $app->em->persist($newMeta);
-                    $app->em->flush();
-                }
-                //EXCLUINDO O REGISTRO ATUAL
-                foreach ($meta as $req)
-                    $req->delete();
-                    $app->em->flush();
-            }else{
-                $catEsp = [];
-                //REGISTRO PARA ESPECIALIDADE PROFISSIONAL
-                foreach ($metaExplode as $category) {
-                    $dql = "SELECT c.id, c.name FROM Saude\Entities\ProfessionalCategory c WHERE c.name = '{$category}'";
-                    $query          = $app->em->createQuery($dql);
-                    $catEsp         = $query->getResult();
+        if(!empty($meta)){
+
+            $metaExplode = explode(";",$meta[0]->value);
+            //FAZENDO UMA VERIFICAÇÃO SE NA STRING TEM ALGUM ( ; )
+            $verify = strpos($meta[0]->value, ";");
+            //SE CONSTAR ALGUM INTEIRO,ENTRA NO IF
+            if($verify !== false)
+            {
+                if($key == 'profissionais_especialidades') {
+                    foreach ($metaExplode as $specialty) {
+                        //REGISTRO PARA ESPECIALIDADES
+                        $newMeta = new AgentMeta;
+                        $newMeta->owner = $agent;
+                        $newMeta->key = $key;
+                        $newMeta->value = $specialty;
+                        $app->em->persist($newMeta);
+                        $app->em->flush();
+                    }
+                    //EXCLUINDO O REGISTRO ATUAL
+                    foreach ($meta as $req)
+                        $req->delete();
+                        $app->em->flush();
+                }else{
+                    $catEsp = [];
+                    //REGISTRO PARA ESPECIALIDADE PROFISSIONAL
+                    foreach ($metaExplode as $category) {
+                        $dql = "SELECT c.id, c.name FROM Saude\Entities\ProfessionalCategory c WHERE c.name = '{$category}'";
+                        $query          = $app->em->createQuery($dql);
+                        $catEsp         = $query->getResult();
+                    
+                        $newMeta        = new AgentMeta;
+                        $newMeta->owner = $agent;
+                        $newMeta->key   = $key;
+                        $newMeta->value = $catEsp[0]['id'];
+                        $app->em->persist($newMeta);
+                        $app->em->flush();
+                    }
                 
-                    $newMeta        = new AgentMeta;
-                    $newMeta->owner = $agent;
-                    $newMeta->key   = $key;
-                    $newMeta->value = $catEsp[0]['id'];
-                    $app->em->persist($newMeta);
-                    $app->em->flush();
+                      foreach ($meta as $req)
+                        $req->delete();
+                        $app->em->flush();
                 }
-            
-                  foreach ($meta as $req)
-                    $req->delete();
-                    $app->em->flush();
             }
+
         }
         //dump('alterCategoryProfessional');
     }

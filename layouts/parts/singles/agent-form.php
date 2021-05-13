@@ -10,7 +10,6 @@ $upCategoryAndSpecialty = ProfessionalCategory::alterCategoryProfessional($entit
 
 //RETORNA AS CATEGORIAS DO AGENTE
 $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_categorias_profissionais');
-
 ?>
 <div class="ficha-spcultura">
     <?php if($this->isEditable() && $entity->shortDescription && strlen($entity->shortDescription) > 2000): ?>
