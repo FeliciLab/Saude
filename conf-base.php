@@ -19,6 +19,9 @@ return [
         'LocationStateCity' => [
             'namespace' => 'LocationStateCity'
         ],
+        'PDFReport' => [
+            'namespace' => 'PDFReport'
+        ]
     ],
 
     'auth.provider' => 'OpauthKeyCloak',
