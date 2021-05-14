@@ -67,13 +67,14 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         
         if(!empty($categoryPro)) {
             $resCatPro = [];
+            
             foreach ($categoryPro as $catPro) {
-                array_push($resCatPro, $catPro->value);
+               array_push($resCatPro, $catPro->value);
             }
-
+           
             $result = array_unique($resCatPro);
             $convertedResult = implode(",", $result);
-
+            
             //PARA OS PRIMEIROS CASOS QUE SOMENTE EXISTE UMA CATEGORIA QUE NÃO TEM A VIRGULA OU PONTO E VIRGULA
             $namePro = self::returnCategoryProfessional($convertedResult);
             return $namePro;
@@ -114,19 +115,22 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         $app        = App::i();
         $namePro    = [];
         $dql = "";
-
+        
         $verify = strpos($convertedResult, ",");
+        
         if($verify !== false)
         {
             $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
-
-        }else
+            
+        }elseif($convertedResult == '0')
         {
             $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.name = '{$convertedResult}'";
+
+        }else{
+            $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
         }
         $query      = $app->em->createQuery($dql);
         $all        = $query->getResult();
-        
         foreach ($all as $key => $valueName) {
             array_push($namePro, $valueName['name']);
         }
