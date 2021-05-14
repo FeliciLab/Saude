@@ -128,11 +128,9 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
 
         }else{
             $dql = "SELECT p.id, p.name FROM \Saude\Entities\ProfessionalCategory p where p.id in ({$convertedResult})";
-            
-            $query      = $app->em->createQuery($dql);
-            $all        = $query->getResult();
         }
-        
+        $query      = $app->em->createQuery($dql);
+        $all        = $query->getResult();
         foreach ($all as $key => $valueName) {
             array_push($namePro, $valueName['name']);
         }
