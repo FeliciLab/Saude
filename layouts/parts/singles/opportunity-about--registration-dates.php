@@ -6,11 +6,11 @@ $editable = $this->isEditable() && !isset($disable_editable);
     <div class="registration-dates clear opportunity-phases">
         <?php /* Translators: "de" como início de um intervalo de data *DE* 25/1 a 25/2 às 13:00 */ ?>
         <ul class="list-group">
-            <li class="list-group-item" style="width: 100%;">
+            <li style="width: 100%;">
                 <?php if ($app->auth->isUserAuthenticated()): ?>
                 <button class="btn-access" style="float: left; margin-right: 12px;" title="Acessar inscrições">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                    <a href="<?= $entity->singleUrl; ?>"> Acessar </a>
+                    <a style="color: white;" href="<?= $entity->singleUrl; ?> "> Acessar </a>
                 </button>
             <?php endif; ?>
                 <?php \MapasCulturais\i::_e("Inscrições abertas de");?>
