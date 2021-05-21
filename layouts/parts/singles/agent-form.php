@@ -130,10 +130,6 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
         </p> -->
         <?php 
-        
-        // dump($this);
-        // dump($entity);
-        // dump($app);
         if($this->controller->action === 'edit'): ?>
         <p>
         <!-- Categoria profissional -->
@@ -143,9 +139,13 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             <div>
             <select name="professionalCategory" id="professionalCategory">
                 <option value="0">--Selecione--</option>
-                <?php foreach ($allPro as $key => $value) : ?>
-                    <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
-                <?php endforeach; ?>
+                <?php 
+                if($allPro['id'] > 0):
+                    foreach ($allPro as $key => $value) : ?>
+                        <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
+                <?php endforeach; 
+                endif;
+                ?>
             </select>
             </div>
         </p>
