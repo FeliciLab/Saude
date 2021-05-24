@@ -31,9 +31,6 @@ error_reporting(E_ALL);
         <li class="active">
             <a href="#ativos" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Rascunhos");?></a>
         </li>
-        <li>
-            <a href="#recurso" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Recurso");?></a>
-        </li>
     </ul>
     <div id="ativos">
         <?php foreach($drafts as $registration): ?>
@@ -52,20 +49,6 @@ error_reporting(E_ALL);
         <div class="alert info"><?php \MapasCulturais\i::_e("Você não enviou nenhuma inscrição.");?></div>
         <?php endif; ?>
     </div>
-    <div id="recurso">
-        <?php $this->part('modals/table-resource') ?>
-    </div>
     <!-- #lixeira-->
 </div>
-<!-- MODAL COM O FORM DE ENVIO DE RECURSO -->
-<?php $this->part('modals/form-resource') ?>
 
-<div class="remodal" data-remodal-id="modal-main">
-  <button data-remodal-action="close" class="remodal-close"></button>
-  <h2 id="titleRemodal"></h2>
-  <p id="contentMain"></p>
-  <br>
-  <button data-remodal-action="cancel" class="btn btn-danger">
-        <i class="fa fa-close"></i> Fechar
-  </button>
-</div>
