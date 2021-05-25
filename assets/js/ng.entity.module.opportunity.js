@@ -30,11 +30,10 @@
             case 10: return 'approved'; break;
         }
     }
-
+    
 module.factory('RegistrationService', ['$http', '$rootScope', '$q', 'UrlService', function ($http, $rootScope, $q, UrlService) {
     var url = new UrlService('registration');
     var labels = MapasCulturais.gettext.moduleOpportunity;
-    console.log('RegistrationService');
     return {
         getUrl: function(action, registrationId){
             return url.create(action, registrationId);
@@ -81,6 +80,13 @@ module.factory('RegistrationService', ['$http', '$rootScope', '$q', 'UrlService'
                 $rootScope.$emit('error', {message: "Cannot " + registrationStatus + " opportunity registration", data: data, status: status});
             });
 
+        },
+
+        verifyMinimumNote: function(opportunity) {
+            var dataOpp = {
+                id: opportunity
+            }
+            return $http.post(MapasCulturais.baseURL+'opportunity/minimumNote', dataOpp);
         },
 
         send: function(registrationId){
@@ -1444,7 +1450,7 @@ module.controller('EvaluationMethodConfigurationController', ['$scope', '$rootSc
 
             if(!params['@limit']){
                 params['@limit'] = 50;
-            }
+            };
             
             this.find = function(){
                 params['@page'] = page;
@@ -1470,7 +1476,7 @@ module.controller('EvaluationMethodConfigurationController', ['$scope', '$rootSc
             this.finish = function(){
                 var meta = $scope.data[meta_key];
                 return meta.numPages && parseInt(meta.page) >= parseInt(meta.numPages);
-            }
+            };
         }
     }]);
 
@@ -1905,7 +1911,17 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
         return _getStatusSlug(status);
     };
 
+    $scope.setStatusAproved = function() {
+        var idEntity = MapasCulturais.entity.id;
+        var note = RegistrationService.verifyMinimumNote(idEntity).then(function(response) {
+            console.log(response);
+        });
+    }
+
+    $scope.setStatusAproved();
+
     $scope.getStatusNameById = function(id) {
+        
         var statuses = $scope.data.registrationStatusesNames;
         for(var s in statuses){
             if(statuses[s].value == id)

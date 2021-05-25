@@ -14,7 +14,7 @@ use MapasCulturais\i;
     <a class="btn btn-default download" href="<?php echo $this->controller->createUrl('reportDrafts', [$entity->id]); ?>"><?php i::_e("Baixar rascunhos");?></a>
     <?php $this->applyTemplateHook('header-inscritos','end'); ?>
 </header>
-<div id='status-info' class="alert info">
+<!-- <div id='status-info' class="alert info">
     <p><?php i::_e("Altere os status das inscrições na última coluna da tabela de acordo com o seguinte critério:");?></p>
     <ul>
         <li><span><?php i::_e("Inválida - em desacordo com o regulamento (ex. documentação incorreta).");?></span></li>
@@ -25,7 +25,7 @@ use MapasCulturais\i;
         <li><span><?php i::_e("Rascunho - utilize essa opção para permitir que o responsável edite e reenvie uma inscrição. Ao selecionar esta opção, a inscrição não será mais exibida nesta tabela.");?></span></li>
     </ul>
     <div class="close"></div>
-</div>
+</div> -->
 
 <div id="filtro-inscritos">
     <span class="label"> <?php i::_e("Filtrar inscrição:");?> </span>
@@ -72,13 +72,14 @@ use MapasCulturais\i;
     Mudar status para selecionada (Pendente)
     <input type="checkbox" name="checkselected" id="checkselected" ng-click="setStatusToSelected()" style="margin-left: 10px; margin-right: 10px;" > 
 </div>
+
 <table id="registrations-table" class="js-registration-list registrations-table" ng-class="{'no-options': data.entity.registrationCategories.length === 0, 'no-attachments': data.entity.registrationFileConfigurations.length === 0, 'registrations-results': data.entity.published, 'fullscreen': data.fullscreenTable}"><!-- adicionar a classe registrations-results quando resultados publicados-->
     <thead>
         <tr>
             <?php $this->applyTemplateHook('registration-list-header','begin'); ?>
             <th ng-show="data.registrationTableColumns.number" class="registration-id-col">
                 <?php i::_e("Inscrição");?>
-            </th>            
+            </th>
             <th ng-show="data.registrationTableColumns.category" ng-if="data.entity.registrationCategories" class="registration-option-col" title="{{data.registrationCategory}}">
                 <mc-select class="left transparent-placeholder" placeholder="status" model="registrationsFilters['category']" data="data.registrationCategoriesToFilter" title="{{data.registrationCategory}}"></mc-select>
             </th>
@@ -132,6 +133,7 @@ use MapasCulturais\i;
     </tr>
     <tbody>
     <tr ng-repeat="reg in data.registrations" id="registration-{{reg.id}}" ng-class="getStatusSlug(reg.status)">
+
     <?php $this->applyTemplateHook('registration-list-item','begin'); ?>
             <td ng-show="data.registrationTableColumns.number" class="registration-id-col"><a href="{{reg.singleUrl}}" rel='noopener noreferrer'>{{reg.number}}</a></td>
             <td ng-show="data.registrationTableColumns.category" ng-if="data.entity.registrationCategories" class="registration-option-col">{{reg.category}}</td>
@@ -145,6 +147,7 @@ use MapasCulturais\i;
                 </p>
 
                 <p ng-repeat="relation in reg.agentRelations" ng-if="relation.agent">
+                
                     <span class="label">{{relation.label}}</span><br />
                     <a href="{{relation.agent.singleUrl}}" rel='noopener noreferrer'>{{relation.agent.name}}</a>
                 </p>
@@ -153,17 +156,19 @@ use MapasCulturais\i;
                 <a ng-if="reg.files.zipArchive.url" class="icon icon-download" href="{{reg.files.zipArchive.url}}" rel='noopener noreferrer'><div class="screen-reader-text"><?php i::_e("Baixar arquivos");?></div></a>
             </td>
             <td ng-show="data.registrationTableColumns.evaluation" class="registration-status-col">
+
                 {{reg.evaluationResultString}}
             </td>
 
             <td ng-show="data.registrationTableColumns.status" class="registration-status-col">
                 <?php if ($entity->publishedRegistrations): ?>
-                    <span class="status status-{{getStatusSlug(reg.status)}}">{{getStatusNameById(reg.status)}}</span>
+                    <span class="status status-{{getStatusSlug(reg.status)}}">{{getStatusNameById(reg.status)}} </span>
                 <?php else: ?>
+                    
                     <mc-select model="reg" data="data.registrationStatusesNames" getter="getRegistrationStatus" setter="setRegistrationStatus"></mc-select>
                 <?php endif; ?>
             </td>
-            <?php $this->applyTemplateHook('registration-list-item','end'); ?>
+    <?php $this->applyTemplateHook('registration-list-item','end'); ?>
         </tr>
     </tbody>
     <tfoot>
