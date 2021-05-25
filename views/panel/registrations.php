@@ -49,6 +49,10 @@ error_reporting(E_ALL);
         <div class="alert info"><?php \MapasCulturais\i::_e("Você não enviou nenhuma inscrição.");?></div>
         <?php endif; ?>
     </div>
-    <!-- #lixeira-->
-</div>
+
+<!-- MODAL COM O FORM DE ENVIO DE RECURSO -->
+<?php $this->part('modals/form-resource') ?>
+<?php $this->part('modals/open-modal') ?>
+
+
 
