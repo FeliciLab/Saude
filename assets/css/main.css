@@ -7363,3 +7363,8 @@ nav {
   width: 550px;
   height: 120px;
 }
+
+/* Formatação do TextArea de um campo de texo simples de Oportunidade */
+.form-control-simple{
+width: 550px;
+}
