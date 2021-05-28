@@ -17,14 +17,14 @@ if(!empty($registrations)){
         <caption class="caption-table"><?php \MapasCulturais\i::_e("Minhas inscrições");?></caption>
         <thead>
             <tr>
-                <th class="registration-id-col">
+                <th class="registration-status-col" style="text-align: center;" >
                     <?php \MapasCulturais\i::_e("Inscrição");?>
                 </th>
-                <th class="registration-agents-col">
+                <th class="registration-agents-col" style="text-align: center;">
                     <?php \MapasCulturais\i::_e("Agentes");?>
                 </th>
                 <th class="registration-status-col">
-                    <?php \MapasCulturais\i::_e("Status");?>
+                    <?php \MapasCulturais\i::_e("Data da inscrição");?>
                 </th>
                 <?php if($verifyPublish->publishedRegistrations == true
                  && $typeEvaluation[0]->type->id == 'technical'): ?>
@@ -35,6 +35,9 @@ if(!empty($registrations)){
                         <?php \MapasCulturais\i::_e("Nota final");?>
                     </th>
                 <?php endif; ?> 
+                <th class="registration-status-col" style="text-align: center;" >
+                    <?php \MapasCulturais\i::_e("Status");?>
+                </th>
             </tr>
         </thead>
         <tbody>
@@ -43,12 +46,12 @@ if(!empty($registrations)){
                 ?>
                 <tr>
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'begin', $reg_args); ?>
-                    <td class="registration-id-col">
+                    <td class="registration-status-col" style="text-align: center;">
                         <?php $this->applyTemplateHook('user-registration-table--registration--number', 'begin', $reg_args); ?>
                         <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
                         <?php $this->applyTemplateHook('user-registration-table--registration--number', 'end', $reg_args); ?>
                     </td>
-                    <td class="registration-agents-col">
+                    <td class="registration-agents-col" style="text-align: center;">
                         <?php $this->applyTemplateHook('user-registration-table--registration--agents', 'begin', $reg_args); ?>
                         <p>
                             <span class="label"><?php \MapasCulturais\i::_e("Responsável");?></span><br>
@@ -68,7 +71,7 @@ if(!empty($registrations)){
                         <?php endforeach; ?>
                         <?php $this->applyTemplateHook('user-registration-table--registration--agents', 'end', $reg_args); ?>
                     </td>
-                    <td class="registration-status-col">
+                    <td class="registration-status-col" style="text-align: center;">
                         <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args); ?>
                         <?php if ($registration->status > 0): ?>
                             <?php \MapasCulturais\i::_e("Enviada em");?> <?php echo $registration->sentTimestamp ? $registration->sentTimestamp->format(\MapasCulturais\i::__('d/m/Y à\s H:i')): ''; ?>.
@@ -86,11 +89,11 @@ if(!empty($registrations)){
                         </td>
                         
                         <?php
-                        //entrou em recurso e já está publicado
+                        //ENTROU COM RECURSO E JA FOI PUBLICADO
                         if($resource['text'] !== "" && $resource['publish'] == true) {
-                            echo '<td>'.$registration->consolidatedResult.'<td>';
+                            echo '<td>'.$registration->consolidatedResult.'</td>';
                         }else
-                        //SE ENTROU EM RECURSO MAIS AINDA NAO FOI PUBLICADO
+                        //SE ENTROU EM RECURSO MAS AINDA NAO FOI PUBLICADO
                         if($resource['text'] !== "" && $resource['publish'] == false) {
                             echo '<td>Recurso enviado. Aguarde!</td>';
                         }else
@@ -99,10 +102,38 @@ if(!empty($registrations)){
                             echo '<td>'.$registration->consolidatedResult.'</td>';
                         }
                         ?>
-                       
                     <?php endif; ?>
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
-                </tr>
+
+                    <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args); 
+
+                    $status = '';
+                        switch ($registration->status) {
+                            case 0:
+                                $status = 'Rascunho';
+                                break;
+                            case 1:
+                                $status = 'Pendente';
+                                break;
+                            case 2:
+                                $status = 'Inválido';
+                                break;
+                            case 3:
+                                $status = 'Não selecionado';
+                                break;
+                            case 8:
+                                $status = 'Suplente';
+                                break;
+                            case 10:
+                                $status = 'Selecionado';
+                                break;
+                        }
+                        ?>
+                    <td class=" registration-status-col">
+                    <?php  echo $status; ?>
+                    </td>
+                    <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
+            </tr>
             <?php endforeach; ?>
         </tbody>
     </table>
