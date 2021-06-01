@@ -25,8 +25,8 @@ $resources = Resources::resourceIdOpportunity($entity->id);
 
             $registration = $app->repo('Registration')->find($rec->registrationId->id);
             //  Se tiver avaliador responsável no banco
-            if($resources[$key]['reply_agent_id'] !== NULL) {
-               $agentReply = $app->repo('Agent')->find($resources[$key]['reply_agent_id']);
+            if($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) {
+                $agentReply = $app->repo('Agent')->find($resources[$key]['reply_agent_id']);
             }
         ?>
             <tr>
@@ -49,7 +49,7 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                 </th>
                 <th>
                     <?php 
-                        ($resources[$key]['reply_agent_id'] !== NULL) ? printf($agentReply->name) : $agentReply;
+                        ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
                     ?>
                 </th>
             </tr>
