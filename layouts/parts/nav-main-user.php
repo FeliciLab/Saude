@@ -75,7 +75,12 @@
         <li>
             <a href="<?php echo $app->createUrl('panel', 'registrations') ?>"><?php \MapasCulturais\i::_e("Minhas Inscrições");?></a>
         </li>
+
         <?php $this->applyTemplateHook('nav.dropdown.registrations','after'); ?>
+
+        <li>
+            <a href="<?php echo $app->createUrl('recursos', 'todos') ?>"><?php \MapasCulturais\i::_e("Meus Recursos");?></a>
+        </li>
 
         <?php if($app->user->is('saasAdmin') && $app->isEnabled('subsite')): ?>
             <?php $this->applyTemplateHook('nav.dropdown.subsite','before'); ?>
