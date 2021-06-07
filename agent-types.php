@@ -68,8 +68,21 @@ return array(
             'type' => 'date',
             'validations' => array(
                 'v::date("Y-m-d")' => \MapasCulturais\i::__('Data inválida').'{{format}}',
+                'required' => \MapasCulturais\i::__('A data de nascimento é obrigatório'),
             ),
             'available_for_opportunities' => true
+        ),
+
+        'idade' => array(
+            'private' => true,
+            'label' => \MapasCulturais\i::__('Idade atual'),
+            'type' => 'text',
+            'available_for_opportunities' => true
+            // 'validations' => array(
+            //     'v::date("Y-m-d")' => \MapasCulturais\i::__('Data inválida').'{{format}}',
+            //     'required' => \MapasCulturais\i::__('A data de nascimento é obrigatório'),
+            // ),
+            // 'available_for_opportunities' => true
         ),
 
         'localizacao' => array(

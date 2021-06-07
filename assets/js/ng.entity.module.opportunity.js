@@ -2584,3 +2584,42 @@ module.controller('evaluationCandidateController', ['$scope' , '$http', 'evaluat
 }]);
 
 })(angular);
+
+$(document).ready(function () {
+    $('#ageAgent').editable('toggleDisabled');
+    // $('#dataDeNascimentoAgente').editable({
+    //     onblur: function(element) {
+    //         console.log(element);
+    //     }
+    // });
+    $('#dataDeNascimentoAgente').on('hidden', function(e, reason) {
+        //DATA DE HOJE
+        const now = moment(new Date());
+        //DATA DE NASCIMENTO DO AGENT
+        var dataN = $('#dataDeNascimentoAgente').editable('getValue', true);
+        const nasc = moment(dataN);
+        //CALCULO EM ANOS
+        var dif = now.diff(nasc, 'years');
+        console.log(dif);
+        //RECEBENDO O VALOR
+        $('#ageAgent').editable('setValue', dif);
+    });
+    
+});
+
+function dateToEN(date)
+{	
+	return date.split('/').reverse().join('-');
+}
+
+function dataAtualFormatada(){
+    var data = new Date(),
+        dia  = data.getDate().toString().padStart(2, '0'),
+        mes  = (data.getMonth()+1).toString().padStart(2, '0'), //+1 pois no getMonth Janeiro começa com zero.
+        ano  = data.getFullYear();
+    return dia+"/"+mes+"/"+ano;
+}
+
+function verificaIdade() {
+    console.log('verificaIdade');
+}

@@ -10,7 +10,18 @@ $upCategoryAndSpecialty = ProfessionalCategory::alterCategoryProfessional($entit
 
 //RETORNA AS CATEGORIAS DO AGENTE
 $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_categorias_profissionais');
+
+//VALOR DA IDADE
+$age = '';
+$ageSearch = $app->repo('AgentMeta')->findBy([
+    'owner' => $entity,
+    'key'   => 'idade'
+]);
+if(!empty($ageSearch)) {
+    $age = $ageSearch[0]->value;
+}
 ?>
+
 <div class="ficha-spcultura">
     <?php if($this->isEditable() && $entity->shortDescription && strlen($entity->shortDescription) > 2000): ?>
         <div class="alert warning">
@@ -56,10 +67,17 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             <p class="privado">
                 <span class="icon icon-private-info"></span>
                 <span class="label"><?php \MapasCulturais\i::_e("Data de Nascimento/Fundação");?>:</span>
-                <span class="js-editable <?php echo ($entity->isPropertyRequired($entity,"dataDeNascimento") && $this->isEditable()? 'required': '');?>" <?php echo $entity->dataDeNascimento ? "data-value='".$entity->dataDeNascimento . "'" : ''?>  data-type="date" data-edit="dataDeNascimento" data-viewformat="dd/mm/yyyy" data-showbuttons="false" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Data de Nascimento/Fundação");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira a data de nascimento ou fundação do agente");?>">
+                <span id="dataDeNascimentoAgente" class="js-editable <?php echo ($entity->isPropertyRequired($entity,"dataDeNascimento") && $this->isEditable()? 'required': '');?>" <?php echo $entity->dataDeNascimento ? "data-value='".$entity->dataDeNascimento . "'" : ''?>  data-type="date" data-edit="dataDeNascimento" data-viewformat="dd/mm/yyyy" data-showbuttons="false" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Data de Nascimento/Fundação");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira a data de nascimento ou fundação do agente");?>" onblur="verificaIdade()">
                     <?php $dtN = (new DateTime)->createFromFormat('Y-m-d', $entity->dataDeNascimento); echo $dtN ? $dtN->format('d/m/Y') : ''; ?>
                 </span>
             </p>
+            <?php if($this->isEditable() || $age): ?>
+            <p class="privado">
+                <span class="icon icon-private-info"></span>
+                <span class="label"><?php \MapasCulturais\i::_e("Idade");?>:</span>
+                <span class="js-editable <?php echo ($age && $editEntity? 'required': '');?>" id="ageAgent" data-edit="idade" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Sua idade");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Sua idade");?>" data-showButtons="bottom"><?php echo $age; ?></span>
+            </p>
+            <?php endif; ?>
             <!-- Gênero -->
             <p class="privado">
                 <span class="icon icon-private-info"></span>
