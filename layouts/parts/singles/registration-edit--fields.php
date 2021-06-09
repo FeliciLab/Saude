@@ -46,6 +46,7 @@
 
                     <form class="js-ajax-upload" method="post" action="{{uploadUrl}}" data-group="{{::field.groupName}}"  enctype="multipart/form-data">
                         <div class="alert danger hidden"></div>
+                        <p class="form-help" style="font-weight: bold;">Arquivos devem ser compactados em formato .zip</p>
                         <p class="form-help"><?php \MapasCulturais\i::_e("Tamanho máximo do arquivo:");?> {{maxUploadSizeFormatted}}</p>
                         <input type="file" name="{{::field.groupName}}" />
 
