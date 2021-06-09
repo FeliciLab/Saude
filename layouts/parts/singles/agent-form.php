@@ -75,7 +75,7 @@ if(!empty($ageSearch)) {
             <p class="privado">
                 <span class="icon icon-private-info"></span>
                 <span class="label"><?php \MapasCulturais\i::_e("Idade");?>:</span>
-                <span class="js-editable <?php echo ($age && $editEntity? 'required': '');?>" id="ageAgent" data-edit="idade" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Sua idade");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Sua idade");?>" data-showButtons="bottom"><?php echo $age; ?></span>
+                <span class="js-editable" id="ageAgent" data-edit="idade" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Sua idade");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Sua idade");?>" data-showButtons="bottom"><?php echo $age; ?></span>
             </p>
             <?php endif; ?>
             <!-- Gênero -->

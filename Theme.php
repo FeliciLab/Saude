@@ -199,6 +199,11 @@ class Theme extends BaseV1\Theme{
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
         $app->registerController('recursos', 'Saude\Controllers\Resources');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
+
+        $this->registerAgentMetadata('idade', array(
+            'label' => 'Idade atual do candidato',
+            'type' => 'text'
+        ));
     }
     
 

@@ -2602,24 +2602,26 @@ $(document).ready(function () {
         var dif = now.diff(nasc, 'years');
         console.log(dif);
         //RECEBENDO O VALOR
+        var dateBirth = moment(dataN).format('YYYY-MM-DD');
+        console.log({dateBirth});
         $('#ageAgent').editable('setValue', dif);
+        var dataUp = {
+            id: MapasCulturais.entity.id,
+            birthDate: dateBirth,
+            age: dif
+        }
+        $.ajax({
+            type: "post",
+            url: MapasCulturais.baseURL+'agent/birthData/',
+            data: dataUp,
+            dataType: "json",
+            success: function (response) {
+                console.log(response);
+            },
+            error: function (error, status) {
+                console.log(error)
+            }
+        });
     });
     
 });
-
-function dateToEN(date)
-{	
-	return date.split('/').reverse().join('-');
-}
-
-function dataAtualFormatada(){
-    var data = new Date(),
-        dia  = data.getDate().toString().padStart(2, '0'),
-        mes  = (data.getMonth()+1).toString().padStart(2, '0'), //+1 pois no getMonth Janeiro começa com zero.
-        ano  = data.getFullYear();
-    return dia+"/"+mes+"/"+ano;
-}
-
-function verificaIdade() {
-    console.log('verificaIdade');
-}
