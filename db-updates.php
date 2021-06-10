@@ -539,8 +539,24 @@ return array(
         )");
     },
 
-    'create sequence category_meta' => function () use($conn) {
-        $conn->executeQuery("CREATE SEQUENCE category_meta_id_seq INCREMENT BY 1 MINVALUE 1 START 1;");
+    'create filed agent' => function () use($conn) {
+        $conn->executeQuery("ALTER TABLE public.agent 
+            ADD COLUMN birthdate date,
+            ADD COLUMN age integer,
+            ADD COLUMN major60 integer");
+    },
+
+    'create table rel_evaluationmethodconfiguration_meta' => function () use($conn) {
+        $conn->executeQuery("CREATE TABLE public.rel_evaluationmethodconfiguration_meta (
+           id INT NOT NULL,
+           section VARCHAR(255) DEFAULT NULL,
+           criteria TEXT DEFAULT NULL,
+           average VARCHAR(255) DEFAULT NULL,
+           object_id integer NOT NULL,
+           user_id integer NOT NULL
+           )");
+        
+        $conn->executeQuery("CREATE SEQUENCE rel_evaluationmethodconfiguration_meta_id_seq INCREMENT BY 1 MINVALUE 1 START 1;");
     },
 );
 
