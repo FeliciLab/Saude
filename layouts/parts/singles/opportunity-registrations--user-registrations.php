@@ -177,49 +177,43 @@ if (
         </tr>
     </thead>
     <tbody>
-        <?php
-                $count = 0;
-                foreach ($allResults as $key => $value) : 
-
-                ?>
         <tr>
             <td>
-                <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
+            <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
             </td>
+           
+            
             <td class="registration-col-evalutions">
-                <?php 
-                        foreach($allResults as $key=>$crit){
-                            
-                           //DECODIFICANDO OS CRITÉRIOS DE AVALIAÇÃO
-                           $decoder = json_decode($crit->registration->opportunity->evaluationMethodConfiguration->metadata['criteria']);
-
-                           foreach($decoder as $key => $printer)
-
-                            {
-                                //IMPRIMINDO OS CRITÉRIOS DE AVALIAÇÃO
-                                echo ( $printer->title).'<br>';
-
-                            }
-                          
-                        }
-                            ?>
+                <?php foreach ($allResults as $key => $value) :
+                $decoder = json_decode($value->registration->opportunity->evaluationMethodConfiguration->metadata['criteria']);
+                foreach ($decoder as $key2 => $value2) {
+                    echo $value2->title.'<br/>';
+                }
+                endforeach;
+                ?>
             </td>
+          
             <td>
-                <?php  
-                            foreach($allResults[0]->evaluationData as $key=>$eval){
-                                
-                                //VERIFICANDO SE O CAMPO É DIFERENTE DE OBSERVAÇÃO
-                                if($key != 'obs'):
-                                
-                               //EXIBINDO AS NOTAS DO CANDIDATO
-                               echo $eval.'<br>';
-                               
-                               endif;
-                            }
-                            ?>
-            </td>
+            <?php  
+            $media = 0;
+            $soma = 0;
+            $count = 0;
+foreach($allResults as $key=>$eval){
+    //dump($eval->evaluationData);
+    //dump($total);
+   foreach ($eval->evaluationData as $key2 => $value2) {
+    //dump(gettype($value2));
+       //dump(gettype($eval->evaluationData));
+      // dump(count((array)$value2));
+    //dump($key2.'-'.$value2);
+        if($key2 !== 'obs'){
+            echo $value2.'<br/>';
+        }
+   }
+}
+?>
+</td>
         </tr>
-        <?php endforeach; ?>
     </tbody>
 </table>
 <?php
