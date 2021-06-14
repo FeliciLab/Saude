@@ -2,6 +2,7 @@
     ini_set('display_errors', 1);
     error_reporting(E_ALL);
 use Saude\Entities\Resources;
+use \MapasCulturais\Entities\RegistrationEvaluation;
 $registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
 
 if (!empty($registrations)) {
@@ -177,49 +178,84 @@ if (
         </tr>
     </thead>
     <tbody>
-        <?php
-                $count = 0;
-                foreach ($allResults as $key => $value) : 
-
-                ?>
         <tr>
             <td>
-                <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
+            <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
             </td>
+           
+            
             <td class="registration-col-evalutions">
                 <?php 
                         foreach($allResults as $key=>$crit){
                             
                            //DECODIFICANDO OS CRITÉRIOS DE AVALIAÇÃO
                            $decoder = json_decode($crit->registration->opportunity->evaluationMethodConfiguration->metadata['criteria']);
-
-                           foreach($decoder as $key => $printer)
-
+                            // dump($decoder);
+                            //dump($crit->registration->id);
+                            
+                            // $sec = json_decode($allResults[$key]->registration->opportunity->evaluationMethodConfiguration->metadata['sections']);
+                            // dump($sec);
+                            // dump($crit->registration->opportunity->evaluationMethodConfiguration->agentRelations[$key]->agent->id);
+                            foreach($decoder as $keyDec => $printer)
                             {
                                 //IMPRIMINDO OS CRITÉRIOS DE AVALIAÇÃO
-                                echo ( $printer->title).'<br>';
-
+                                //echo ( $printer->title).'<br>';
+                                //dump($printer->id);
+                                //dump($allResults[$key]->evaluationData);
+                                foreach ($allResults[$key]->evaluationData as $key2 => $value2) {
+                                   
+                                    if($printer->id == $key2){
+                                        echo ( $printer->title).'<br>';
+                                    }
+                                    
+                                }
                             }
                           
                         }
                             ?>
             </td>
+          
             <td>
                 <?php  
-                            foreach($allResults[0]->evaluationData as $key=>$eval){
-                                
-                                //VERIFICANDO SE O CAMPO É DIFERENTE DE OBSERVAÇÃO
-                                if($key != 'obs'):
-                                
-                               //EXIBINDO AS NOTAS DO CANDIDATO
-                               echo $eval.'<br>';
+                            $media = 0;
+                            $nota = 0;
+                            $div = 0;
+                            $indice = '';
+                            $chave = 0;
+                            foreach($allResults as $key=>$eval){
                                
-                               endif;
+                               // dump($allResults[$key]->evaluationData);
+                                //dump($eval->evaluationData);
+                                //dump(count((array)$allResults[$key]->evaluationData));
+                                $div =  count($eval->registration->opportunity->evaluationMethodConfiguration->agentRelations);
+                                //dump($crit->registration->id);
+                                $confMeta = $app->repo('RegistrationEvaluation')->findBy([
+                                    'registration' => $crit->registration->id
+                                ]);
+                                // dump($confMeta[$key]->evaluationData);
+                                // dump($eval->evaluationData);
+                                foreach ($eval->evaluationData as $key2 => $value2) {
+                                    
+                                    if($key2 !== 'obs'){
+                                        $note = (float) $value2;
+                                        $media = ($media + $value2);
+                                        echo $value2."<br/>"; 
+                                    }
+                                }
                             }
                             ?>
             </td>
         </tr>
-        <?php endforeach; ?>
+        <tr>
+            <td colspan="3">
+                <?php
+                    foreach ($allResults as $key => $value) {
+                    //    dump($value->registration->opportunity->evaluationMethodConfiguration);
+                       \MapasCulturais\i::_e("Média do avaliador ".($key + 1).  ' foi: <strong>'.number_format($value->result, 2, '.','').'</strong><br/>');
+                    }
+                ?><Address></Address>
+            </td>
+        </tr>
     </tbody>
 </table>
 <?php
