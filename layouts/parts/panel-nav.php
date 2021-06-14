@@ -49,6 +49,9 @@
             <?php $this->applyTemplateHook('nav.panel.registrations','after'); ?>
         <?php endif; ?>
 
+        <li>
+                <a href="<?php echo $app->createUrl('recursos', 'todos') ?>"><span class="icon icon-opportunity"></span> <?php \MapasCulturais\i::_e("Meus Recursos");?></a></li>
+
         <?php if($app->user->is('saasAdmin')): ?>
         <li>
             <a href="<?php echo $app->createUrl('categoria-profissional') ?>"

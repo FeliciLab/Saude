@@ -19,6 +19,10 @@ class Resources extends \MapasCulturais\Controller{
         dump($app);
     }
 
+    function GET_todos(){
+        $this->render('resources-all');
+    }
+
     function POST_store() {
         $app = App::i();
         if(empty($this->postData['resource_text'])){
