@@ -180,8 +180,10 @@ if (
     <tbody>
         <tr>
             <td>
-                <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
+            <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
             </td>
+           
+            
             <td class="registration-col-evalutions">
                 <?php 
                         foreach($allResults as $key=>$crit){
@@ -212,6 +214,7 @@ if (
                         }
                             ?>
             </td>
+          
             <td>
                 <?php  
                             $media = 0;
