@@ -94,6 +94,18 @@
             </li>
             <?php $this->applyTemplateHook('nav.main.opportunities','after'); ?>
         <?php endif; ?>
+
+          <?php //if($app->isEnabled('opportunities')): ?>
+            <?php //$this->applyTemplateHook('nav.main.opportunities','before'); ?>
+            <li id="entities-menu-edital"
+            >
+                <a href="<?php echo $app->createUrl('editais'); ?>"> 
+                    <div><i class="fa fa-file-text" aria-hidden="true"></i></div>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Editais");?></div>
+                </a>
+            </li>
+            <?php //$this->applyTemplateHook('nav.main.opportunities','after'); ?>
+        <?php //endif; ?>
     </ul>
     <!--.menu.entities-menu-->
     <ul class="menu session-menu clearfix">
