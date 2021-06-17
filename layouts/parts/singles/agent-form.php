@@ -140,7 +140,7 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             <select name="professionalCategory" id="professionalCategory">
                 <option value="0">--Selecione--</option>
                 <?php 
-                if($allPro['id'] > 0):
+                if(is_array($allPro) && !empty($allPro)):
                     foreach ($allPro as $key => $value) : ?>
                         <option value="<?php echo $value['id']; ?>"><?php echo $value['name']; ?></option>
                 <?php endforeach; 
