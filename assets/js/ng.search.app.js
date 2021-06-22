@@ -192,6 +192,7 @@
         return skeleton;
     };
 
+
     var app = angular.module('search.app', [
         'ng-mapasculturais',
         'rison',
@@ -217,6 +218,8 @@
                     opportunity: 1,
                 };
             }
+
+
 
             $scope.filters = MapasCulturais.filters;
 
@@ -311,6 +314,7 @@
                     if (g.type == 'edital') {
                         $scope.data.global.type = 'forro';
                     }
+
                 }
 
 
@@ -330,6 +334,7 @@
                         g.enabled[entity] = true;
                     }
                 }
+
             };
 
             $scope.defaultTab = function() {
@@ -393,6 +398,7 @@
             };
 
             $scope.data = angular.copy(skeletonData);
+            console.log('console');
 
             // $scope.areas = MapasCulturais.taxonomyTerms.area.map(function(el, i){ return {id: i, name: el}; });
             // $scope.linguagens = MapasCulturais.taxonomyTerms.linguagem.map(function(el, i){ return {id: i, name: el}; });
@@ -418,12 +424,12 @@
             $scope.projects = [];
             $scope.opportunities = [];
 
-
             $rootScope.$on('searchResultsReady', function(ev, results) {
                 if ($scope.data.global.viewMode !== 'list')
                     return;
 
                 $rootScope.isPaginating = false;
+
 
                 if (results.paginating) {
                     $scope.agents = $scope.agents.concat(results.agent ? results.agent : []);
@@ -437,6 +443,8 @@
                     $scope.spaces = results.space ? results.space : [];
                     $scope.projects = results.project ? results.project : [];
                     $scope.opportunities = results.opportunity ? results.opportunity : [];
+
+
                 }
             });
 
@@ -485,6 +493,9 @@
             $scope.numEventsInList = 0;
             $scope.numProjects = 0;
             $scope.numOpportunities = 0;
+            $scope.numEditais = 0;
+
+
 
             $rootScope.$on('searchCountResultsReady', function(ev, results) {
                 $scope.numAgents = parseInt(results.agent);
@@ -492,6 +503,26 @@
 
                 if ($scope.data.global.viewMode === 'list') {
                     $scope.numEventsInList = results.event;
+
+
+                    // $scope.totalSumEd = 0
+                    // $scope.totalSum = 0
+
+                    // for (var i = 0; i < $scope.opportunities.length; i++) {
+                    //     if ($scope.opportunities[i].type.id === 1 || $scope.opportunities[i].type.id === 6) {
+
+                    //         $scope.totalSumEd += 1;
+                    //     }
+                    //     if ($scope.opportunities[i].type.id != 1 || $scope.opportunities[i].type.id !== 6) {
+
+                    //         $scope.totalSum += 1
+
+                    //     }
+                    // }
+
+                    // console.log($scope.totalSum);
+                    // console.log($scope.totalSumEd);
+
                 } else {
                     if (results.event) {
                         $scope.numEvents = {
@@ -505,8 +536,12 @@
                         };
                     };
                 }
+
                 $scope.numProjects = parseInt(results.project);
+
                 $scope.numOpportunities = parseInt(results.opportunity);
+
+
             });
 
             $rootScope.$on('findOneResultReady', function(ev, result) {
@@ -611,6 +646,15 @@
                     $scope.data[$scope.data.global.filterEntity].sort.type = $scope.data[$scope.data.global.filterEntity].sort.type == 'ASC' ? 'DESC' : 'ASC';
                 }
             }
+
+
+
         }
+
+
+
+
     ]);
+
+
 })(angular);

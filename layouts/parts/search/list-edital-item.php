@@ -1,5 +1,4 @@
-<article class="objeto clearfix"  ng-repeat="opportunity in opportunities" id="agent-result-{{opportunity.id}}" ng-if="'Edital' == opportunity.type.name || 'Concurso' == opportunity.type.name ">
-      
+<article class="objeto clearfix"  ng-repeat="opportunity in opportunities" id="agent-result-{{opportunity.id}}" ng-if="'Edital' == opportunity.type.name || 'Concurso' == opportunity.type.name ">         
     <h1><a href="{{opportunity.singleUrl}}" rel='noopener noreferrer'>{{opportunity.name}}</a></h1>
     <div class="objeto-content clearfix">
         <a href="{{opportunity.singleUrl}}" class="js-single-url" rel='noopener noreferrer'>
@@ -22,4 +21,5 @@
         </div>
     </div>
 </article>
+<span> {{ contador = $index}}</span>
 <!--.objeto-->

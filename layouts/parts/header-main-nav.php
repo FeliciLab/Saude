@@ -28,8 +28,6 @@
         <?php if($app->isEnabled('events')): ?>
             <?php $this->applyTemplateHook('nav.main.events','before'); ?>
             <li id="entities-menu-event"
-                ng-class="{'active':data.global.filterEntity === 'event',
-                           'current-entity-parent':'<?php echo $this->controller->id;?>' == 'event'}"
                 ng-click="tabClick('event')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
                     <div class="icon icon-event"></div>
@@ -42,8 +40,6 @@
         <?php if($app->isEnabled('spaces')): ?>
             <?php $this->applyTemplateHook('nav.main.spaces','before'); ?>
             <li id="entities-menu-space"
-                ng-class="{'active':data.global.filterEntity === 'space',
-                           'current-entity-parent':'<?php echo $this->controller->id;?>' == 'space'}"
                 ng-click="tabClick('space')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
                     <div class="icon icon-space"></div>
@@ -56,8 +52,6 @@
         <?php if($app->isEnabled('agents')): ?>
             <?php $this->applyTemplateHook('nav.main.agents','before'); ?>
             <li id="entities-menu-agent"
-                ng-class="{'active':data.global.filterEntity === 'agent',
-                           'current-entity-parent':'<?php echo $this->controller->id;?>' == 'agent'}"
                 ng-click="tabClick('agent')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
                     <div class="icon icon-agent"></div>
@@ -70,8 +64,6 @@
         <?php if($app->isEnabled('projects')): ?>
             <?php $this->applyTemplateHook('nav.main.projects','before'); ?>
             <li id="entities-menu-project"
-                ng-class="{'active':data.global.filterEntity === 'project',
-                           'current-entity-parent':'<?php echo $this->controller->id;?>' == 'project'}"
                 ng-click="tabClick('project')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list))'; ?>">
                     <div class="icon icon-project"></div>
@@ -84,8 +76,6 @@
         <?php if($app->isEnabled('opportunities')): ?>
             <?php $this->applyTemplateHook('nav.main.opportunities','before'); ?>
             <li id="entities-menu-opportunity"
-                ng-class="{'active':data.global.filterEntity === 'opportunity',
-                           'current-entity-parent':'<?php echo $this->controller->id;?>' == 'opportunity'}"
                 ng-click="tabClick('opportunity')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list))'; ?>">
                     <div class="icon icon-opportunity"></div>
@@ -96,12 +86,8 @@
         <?php endif; ?>
 
         <?php if($app->isEnabled('opportunities')): ?>
-            <?php $this->applyTemplateHook('nav.main.opportunities','before'); ?>
             <li id="entities-menu-edital"
-                ng-class="{'active':data.global.filterEntity === 'opportunity',
-                           'current-entity-parent':'<?php echo $this->controller->id;?>' == 'opportunity'}"
                 ng-click="tabClick('opportunity')">
-
                 <a title="Editais e Concursos" href="<?php echo $app->createUrl('busca').'##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list,type:edital))'; ?>">
                     <div><i class="fa fa-file-text" aria-hidden="true"></i></div>
                     <div class="menu-item-label" style="margin-top: 7px;"><?php \MapasCulturais\i::_e("Editais");?></div>
