@@ -10300,3 +10300,13 @@ nav {
     color: black;
     font-weight: bolder;
 }
+
+.brighttheme-error .ui-pnotify-action-button.btn-primary {
+    color: #d80d0d !important;
+    border-radius: 5px !important;
+    padding-bottom: 5px !important;
+    float: left !important;
+    margin-bottom: 30px !important;
+    font-size: 15px !important;
+    background-color: transparent !important;
+}
