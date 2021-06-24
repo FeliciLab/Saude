@@ -82,7 +82,7 @@ class Theme extends BaseV1\Theme{
 
         $app->view->enqueueScript('app', 'entity.module.opportunity', 'js/ng.entity.module.opportunity.js', array('ng-mapasculturais'));
         $app->view->enqueueScript('app', 'taxonomies', 'js/ng.taxonomies.js');
-        $app->view->enqueueScript('app', 'evaluations', 'js/evaluations.js');
+        $app->view->enqueueScript('app', 'evaluations-send', 'js/evaluations-send.js');
         $app->view->enqueueScript('app', 'professional.category', 'js/ng.professional.category.js');
         $app->view->enqueueScript('app', 'category.meta', 'js/ng.category.meta.js');
         //RECURSOS

@@ -5,7 +5,3 @@
         <a class="btn btn-primary disabled hltip alignright" title="<?php \MapasCulturais\i::esc_attr_e('É necessário avaliar todas as inscrições antes de enviar') ?>"><?php \MapasCulturais\i::_e('Enviar Avaliações'); ?></a>
     <?php endif; ?>
 </div>
-
-<style>
-
-</style>
