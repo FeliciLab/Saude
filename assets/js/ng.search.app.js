@@ -13,6 +13,7 @@
 
     var skeletonData = {
         global: {
+            isType: false,
             isVerified: false,
             isCombined: false,
             viewMode: defaultViewMode,
@@ -313,6 +314,7 @@
 
                     if (g.type == 'edital') {
                         $scope.data.global.type = 'forro';
+                        $scope.data.global.isType = true;
                     }
 
                 }
@@ -398,7 +400,6 @@
             };
 
             $scope.data = angular.copy(skeletonData);
-            console.log('console');
 
             // $scope.areas = MapasCulturais.taxonomyTerms.area.map(function(el, i){ return {id: i, name: el}; });
             // $scope.linguagens = MapasCulturais.taxonomyTerms.linguagem.map(function(el, i){ return {id: i, name: el}; });
@@ -503,25 +504,6 @@
 
                 if ($scope.data.global.viewMode === 'list') {
                     $scope.numEventsInList = results.event;
-
-
-                    // $scope.totalSumEd = 0
-                    // $scope.totalSum = 0
-
-                    // for (var i = 0; i < $scope.opportunities.length; i++) {
-                    //     if ($scope.opportunities[i].type.id === 1 || $scope.opportunities[i].type.id === 6) {
-
-                    //         $scope.totalSumEd += 1;
-                    //     }
-                    //     if ($scope.opportunities[i].type.id != 1 || $scope.opportunities[i].type.id !== 6) {
-
-                    //         $scope.totalSum += 1
-
-                    //     }
-                    // }
-
-                    // console.log($scope.totalSum);
-                    // console.log($scope.totalSumEd);
 
                 } else {
                     if (results.event) {
