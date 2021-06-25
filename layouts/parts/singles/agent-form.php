@@ -129,6 +129,12 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
             <editable-multiselect entity-property="profissionais_categorias_profissionais" empty-label="<?php \MapasCulturais\i::esc_attr_e('Selecione');?>" allow-other="true" box-title="<?php \MapasCulturais\i::esc_attr_e('Categoria profissional:');?>"></editable-multiselect>
         </p> -->
+        <p>
+            <span class="label"><?php \MapasCulturais\i::_e("Grau acadêmico");?>:</span>
+            <span class="js-editable  <?php echo ($entity->isPropertyRequired($entity,"profissionais_graus_academicos") && $editEntity? 'required': '');?>" data-edit="profissionais_graus_academicos" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Grau académico");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione o grau académico");?>">
+                <?php echo $entity->profissionais_graus_academicos; ?>
+            </span>
+        </p>   
         <?php 
         if($this->controller->action === 'edit'): ?>
         <p>
