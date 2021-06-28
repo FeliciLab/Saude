@@ -13,7 +13,7 @@
 
     var skeletonData = {
         global: {
-            isType: false,
+            // isType: false,
             isVerified: false,
             isCombined: false,
             viewMode: defaultViewMode,
@@ -309,12 +309,19 @@
             $scope.tabClick = function(entity) {
                 var g = $scope.data.global;
                 g.filterEntity = entity;
+                console.log({g});
+                //console.log(g.isType)
+                console.log(g.type)
                 if (entity === 'project' || entity === 'opportunity') {
                     g.viewMode = 'list';
 
                     if (g.type == 'edital') {
-                        $scope.data.global.type = 'forro';
+                        //$scope.data.global.type = 'forro';
                         $scope.data.global.isType = true;
+                    }
+                    if (g.type == 'opportunity') {
+                        //$scope.data.global.type = 'forro';
+                        $scope.data.global.isType = false;
                     }
 
                 }

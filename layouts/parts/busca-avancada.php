@@ -107,7 +107,7 @@
                 <span ng-if="showFilters('project') && numProjects">{{numProjects}} projeto<span ng-show="numProjects!==1">s</span> </span>
 
                 <!--,--><span ng-if="data.global.viewMode === 'map' && (numResults(numAgents, 'opportunity') || numResults(numSpaces, 'space') || numResults(numEvents.events, 'event')) && numResults(numProjects, 'project') && numResults(numOpportunities, 'opportunity')">,</span>
-                <div ng-if="data.global.isType === true">
+                <?php if($_GET['type'] == 'opp'): ?>
                 <span ng-if="showFilters('opportunity') && numOpportunities">{{numOpportunities}}   
                     <span ng-show="numOpportunities===1">
                         <?php $this->dict('entities: opportunity') ?>
@@ -116,8 +116,8 @@
                         <?php $this->dict('entities: opportunities') ?>
                     </span>
                 </span>
-                </div>
-                <div ng-if="data.global.isType === false">
+                <?php endif; 
+                if($_GET['type'] == 'edital'): ?>
                 <span ng-if="showFilters('opportunity') && numOpportunities"><?php echo($totalSum) ?>   
                     <span ng-show="numOpportunities===1">
                         <?php $this->dict('entities: opportunity') ?>
@@ -126,7 +126,7 @@
                         <?php $this->dict('entities: opportunities') ?>
                     </span>
                 </span>
-                </div>
+                <?php endif; ?>
             </span>
             <span ng-if="spinnerCount===0
                             && (
