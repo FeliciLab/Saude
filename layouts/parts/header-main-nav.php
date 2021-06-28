@@ -77,7 +77,7 @@
             <?php $this->applyTemplateHook('nav.main.opportunities','before'); ?>
             <li id="entities-menu-opportunity"
                 ng-click="tabClick('opportunity')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list))'; ?>">
+                <a href="<?php echo $app->createUrl('busca').'?type=opp##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list))'; ?>">
                     <div class="icon icon-opportunity"></div>
                     <div class="menu-item-label"><?php $this->dict('entities: Opportunities') ?></div>
                 </a>
@@ -88,7 +88,7 @@
         <?php if($app->isEnabled('opportunities')): ?>
             <li id="entities-menu-edital"
                 ng-click="tabClick('opportunity')">
-                <a title="Editais e Concursos" href="<?php echo $app->createUrl('busca').'##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list,type:edital))'; ?>">
+                <a title="Editais e Concursos" href="<?php echo $app->createUrl('busca').'?type=edital##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list,type:edital))'; ?>">
                     <div><i class="fa fa-file-text" aria-hidden="true"></i></div>
                     <div class="menu-item-label" style="margin-top: 7px;"><?php \MapasCulturais\i::_e("Editais");?></div>
                 </a>
