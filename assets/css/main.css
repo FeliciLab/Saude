@@ -2395,21 +2395,21 @@ screen and (min-width: 992px) {
 #entities-menu-edital.active,
 #entities-menu-edital:hover,
 #entities-menu-edital.current-entity-parent {
-    border-top-color: #42515e;
-    color: #42515e;
+    border-top-color: #1d67df;
+    color: #1d67df;
 }
 
 #entities-menu-edital.active a,
 #entities-menu-edital:hover a,
 #entities-menu-edital.current-entity-parent a {
-    color: #42515e;
+    color: #1d67df;
 }
 
 #entities-menu-edital.active:after {
     content: "";
     position: absolute;
     top: -8px;
-    border-bottom: 8px solid #42515e;
+    border-bottom: 8px solid #1d67df;
     border-left: 8px solid transparent;
     border-right: 8px solid transparent;
 }
@@ -3198,7 +3198,7 @@ screen and (min-width: 992px) {
 }
 
 #home-projects {
-    background: #42515e;
+    background: #42585e;
 }
 
 #home-projects .abas li.active {
