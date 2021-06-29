@@ -45,6 +45,16 @@ return array(
                 "v::intVal()" => \MapasCulturais\i::__("O número máximo de inscrições no projeto deve ser um número inteiro")
             )
         ),
+
+        'value_dae' => array(
+            'label' => \MapasCulturais\i::__('Digite o valor do dae. Ex: 100 ou 10.50'),
+            'type' => 'string',
+            'validations' => [
+                'v::floatVal()' => \MapasCulturais\i::__('O valor do DAE somente poderá ser números')
+            ]
+        ),
+
+
         'useSpaceRelationIntituicao' => array(
             'label' => \MapasCulturais\i::__('Espaço Cultural'),
         ),

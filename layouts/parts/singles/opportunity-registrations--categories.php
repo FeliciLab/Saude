@@ -12,6 +12,10 @@
    } else {
        $registration_categories = is_array($entity->registrationCategories) ? implode('; ', $entity->registrationCategories) : '';
    }
+   // $valueDae = 0;
+   // if(!empty($entity->value_dae)) {
+   //    $valueDae = $entity->value_dae;
+   // }
 
    //VERIFICANDO SE TEM RECURSO HABILITADO
    $enabledDiv = 'hidden';
@@ -53,6 +57,18 @@
       <span class="js-editable" data-edit="opportunity_taxonomia" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Tipos de unidade');?>"><?php echo $entity->opportunity_taxonomia; ?>
       </span>
    </p>
+   <?php if($this->isEditable() || $entity->value_dae): ?>
+   <p>
+      <div style="margin-top: 15px; border-top: 2px solid #c3c3c3;">
+         <br>
+         <span class="label">Valor do dae.</span>
+         <span class="registration-help">Nesse campo você deve digitar o valor do dae para pagamento de inscrição da oportunidade</span> <br>
+         <span class="js-editable" data-edit="value_dae" data-original-title="Digitar o valor do dae. Ex: 100 ou 10.50" data-emptytext="Digite o valor do dae. Ex: 100 ou 10.50">
+            <?php echo $entity->value_dae; ?>
+         </span>
+      </div>
+   </p>
+   <?php endif; ?>
    <p><hr>
       <h4><?php \MapasCulturais\i::_e("Recurso");?></h4>
    </p>
