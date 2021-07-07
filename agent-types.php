@@ -138,22 +138,22 @@ return array(
         'telefonePublico' => array(
             'label' => \MapasCulturais\i::__('Telefone Público'),
             'type' => 'string',
-            'validations' => array(
+            /*'validations' => array(
                 'v::brPhone()' => \MapasCulturais\i::__('O número de telefone informado é inválido.')
-            ),
+            ),*/
             'available_for_opportunities' => true,
-            'field_type' => 'brPhone'
+           // 'field_type' => 'brPhone'
         ),
 
         'telefone1' => array(
             'private' => true,
             'label' => \MapasCulturais\i::__('Telefone 1'),
             'type' => 'string',
-            'validations' => array(
+            /*'validations' => array(
                 'v::brPhone()' => \MapasCulturais\i::__('O número de telefone informado é inválido.')
-            ),
+            ),*/
             'available_for_opportunities' => true,
-            'field_type' => 'brPhone'
+            //'field_type' => 'brPhone'
         ),
 
 
@@ -161,11 +161,11 @@ return array(
             'private' => true,
             'label' => \MapasCulturais\i::__('Telefone 2'),
             'type' => 'string',
-            'validations' => array(
+           /* 'validations' => array(
                 'v::brPhone()' => \MapasCulturais\i::__('O número de telefone informado é inválido.')
-            ),
+            ),*/
             'available_for_opportunities' => true,
-            'field_type' => 'brPhone'
+            //'field_type' => 'brPhone'
         ),
 
         'endereco' => array(
