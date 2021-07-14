@@ -5,11 +5,14 @@ $resources = Resources::resourceIdOpportunity($entity->id);
 ?>
 
 <div id="resource" class="aba-content">
-    <table class="table table-bordered table-hover">
+<table id="registrations-table" class="js-registration-list registrations-table" ng-class="{'no-options': data.entity.registrationCategories.length === 0, 'no-attachments': data.entity.registrationFileConfigurations.length === 0, 'registrations-results': data.entity.published, 'fullscreen': data.fullscreenTable}">
         <thead>
             <tr class="active">
                 <!-- <th>Publicar</th> -->
                 <th>Inscrição</th>
+                <th ng-show="data.registrationTableColumns.category" ng-if="data.entity.registrationCategories" title="{{data.registrationCategory}}">
+                <mc-select class="left transparent-placeholder" placeholder="status" model="registrationsFilters['category']" data="data.registrationCategoriesToFilter" title="{{data.registrationCategory}}"></mc-select>
+            </th>
                 <th>Agente</th>
                 <th>Status</th>
                 <th>Responder</th>
@@ -30,10 +33,11 @@ $resources = Resources::resourceIdOpportunity($entity->id);
             }
         ?>
             <tr>
-                <th><?php echo $rec->registrationId->number; ?></th>
-                <th><?php echo $rec->agentId->name; ?></th>
-                <th><?php echo $rec->resourceStatus; ?></th>
-                <th>
+                <td><?php echo $rec->registrationId->number; ?></td>
+                <td ng-show="data.registrationTableColumns.category" ng-if="data.entity.registrationCategories" class="registration-option-col"><?php echo $rec->registrationId->category?></td>
+                <td><?php echo $rec->agentId->name; ?></td>
+                <td><?php echo $rec->resourceStatus; ?></td>
+                <td>
                     <?php  
                        if(isset($resources[0]['resources_reply_publish']) && $resources[0]['resources_reply_publish'] == false) {
                         echo substr($rec->resourceReply, 0 , 30) ;
@@ -46,12 +50,12 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                     <?php }else{
                         echo 'Recurso já foi publicado';
                     } ?>
-                </th>
-                <th>
+                </td>
+                <td>
                     <?php 
                         ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
                     ?>
-                </th>
+                </td>
             </tr>
         <?php } ?>
         </tbody>
