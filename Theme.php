@@ -7,6 +7,8 @@ use MapasCulturais\Entities;
 use MapasCulturais\Definitions;
 use MapasCulturais\i;
 
+//VERSAO 1.0.1
+
 class Theme extends BaseV1\Theme{
 
     protected static function _getTexts(){
