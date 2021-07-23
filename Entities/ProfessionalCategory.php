@@ -48,7 +48,7 @@ class ProfessionalCategory extends \MapasCulturais\Entity{
         $query = $app->em->createQuery($dql);
         $all = $query->getResult();
         if(empty($all)){
-            return ['id' =>0, 'name' => 'Saude' ];
+            return [['id' =>0, 'name' => 'Saude' ]];
         }else{
             return $all;
         } 
