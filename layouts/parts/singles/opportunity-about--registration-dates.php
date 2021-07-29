@@ -7,12 +7,6 @@ $editable = $this->isEditable() && !isset($disable_editable);
         <?php /* Translators: "de" como início de um intervalo de data *DE* 25/1 a 25/2 às 13:00 */ ?>
         <ul class="list-group">
             <li style="width: 100%;">
-                <?php if ($app->auth->isUserAuthenticated()): ?>
-                <button class="btn-access" style="float: left; margin-right: 12px;" title="Acessar inscrições">
-                    <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
-                    <a style="color: white;" href="<?= $entity->singleUrl; ?> "> Acessar </a>
-                </button>
-            <?php endif; ?>
                 <?php \MapasCulturais\i::_e("Inscrições abertas de");?>
         <strong <?php if($editable): ?> class="js-editable" <?php endif; ?> data-type="date" data-yearrange="2000:+25" data-viewformat="dd/mm/yyyy" data-edit="registrationFrom" <?php echo $entity->registrationFrom ? "data-value='" . $entity->registrationFrom->format('Y-m-d') . "'" : ' '?> data-showbuttons="false" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Data inicial");?>"><?php echo $entity->registrationFrom ? $entity->registrationFrom->format('d/m/Y') : \MapasCulturais\i::__("Data inicial"); ?></strong>
         <?php /* Translators: "a" indicando intervalo de data de 25/1 *A* 25/2 às 13:00 */ ?>
