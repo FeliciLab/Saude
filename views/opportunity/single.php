@@ -71,10 +71,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
         <?php $this->part('singles/opportunity-about', ['entity' => $entity]) ?>
 
-        <!-- TODO: Testando aqui -->
-        <!-- Está indo aqui -->
-        <!-- Como passa a entity ??? -->
-
         <?php $this->part('singles/opportunity-necessary-documents', ['entity' => $entity]) ?>
 
         <?php if ($this->isEditable()) : ?>

@@ -4,9 +4,11 @@ $registrationFieldConfigurationRepo = $app->repo('RegistrationFieldConfiguration
 
 $registrationFileConfigurationRepo = $app->repo('RegistrationFileConfiguration');
 
-$registrationFieldConfigurations = $registrationFieldConfigurationRepo->findBy(['owner' => $entity->id]);
+$fields = $registrationFieldConfigurationRepo->findBy(['owner' => $entity->id]);
 
-$registrationFileConfigurations = $registrationFileConfigurationRepo->findBy(['owner' => $entity->id]);
+$files = $registrationFileConfigurationRepo->findBy(['owner' => $entity->id]);
+
+$fielsAndFiles = array_merge($fields, $files);
 
 ?>
 
@@ -35,33 +37,39 @@ $registrationFileConfigurations = $registrationFileConfigurationRepo->findBy(['o
 <div id="necessary-documents" class="aba-content">
     <?php $this->applyTemplateHook('tab-space', 'begin'); ?>
     <h4>Lista de documentos necessários para está inscrição:</h4>
-    <?php foreach ($registrationFieldConfigurations as $registration) : ?>
-        <div id="registration">
-            <span>
-                <strong><?php echo $registration->title ?></strong>
-                <?php if ($registration->required) : ?>
-                    <h6 id="is-required" class="registration-help">Obrigatório</h6>
-                <?php else : ?>
-                    <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
-                <?php endif; ?>
-            </span>
-            <h6 id="registration-description"><?php echo $registration->description ?></h6>
-        </div>
-        <hr />
-    <?php endforeach; ?>
-    <?php foreach ($registrationFileConfigurations as $registration) : ?>
-        <div id="registration">
-            <span>
-                <strong><?php echo $registration->title ?></strong>
-                <?php if ($registration->required) : ?>
-                    <h6 id="is-required" class="registration-help">Obrigatório</h6>
-                <?php else : ?>
-                    <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
-                <?php endif; ?>
-            </span>
-            <h6 id="registration-description"><?php echo $registration->description ?></h6>
-        </div>
-        <hr />
-    <?php endforeach; ?>
+
+    <?php if (empty($fielsAndFiles)) : ?>
+        <div class="alert info">Esse projeto não tem Oportunidades cadastradas</div>
+    <?php else : ?>
+        <?php foreach ($fields as $registration) : ?>
+            <div id="registration">
+                <span>
+                    <strong><?php echo $registration->title ?></strong>
+                    <?php if ($registration->required) : ?>
+                        <h6 id="is-required" class="registration-help">Obrigatório</h6>
+                    <?php else : ?>
+                        <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
+                    <?php endif; ?>
+                </span>
+                <h6 id="registration-description"><?php echo $registration->description ?></h6>
+            </div>
+            <hr />
+        <?php endforeach; ?>
+        <?php foreach ($files as $registration) : ?>
+            <div id="registration">
+                <span>
+                    <strong><?php echo $registration->title ?></strong>
+                    <?php if ($registration->required) : ?>
+                        <h6 id="is-required" class="registration-help">Obrigatório</h6>
+                    <?php else : ?>
+                        <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
+                    <?php endif; ?>
+                </span>
+                <h6 id="registration-description"><?php echo $registration->description ?></h6>
+            </div>
+            <hr />
+        <?php endforeach; ?>
+    <?php endif; ?>
+
     <?php $this->applyTemplateHook('tab-space', 'end'); ?>
 </div>
