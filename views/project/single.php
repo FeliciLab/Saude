@@ -71,9 +71,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
         <?php $this->part('singles/project-about', ['entity' => $entity]) ?>
 
-        <!-- TODO: testando aqui -->
-        <?php $this->part('singles/project-necessary-documents', ['entity' => $entity]) ?>
-
         <!-- #permissao -->
         <?php $this->part('singles/permissions') ?>
         <!-- #permissao -->
