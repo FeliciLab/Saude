@@ -2,7 +2,11 @@
 
 $registrationFieldConfigurationRepo = $app->repo('RegistrationFieldConfiguration');
 
+$registrationFileConfigurationRepo = $app->repo('RegistrationFileConfiguration');
+
 $registrationFieldConfigurations = $registrationFieldConfigurationRepo->findBy(['owner' => $entity->id]);
+
+$registrationFileConfigurations = $registrationFileConfigurationRepo->findBy(['owner' => $entity->id]);
 
 ?>
 
@@ -32,6 +36,20 @@ $registrationFieldConfigurations = $registrationFieldConfigurationRepo->findBy([
     <?php $this->applyTemplateHook('tab-space', 'begin'); ?>
     <h4>Lista de documentos necessários para está inscrição:</h4>
     <?php foreach ($registrationFieldConfigurations as $registration) : ?>
+        <div id="registration">
+            <span>
+                <strong><?php echo $registration->title ?></strong>
+                <?php if ($registration->required) : ?>
+                    <h6 id="is-required" class="registration-help">Obrigatório</h6>
+                <?php else : ?>
+                    <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
+                <?php endif; ?>
+            </span>
+            <h6 id="registration-description"><?php echo $registration->description ?></h6>
+        </div>
+        <hr />
+    <?php endforeach; ?>
+    <?php foreach ($registrationFileConfigurations as $registration) : ?>
         <div id="registration">
             <span>
                 <strong><?php echo $registration->title ?></strong>

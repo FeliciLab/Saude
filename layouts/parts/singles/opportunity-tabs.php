@@ -11,7 +11,6 @@ $this->applyTemplateHook('tabs','before'); ?>
     <?php $this->applyTemplateHook('tabs','begin'); ?>
     <li class="active"><a href="#main-content" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Principal");?></a></li>
 
-    <!-- Testando aqui -->
     <li><a href="#necessary-documents" rel='noopener noreferrer'>Documentos necessários</a></li>
 
     <?php if($this->isEditable()): ?>
