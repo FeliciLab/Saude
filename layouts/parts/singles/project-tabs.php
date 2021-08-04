@@ -4,7 +4,9 @@
     <li class="active"><a href="#sobre" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Sobre"); ?></a></li>
 
     <?php if (!$entity->isNew()) : ?>
-        <li><a href="#necessary-documents" rel='noopener noreferrer'>Documentação necessária</a></li>
+        <?php if (!$this->isEditable()) : ?>
+            <li><a href="#necessary-documents" rel='noopener noreferrer'>Documentação necessária</a></li>
+        <?php endif; ?>
         <li ng-if="data.entity.userHasControl && data.entity.events.length"><a href="#eventos" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Status dos eventos"); ?></a></li>
     <?php endif; ?>
 
