@@ -36,7 +36,7 @@ $opportunities = $entity->opportunities;
     <h4>Lista de documentos necessários para está inscrição:</h4>
 
     <?php if (empty($opportunities)) : ?>
-        <div class="alert info">Esse projeto não tem Oportunidades cadastradas</div>
+        <div class="alert info">Não possui documentação necessária para a inscrição.</div>
     <?php else : ?>
         <?php foreach ($opportunities as $opportunity) : ?>
             <?php

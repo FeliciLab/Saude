@@ -39,7 +39,7 @@ $fielsAndFiles = array_merge($fields, $files);
     <h4>Lista de documentos necessários para está inscrição:</h4>
 
     <?php if (empty($fielsAndFiles)) : ?>
-        <div class="alert info">Esse projeto não tem Oportunidades cadastradas</div>
+        <div class="alert info">Não possui documentação necessária para a inscrição.</div>
     <?php else : ?>
         <?php foreach ($fields as $registration) : ?>
             <div id="registration">
