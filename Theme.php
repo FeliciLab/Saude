@@ -100,7 +100,6 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
         
-       
     }
 
     function getAddressByPostalCode($postalCode) {
@@ -153,6 +152,7 @@ class Theme extends BaseV1\Theme{
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
         $app->registerController('recursos', 'Saude\Controllers\Resources');
+        // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
     }
     
@@ -258,10 +258,12 @@ class Theme extends BaseV1\Theme{
             ]
         ];
 
+        
         App::i()->applyHookBoundTo($this, 'search.filters', [&$filters]);
 
         return $filters;
     }
+
 }
 
 
