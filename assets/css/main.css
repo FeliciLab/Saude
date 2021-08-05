@@ -7055,10 +7055,11 @@ h1 .icon {
 }
 
 .highlighted-message {
-    border-left: 3px solid #249243;
+    /* border-left: 3px solid #249243; */
     padding: 0.75rem;
     margin-bottom: 1.5rem;
-    background: #f8f8f8;
+    background: #E8E8E8;
+    border-radius: 8px;
 }
 
 @media screen and (min-width: 536px) {
@@ -7557,8 +7558,10 @@ h1 .icon {
     white-space: nowrap;
     vertical-align: top;
     background: #fff;
-    border: 1px solid #ccc;
-    border-radius: 20px;
+    /* border: 1px solid #ccc; */
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    border-radius: 24px;
+    box-sizing: border-box;
     color: #666;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
     font-size: 0.75rem;
@@ -10341,5 +10344,20 @@ nav {
     font-size: 14px;
 }
 .margin-left-70 {
-    margin-left: -70px;
+    /* margin-left: -70px; */
+}
+.btn-register-opportunity {
+    color: #ffffff;
+    float: left !important;
+    margin-left: 1px !important;
+}
+.label-info-opportunity {
+    color: rgba(0, 0, 0, 0.6);
+}
+.white-top {
+    clear: both;
+    box-sizing: border-box;
+    -moz-box-sizing: border-box;
+    padding-top: 0.75rem;
+    border-top: 1px solid #fff;
 }
