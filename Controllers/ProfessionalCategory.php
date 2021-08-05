@@ -10,8 +10,6 @@ use \MapasCulturais\Entities\AgentMeta;
 class ProfessionalCategory extends \MapasCulturais\Controller{
 
     public function __construct() {
-        ini_set('display_errors', 1);
-        error_reporting(E_ALL);
         $app = App::i();
         $user = $app->user;
         if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
