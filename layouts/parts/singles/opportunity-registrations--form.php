@@ -3,13 +3,14 @@
 use MapasCulturais\App;
 $app = App::i();
 $user = $app->user;
+
 $usuario = $entity->evaluationMethodConfiguration->getUserRelation($user);
 
 if ($entity->isRegistrationOpen()): ?>
     <?php if ($app->auth->isUserAuthenticated()): ?>
-        <?php if(empty($usuario)): //SE CASO ESSE USUÁRIO FOI ALGUM AVALIADOR O FORM NAO APARECERÁ PARA ELE?>
-        <form id="opportunity-registration" class="registration-form clearfix">
-            <p class="registration-help"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>
+        <?php if(empty($usuario)): //SE CASO ESSE USUÁRIO FOI ALGUM AVALIADOR O FORM NAO APARECERÁ PARA ELE ?>
+        <form id="opportunity-registration " class="registration-form clearfix">
+            <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>
             <div>
                 <div id="select-registration-owner-button" class="input-text" ng-click="editbox.open('editbox-select-registration-owner', $event)">{{data.registration.owner ? data.registration.owner.name : data.registration.owner_default_label}}</div>
                 <edit-box id="editbox-select-registration-owner" position="top" title="<?php \MapasCulturais\i::esc_attr_e("Selecione o agente responsável pela inscrição.");?>" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Cancelar");?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
@@ -18,7 +19,7 @@ if ($entity->isRegistrationOpen()): ?>
                 </edit-box>
             </div>
             <div>
-                <a class="btn btn-primary" ng-click="register()" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
+                <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register()" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
             </div>
         </form>
         <?php endif; ?>
@@ -36,3 +37,5 @@ if ($entity->isRegistrationOpen()): ?>
 
     <?php endif; ?>
 <?php endif; ?>
+<?php //dump($entity); ?>
+
