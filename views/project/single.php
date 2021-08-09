@@ -1,20 +1,18 @@
 <?php
-
-use MapasCulturais\Entities\Registration;
-
 $action = preg_replace("#^(\w+/)#", "", $this->template);
 
 $this->bodyProperties['ng-app'] = "entity.app";
 $this->bodyProperties['ng-controller'] = "EntityController";
 
-$this->jsObject['angularAppDependencies'][] = 'entity.module.opportunity';
-$this->jsObject['angularAppDependencies'][] = 'ui.sortable';
+$this->jsObject['angularAppDependencies'][] = 'entity.module.project';
 
 $this->addEntityToJs($entity);
 
-$this->addOpportunityToJs($entity);
+$this->addProjectToJs($entity);
 
-$this->addOpportunitySelectFieldsToJs($entity);
+if (!$entity->isNew() && $entity->canUser('@control')) {
+    $this->addProjectEventsToJs($entity);
+}
 
 if ($this->isEditable()) {
     $this->addEntityTypesToJs($entity);
@@ -25,37 +23,37 @@ $this->includeAngularEntityAssets($entity);
 
 $child_entity_request = isset($child_entity_request) ? $child_entity_request : null;
 
+//$this->part('singles/breadcrumb', ['entity' => $entity]);
+
 ?>
 
 <?php $this->applyTemplateHook('breadcrumb', 'begin'); ?>
 
-<?php $this->part('singles/breadcrumb', ['entity' => $entity, 'entity_panel' => 'opportunities', 'home_title' => 'entities: My Opportunities']); ?>
+<?php $this->part('singles/breadcrumb', ['entity' => $entity, 'entity_panel' => 'projects', 'home_title' => 'entities: My Projects']); ?>
 
 <?php $this->applyTemplateHook('breadcrumb', 'end'); ?>
 
 <?php $this->part('editable-entity', array('entity' => $entity, 'action' => $action));  ?>
 
-<article class="main-content opportunity" ng-controller="OpportunityController">
+<article class="main-content project" ng-controller="ProjectController">
     <?php $this->applyTemplateHook('main-content', 'begin'); ?>
     <header class="main-content-header">
         <?php $this->part('singles/header-image', ['entity' => $entity]); ?>
 
         <?php $this->part('singles/entity-status', ['entity' => $entity]); ?>
 
-        <?php $this->part('singles/opportunity-header--owner-entity', ['entity' => $entity]) ?>
-
         <!--.header-image-->
         <div class="header-content">
             <?php $this->applyTemplateHook('header-content', 'begin'); ?>
 
-            <?php $this->part('singles/avatar', ['entity' => $entity, 'default_image' => 'img/avatar--opportunity.png']); ?>
+            <?php $this->part('singles/avatar', ['entity' => $entity, 'default_image' => 'img/avatar--project.png']); ?>
 
             <?php $this->part('singles/type', ['entity' => $entity]) ?>
-
 
             <?php $this->part('entity-parent', ['entity' => $entity, 'child_entity_request' => $child_entity_request]) ?>
 
             <?php $this->part('singles/name', ['entity' => $entity]) ?>
+
             <?php $this->applyTemplateHook('header-content', 'end'); ?>
         </div>
         <!--.header-content-->
@@ -64,33 +62,18 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
     <!--.main-content-header-->
     <?php $this->applyTemplateHook('header', 'after'); ?>
 
-    <?php $this->part('singles/opportunity-tabs', ['entity' => $entity]) ?>
+    <?php $this->part('singles/project-tabs', ['entity' => $entity]) ?>
 
     <div class="tabs-content">
         <?php $this->applyTemplateHook('tabs-content', 'begin'); ?>
 
-        <?php $this->part('singles/opportunity-about', ['entity' => $entity]) ?>
+        <?php $this->part('singles/project-events', ['entity' => $entity]) ?>
 
-        <?php $this->part('singles/opportunity-necessary-documents', ['entity' => $entity]) ?>
+        <?php $this->part('singles/project-about', ['entity' => $entity]) ?>
 
-        <?php if ($this->isEditable()) : ?>
-            <?php $this->part('singles/opportunity-registrations--config', ['entity' => $entity]) ?>
-            <?php if (!$entity->isNew()) : ?>
-                <?php $this->part('singles/opportunity-evaluations--config', ['entity' => $entity]) ?>
-            <?php endif; ?>
-
-        <?php else : ?>
-            <?php $this->part('singles/opportunity-registrations--tables', ['entity' => $entity]) ?>
-
-            <?php if ($entity->canUser('viewEvaluations') || $entity->canUser('@control')) : ?>
-                <?php $this->part('singles/opportunity-evaluations', ['entity' => $entity]) ?>
-                <?php
-                // Somente mostrará a aba de recurso se o agente logado for avaliador da oportunidade e se a oportunidade está com o recurso habilitado
-                if (isset($entity->metadata['claimDisabled']) && $entity->metadata['claimDisabled'] == 0) :  ?>
-                    <?php $this->part('singles/opportunity-resources', ['entity' => $entity]) ?>
-                <?php endif; ?>
-            <?php endif; ?>
-        <?php endif; ?>
+        <!-- #permissao -->
+        <?php $this->part('singles/permissions') ?>
+        <!-- #permissao -->
 
         <?php $this->applyTemplateHook('tabs-content', 'end'); ?>
     </div>
@@ -101,19 +84,18 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
     <?php $this->applyTemplateHook('main-content', 'end'); ?>
 </article>
-<div class="sidebar-left sidebar opportunity">
+<div class="sidebar-left sidebar project">
     <?php $this->applyTemplateHook('sidebar-left', 'begin'); ?>
 
-    <!-- Related Seals BEGIN -->
     <?php $this->part('related-seals.php', array('entity' => $entity)); ?>
-    <!-- Related Seals END -->
+
     <?php $this->part('widget-tags', array('entity' => $entity)); ?>
+
     <?php $this->part('redes-sociais', array('entity' => $entity)); ?>
 
     <?php $this->applyTemplateHook('sidebar-left', 'end'); ?>
 </div>
-
-<div class="sidebar opportunity sidebar-right">
+<div class="sidebar project sidebar-right">
     <?php $this->applyTemplateHook('sidebar-right', 'begin'); ?>
 
     <?php if ($this->controller->action == 'create') : ?>
@@ -125,6 +107,8 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
     <?php $this->part('related-admin-agents.php', array('entity' => $entity)); ?>
 
     <?php $this->part('related-agents.php', array('entity' => $entity)); ?>
+
+    <?php $this->part('singles/widget-projects', ['entity' => $entity, 'projects' => $entity->children->toArray()]); ?>
 
     <?php $this->part('downloads.php', array('entity' => $entity)); ?>
 
