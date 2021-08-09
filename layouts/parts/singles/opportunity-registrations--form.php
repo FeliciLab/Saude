@@ -21,6 +21,12 @@ if ($entity->isRegistrationOpen()): ?>
             <div>
                 <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register()" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
             </div>
+
+            <div>
+            <button class="btn btn-default" style="margin-left: auto; margin-top: 1em;" title="Acessar inscrições">
+            <a style="color: black;" href="<?= $entity->singleUrl; ?>"> Acessar Inscrição</a>
+            </button> 
+            </div>
         </form>
         <?php endif; ?>
     <?php else: ?>
