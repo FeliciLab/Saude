@@ -10361,3 +10361,11 @@ nav {
     padding-top: 0.75rem;
     border-top: 1px solid #fff;
 }
+
+.btn-access-opportunity {
+    color: #ffffff;
+    background: #8C9EFF;
+    float: right !important;
+    flex-direction: row;
+    align-items: center;
+}

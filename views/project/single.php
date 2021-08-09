@@ -10,11 +10,6 @@ $this->addEntityToJs($entity);
 
 $this->addProjectToJs($entity);
 
-if (!$entity->isNew() && $entity->canUser('@control')) {
-    $this->addProjectEventsToJs($entity);
-}
-
-if ($this->isEditable()) {
 if(!$entity->isNew() && $entity->canUser('@control')){
     $this->addProjectEventsToJs($entity);
 }
@@ -32,16 +27,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
 ?>
 
-<?php $this->applyTemplateHook('breadcrumb', 'begin'); ?>
-
-<?php $this->part('singles/breadcrumb', ['entity' => $entity, 'entity_panel' => 'projects', 'home_title' => 'entities: My Projects']); ?>
-
-<?php $this->applyTemplateHook('breadcrumb', 'end'); ?>
-
-<?php $this->part('editable-entity', array('entity' => $entity, 'action' => $action));  ?>
-
-<article class="main-content project" ng-controller="ProjectController">
-    <?php $this->applyTemplateHook('main-content', 'begin'); ?>
 <?php $this->applyTemplateHook('breadcrumb','begin'); ?>
 
 <?php $this->part('singles/breadcrumb', ['entity' => $entity,'entity_panel' => 'projects','home_title' => 'entities: My Projects']); ?>
@@ -59,7 +44,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
         <!--.header-image-->
         <div class="header-content">
-            <?php $this->applyTemplateHook('header-content', 'begin'); ?>
             <?php $this->applyTemplateHook('header-content','begin'); ?>
 
             <?php $this->part('singles/avatar', ['entity' => $entity, 'default_image' => 'img/avatar--project.png']); ?>
@@ -70,13 +54,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
 
             <?php $this->part('singles/name', ['entity' => $entity]) ?>
 
-            <?php $this->applyTemplateHook('header-content', 'end'); ?>
-        </div>
-        <!--.header-content-->
-        <?php $this->applyTemplateHook('header-content', 'after'); ?>
-    </header>
-    <!--.main-content-header-->
-    <?php $this->applyTemplateHook('header', 'after'); ?>
             <?php $this->applyTemplateHook('header-content','end'); ?>
         </div>
         <!--.header-content-->
@@ -88,7 +65,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
     <?php $this->part('singles/project-tabs', ['entity' => $entity]) ?>
 
     <div class="tabs-content">
-        <?php $this->applyTemplateHook('tabs-content', 'begin'); ?>
         <?php $this->applyTemplateHook('tabs-content','begin'); ?>
 
         <?php $this->part('singles/project-events', ['entity' => $entity]) ?>
@@ -101,47 +77,6 @@ $child_entity_request = isset($child_entity_request) ? $child_entity_request : n
         <?php $this->part('singles/permissions') ?>
         <!-- #permissao -->
 
-        <?php $this->applyTemplateHook('tabs-content', 'end'); ?>
-    </div>
-    <!-- .tabs-content -->
-    <?php $this->applyTemplateHook('tabs-content', 'after'); ?>
-
-    <?php $this->part('owner', array('entity' => $entity, 'owner' => $entity->owner)) ?>
-
-    <?php $this->applyTemplateHook('main-content', 'end'); ?>
-</article>
-<div class="sidebar-left sidebar project">
-    <?php $this->applyTemplateHook('sidebar-left', 'begin'); ?>
-
-    <?php $this->part('related-seals.php', array('entity' => $entity)); ?>
-
-    <?php $this->part('widget-tags', array('entity' => $entity)); ?>
-
-    <?php $this->part('redes-sociais', array('entity' => $entity)); ?>
-
-    <?php $this->applyTemplateHook('sidebar-left', 'end'); ?>
-</div>
-<div class="sidebar project sidebar-right">
-    <?php $this->applyTemplateHook('sidebar-right', 'begin'); ?>
-
-    <?php if ($this->controller->action == 'create') : ?>
-        <div class="widget">
-            <p class="alert info"><?php \MapasCulturais\i::_e("Para adicionar arquivos para download ou links, primeiro é preciso salvar o projeto"); ?>.<span class="close"></span></p>
-        </div>
-    <?php endif; ?>
-
-    <?php $this->part('related-admin-agents.php', array('entity' => $entity)); ?>
-
-    <?php $this->part('related-agents.php', array('entity' => $entity)); ?>
-
-    <?php $this->part('singles/widget-projects', ['entity' => $entity, 'projects' => $entity->children->toArray()]); ?>
-
-    <?php $this->part('downloads.php', array('entity' => $entity)); ?>
-
-    <?php $this->part('link-list.php', array('entity' => $entity)); ?>
-
-    <?php $this->applyTemplateHook('sidebar-right', 'end'); ?>
-</div>
         <?php $this->applyTemplateHook('tabs-content','end'); ?>
     </div>
     <!-- .tabs-content -->

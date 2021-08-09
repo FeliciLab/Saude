@@ -18,7 +18,9 @@ if($entity instanceof MapasCulturais\Entities\Project){
 ?>
 
 <div class="widget">
-    <?php if ($projects): ?>
+    <?php 
+  
+    if ($projects): ?>
         <?php foreach ($projects as $project): ?>
     
             <h2 style="color: black;">

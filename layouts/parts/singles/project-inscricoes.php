@@ -7,7 +7,7 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
 
     <div id="inscricoes">
 
-        <?php $this->part('singles/project-list', ['entity' => $entity, 'projects' => $entity->children->toArray()]); ?>
+        <?php //$this->part('singles/project-list', ['entity' => $entity, 'projects' => $entity->children->toArray()]); ?>
 
     </div>
 
