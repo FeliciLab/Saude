@@ -18,21 +18,19 @@ if($entity instanceof MapasCulturais\Entities\Project){
 ?>
 
 <div class="widget">
-    <?php 
-  
-    if ($projects): ?>
+    <?php if ($projects): ?>
         <?php foreach ($projects as $project): ?>
-    
             <h2 style="color: black;">
                 <span><?php echo $project->name; ?></span>
             </h2>
-
             <span>
                 <?php $this->applyTemplateHook('entity-opportunities','before'); ?>
 
                 <?php $this->applyTemplateHook('entity-opportunities','begin'); ?>
-                <?php foreach($entity->opportunities as $opportunity): ?>
-                <?php $this->part('entity-opportunities--item', ['opportunity' => $opportunity, 'entity' => $entity]) ?>
+                <?php 
+                foreach($project->getOpportunities(Opportunity::STATUS_DRAFT) as $opportunity): ?>
+                
+                    <?php $this->part('entity-opportunities--item', ['opportunity' => $opportunity, 'entity' => $entity]) ?>
                 <?php endforeach; ?>
                 <?php $this->applyTemplateHook('entity-opportunities','end'); ?>
 
