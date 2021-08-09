@@ -3,7 +3,7 @@ $editable = $this->isEditable() && !isset($disable_editable);
 
 ?>
 <?php if($editable || $entity->registrationFrom): ?>
-    <div class="registration-dates clear opportunity-phases">
+    <div class="registration-dates clear opportunity-phases card-info-registration">
         <?php /* Translators: "de" como início de um intervalo de data *DE* 25/1 a 25/2 às 13:00 */ ?>
         <ul class="list-group">
             <li style="width: 100%;">

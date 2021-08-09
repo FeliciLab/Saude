@@ -52,3 +52,11 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
     <?php $this->applyTemplateHook('tab-about','end'); ?>
 </div>
 <!-- #sobre -->
+
+<div id="inscricoes" class="aba-content">
+    <?php $this->applyTemplateHook('tab-about','begin'); ?>
+
+    <?php $this->part('singles/project-list', ['entity' => $entity, 'projects' => $entity->children->toArray()]); ?>
+
+    <?php $this->applyTemplateHook('tab-about','end'); ?>
+</div>
