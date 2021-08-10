@@ -36,7 +36,7 @@ $fielsAndFiles = array_merge($fields, $files);
 
 <div id="necessary-documents" class="aba-content">
     <?php $this->applyTemplateHook('tab-space', 'begin'); ?>
-    <h4>Lista de documentos necessários para está inscrição:</h4>
+    <h4>Lista de documentos necessários para esta inscrição:</h4>
 
     <?php if (empty($fielsAndFiles)) : ?>
         <div class="alert info">Não possui documentação necessária para a inscrição.</div>
