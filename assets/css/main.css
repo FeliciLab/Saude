@@ -7565,6 +7565,36 @@ h1 .icon {
     color: #666;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
     font-size: 0.75rem;
+    max-width: 350px;
+    width: 100%;
+}
+
+.registration-form-content {
+    display: flex;
+    width: 100% !important;
+    justify-content: space-between;
+}
+.registration-form-content-input {
+    display: flex;
+    flex: 1;
+}
+
+.registration-form-content-input input{
+   margin-right: 5px;
+}
+
+.registration-form-content-btns {
+
+}
+
+@media (max-width: 768px) {
+    .registration-form-content {
+        flex-direction: column;
+    }
+    .btn-access-opportunity {
+        margin-top: 5px;
+        display: block;
+    }
 }
 
 @media print {
@@ -10365,7 +10395,6 @@ nav {
 .btn-access-opportunity {
     color: #ffffff;
     background: #8C9EFF;
-    float: right !important;
     flex-direction: row;
     align-items: center;
 }
