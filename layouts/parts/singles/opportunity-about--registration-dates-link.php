@@ -8,11 +8,12 @@ $editable = $this->isEditable() && !isset($disable_editable);
     <ul class="list-group">
         <li style="width: 100%;">
         <?php if ($app->auth->isUserAuthenticated()): ?>
-                <button class="btn-access" style="float: left; margin-right: 12px;" title="Acessar inscrições">
+                <!-- <button class="btn-access" style="float: left; margin-right: 12px;" title="Acessar inscrições">
                     <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
                     <a style="color: white;" href="<?= $entity->singleUrl; ?> "> Acessar </a>
-                </button>
+                </button> -->
             <?php endif; ?>
+            <label class="label-info-opportunity">
             <?php \MapasCulturais\i::_e("Inscrições abertas de");?>
             <strong <?php if($editable): ?> class="js-editable" <?php endif; ?> data-type="date"
                 data-yearrange="2000:+25" data-viewformat="dd/mm/yyyy" data-edit="registrationFrom"
@@ -33,7 +34,9 @@ $editable = $this->isEditable() && !isset($disable_editable);
                 data-placeholder="<?php \MapasCulturais\i::esc_attr_e("Hora final");?>"
                 data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Hora final");?>"><?php echo $entity->registrationTo ? $entity->registrationTo->format('H:i') : ''; ?></strong>
             .
+            </label>
         </li>
     </ul>
 </div>
 <?php endif; ?>
+<?php $this->part('singles/opportunity-registrations--form', ['entity' => $entity]) ?>

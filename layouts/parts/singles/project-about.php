@@ -52,3 +52,4 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
     <?php $this->applyTemplateHook('tab-about','end'); ?>
 </div>
 <!-- #sobre -->
+

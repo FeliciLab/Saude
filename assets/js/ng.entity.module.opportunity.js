@@ -34,15 +34,16 @@
 module.factory('RegistrationService', ['$http', '$rootScope', '$q', 'UrlService', function ($http, $rootScope, $q, UrlService) {
     var url = new UrlService('registration');
     var labels = MapasCulturais.gettext.moduleOpportunity;
-    console.log('RegistrationService');
+
     return {
         getUrl: function(action, registrationId){
             return url.create(action, registrationId);
         },
 
-        register: function (params) {
+        register: function (params, idOpportunity) {
+           
             var data = {
-                opportunityId: MapasCulturais.entity.id,
+                opportunityId: idOpportunity,
                 ownerId: params.owner.id,
                 category: params.category
             };
@@ -2105,13 +2106,18 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
     }
 
     $('#editbox-select-registration-owner').on('open', function () {
+       
         if (!adjustingBoxPosition)
             $('#find-entity-registration-owner').trigger('find',0);
     });
 
-    $scope.register = function(){
+    $scope.register = function(idOpportunity){
         var registration = $scope.data.registration;
         var ownerRegistration = [];
+        /**
+         * idOpportunity = id da oportunidade
+         * Atualizado para passar o id de uma determinada oportunidade, pois anteriormente estava recebendo o id da oportunidade da entidade.
+         */
         // @TODO: buscar na api
         for(var i in $scope.data.registrations) {
             if(registration.owner && $scope.data.registrations[i].owner){
@@ -2120,13 +2126,12 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                 }
             }
         }
-
         if(MapasCulturais.entity.object.registrationLimitPerOwner > 0 && ownerRegistration.length >= MapasCulturais.entity.object.registrationLimitPerOwner) {
             MapasCulturais.Messages.error(labels['limitReached']);
         }else if(MapasCulturais.entity.object.registrationLimit > 0 && registration.owner && $scope.data.registrations.length >= MapasCulturais.entity.object.registrationLimit){
             MapasCulturais.Messages.error(labels['VacanciesOver']);
         }else if(registration.owner && (MapasCulturais.entity.object.registrationLimit == 0 || $scope.data.registrations.length <= MapasCulturais.entity.object.registrationLimit)){
-            RegistrationService.register(registration).success(function(rs){
+            RegistrationService.register(registration, idOpportunity).success(function(rs){
                 document.location = rs.editUrl;
             });
         }else {
