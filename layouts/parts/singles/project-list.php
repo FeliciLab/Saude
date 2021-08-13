@@ -31,6 +31,7 @@ if($entity instanceof MapasCulturais\Entities\Project){
                 foreach($project->getOpportunities(Opportunity::STATUS_DRAFT) as $opportunity): ?>
                 
                     <?php $this->part('entity-opportunities--item', ['opportunity' => $opportunity, 'entity' => $entity]) ?>
+                    <br>
                 <?php endforeach; ?>
                 <?php $this->applyTemplateHook('entity-opportunities','end'); ?>
 
