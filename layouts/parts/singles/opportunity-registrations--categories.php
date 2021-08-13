@@ -100,5 +100,11 @@
       </div>
    </div>
    </p>
+   <p>
+      <div>
+      <?php $this->applyTemplateHook('tabs-content-tiebreaker','begin'); ?>
+      <?php $this->applyTemplateHook('tabs-content-tiebreaker','end'); ?>
+      </div>
+   </p>
 </div>
 <!-- #registration-categories -->

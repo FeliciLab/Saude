@@ -84,6 +84,13 @@ module.factory('RegistrationService', ['$http', '$rootScope', '$q', 'UrlService'
 
         },
 
+        verifyMinimumNote: function(opportunity) {
+            var dataOpp = {
+                id: opportunity
+            }
+            return $http.post(MapasCulturais.baseURL+'opportunity/minimumNote', dataOpp);
+        },
+
         send: function(registrationId){
             return $http.post(this.getUrl('send', registrationId)).
             success(function(data, status){
@@ -1906,6 +1913,15 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
         return _getStatusSlug(status);
     };
 
+    $scope.setStatusAproved = function() {
+        var idEntity = MapasCulturais.entity.id;
+        var note = RegistrationService.verifyMinimumNote(idEntity).then(function(response) {
+            console.log(response);
+        });
+    }
+
+    $scope.setStatusAproved();
+    
     $scope.getStatusNameById = function(id) {
         var statuses = $scope.data.registrationStatusesNames;
         for(var s in statuses){

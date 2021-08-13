@@ -74,8 +74,55 @@ class Theme extends BaseV1\Theme{
                 $this->json(['message' => $th->getMessage()], 500);
             }
         });
+
+         /**
+         * Verifica a nota minima da oportunidade e altera as inscrições com a mudança do status
+         */
+        $app->hook('POST(opportunity.minimumNote)', function() use($app) {
+            $opportunity = $app->repo('Opportunity')->find($this->postData['id']);
+            //dump($opportunity->metadata['registrationMinimumNote']);
+            $setStatus = self::setStatusOwnerOpportunity($this->postData['id'], $opportunity->metadata['registrationMinimumNote']);
+        });
     }
 
+    public static function setStatusOwnerOpportunity($opportunity, $note) {
+        $app = App::i();
+        // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
+        $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+        WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$note}'";
+        $query      = $app->em->createQuery($dql);
+        $upStatus   = $query->getResult();
+        
+        foreach ($upStatus as $key => $value) {
+            $dql = "";
+            if(!$value->opportunity->publishedRegistrations) {
+               $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                SET r.status = 10 WHERE r.id = {$value->id}";
+            }
+            $query      = $app->em->createQuery($dql);
+            $upStatus   = $query->getResult();
+        }
+
+        //NOTA ABAIXO DA NOTA MINIMA
+        $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+        WHERE r.opportunity = {$opportunity} AND r.consolidatedResult < '{$note}'";
+        $query      = $app->em->createQuery($dql);
+        $minimum   = $query->getResult();
+        
+        foreach ($minimum as $key => $value) {
+            $dql = "";
+            if(!$value->opportunity->publishedRegistrations) {
+                $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                SET r.status = 1 WHERE r.id = {$value->id}";
+            }else {
+                $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                SET r.status = 1 WHERE r.id = {$value->id}";
+            }
+            $query      = $app->em->createQuery($dql);
+            $upStatus   = $query->getResult();
+        }
+    }
+    
     protected function _publishAssets() {
         $app = App::i();
         $app->view->enqueueStyle('app', 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
