@@ -155,7 +155,7 @@ if (!empty($registrations)) {
                     }
                     ?>
                     <td class="registration-status-col <?php echo $colorStatus; ?>" style="text-align: center; font-size: 11px;">
-                        <p title="<?php echo $title; ?>"><?php echo $status; ?></p>
+                        <?php $this->part('singles/tooltip', ['title' => $title, 'chield' => $status]); ?>
                     </td>
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
                 </tr>
