@@ -125,7 +125,7 @@ if (!empty($registrations)) {
                         case 0:
                             $status = 'Rascunho';
                             $colorStatus = 'statusrasc';
-                            $title = 'Utilize essa opção para permitir que o responsável edite e reenvie uma inscrição. Ao selecionar esta opção, a inscrição não será mais exibida nesta tabela.';
+                            $title = 'O candidato poderá editar e reenviar a sua inscrição.';
                             break;
                         case 1:
                             $status = 'Pendente';
@@ -135,7 +135,7 @@ if (!empty($registrations)) {
                         case 2:
                             $status = 'Inválida';
                             $colorStatus = 'statusinv';
-                            $title = 'Em desacordo com o regulamento (ex. documentação incorreta).';
+                            $title = 'Em desacordo com o regulamento.';
                             break;
                         case 3:
                             $status = 'Não selecionada';
