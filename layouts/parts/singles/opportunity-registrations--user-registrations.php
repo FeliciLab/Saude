@@ -157,8 +157,8 @@ if (!empty($registrations)) {
                             <?php $this->part('singles/tooltip', ['title' => $title, 'chield' => $status]); ?>
                         </td>
                     <?php else : ?>
-                        <td class="registration-status-col statusrasc" style="text-align: center; font-size: 11px;">
-                            <?php $this->part('singles/tooltip', ['title' => 'Sua inscrição está sendo analisada', 'chield' => 'Em analise']); ?>
+                        <td class="registration-status-col statuspend" style="text-align: center; font-size: 11px;">
+                            <?php $this->part('singles/tooltip', ['title' => 'Ainda não avaliada.', 'chield' => 'Pendente']); ?>
                         </td>
                     <?php endif; ?>
 
