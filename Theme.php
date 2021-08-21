@@ -80,8 +80,10 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('POST(opportunity.minimumNote)', function() use($app) {
             $opportunity = $app->repo('Opportunity')->find($this->postData['id']);
-            //dump($opportunity->metadata['registrationMinimumNote']);
-            $setStatus = self::setStatusOwnerOpportunity($this->postData['id'], $opportunity->metadata['registrationMinimumNote']);
+            //MUDARÁ O STATUS EM CASO DA AVALIAÇAO SER TÉCNICA
+            if($opportunity->evaluationMethodConfiguration->getDefinition()->slug == 'technical') {
+                $setStatus = self::setStatusOwnerOpportunity($this->postData['id'], $opportunity->metadata['registrationMinimumNote']);
+            }
         });
     }
 
