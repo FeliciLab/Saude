@@ -1917,10 +1917,36 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
         var idEntity = MapasCulturais.entity.id;
         var note = RegistrationService.verifyMinimumNote(idEntity).then(function(response) {
             console.log(response);
+            if(response.data.status == 200 && response.data.message == 'success') {
+                PNotify.removeAll();
+                new PNotify({
+                    title: 'Sucesso!',
+                    text: 'Status alterado com base na média da nota da oportunidade',
+                    type: 'success',
+                    width: "400px",
+                    icon: 'fa fa-check'
+                }); 
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 1000);
+            }
         });
     }
 
-    $scope.setStatusAproved();
+    $scope.editStatusNote = function() {
+        new PNotify({
+            title: 'Um minuto!',
+            text: 'Já estamos processando a alteração...',
+            type: 'info',
+            width: "400px",
+            icon: 'fa fa-spinner fa-pulse fa-3x fa-fw',
+            shadow: true,
+            hide: false,
+            addclass: 'stack-modal',
+            stack: {'dir1': 'down', 'dir2': 'right', 'modal': true}
+        }); 
+        $scope.setStatusAproved();
+    }
     
     $scope.getStatusNameById = function(id) {
         var statuses = $scope.data.registrationStatusesNames;

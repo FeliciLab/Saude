@@ -83,45 +83,62 @@ class Theme extends BaseV1\Theme{
             //MUDARÁ O STATUS EM CASO DA AVALIAÇAO SER TÉCNICA
             if($opportunity->evaluationMethodConfiguration->getDefinition()->slug == 'technical') {
                 $setStatus = self::setStatusOwnerOpportunity($this->postData['id'], $opportunity->metadata['registrationMinimumNote']);
+                echo $setStatus;
             }
         });
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
         $app = App::i();
-        // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
-        $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-        WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$note}'";
-        $query      = $app->em->createQuery($dql);
-        $upStatus   = $query->getResult();
-        
-        foreach ($upStatus as $key => $value) {
-            $dql = "";
-            if(!$value->opportunity->publishedRegistrations) {
-               $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                SET r.status = 10 WHERE r.id = {$value->id}";
-            }
-            $query      = $app->em->createQuery($dql);
-            $upStatus   = $query->getResult();
-        }
+        $notaMedia = intval($note);
 
-        //NOTA ABAIXO DA NOTA MINIMA
-        $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-        WHERE r.opportunity = {$opportunity} AND r.consolidatedResult < '{$note}'";
-        $query      = $app->em->createQuery($dql);
-        $minimum   = $query->getResult();
-        
-        foreach ($minimum as $key => $value) {
-            $dql = "";
-            if(!$value->opportunity->publishedRegistrations) {
-                $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                SET r.status = 1 WHERE r.id = {$value->id}";
-            }else {
-                $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                SET r.status = 1 WHERE r.id = {$value->id}";
+        if($notaMedia <= 0 && $note !== "") {
+            
+            try {
+                
+                // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
+                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$notaMedia}'";
+                $query      = $app->em->createQuery($dql);
+                $upStatus   = $query->getResult();
+                //dump($upStatus);
+                foreach ($upStatus as $key => $value) {
+                    $dql = "";
+                    if(!$value->opportunity->publishedRegistrations) {
+                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                        SET r.status = 10 WHERE r.id = {$value->id}";
+                    }
+                    $query      = $app->em->createQuery($dql);
+                    $upStatus   = $query->getResult();
+                }
+                return json_encode(['message' => 'success', 'status' => 200]);
+            } catch (\Throwable $th) {
+                return json_encode(['message' => 'error', 'status' => 500]);
             }
-            $query      = $app->em->createQuery($dql);
-            $upStatus   = $query->getResult();
+
+            //NOTA ABAIXO DA NOTA MINIMA
+            try {
+                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult < '{$notaMedia}'";
+                $query      = $app->em->createQuery($dql);
+                $minimum   = $query->getResult();
+                //dump($minimum);
+                foreach ($minimum as $key => $value) {
+                    $dql = "";
+                    if(!$value->opportunity->publishedRegistrations) {
+                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                        SET r.status = 1 WHERE r.id = {$value->id}";
+                    }else {
+                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                        SET r.status = 1 WHERE r.id = {$value->id}";
+                    }
+                    $query      = $app->em->createQuery($dql);
+                    $upStatus   = $query->getResult();
+                }
+                return json_encode(['message' => 'success', 'status' => 200]);
+            } catch (\Throwable $th) {
+                return json_encode(['message' => 'error', 'status' => 500]);
+            }
         }
     }
     
