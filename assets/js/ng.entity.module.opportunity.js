@@ -1916,12 +1916,11 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
     $scope.setStatusAproved = function() {
         var idEntity = MapasCulturais.entity.id;
         var note = RegistrationService.verifyMinimumNote(idEntity).then(function(response) {
-            console.log(response);
-            if(response.data.status == 200 && response.data.message == 'success') {
+            if(response.data.status == 200 && response.data.type == 'success') {
                 PNotify.removeAll();
                 new PNotify({
                     title: 'Sucesso!',
-                    text: 'Status alterado com base na média da nota da oportunidade',
+                    text: response.data.message,
                     type: 'success',
                     width: "400px",
                     icon: 'fa fa-check'

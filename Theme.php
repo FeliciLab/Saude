@@ -92,10 +92,8 @@ class Theme extends BaseV1\Theme{
         $app = App::i();
         $notaMedia = intval($note);
 
-        if($notaMedia <= 0 && $note !== "") {
-            
+        if(!empty($note) && $notaMedia >= 0 ) {
             try {
-                
                 // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
                 $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
                 WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$notaMedia}'";
@@ -111,7 +109,7 @@ class Theme extends BaseV1\Theme{
                     $query      = $app->em->createQuery($dql);
                     $upStatus   = $query->getResult();
                 }
-                return json_encode(['message' => 'success', 'status' => 200]);
+                return json_encode(['message' => 'Alterado status de candidatos nota igual ou maior que a média', 'status' => 200, 'type' => 'success']);
             } catch (\Throwable $th) {
                 return json_encode(['message' => 'error', 'status' => 500]);
             }
@@ -135,11 +133,12 @@ class Theme extends BaseV1\Theme{
                     $query      = $app->em->createQuery($dql);
                     $upStatus   = $query->getResult();
                 }
-                return json_encode(['message' => 'success', 'status' => 200]);
+                return json_encode(['message' => 'Status de candidato alterado, mas com nota a baixo da média', 'status' => 200, 'type' => 'success']);
             } catch (\Throwable $th) {
                 return json_encode(['message' => 'error', 'status' => 500]);
             }
         }
+        return json_encode(['message' => 'Não foi alterado status com base em nota por que não tem nota média.', 'status' => 200, 'type' => 'success']);
     }
     
     protected function _publishAssets() {
