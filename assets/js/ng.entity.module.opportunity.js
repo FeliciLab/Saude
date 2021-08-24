@@ -1916,11 +1916,36 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
     $scope.setStatusAproved = function() {
         var idEntity = MapasCulturais.entity.id;
         var note = RegistrationService.verifyMinimumNote(idEntity).then(function(response) {
-            console.log(response);
+            if(response.data.status == 200 && response.data.type == 'success') {
+                PNotify.removeAll();
+                new PNotify({
+                    title: 'Sucesso!',
+                    text: response.data.message,
+                    type: 'success',
+                    width: "400px",
+                    icon: 'fa fa-check'
+                }); 
+                setTimeout(() => {
+                    window.location.reload(true);
+                }, 1000);
+            }
         });
     }
 
-    $scope.setStatusAproved();
+    $scope.editStatusNote = function() {
+        new PNotify({
+            title: 'Um minuto!',
+            text: 'Já estamos processando a alteração...',
+            type: 'info',
+            width: "400px",
+            icon: 'fa fa-spinner fa-pulse fa-3x fa-fw',
+            shadow: true,
+            hide: false,
+            addclass: 'stack-modal',
+            stack: {'dir1': 'down', 'dir2': 'right', 'modal': true}
+        }); 
+        $scope.setStatusAproved();
+    }
     
     $scope.getStatusNameById = function(id) {
         var statuses = $scope.data.registrationStatusesNames;
@@ -2011,14 +2036,20 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
     }
 
 
-    $scope.setRegistrationOwner = function(agent){
+    $scope.setRegistrationOwner = function(agent, attrs){
         $scope.data.registration.owner = agent;
         replaceRegistrationAgentBy('owner', agent);
         jQuery('#ownerId').editable('setValue', agent.id);
         setTimeout(function(){
             $('#submitButton').trigger('click');
         });
-        EditBox.close('editbox-select-registration-owner');
+
+        if (typeof attrs.opportunityid !== "undefined")  {
+            EditBox.close('editbox-select-registration-owner_'+attrs.opportunityid);
+        } else {
+            EditBox.close('editbox-select-registration-owner');
+        }
+
 
         RegistrationService.save();
     };            

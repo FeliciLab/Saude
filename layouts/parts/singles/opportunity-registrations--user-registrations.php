@@ -93,8 +93,7 @@ if (!empty($registrations)) {
                         && $typeEvaluation[0]->type->id == 'technical'
                     ) : ?>
                         <td>
-                            <?php echo $registration->preliminaryResult;
-                            ?>
+                            <?php echo $registration->preliminaryResult; ?>
                         </td>
 
                         <?php
@@ -152,9 +151,17 @@ if (!empty($registrations)) {
                             break;
                     }
                     ?>
-                    <td class="registration-status-col <?php echo $colorStatus; ?>" style="text-align: center; font-size: 11px;">
-                        <?php $this->part('singles/tooltip', ['title' => $title, 'chield' => $status]); ?>
-                    </td>
+                    <!-- Apenas mosta o status quando a oportinudade já foi publicada -->
+                    <?php if ($registration->opportunity->publishedRegistrations) : ?>
+                        <td class="registration-status-col <?php echo $colorStatus; ?>" style="text-align: center; font-size: 11px;">
+                            <?php $this->part('singles/tooltip', ['title' => $title, 'chield' => $status]); ?>
+                        </td>
+                    <?php else : ?>
+                        <td class="registration-status-col statuspend" style="text-align: center; font-size: 11px;">
+                            <?php $this->part('singles/tooltip', ['title' => 'Ainda não avaliada.', 'chield' => 'Pendente']); ?>
+                        </td>
+                    <?php endif; ?>
+
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
                 </tr>
             <?php endforeach; ?>
