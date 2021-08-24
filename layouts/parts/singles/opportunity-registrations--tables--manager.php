@@ -69,6 +69,11 @@ use MapasCulturais\i;
         Mudar status para selecionada (Pendente)
         <input type="checkbox" name="checkselected" id="checkselected" ng-click="setStatusToSelected()" style="margin-left: 10px; margin-right: 10px;">
     </div>
+    <div style="float: left;" class="selected-opportunity">
+        <button class="btn btn-default" title="Atualiza o status do candidato com base na nota da oportunidade" ng-click="editStatusNote()">
+        <i class="fa fa-refresh" aria-hidden="true"></i>
+        </button>
+    </div>
     <table id="registrations-table" class="js-registration-list registrations-table" ng-class="{'no-options': data.entity.registrationCategories.length === 0, 'no-attachments': data.entity.registrationFileConfigurations.length === 0, 'registrations-results': data.entity.published, 'fullscreen': data.fullscreenTable}">
         <!-- adicionar a classe registrations-results quando resultados publicados-->
         <thead>
