@@ -2011,14 +2011,20 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
     }
 
 
-    $scope.setRegistrationOwner = function(agent){
+    $scope.setRegistrationOwner = function(agent, attrs){
         $scope.data.registration.owner = agent;
         replaceRegistrationAgentBy('owner', agent);
         jQuery('#ownerId').editable('setValue', agent.id);
         setTimeout(function(){
             $('#submitButton').trigger('click');
         });
-        EditBox.close('editbox-select-registration-owner');
+
+        if (typeof attrs.opportunityid !== "undefined")  {
+            EditBox.close('editbox-select-registration-owner_'+attrs.opportunityid);
+        } else {
+            EditBox.close('editbox-select-registration-owner');
+        }
+
 
         RegistrationService.save();
     };            
