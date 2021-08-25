@@ -49,13 +49,6 @@ if (isset($_SESSION['not_admin_error'])) {
 
     <?php $this->part('panel/highlighted-message') ?>
 
-    <div>
-        <?php $this->part('singles/error-message-generator', ['message' => $not_admin_error_message]) ?>
-        <?php
-        unset($_SESSION['not_admin_error']);
-        ?>
-    </div>
-
     <?php if ($subsite && $subsite->canUser('modify')) : ?>
         <p class="highlighted-message" style="margin-top:-2em;">
             <?php printf(\MapasCulturais\i::__('Você é administrador deste subsite. Clique %saqui%s para configurar.'), '<a rel="noopener noreferrer" href="' . $subsite->singleUrl . '">', '</a>'); ?>
