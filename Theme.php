@@ -74,8 +74,73 @@ class Theme extends BaseV1\Theme{
                 $this->json(['message' => $th->getMessage()], 500);
             }
         });
+
+         /**
+         * Verifica a nota minima da oportunidade e altera as inscrições com a mudança do status
+         */
+        $app->hook('POST(opportunity.minimumNote)', function() use($app) {
+            $opportunity = $app->repo('Opportunity')->find($this->postData['id']);
+            //MUDARÁ O STATUS EM CASO DA AVALIAÇAO SER TÉCNICA
+            if($opportunity->evaluationMethodConfiguration->getDefinition()->slug == 'technical') {
+                $setStatus = self::setStatusOwnerOpportunity($this->postData['id'], $opportunity->metadata['registrationMinimumNote']);
+                echo $setStatus;
+            }
+        });
     }
 
+    public static function setStatusOwnerOpportunity($opportunity, $note) {
+        $app = App::i();
+        $notaMedia = intval($note);
+
+        if(!empty($note) && $notaMedia >= 0 ) {
+            try {
+                // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
+                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$notaMedia}'";
+                $query      = $app->em->createQuery($dql);
+                $upStatus   = $query->getResult();
+                //dump($upStatus);
+                foreach ($upStatus as $key => $value) {
+                    $dql = "";
+                    if(!$value->opportunity->publishedRegistrations) {
+                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                        SET r.status = 10 WHERE r.id = {$value->id}";
+                    }
+                    $query      = $app->em->createQuery($dql);
+                    $upStatus   = $query->getResult();
+                }
+                return json_encode(['message' => 'Alterado status de candidatos nota igual ou maior que a média', 'status' => 200, 'type' => 'success']);
+            } catch (\Throwable $th) {
+                return json_encode(['message' => 'error', 'status' => 500]);
+            }
+
+            //NOTA ABAIXO DA NOTA MINIMA
+            try {
+                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult < '{$notaMedia}'";
+                $query      = $app->em->createQuery($dql);
+                $minimum   = $query->getResult();
+                //dump($minimum);
+                foreach ($minimum as $key => $value) {
+                    $dql = "";
+                    if(!$value->opportunity->publishedRegistrations) {
+                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                        SET r.status = 1 WHERE r.id = {$value->id}";
+                    }else {
+                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
+                        SET r.status = 1 WHERE r.id = {$value->id}";
+                    }
+                    $query      = $app->em->createQuery($dql);
+                    $upStatus   = $query->getResult();
+                }
+                return json_encode(['message' => 'Status de candidato alterado, mas com nota a baixo da média', 'status' => 200, 'type' => 'success']);
+            } catch (\Throwable $th) {
+                return json_encode(['message' => 'error', 'status' => 500]);
+            }
+        }
+        return json_encode(['message' => 'Não foi alterado status com base em nota por que não tem nota média.', 'status' => 200, 'type' => 'success']);
+    }
+    
     protected function _publishAssets() {
         $app = App::i();
         $app->view->enqueueStyle('app', 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
@@ -100,7 +165,6 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
         
-       
     }
 
     function getAddressByPostalCode($postalCode) {
@@ -153,6 +217,7 @@ class Theme extends BaseV1\Theme{
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
         $app->registerController('recursos', 'Saude\Controllers\Resources');
+        // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
     }
     
@@ -258,10 +323,12 @@ class Theme extends BaseV1\Theme{
             ]
         ];
 
+        
         App::i()->applyHookBoundTo($this, 'search.filters', [&$filters]);
 
         return $filters;
     }
+
 }
 
 

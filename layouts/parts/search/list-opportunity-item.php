@@ -20,5 +20,14 @@
             <?php $this->applyTemplateHook('list.opportunity.meta','end'); ?>
         </div>
     </div>
+
+    <br>
+    <div>
+        <button class="btn-access" style="float: left; margin-right: 12px;" title="Acessar inscrição">
+            <i class="fa fa-arrow-circle-right" aria-hidden="true"></i>
+            <a style="color: white;" href="{{opportunity.singleUrl}}"> Acessar Inscrição</a>
+        </button>
+    </div>
+    </div>
 </article>
 <!--.objeto-->
