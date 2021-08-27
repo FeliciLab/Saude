@@ -9,16 +9,13 @@ use \MapasCulturais\Entities\AgentMeta;
 
 class ProfessionalCategory extends \MapasCulturais\Controller{
 
-    public function __construct() {
+    function GET_index() {
         $app = App::i();
         $user = $app->user;
         if(!$user->is('saasAdmin') || !$user->is('superAdmin')) {
             $_SESSION['not_admin_error'] = 'Usuário não tem permissão para gerenciar esta página';
             return $app->redirect($app->createUrl('painel'));
         }
-    }
-
-    function GET_index() {
         $this->render('index');
     }
 
