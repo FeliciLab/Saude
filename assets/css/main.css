@@ -7565,6 +7565,21 @@ nav {
 .margin-left-70 {
   /* margin-left: -70px; */
 }
+.registration-form-content {
+  display: flex;
+  width: 100% !important;
+  justify-content: space-between;
+}
+
+.registration-form-content-input {
+  display: flex;
+  flex: 1;
+}
+
+.registration-form-content-input input{
+ margin-right: 5px;
+}
+
 .btn-register-opportunity {
   color: #ffffff;
   float: left !important;
