@@ -65,13 +65,22 @@
             <?php $this->applyTemplateHook('nav.main.projects','before'); ?>
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
+<<<<<<< HEAD
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list))'; ?>">
                     <i class="fa fa-file" aria-hidden="true"></i>
+=======
+                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
+                    <div class="icon icon-project"></div>
+>>>>>>> 74dc4c40f8644a68d5c33531bf509fe5d28f3b22
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
+<<<<<<< HEAD
+=======
+    </ul>
+>>>>>>> 74dc4c40f8644a68d5c33531bf509fe5d28f3b22
     <!--.menu.entities-menu-->
     <ul class="menu session-menu clearfix">
         <?php if ($app->auth->isUserAuthenticated()): ?>
