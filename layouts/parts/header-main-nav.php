@@ -30,8 +30,8 @@
             <li id="entities-menu-event"
                 ng-click="tabClick('event')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
-                    <div class="icon icon-event"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Events') ?></div>
+                    <i class="fa fa-calendar-o" aria-hidden="true"></i>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Eventos");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.events','after'); ?>
@@ -42,8 +42,8 @@
             <li id="entities-menu-space"
                 ng-click="tabClick('space')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
-                    <div class="icon icon-space"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Spaces') ?></div>
+                    <i class="fa fa-building" aria-hidden="true"></i>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Unidades");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.spaces','after'); ?>
@@ -54,8 +54,8 @@
             <li id="entities-menu-agent"
                 ng-click="tabClick('agent')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
-                    <div class="icon icon-agent"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Agents') ?></div>
+                    <i class="fa fa-users" aria-hidden="true"></i>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Pessoas");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.agents','after'); ?>
@@ -66,36 +66,12 @@
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list))'; ?>">
-                    <div class="icon icon-project"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Projects') ?></div>
+                    <i class="fa fa-file" aria-hidden="true"></i>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
-            
-        <?php if($app->isEnabled('opportunities')): ?>
-            <?php $this->applyTemplateHook('nav.main.opportunities','before'); ?>
-            <li id="entities-menu-opportunity"
-                ng-click="tabClick('opportunity')">
-                <a href="<?php echo $app->createUrl('busca').'?type=opp##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list))'; ?>">
-                    <div class="icon icon-opportunity"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Opportunities') ?></div>
-                </a>
-            </li>
-            <?php $this->applyTemplateHook('nav.main.opportunities','after'); ?>
-        <?php endif; ?>
-
-        <?php if($app->isEnabled('opportunities')): ?>
-            <li id="entities-menu-edital"
-                ng-click="tabClick('opportunity')">
-                <a title="Editais e Concursos" href="<?php echo $app->createUrl('busca').'?type=edital##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list,type:edital))'; ?>">
-                    <div><i class="fa fa-file-text" aria-hidden="true"></i></div>
-                    <div class="menu-item-label" style="margin-top: 7px;"><?php \MapasCulturais\i::_e("Editais");?></div>
-                </a>
-            </li>
-            <?php $this->applyTemplateHook('nav.main.opportunities','after'); ?>
-        <?php endif; ?>
-    </ul>
     <!--.menu.entities-menu-->
     <ul class="menu session-menu clearfix">
         <?php if ($app->auth->isUserAuthenticated()): ?>
@@ -152,11 +128,12 @@
             <?php $this->applyTemplateHook('nav.main.login','before'); ?>
             <li class="login">
                 <a ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?> >
-                    <div class="icon icon-login"></div>
+
+                    <i class="fa fa-user-circle" aria-hidden="true"></i>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Entrar");?></div>
                 </a>
                 <?php if(!empty($fake_options)): ?>
-                    <ul class="submenu" style="margin: 2px 0 0 -12px"><li><?php echo str_ireplace("Login\n        </a>", 'Login</a> |', $fake_options) ?></li></ul>
+                    <ul class="submenu" style="margin: 4px 0 0 -15px"><li><?php echo str_ireplace("Login\n</a>",'Login</a>|', $fake_options) ?></li></ul>
                 <?php endif; ?>
             </li>
             <!--.login-->
