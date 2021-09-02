@@ -293,7 +293,7 @@ class Theme extends BaseV1\Theme{
                 'verificados' => [
                     'label' => $this->dict('search: verified results', false),
                     'tag' => $this->dict('search: verified', false),
-                    'placeholder' => $this->dict('search: display only verified results', false),
+                    'placeholder' => i::__('São exibidas apenas as seleções da ESP'),
                     'fieldType' => 'checkbox-verified',
                     'addClass' => 'verified-filter',
                     'isArray' => false,
