@@ -1,5 +1,5 @@
 <?php $this->applyTemplateHook('nav.main.user','before'); ?>
-<li class="user main menu-border-about">
+<li class="user main">
     <a href="javascript:void(0);" class="js-submenu-toggle" data-submenu-target="$(this).parent().find('.submenu')">
         <div class="avatar">
             <?php if ($app->user->profile->avatar): ?>
