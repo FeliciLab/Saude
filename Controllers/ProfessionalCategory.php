@@ -97,7 +97,7 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 			$app->em->flush();
 
 			$agentMetaIdCategory = new AgentMeta;
-			$agentMetaIdCategory->key = 'profissionais_categorias_id';
+			$agentMetaIdCategory->key = 'profissionais_categorias_profissionais_id';
 			$agentMetaIdCategory->value = $this->postData['idCat'];
 			$agentMetaIdCategory->owner = $agent;
 			$app->em->persist($agentMetaIdCategory);
@@ -133,19 +133,22 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 		$agent = $app->repo('Agent')->find($this->data['id']);
 		$cat = $app->repo('AgentMeta')->findBy(
 			[
-				'key' => 'profissionais_categorias_id',
+				'key' => 'profissionais_categorias_profissionais_id',
 				'owner' => $agent,
 			]
 		);
+
 		$idCatPro = '';
 		foreach ($cat as $key => $agentMeta) {
 			$idCatPro .= $agentMeta->value . ',';
 		}
+
 		$idsCatPro = substr($idCatPro, 0, -1);
 		$dql = "SELECT p.id, p.name as text FROM Saude\Entities\ProfessionalCategory p
         WHERE p.id IN ($idsCatPro)";
 		$query = $app->em->createQuery($dql);
 		$catPro = $query->getResult();
+
 		$this->json($catPro);
 	}
 
@@ -159,7 +162,7 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 			]
 		);
 		$arrayEsp = [];
-		
+
 		foreach ($cat as $key => $value) {
 			$arrayEsp[$key] = ['id' => $value->id, 'text' => $value->value];
 		}
@@ -192,15 +195,16 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 		$app = App::i();
 		$idCat = $this->data['idCat'];
 		$agent = $app->repo('Agent')->find($this->data['idEntity']);
-		
+		//dump($idCat);
 		$dql = "SELECT c.id, c.value FROM Saude\Entities\CategoryMeta c
         WHERE c.owner = {$idCat} AND c.key = 'especialidade'";
 		$query = $app->em->createQuery($dql);
 		$catEsp = $query->getResult();
-
+		//dump($catEsp);
+		//die;
 		if (!empty($catEsp)) {
 			$app->disableAccessControl();
-			
+
 			foreach ($catEsp as $resultValue) {
 				$del = $app->repo('AgentMeta')->findBy(
 					[
@@ -218,7 +222,7 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 				$delCategory = $app->repo('AgentMeta')->findBy(
 					[
 						'owner' => $agent,
-						'key' => 'profissionais_categorias_id',
+						'key' => 'profissionais_categorias_profissionais_id',
 						'value' => $this->data['idCat'],
 					]
 				);
@@ -227,7 +231,7 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 					$app->em->flush();
 				}
 				//BUSCANDO A CATEGORIA PELO ID
-				$dql = "SELECT p.id, p.name as text FROM Saude\Entities\ProfessionalCategory p 	WHERE p.id = ".$idCat;
+				$dql = "SELECT p.id, p.name as text FROM Saude\Entities\ProfessionalCategory p 	WHERE p.id = " . $idCat;
 				$query = $app->em->createQuery($dql);
 				$categoriaPro = $query->getResult();
 
@@ -264,45 +268,43 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 		//BUSCANDO TODOS OS AGENTES QUE ESTÃO COM KEY profissionais_categorias_profissionais
 		$allAgentCategory = $app->repo('AgentMeta')->findBy(
 			[
-				'key' => 'profissionais_categorias_profissionais'
+				'key' => 'profissionais_categorias_profissionais',
 			]
 		);
+		//dump($allAgentCategory);
 		foreach ($allAgentCategory as $key => $catAgent) {
 			ini_set('display_errors', 1);
 			error_reporting(E_ALL);
 			//dump($catAgent->id.' - '.$catAgent->value);
-			//BUSCANDO UM AGENTE E GUARANDO NA VARIAVEL (objeto)
-			$agent = $app->repo('Agent')->find($catAgent->id);
-			
-			//$agentMeta = CategoryPro::createAgentMeta($agent, 'profissionais_categorias_profissionais_id', $catAgent->value);
+			//
 			//INSTANCIANDO UM OBJETO AGENT_META
 			$agentMeta = new AgentMeta;
 			$agentMeta->key = 'profissionais_categorias_profissionais_id';
 			$agentMeta->value = $catAgent->value;
-			$agentMeta->owner = $agent;
-			//PERSISTINDO OS DADOS
-			$app->em->persist($agentMeta);
+			$agentMeta->owner = $catAgent->owner;
 			//SALVANDO
+			$app->em->persist($agentMeta);
 			//$app->em->flush();
-			
+
 			//dump($agentMeta);
-			if(!empty($agentMeta)) {
-				echo "Criado 'ID' da categoria profissional.";
+			if (!empty($agentMeta) && $catAgent->value > 0) {
+				echo "Criado o ID = " . $catAgent->value . " da categoria profissional.<br />";
 			}
+
 			//BUNCANDO A CATETEGORIA PELO ID
 			$cat = CategoryPro::getCategoryProfessional($catAgent->value);
 			//dump($cat);
-			if(!empty($cat)) {
+			if (!empty($cat)) {
 				//INSTANCIANDO UM OBJETO AGENT_META
-				$agentPro = new AgentMeta;
+				$agentPro = $app->repo('AgentMeta')->find($catAgent->id);
 				$agentPro->key = 'profissionais_categorias_profissionais';
 				$agentPro->value = $cat[0]['name'];
-				$agentPro->owner = $agent;
+				$agentPro->owner = $catAgent->owner;
 				$app->em->persist($agentPro);
-				
-				//dump($agentPro);
-				if(!empty($agentPro)) {
-					echo "Criado Nome da categoria profissional.";
+
+				// 	//dump($agentPro);
+				if (!empty($agentPro)) {
+					echo "Criado Nome " . $cat[0]['name'] . " da categoria profissional.<br />";
 				}
 			}
 			$app->em->flush();

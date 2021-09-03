@@ -256,8 +256,8 @@ class Theme extends BaseV1\Theme{
             ],
             'agent' => [
                 'profissionais_graus_academicos' => [
-                    'label' => i::__('Grau académico'),
-                    'placeholder' => i::__('Grau académico'),
+                    'label' => i::__('Grau acadêmico'),
+                    'placeholder' => i::__('Grau acadêmico'),
                     'type' => 'metadata',
                     'filter' => [
                         'param' => 'profissionais_graus_academicos',

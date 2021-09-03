@@ -50,6 +50,42 @@
   display: inline-block;
   top: -1px; }
 
+.badge_default {
+  background-color: #777;
+  border-radius: 3px;
+  color: #fff;
+  font-weight: 600;
+  padding: 2px 6px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(225, 225, 225, 0.3);
+  font-size: 13px;
+  margin-left: 5px;
+  position: relative;
+  display: inline-block;
+  top: -1px;
+}
+
+.badge-default-active {
+  background-color: #f1eded;
+  border-radius: 3px;
+  color: #615a5a;
+  font-weight: 600;
+  padding: 2px 6px;
+  box-shadow: 0 2px 3px rgba(0, 0, 0, 0.2), inset 0 2px 5px rgba(225, 225, 225, 0.3);
+  font-size: 13px;
+  margin-left: 5px;
+  position: relative;
+  display: inline-block;
+  top: -1px;
+}
+
+.item-taxo {
+  cursor: pointer;
+}
+.icon-fa {
+  margin-top: 5px;
+  font-size: 17px !important;
+}  
+
 .list-group {
   padding-left: 0;
   margin-bottom: 20px;
