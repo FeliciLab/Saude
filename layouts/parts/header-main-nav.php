@@ -24,14 +24,14 @@
 <?php $fake_options = ob_get_clean(); endif; ?>
 
 <nav id="main-nav" class="clearfix">
-    <ul class="menu entities-menu clearfix">
+    <ul class="menu entities-menu clearfix entties-menu-border">
         <?php if($app->isEnabled('events')): ?>
             <?php $this->applyTemplateHook('nav.main.events','before'); ?>
             <li id="entities-menu-event"
                 ng-click="tabClick('event')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
                     <i class="fa fa-calendar-o" aria-hidden="true"></i>
-                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Eventos");?></div>
+                    <div class="menu-item-label"><?php $this->dict('entities: Events') ?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.events','after'); ?>
@@ -43,7 +43,7 @@
                 ng-click="tabClick('space')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
                     <i class="fa fa-building" aria-hidden="true"></i>
-                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Unidades");?></div>
+                    <div class="menu-item-label"><?php $this->dict('entities: Spaces') ?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.spaces','after'); ?>
@@ -55,7 +55,7 @@
                 ng-click="tabClick('agent')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
                     <i class="fa fa-users" aria-hidden="true"></i>
-                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Pessoas");?></div>
+                    <div class="menu-item-label"><?php $this->dict('entities: Agents') ?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.agents','after'); ?>
@@ -65,22 +65,13 @@
             <?php $this->applyTemplateHook('nav.main.projects','before'); ?>
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
-<<<<<<< HEAD
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list))'; ?>">
                     <i class="fa fa-file" aria-hidden="true"></i>
-=======
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
-                    <div class="icon icon-project"></div>
->>>>>>> 74dc4c40f8644a68d5c33531bf509fe5d28f3b22
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
-<<<<<<< HEAD
-=======
-    </ul>
->>>>>>> 74dc4c40f8644a68d5c33531bf509fe5d28f3b22
     <!--.menu.entities-menu-->
     <ul class="menu session-menu clearfix">
         <?php if ($app->auth->isUserAuthenticated()): ?>
@@ -142,7 +133,7 @@
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Entrar");?></div>
                 </a>
                 <?php if(!empty($fake_options)): ?>
-                    <ul class="submenu" style="margin: 4px 0 0 -15px"><li><?php echo str_ireplace("Login\n</a>",'Login</a>|', $fake_options) ?></li></ul>
+                    <ul class="submenu" style="margin: 2px 0 0 -12px"><li><?php echo str_ireplace("Login\n </a>", 'Login</a> |', $fake_options) ?></li></ul>
                 <?php endif; ?>
             </li>
             <!--.login-->

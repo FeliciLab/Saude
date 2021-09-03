@@ -7602,3 +7602,12 @@ nav {
   flex-direction: row;
   align-items: center;
 }
+
+.circle-avatar {
+  border-radius: 50px !important;
+
+}
+
+.entties-menu-border{
+  border-left: none !important;
+}
