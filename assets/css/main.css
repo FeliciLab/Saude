@@ -7611,3 +7611,8 @@ nav {
 .entties-menu-border{
   border-left: none !important;
 }
+
+.main-nav-wrapper{
+  display: flex;
+  justify-content: center;
+}

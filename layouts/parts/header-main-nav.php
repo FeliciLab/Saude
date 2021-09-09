@@ -22,7 +22,7 @@
         </a>
     </span>
 <?php $fake_options = ob_get_clean(); endif; ?>
-
+<div class="main-nav-wrapper">
 <nav id="main-nav" class="clearfix">
     <ul class="menu entities-menu clearfix entties-menu-border">
         <?php if($app->isEnabled('events')): ?>
@@ -142,3 +142,4 @@
     </ul>
     <!--.menu.session-menu-->
 </nav>
+</div>
