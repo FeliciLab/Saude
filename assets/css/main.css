@@ -1431,7 +1431,7 @@ article.seal .header-image {
       display: block; }
   @media screen and (min-width: 768px) {
     #main-header {
-      border-top: 6px solid #000; } }
+     }
   @media print {
     #main-header {
       position: relative;
@@ -1544,7 +1544,6 @@ article.seal .header-image {
     float: left;
     box-sizing: border-box;
     padding: .25rem;
-    border-top: 3px solid #000;
     box-shadow: 1px 0 0 0 #eee inset;
     -webkit-box-shadow: 1px 0 0 0 #eee inset; }
     .menu > li > a {
@@ -7615,4 +7614,14 @@ nav {
 .main-nav-wrapper{
   display: flex;
   justify-content: center;
+  margin: 10px;
+}
+.about-user-logo{
+
+  display: flex;
+  justify-content: space-between;
+}
+
+.menu-header-login{
+  margin-left: 30px
 }
