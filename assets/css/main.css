@@ -5189,7 +5189,7 @@ h1 .icon {
     border-radius: 50px;
     border: 1px solid rgba(0, 0, 0, 0.38);
     box-sizing: border-box;
-    width: 100%; }
+    width: 70%; }
 
 @media print {
   .registration .alert.success {
