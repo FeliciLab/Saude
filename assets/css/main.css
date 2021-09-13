@@ -1430,8 +1430,7 @@ article.seal .header-image {
     #main-header h1 img {
       display: block; }
   @media screen and (min-width: 768px) {
-    #main-header {
-      border-top: 6px solid #000; } }
+    #main-header { } }
   @media print {
     #main-header {
       position: relative;
@@ -2483,7 +2482,7 @@ body.editable #main-section {
   .panel-list .objeto h1 .icon:hover {
     color: #000; }
   .panel-list .objeto h1 .icon.active, .panel-list .objeto h1 .icon.active:hover {
-    color: #fff;
+    color:#fff;
     background: #000;
     border: 1px solid #000; }
 
@@ -7601,4 +7600,17 @@ nav {
   background: #8C9EFF;
   flex-direction: row;
   align-items: center;
+}
+
+.entties-menu-border{
+  border-left: none !important;
+}
+
+.circle-avatar {
+  border-radius: 100px !important;
+
+}
+
+.div-icon{
+  color: #666;
 }
