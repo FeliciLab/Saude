@@ -1713,8 +1713,8 @@ article.seal .header-image {
   .session-menu {
     display: block;
     float: left;
-    border-right: 1px solid #000;
-    border-left: 1px solid #000; } }
+    border-right: 1px solid #dcdcdc;
+    border-left: 1px solid #d3d3d3; } }
 
 @media screen and (max-width: 767px) {
   body.action-search .session-menu {
@@ -7613,4 +7613,8 @@ nav {
 
 .div-icon{
   color: #666;
+}
+
+.div-icon-login{
+  color: green;
 }

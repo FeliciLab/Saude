@@ -137,7 +137,7 @@
             <?php $this->applyTemplateHook('nav.main.login','before'); ?>
             <li class="login">
                 <a ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?> >
-                <span class="div-icon">
+                <span class="div-icon-login">
                     <div class="fa fa-user-circle fa-2x icon-login"></div>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Entrar");?></div>
                 </span>
