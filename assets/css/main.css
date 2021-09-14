@@ -2261,7 +2261,7 @@ body.action-edit .required:before, body.action-create .required:before {
 -------------------------------------------------------------- */
 #main-section {
   position: relative;
-  margin-top: 78px;
+  margin-top: 74px;
   background-color: #eee; }
   @media print {
     #main-section {
