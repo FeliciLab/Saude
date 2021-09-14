@@ -5184,7 +5184,11 @@ h1 .icon {
     border-radius: 2px;
     color: #666;
     font-family: "Open Sans", Helvetica, Arial, sans-serif;
-    font-size: 0.75rem; }
+    font-size: 0.75rem;
+    border-radius: 50px;
+    border: 1px solid rgba(0, 0, 0, 0.38);
+    box-sizing: border-box;
+    width: 70%; }
 
 @media print {
   .registration .alert.success {

@@ -2034,7 +2034,8 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
             }
         }
     }
-
+    //ADICIONADO O USURIO LOGADO PARA PREENCHER O INPUT DE INSCRIÇÃO
+    $scope.data.registration.owner = MapasCulturais.userProfile;
 
     $scope.setRegistrationOwner = function(agent, attrs){
         $scope.data.registration.owner = agent;
