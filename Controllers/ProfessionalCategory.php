@@ -271,12 +271,8 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 				'key' => 'profissionais_categorias_profissionais',
 			]
 		);
-		//dump($allAgentCategory);
+		//LOOP PARA ADD UM REGISTRO COM O NOVO VALOR (profissionais_categorias_profissionais_id) ONDE IRÁ GUARDAR O ID DA CATEGORIA
 		foreach ($allAgentCategory as $key => $catAgent) {
-			ini_set('display_errors', 1);
-			error_reporting(E_ALL);
-			//dump($catAgent->id.' - '.$catAgent->value);
-			//
 			//INSTANCIANDO UM OBJETO AGENT_META
 			$agentMeta = new AgentMeta;
 			$agentMeta->key = 'profissionais_categorias_profissionais_id';
@@ -284,25 +280,21 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 			$agentMeta->owner = $catAgent->owner;
 			//SALVANDO
 			$app->em->persist($agentMeta);
-			//$app->em->flush();
-
-			//dump($agentMeta);
+			// INFORMATIVO NA TELA
 			if (!empty($agentMeta) && $catAgent->value > 0) {
 				echo "Criado o ID = " . $catAgent->value . " da categoria profissional.<br />";
 			}
 
 			//BUNCANDO A CATETEGORIA PELO ID
 			$cat = CategoryPro::getCategoryProfessional($catAgent->value);
-			//dump($cat);
 			if (!empty($cat)) {
-				//INSTANCIANDO UM OBJETO AGENT_META
+				//INSTANCIANDO UM OBJETO AGENT_META E TROCANDO O ID POR O NOME DA CATEGORIA PROFISSIONAL
 				$agentPro = $app->repo('AgentMeta')->find($catAgent->id);
 				$agentPro->key = 'profissionais_categorias_profissionais';
 				$agentPro->value = $cat[0]['name'];
 				$agentPro->owner = $catAgent->owner;
 				$app->em->persist($agentPro);
-
-				// 	//dump($agentPro);
+				// INFORMATIVO NA TELA
 				if (!empty($agentPro)) {
 					echo "Criado Nome " . $cat[0]['name'] . " da categoria profissional.<br />";
 				}

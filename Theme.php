@@ -241,7 +241,7 @@ class Theme extends BaseV1\Theme{
                     'type' => 'metadata',
                     'filter' => [
                         'param' => 'instituicao_tipos_unidades',
-                        'value' => 'like(%{val}%)'
+                        'value' => 'like({val}%)'
                     ]
                 ],
                 'instituicao_servicos' => [
