@@ -28,7 +28,12 @@ if ($entity->isRegistrationOpen()): ?>
                 <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>
                 <div class="registration-form-content">
                     <div class="registration-form-content-input">
-                        <div id="select-registration-owner-button_<?php echo $entity->id; ?>" class="input-text" ng-click="editbox.open('editbox-select-registration-owner_<?php echo $entity->id; ?>', $event)">{{data.registration.owner ? data.registration.owner.name : data.registration.owner_default_label}}</div>
+                        <div id="select-registration-owner-button_<?php echo $entity->id; ?>" class="input-text"
+                            ng-click="editbox.open('editbox-select-registration-owner_<?php echo $entity->id; ?>', $event)">
+                            <strong>Agente: </strong>
+                            {{data.registration.owner ? data.registration.owner.name : data.registration.owner_default_label}}
+                            <small style="color: #9E9E9E;"> (clique para alterar) </small>
+                        </div>
                         <edit-box class="editbox-select-registration-owner" id="editbox-select-registration-owner_<?php echo $entity->id; ?>" position="top" title="<?php \MapasCulturais\i::esc_attr_e("Selecione o agente responsável pela inscrição.");?>" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Cancelar");?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
                             <find-entity id='find-entity-registration-owner_<?php echo $entity->id; ?>' entity="agent" no-results-text="<?php \MapasCulturais\i::esc_attr_e("Nenhum agente encontrado");?>" select="setRegistrationOwner" opportunityid="<?php echo $entity->id; ?>" api-query='data.relationApiQuery.owner' spinner-condition="data.registrationSpinner"></find-entity>
                             <strong><?php \MapasCulturais\i::_e("Apenas são visíveis os agentes publicados.");?> <a target="_blank" href="<?php echo $app->createUrl('panel', 'agents') ?>"><?php \MapasCulturais\i::_e("Ver mais.");?></a></strong>
