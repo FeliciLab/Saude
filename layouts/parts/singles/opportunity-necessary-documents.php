@@ -51,7 +51,6 @@ $fielsAndFiles = array_merge($fields, $files);
                         <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
                     <?php endif; ?>
                 </span>
-                <h6 id="registration-description"><?php echo $registration->description ?></h6>
             </div>
             <hr />
         <?php endforeach; ?>
@@ -65,7 +64,6 @@ $fielsAndFiles = array_merge($fields, $files);
                         <h6 id="is-required" class="registration-help">Não Obrigatório</h6>
                     <?php endif; ?>
                 </span>
-                <h6 id="registration-description"><?php echo $registration->description ?></h6>
             </div>
             <hr />
         <?php endforeach; ?>

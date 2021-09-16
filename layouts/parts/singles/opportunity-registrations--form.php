@@ -21,8 +21,8 @@ if (strpos($url_atual, 'opportunity') !== false) {
 if ($entity->isRegistrationOpen()): ?>
     <?php if ($app->auth->isUserAuthenticated()): ?>
 
-        <!-- // SE O USUARIO TIVER PERMISSÃO PARA MODIFICAR A ENTIDADE  -->
-        <?php if (!($entity->canUser('modify')) && empty($userRelation)): ?>
+       <!-- // SE O USUARIO TIVER PERMISSÃO PARA MODIFICAR A ENTIDADE -->
+        <?php if (!($entity->canUser('modify')) && empty($userRelation)) : ?>
 
             <form class="registration-form clearfix">
                 <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>
