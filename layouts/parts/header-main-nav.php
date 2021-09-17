@@ -66,10 +66,8 @@
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
                 <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
-                <span class="div-icon">
                     <div class="fa fa-file-text fa-2x icon-project"></div>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
-                </span>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
