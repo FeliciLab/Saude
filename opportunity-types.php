@@ -45,12 +45,6 @@ return array(
                 "v::intVal()" => \MapasCulturais\i::__("O número máximo de inscrições no projeto deve ser um número inteiro")
             )
         ),
-        'registrationMinimumNote' => array(
-            'label' => \MapasCulturais\i::__('Informe o valor mínimo de aprovação da oportunidade'),
-            'validations' => array(
-                "v::floatVal()" => \MapasCulturais\i::__("O valor de nota mínima por oportunidade deve ser um número inteiro ou decimal")
-            )
-        ),
         'useSpaceRelationIntituicao' => array(
             'label' => \MapasCulturais\i::__('Espaço Cultural'),
         ),
