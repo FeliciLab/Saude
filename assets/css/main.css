@@ -1457,7 +1457,7 @@ article.seal .header-image {
 
 #main-header {
   position: fixed;
-  top: 0;
+  top: 0px;
   width: 100%;
   z-index: 1700;
   background: #fff; }
@@ -1467,6 +1467,10 @@ article.seal .header-image {
       display: block; }
   @media screen and (min-width: 768px) {
     #main-header { } }
+    @media screen and (max-width: 768px) {
+      #main-header {
+        border-top: 6px solid #000;
+       } }
   @media print {
     #main-header {
       position: relative;
@@ -1579,7 +1583,6 @@ article.seal .header-image {
     float: left;
     box-sizing: border-box;
     padding: .25rem;
-    border-top: 3px solid #000;
     box-shadow: 1px 0 0 0 #eee inset;
     -webkit-box-shadow: 1px 0 0 0 #eee inset; }
     .menu > li > a {
@@ -1802,7 +1805,7 @@ article.seal .header-image {
       .user .avatar {
         margin: .5rem; } }
   .user .submenu {
-    right: 0;
+    left: 60px;
     width: 11.5rem;
     background: #249243; }
     .user .submenu li {
@@ -1835,7 +1838,7 @@ article.seal .header-image {
       right: 0.6875rem; }
     @media screen and (min-width: 768px) {
       .user .submenu {
-        margin-left: -5.75rem; }
+        margin-left: -8rem; }
         .user .submenu:before {
           right: auto;
           left: 50%;
@@ -4263,10 +4266,28 @@ h1 .icon {
 @media screen and (max-width: 768px) {
   .icon-login::after {
     content: "Entrar";
-    font-size: 10px;
+    font-size: 12px;
     position: absolute;
-    top: 18px;
-    right: -1px; } }
+    /top: 30px;
+    right: 1px; 
+  }
+    .menu-header-login{
+      position: absolute;
+      right: -200px;
+      border-top: none !important;
+     }
+     .menu-logo-esp{
+      position: absolute;
+     }
+    
+     .circle-avatar {
+      border-radius: 100px !important;
+      float: none;
+      width: 1.875rem;
+      height: 1.875rem;
+      margin: 0;
+    
+    }} 
 
 .image-gallery-item {
   position: relative;
@@ -7644,17 +7665,37 @@ nav {
 
 .entties-menu-border{
   border-left: none !important;
+  margin: 5px;
 }
 
 .circle-avatar {
   border-radius: 100px !important;
+  float: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin: 0;
 
 }
 
-.div-icon{
-  color: #666;
-}
+@media screen and (min-width: 768px) {
+    .main-nav-wrapper{
+      display: flex;
+      justify-content: center;
+    }
+    .about-user-logo{
+      display: flex;
+      justify-content: space-between;
+    }
+   } 
 
-.div-icon-login{
-  color: green;
-}
+   @media screen and (max-width: 600px) {
+
+    .menu > li{
+      border-top: 3px solid black;
+    }
+
+   }
+
+   a{
+     color:gray;
+   }
