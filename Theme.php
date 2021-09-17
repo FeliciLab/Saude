@@ -6,6 +6,8 @@ use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\Definitions;
 use MapasCulturais\i;
+USE MapasCulturais\Entities\Registration;
+USE MapasCulturais\Entities\Opportunity;
 
 class Theme extends BaseV1\Theme{
 
@@ -92,53 +94,40 @@ class Theme extends BaseV1\Theme{
         $app = App::i();
         $notaMedia = intval($note);
 
-        if(!empty($note) && $notaMedia >= 0 ) {
-            try {
-                // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
-                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$notaMedia}'";
+        $opportunityRepo = $app->repo('Opportunity')->find($opportunity);
+
+        if ($opportunityRepo->publishedRegistrations) {
+            return json_encode(['message' => 'Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.', 'status' => 200, 'type' => 'success']);
+        }
+
+        if (empty($note)) {
+            return json_encode(['message' => 'Avaliação para a oportunidade não contém nota mínima', 'status' => 200, 'type' => 'success']);
+        }
+
+        try {
+            $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+            WHERE r.opportunity = {$opportunity}";
+            $query      = $app->em->createQuery($dql);
+            $upStatus   = $query->getResult();
+            foreach ($upStatus as $key => $value) {
+                $dql = "";
+                $newState = Registration::STATUS_ENABLED;
+                if ($value->consolidatedResult >= $notaMedia) {
+                    $newState = Registration::STATUS_APPROVED;
+                } else {
+                    $newState = Registration::STATUS_NOTAPPROVED;
+                }      
+                                    
+                $dql = "UPDATE MapasCulturais\Entities\Registration r SET r.status = {$newState} WHERE r.id = {$value->id}";
                 $query      = $app->em->createQuery($dql);
                 $upStatus   = $query->getResult();
-                //dump($upStatus);
-                foreach ($upStatus as $key => $value) {
-                    $dql = "";
-                    if(!$value->opportunity->publishedRegistrations) {
-                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                        SET r.status = 10 WHERE r.id = {$value->id}";
-                    }
-                    $query      = $app->em->createQuery($dql);
-                    $upStatus   = $query->getResult();
-                }
-                return json_encode(['message' => 'Alterado status de candidatos nota igual ou maior que a média', 'status' => 200, 'type' => 'success']);
-            } catch (\Throwable $th) {
-                return json_encode(['message' => 'error', 'status' => 500]);
+            
             }
-
-            //NOTA ABAIXO DA NOTA MINIMA
-            try {
-                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult < '{$notaMedia}'";
-                $query      = $app->em->createQuery($dql);
-                $minimum   = $query->getResult();
-                //dump($minimum);
-                foreach ($minimum as $key => $value) {
-                    $dql = "";
-                    if(!$value->opportunity->publishedRegistrations) {
-                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                        SET r.status = 1 WHERE r.id = {$value->id}";
-                    }else {
-                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                        SET r.status = 1 WHERE r.id = {$value->id}";
-                    }
-                    $query      = $app->em->createQuery($dql);
-                    $upStatus   = $query->getResult();
-                }
-                return json_encode(['message' => 'Status de candidato alterado, mas com nota a baixo da média', 'status' => 200, 'type' => 'success']);
-            } catch (\Throwable $th) {
-                return json_encode(['message' => 'error', 'status' => 500]);
-            }
+            return json_encode(['message' => 'Atualização de status dos candidatos realizada com sucesso.', 'status' => 200, 'type' => 'success']);
+        } catch (\Throwable $th) {
+            return json_encode(['message' => 'error', 'status' => $th->getMessage()]);
         }
-        return json_encode(['message' => 'Não foi alterado status com base em nota por que não tem nota média.', 'status' => 200, 'type' => 'success']);
+    
     }
     
     protected function _publishAssets() {
