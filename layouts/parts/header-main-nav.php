@@ -29,7 +29,7 @@
             <?php $this->applyTemplateHook('nav.main.events','before'); ?>
             <li id="entities-menu-event"
                 ng-click="tabClick('event')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
                     <div class="fa fa-calendar-o fa-2x icon-event"></div>
                     <div class="menu-item-label"><?php $this->dict('entities: Events') ?></div>
                 </a>
@@ -41,7 +41,7 @@
             <?php $this->applyTemplateHook('nav.main.spaces','before'); ?>
             <li id="entities-menu-space"
                 ng-click="tabClick('space')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
                     <div class="fa fa-building fa-2x icon-space"></div>
                     <div class="menu-item-label"><?php $this->dict('entities: Spaces') ?></div>
                 </a>
@@ -53,7 +53,7 @@
             <?php $this->applyTemplateHook('nav.main.agents','before'); ?>
             <li id="entities-menu-agent"
                 ng-click="tabClick('agent')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
                     <div class="fa fa-users fa-2x icon-agent"></div>
                     <div class="menu-item-label"><?php $this->dict('entities: Agents') ?></div>
                 </a>
@@ -65,7 +65,7 @@
             <?php $this->applyTemplateHook('nav.main.projects','before'); ?>
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
                     <div class="fa fa-file-text fa-2x icon-project"></div>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
                 </a>

@@ -53,7 +53,7 @@
         <?php else : ?>
             <?php $this->applyTemplateHook('nav.main.login', 'before'); ?>
             <li class="login menu-header-login">
-                <a ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?>>
+                <a class="a-color" ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?>>
 
                     <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Entrar"); ?></div>
