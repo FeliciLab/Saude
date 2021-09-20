@@ -49,6 +49,10 @@ class Theme extends BaseV1\Theme{
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
             $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
         });
+        //CHAMADA DO TEMPLATE DE RECURSOS 
+        $app->hook('view.partial(claim-configuration).params', function($__data, &$__template){
+            $__template = 'singles/opportunity-resources--form';
+        });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
             $app = App::i();
