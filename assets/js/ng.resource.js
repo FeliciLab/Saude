@@ -178,7 +178,6 @@ function eyeContent(text, type) {
 function getAllResource() {
     $.get(MapasCulturais.baseURL+'recursos/allResource',
         function (data, textStatus, jqXHR) {
-            console.log({data});
             $.each(data, function (indexInArray, value) { 
                 getNameOpportunity(value.opportunity_id); 
                 //formatando a data padrão pt-br
