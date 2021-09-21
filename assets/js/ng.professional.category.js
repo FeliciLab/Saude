@@ -182,11 +182,14 @@ $(document).ready(function () {
 getAllCategoryProfessional();
 getAllSpecialtyProfessional();
 $("#btnSaveCatSpecialty").css('display', 'none');
-$("#professionalCategory").change(function (e) { 
-  e.preventDefault();
-  getSpecialtyProfessional($( "#professionalCategory" ).val());
-  
-});
+var proCategory = $( "#professionalCategory" ).val();
+if(proCategory != undefined) {
+  $("#professionalCategory").change(function (e) { 
+    e.preventDefault();
+    getSpecialtyProfessional($( "#professionalCategory" ).val());    
+  });
+}
+
 
 $("#btnSaveCatSpecialty").click(function (e) { 
   e.preventDefault();
@@ -221,23 +224,25 @@ $("#specialtyCategoryProfessional").on('change', function () {
 });
 
 function getAllCategoryProfessional() {
-  if(MapasCulturais.hasOwnProperty('entity')) {
+if(MapasCulturais.hasOwnProperty('entity')) {
+  if(MapasCulturais.entity.id != undefined) {
     $.get(MapasCulturais.baseURL+'categoria-profissional/getCategoryProfessional/'+MapasCulturais.entity.id,
     function (response, textStatus, jqXHR) {
-        //POPULANDO O SELECT      
-      $.each(response, function (indexInArray, value) { 
-        $("#labelCategoriaProfissional").append('<span class="badge_default">'+value.text+'<a href="#" class="closeCategoryProfessional" onclick="deleteCategory('+value.id+')"><i class="fa fa-close">'+
-        '</a></span>')
-      });
-      }
-    );
+          //POPULANDO O SELECT      
+        $.each(response, function (indexInArray, value) { 
+          $("#labelCategoriaProfissional").append('<span class="badge_default">'+value.text+'<a href="#" class="closeCategoryProfessional" onclick="deleteCategory('+value.id+')"><i class="fa fa-close">'+
+          '</a></span>')
+        });
+        }
+      );
+    }
   }
-
 }
 
 function getAllSpecialtyProfessional() {
-  if(MapasCulturais.hasOwnProperty('entity')) {
-    $.get(MapasCulturais.baseURL+'categoria-profissional/getSpecialtyProfessional/'+MapasCulturais.entity.id,
+if(MapasCulturais.hasOwnProperty('entity')) {
+  if(MapasCulturais.entity.id != undefined) {
+      $.get(MapasCulturais.baseURL+'categoria-profissional/getSpecialtyProfessional/'+MapasCulturais.entity.id,
       function (response, textStatus, jqXHR) {
         //POPULANDO O SELECT
       $.each(response, function (indexInArray, value) { 
@@ -247,70 +252,69 @@ function getAllSpecialtyProfessional() {
       });
       }
     );
+    }
   }
 }
 $('#specialtyCategoryProfessional').select2();
-
 function deleteSpecialty(text) {
-  var dataDelete = {
-    id: MapasCulturais.entity.id,
-    value: text
+var dataDelete = {
+  id: MapasCulturais.entity.id,
+  value: text
+}
+$.ajax({
+  type: "delete",
+  url: MapasCulturais.baseURL+'categoria-profissional/deleteSpecialty',
+  data: dataDelete,
+  dataType: "json",
+  success: function (response) {
+    $("#labelEspecialidadeProfissional span").remove();
+    $("#labelCategoriaProfissional span").remove();
+    getAllCategoryProfessional();
+    getAllSpecialtyProfessional();
   }
-  $.ajax({
-    type: "delete",
-    url: MapasCulturais.baseURL+'categoria-profissional/deleteSpecialty',
-    data: dataDelete,
-    dataType: "json",
-    success: function (response) {
-      $("#labelEspecialidadeProfissional span").remove();
-      $("#labelCategoriaProfissional span").remove();
-      getAllCategoryProfessional();
-      getAllSpecialtyProfessional();
-    }
-  });
+});
 }
 
 function deleteCategory(id) {
-  var dataDelete = {
-    idEntity: MapasCulturais.entity.id,
-    idCat: id
+var dataDelete = {
+  idEntity: MapasCulturais.entity.id,
+  idCat: id
+}
+$.ajax({
+  type: "delete",
+  url: MapasCulturais.baseURL+'categoria-profissional/deleteCategory',
+  data: dataDelete,
+  dataType: "json",
+  success: function (response) {
+    $("#labelEspecialidadeProfissional span").remove();
+    $("#labelCategoriaProfissional span").remove();
+    getAllCategoryProfessional();
+    getAllSpecialtyProfessional();
   }
-  $.ajax({
-    type: "delete",
-    url: MapasCulturais.baseURL+'categoria-profissional/deleteCategory',
-    data: dataDelete,
-    dataType: "json",
-    success: function (response) {
-      $("#labelEspecialidadeProfissional span").remove();
-      $("#labelCategoriaProfissional span").remove();
-      getAllCategoryProfessional();
-      getAllSpecialtyProfessional();
-    }
-  });
+});
 }
 
 function getSpecialtyProfessional(id) {
-  var dataPost = {
-    id: id,
-    type: 'especialidade'
-  }
-
-  $.ajax({
-    type: "POST",
-    url: MapasCulturais.baseURL+'categoria-profissional/categoriaEspecialidade',
-    data: dataPost,
-    dataType: 'json',
-    success: function (response) {
-      if(response.length == 0) {
-        $("#btnSaveCatSpecialty").css('display', 'none');
-      }else{
-        $("#btnSaveCatSpecialty").css('display', 'block');
-      }
-      $('#specialtyCategoryProfessional').select2({
-          data: response,
-          multiple: true,
-          placeholder: 'Selecione uma ou mais especialidade'
-      });
+var dataPost = {
+  id: id,
+  type: 'especialidade'
+}
+$.ajax({
+  type: "POST",
+  url: MapasCulturais.baseURL+'categoria-profissional/categoriaEspecialidade',
+  data: dataPost,
+  dataType: 'json',
+  success: function (response) {
+    if(response.length == 0) {
+      $("#btnSaveCatSpecialty").css('display', 'none');
+    }else{
+      $("#btnSaveCatSpecialty").css('display', 'block');
     }
-  });
+    $('#specialtyCategoryProfessional').select2({
+        data: response,
+        multiple: true,
+        placeholder: 'Selecione uma ou mais especialidade'
+    });
+  }
+});
 }
