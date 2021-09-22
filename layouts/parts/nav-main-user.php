@@ -1,11 +1,11 @@
 <?php $this->applyTemplateHook('nav.main.user','before'); ?>
 <li class="user">
     <a href="javascript:void(0);" class="js-submenu-toggle" data-submenu-target="$(this).parent().find('.submenu')">
-        <div class="avatar">
+        <div class="circle-avatar">
             <?php if ($app->user->profile->avatar): ?>
-                <img class="login circle-avatar" src="<?php echo $app->user->profile->avatar->transform('avatarSmall')->url; ?>" />
+                <img class="login circle-avatar menu-header-login" src="<?php echo $app->user->profile->avatar->transform('avatarSmall')->url; ?>" />
             <?php else: ?>
-                <img class="login circle-avatar" src="<?php $this->asset('img/avatar--agent.png'); ?>" />
+                <img class="login circle-avatar menu-header-login" src="<?php $this->asset('img/avatar--agent.png'); ?>" />
             <?php endif; ?>
         </div>
     </a>
