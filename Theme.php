@@ -208,6 +208,7 @@ class Theme extends BaseV1\Theme{
         $app->registerController('recursos', 'Saude\Controllers\Resources');
         // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
+        $app->registerController('indicadores', 'Saude\Controllers\Indicadores');
     }
     
 

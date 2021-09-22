@@ -80,6 +80,15 @@
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
+        <!--Criação de mais um item de menu-->
+            <li id="entities-menu-indicadores">
+                <a href="<?php echo $app->createUrl('indicadores')  ?>">
+                <span class="div-icon">
+                    <div class="fa fa-bar-chart fa-2x"></div>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Indicadores");?></div>
+                </span>
+                </a>
+            </li>
     </ul>
     <!--.menu.entities-menu-->
     <ul class="menu session-menu clearfix">
