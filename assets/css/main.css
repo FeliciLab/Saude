@@ -7741,6 +7741,7 @@ nav {
   border-collapse: separate;   /* Colapsa a tabela para poder adicionar o espaçamento */
   border-spacing: 5px 0px;
   text-align: center;
+  border-bottom: white;
   
 }
 .abas-indicadores li.active {
@@ -7748,6 +7749,8 @@ nav {
 }
 .abas-indicadores li a {
   width: 100%;
+  margin: 5px;
+  background-color: white;
 }
 
 .clearfix-indicadores:after {
@@ -7761,6 +7764,7 @@ nav {
 
 .linhaprincipal {
   display: table-cell;
+  background: white;
 }
 
 .container-iframe{
@@ -7768,7 +7772,7 @@ nav {
   width: 100%;
   overflow: hidden;
   padding-top: 80%; 
-  margin-top: -20px;
+  margin-top: -26px;
 }
 @media (max-width:600px){
   .container-iframe{
@@ -7777,7 +7781,7 @@ nav {
   overflow: hidden;
   padding-top: 100%;
   padding-bottom: 100%; 
-  margin-top: -20px;
+  margin-top: -26px;
   }
 }
 
