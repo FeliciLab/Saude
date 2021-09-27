@@ -11,26 +11,6 @@ return [
     'maps.center' => [-5.058114374355702, -39.4134521484375],
     'maps.zoom.default' => 8,
 
-    'plugins' => [
-        'EvaluationMethodTechnical' => ['namespace' => 'EvaluationMethodTechnical', 'config' => ['step' => 0.1]],
-        'EvaluationMethodSimple' => ['namespace' => 'EvaluationMethodSimple'],
-        'EvaluationMethodDocumentary' => ['namespace' => 'EvaluationMethodDocumentary'],
-        // HABILITANDO PLUGIN - DESENVOLVIDO PELA ESP
-        'LocationStateCity' => [
-            'namespace' => 'LocationStateCity'
-        ],
-        'PDFReport' => [
-            'namespace' => 'PDFReport'
-        ],
-        'SealModelTab' => ['namespace' => 'SealModelTab' ],
-        'SealCertified' => [ 
-            'namespace' => 'SealCertified', 
-            'config' => [ 
-                'logo-site' => 'img/logo-saude.png' 
-                ] 
-            ],
-    ],
-
     // 'auth.provider' => 'Fake',
     'auth.provider' => 'OpauthKeyCloak',
     'auth.config' => [
