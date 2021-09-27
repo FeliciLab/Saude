@@ -1457,7 +1457,7 @@ article.seal .header-image {
 
 #main-header {
   position: fixed;
-  top: 0;
+  top: 0px;
   width: 100%;
   z-index: 1700;
   background: #fff; }
@@ -1467,6 +1467,10 @@ article.seal .header-image {
       display: block; }
   @media screen and (min-width: 768px) {
     #main-header { } }
+    @media screen and (max-width: 768px) {
+      #main-header {
+        border-top: 6px solid #000;
+       } }
   @media print {
     #main-header {
       position: relative;
@@ -1579,7 +1583,6 @@ article.seal .header-image {
     float: left;
     box-sizing: border-box;
     padding: .25rem;
-    border-top: 3px solid #000;
     box-shadow: 1px 0 0 0 #eee inset;
     -webkit-box-shadow: 1px 0 0 0 #eee inset; }
     .menu > li > a {
@@ -1699,6 +1702,21 @@ article.seal .header-image {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent; }
 
+  /*Inicio da aplicação de estilo no item menu Indicadores*/
+  #entities-menu-indicadores.active, #entities-menu-indicadores:hover, #entities-menu-indicadores.current-entity-parent {
+    border-top-color: #4054B2;
+    color:  #4054B2; }
+    #entities-menu-indicadores.active a, #entities-menu-indicadores:hover a, #entities-menu-indicadores.current-entity-parent a {
+      color: #4054B2; }
+  #entities-menu-indicadores.active:after {
+    content: "";
+    position: absolute;
+    top: -8px;
+    border-bottom: 8px solid #4054B2;
+    border-left: 8px solid transparent;
+    border-right: 8px solid transparent; }
+    /*Fim da aplicação de estilo no item menu Indicadores*/
+
 #entities-menu-opportunity.active, #entities-menu-opportunity:hover, #entities-menu-opportunity.current-entity-parent {
   border-top-color: #42515e;
   color: #42515e; }
@@ -1802,7 +1820,7 @@ article.seal .header-image {
       .user .avatar {
         margin: .5rem; } }
   .user .submenu {
-    right: 0;
+    left: 60px;
     width: 11.5rem;
     background: #249243; }
     .user .submenu li {
@@ -1835,7 +1853,7 @@ article.seal .header-image {
       right: 0.6875rem; }
     @media screen and (min-width: 768px) {
       .user .submenu {
-        margin-left: -5.75rem; }
+        margin-left: -8rem; }
         .user .submenu:before {
           right: auto;
           left: 50%;
@@ -4263,10 +4281,28 @@ h1 .icon {
 @media screen and (max-width: 768px) {
   .icon-login::after {
     content: "Entrar";
-    font-size: 10px;
+    font-size: 12px;
     position: absolute;
-    top: 18px;
-    right: -1px; } }
+    /top: 30px;
+    right: 1px; 
+  }
+    .menu-header-login{
+      position: absolute;
+      right: -200px;
+      border-top: none !important;
+     }
+     .menu-logo-esp{
+      position: absolute;
+     }
+    
+     .circle-avatar {
+      border-radius: 100px !important;
+      float: none;
+      width: 1.875rem;
+      height: 1.875rem;
+      margin: 0;
+    
+    }} 
 
 .image-gallery-item {
   position: relative;
@@ -7644,17 +7680,117 @@ nav {
 
 .entties-menu-border{
   border-left: none !important;
+  margin: 5px;
 }
 
 .circle-avatar {
   border-radius: 100px !important;
+  float: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin: 0;
 
 }
 
-.div-icon{
-  color: #666;
+@media screen and (min-width: 768px) {
+    .main-nav-wrapper{
+      display: flex;
+      justify-content: center;
+    }
+    .about-user-logo{
+      display: flex;
+      justify-content: space-between;
+    }
+   } 
+
+   @media screen and (max-width: 600px) {
+
+    .menu > li{
+      border-top: 3px solid black;
+    }
+
+   }
+
+   .a-color{
+     color:gray;
+   }
+
+   /*Estilo da página Indicadores*/
+
+.box-indicadores {
+  background: #4054B2;
+  padding: 0.9rem;
 }
 
-.div-icon-login{
-  color: green;
+.box-indicadores h1 {
+  color: white;
+  font-size: 1.4rem;
+  line-height: unset;
+  margin-bottom: unset;
+  font-family: Roboto;
+  padding-top: 10px; 
+}
+
+.abas-indicadores li{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  display: table;              /* Transforma a div numa tabela */
+  table-layout: fixed;         /* Utiliza o algoritmo de uma table fixed */
+  border-collapse: separate;   /* Colapsa a tabela para poder adicionar o espaçamento */
+  border-spacing: 5px 0px;
+  text-align: center;
+  border-bottom: white;
+  
+}
+.abas-indicadores li.active {
+  border-bottom: 1px solid #4054B2;
+}
+.abas-indicadores li a {
+  width: 100%;
+  margin: 5px;
+  background-color: white;
+}
+
+.clearfix-indicadores:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+
+}
+
+.linhaprincipal {
+  display: table-cell;
+  background: white;
+}
+
+.container-iframe{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 80%; 
+  margin-top: -26px;
+}
+@media (max-width:600px){
+  .container-iframe{
+      position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 100%;
+  padding-bottom: 100%; 
+  margin-top: -26px;
+  }
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none; 
 }
