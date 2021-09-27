@@ -60,6 +60,7 @@ class Resources extends \MapasCulturais\Controller{
     }
 
     function GET_allResource() {
+        $this->requireAuthentication();
         try {
             $all = EntitiesResources::allResource();
             $this->json($all);

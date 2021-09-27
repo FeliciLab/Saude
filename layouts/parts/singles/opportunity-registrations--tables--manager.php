@@ -2,6 +2,8 @@
 
 use MapasCulturais\i;
 
+$_evaluation_type = $entity->evaluationMethodConfiguration->getType();
+
 ?>
 <header id="header-inscritos" class="clearfix">
     <?php $this->applyTemplateHook('header-inscritos', 'begin'); ?>
@@ -65,15 +67,20 @@ use MapasCulturais\i;
     }
 </style>
 <div id="registrations-table-container">
-    <div style="float: right;" class="selected-opportunity">
-        Mudar status para selecionada (Pendente)
-        <input type="checkbox" name="checkselected" id="checkselected" ng-click="setStatusToSelected()" style="margin-left: 10px; margin-right: 10px;">
-    </div>
-    <div style="float: left;" class="selected-opportunity">
-        <button class="btn btn-default" title="Atualiza o status do candidato com base na nota da oportunidade" ng-click="editStatusNote()">
-        <i class="fa fa-refresh" aria-hidden="true"></i>
+    
+    <?php if (!$entity->publishedRegistrations) : ?>
+        <?php if (is_object($_evaluation_type) && property_exists($_evaluation_type, "id") && $_evaluation_type->id === "technical"): ?> 
+        <div style="float: left;" class="selected-opportunity">
+            <button class="btn btn-warning" title="Atualiza o status do candidato com base na nota da oportunidade" ng-click="editStatusNote()">
+            <i class="fa fa-refresh" aria-hidden="true"></i>  Atualizar status dos candidatos com base na nota mínima
+            </button>
+        </div>
+        <?php endif; ?>
+        <button  style="float: right;" class="btn btn-success" title="Atualiza o status do candidato com base na nota da oportunidade" ng-click="setStatusToSelected()">
+            <i class="fa fa-refresh" aria-hidden="true"></i>  Atualizar status dos candidatos para SELECIONADOS
         </button>
-    </div>
+    <?php endif; ?>
+
     <table id="registrations-table" class="js-registration-list registrations-table" ng-class="{'no-options': data.entity.registrationCategories.length === 0, 'no-attachments': data.entity.registrationFileConfigurations.length === 0, 'registrations-results': data.entity.published, 'fullscreen': data.fullscreenTable}">
         <!-- adicionar a classe registrations-results quando resultados publicados-->
         <thead>
@@ -185,7 +192,7 @@ use MapasCulturais\i;
     </table>
 
     <?php
-    $_evaluation_type = $entity->evaluationMethodConfiguration->getType();
+    
     if (is_object($_evaluation_type) && property_exists($_evaluation_type, "id") && $_evaluation_type->id === "simple") : ?>
         <div ng-if="hasEvaluations()">
             <button class="btn btn-primary" ng-click="applyEvaluations()"> {{ data.confirmEvaluationLabel }} </button>

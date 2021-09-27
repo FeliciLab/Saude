@@ -19,7 +19,6 @@ $definition = $configuration->definition;
         <?php if($config_form_part_name): ?>
             <div> <?php $this->part($config_form_part_name, ['entity' => $entity]) ?> </div> <hr>
         <?php endif; ?>
-
         <p>
         <?php
         if($entity->evaluationMethodConfiguration->getDefinition()->slug == 'technical') :  ?>
@@ -34,7 +33,6 @@ $definition = $configuration->definition;
             ?></span>
         <?php endif; ?>
         </p>
-
         <div>
             <h4> <?php i::_e('Textos informativos para a fichas de inscrição') ?> </h4>
             <div class="evaluations-config--intro">

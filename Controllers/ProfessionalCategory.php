@@ -139,17 +139,19 @@ class ProfessionalCategory extends \MapasCulturais\Controller {
 		);
 
 		$idCatPro = '';
-		foreach ($cat as $key => $agentMeta) {
-			$idCatPro .= $agentMeta->value . ',';
-		}
-
-		$idsCatPro = substr($idCatPro, 0, -1);
-		$dql = "SELECT p.id, p.name as text FROM Saude\Entities\ProfessionalCategory p
-        WHERE p.id IN ($idsCatPro)";
-		$query = $app->em->createQuery($dql);
-		$catPro = $query->getResult();
-
-		$this->json($catPro);
+        if(!empty($cat)) {
+            foreach ($cat as $key => $agentMeta) {
+                $idCatPro .= $agentMeta->value.',';
+            }
+        }
+        if(!empty($idCatPro)) {
+            $idsCatPro = substr($idCatPro, 0,-1);
+            $dql = "SELECT p.id, p.name as text FROM Saude\Entities\ProfessionalCategory p 
+            WHERE p.id IN ($idsCatPro)";
+            $query  = $app->em->createQuery($dql);
+            $catPro = $query->getResult();
+            $this->json($catPro);
+        }
 	}
 
 	function GET_getSpecialtyProfessional() {
