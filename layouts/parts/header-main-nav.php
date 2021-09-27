@@ -72,5 +72,16 @@
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
+        <!--Criação de mais um item de menu-->
+        <!--Criação de mais um item de menu-->
+        <li id="entities-menu-indicadores">
+                <a class="a-color" href="<?php echo $app->createUrl('indicadores')  ?>">
+                <span class="div-icon">
+                    <div class="fa fa-bar-chart fa-2x icon-indicadores"></div>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Indicadores");?></div>
+                </span>
+                </a>
+            </li>
+    </ul>   
 </nav>
 </div>
