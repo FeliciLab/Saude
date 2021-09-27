@@ -460,20 +460,22 @@ module.controller('RegistrationConfigurationsController', ['$scope', '$rootScope
             fieldTypesBySlug: fieldTypesBySlug,
             fieldsRequiredLabel: labels['requiredLabel'],
             fieldsOptionalLabel: labels['optionalLabel'],
-            categories: []
+            categories: MapasCulturais.entity.registrationCategories,
         };
 
         $scope.data.newFieldConfiguration.fieldType = fieldTypes[0].slug;
 
 
-        $interval(function(){
-            var $field = jQuery('#registration-categories .js-categories-values'); 
-            if ($field.hasClass('editable-empty')) {
-                $scope.data.categories = [];
-            } else {
-                $scope.data.categories = $field.text().split("\n");
-            }
-        },1000);
+        if(jQuery('#registration-categories').length) {
+            $interval(function(){
+                var $field = jQuery('#registration-categories .js-categories-values'); 
+                if ($field.hasClass('editable-empty')) {
+                    $scope.data.categories = [];
+                } else {
+                    $scope.data.categories = $field.text().split("\n");
+                }
+            },1000);
+        }
 
         $scope.allCategories = function(model){
             return model.categories.length === 0;
@@ -2034,7 +2036,8 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
             }
         }
     }
-
+    //ADICIONADO O USURIO LOGADO PARA PREENCHER O INPUT DE INSCRIÇÃO
+    $scope.data.registration.owner = MapasCulturais.userProfile;
 
     $scope.setRegistrationOwner = function(agent, attrs){
         $scope.data.registration.owner = agent;
