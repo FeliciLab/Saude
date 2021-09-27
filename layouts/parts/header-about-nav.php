@@ -1,3 +1,33 @@
+<?php if ($app->getConfig('auth.provider') === 'Fake' && $app->user->id !== 1) : ob_start(); ?>
+    <style>
+        span.fake-dummy {
+            white-space: nowrap;
+            padding: 0.5rem 0 0 0.5rem;
+            cursor: default;
+        }
+
+        span.fake-dummy a {
+            display: inline !important;
+            font-weight: bold !important;
+            vertical-align: baseline !important;
+        }
+    </style>
+    <span class="fake-dummy">
+        Admin:
+        <a onclick="jQuery.get('<?php echo $app->createUrl('auth', 'fakeLogin') ?>/?fake_authentication_user_id=1',
+            function(){
+                console.info(<?php \MapasCulturais\i::_e('Logado como Admin'); ?>);
+                MapasCulturais.Messages.success(<?php \MapasCulturais\i::_e('Logado como Admin.'); ?>);
+            })">
+            Login
+        </a>
+        <a onclick="jQuery.get('<?php echo $app->createUrl('auth', 'fakeLogin') ?>/?fake_authentication_user_id=1',
+            function(){ location.reload();})">
+            Reload
+        </a>
+    </span>
+<?php $fake_options = ob_get_clean();
+endif; ?>
 <nav id="about-nav" class="alignright clearfix about-user-logo">
     <ul class="menu header-login">
         <?php if ($app->auth->isUserAuthenticated()) : ?>
@@ -68,8 +98,7 @@
             <?php $this->applyTemplateHook('nav.main.login', 'after'); ?>
         <?php endif; ?>
     </ul>
-    <h1 id="organization-logo"
-    class="menu-logo-esp"><a href="https://www.esp.ce.gov.br/" target="_blank"><img src="<?php $this->asset('img/logo-prefeitura.png'); ?>" /></a></h1>
+    <h1 id="organization-logo" class="menu-logo-esp"><a href="https://www.esp.ce.gov.br/" target="_blank"><img src="<?php $this->asset('img/logo-prefeitura.png'); ?>" /></a></h1>
     <ul id="secondary-menu">
         <li><a class="icon icon-about hltip" href="<?php echo $app->createUrl('site', 'page', array('sobre')) ?>" title="Sobre o Mapa da Saúde"></a></li> <br>
         <li><a class="icon icon-help hltip" href="<?php echo $app->createUrl('site', 'page', array('como-usar')) ?>" title="Como usar"></a></li>
