@@ -1699,6 +1699,21 @@ article.seal .header-image {
   border-left: 8px solid transparent;
   border-right: 8px solid transparent; }
 
+  /*Inicio da aplicação do estilo no item menu Indicadores*/
+#entities-menu-indicadores.active, #entities-menu-indicadores:hover, #entities-menu-indicadores.current-entity-parent {
+  border-top-color: #42515e;
+  color: #42515e; }
+  #entities-menu-indicadores.active a, #entities-menu-indicadores:hover a, #entities-menu-indicadores.current-entity-parent a {
+    color: #42515e; }
+#entities-menu-indicadores.active:after {
+  content: "";
+  position: absolute;
+  top: -8px;
+  border-bottom: 8px solid #42515e;
+  border-left: 8px solid transparent;
+  border-right: 8px solid transparent; }
+/*Fim da aplicação de estilo no item menu Indicadores*/
+
 #entities-menu-opportunity.active, #entities-menu-opportunity:hover, #entities-menu-opportunity.current-entity-parent {
   border-top-color: #42515e;
   color: #42515e; }
@@ -7658,3 +7673,84 @@ nav {
 .div-icon-login{
   color: green;
 }
+
+/*Estilo da página Indicadores*/
+
+.box-indicadores {
+  background: #4054B2;
+  padding: 0.9rem;
+}
+
+.box-indicadores h1 {
+  color: white;
+  font-size: 1.4rem;
+  line-height: unset;
+  margin-bottom: unset;
+  font-family: Roboto;
+  padding-top: 10px; 
+}
+
+.abas-indicadores li{
+  list-style-type: none;
+  margin: 0;
+  padding: 0;
+  width: 50%;
+  display: table;              /* Transforma a div numa tabela */
+  table-layout: fixed;         /* Utiliza o algoritmo de uma table fixed */
+  border-collapse: separate;   /* Colapsa a tabela para poder adicionar o espaçamento */
+  border-spacing: 5px 0px;
+  text-align: center;
+  border-bottom: white;
+  
+}
+.abas-indicadores li.active {
+  border-bottom: 1px solid #4054B2;
+}
+.abas-indicadores li a {
+  width: 100%;
+  margin: 5px;
+  background-color: white;
+}
+
+.clearfix-indicadores:after {
+  content: '.';
+  display: block;
+  height: 0;
+  clear: both;
+  visibility: hidden;
+
+}
+
+.linhaprincipal {
+  display: table-cell;
+  background: white;
+}
+
+.container-iframe{
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 80%; 
+  margin-top: -26px;
+}
+@media (max-width:600px){
+  .container-iframe{
+      position: relative;
+  width: 100%;
+  overflow: hidden;
+  padding-top: 100%;
+  padding-bottom: 100%; 
+  margin-top: -26px;
+  }
+}
+
+.responsive-iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  border: none; 
+}
+/*Fim do sstilo da página Indicadores*/
