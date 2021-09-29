@@ -92,6 +92,19 @@ class Theme extends BaseV1\Theme{
                 echo $setStatus;
             }
         });
+
+        $app->hook('controller(registration).saveEvaluationValidate', function($registration) use($app) {
+            $evaluation_type = $registration->getEvaluationMethodDefinition()->slug;
+            if ($evaluation_type == 'technical') {
+                $cfg = $registration->getEvaluationMethodConfiguration();
+                foreach($cfg->criteria as $cri){
+                    $key = $cri->id;
+                    if(isset($this->postData['data']["{$key}"]) && $this->postData['data']["{$key}"] > $cri->max) {
+                        return $this->json(['message' => "O valor do campo ".$cri->title." é maior que a pontuação máxima permitida", 'status' => 'error'], 403);
+                    }
+                }
+            }           
+        });
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
