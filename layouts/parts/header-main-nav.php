@@ -44,7 +44,7 @@
                 </li>
                 <?php $this->applyTemplateHook('nav.main.projects', 'after'); ?>
             <?php endif; ?>
-            <ul style="display: none" class="menu header-login">
+            <ul style="display: none" class="menu header-login menu entities-menu clearfix entties-menu-border">
                 <?php if ($app->auth->isUserAuthenticated()) : ?>
                     <?php $this->applyTemplateHook('nav.main.notifications', 'before'); ?>
                     <li class="notifications" ng-controller="NotificationController" style="display:none" ng-class="{'visible': data.length > 0}">
