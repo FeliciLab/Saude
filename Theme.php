@@ -323,6 +323,16 @@ class Theme extends BaseV1\Theme{
         return $filters;
     }
 
+    public function getLoginLinkAttributes() {
+        $link_attributes = parent::getLoginLinkAttributes();
+        if($this->controller->id=='indicadores'){
+            $app = \MapasCulturais\App::i();
+            $loginURL = $app->createUrl('panel');
+            $link_attributes = 'href="'. $loginURL .'"';  
+        }
+        return $link_attributes;
+    }
+
 }
 
 
