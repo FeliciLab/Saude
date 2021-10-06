@@ -7658,3 +7658,9 @@ nav {
 .div-icon-login{
   color: green;
 }
+
+.registration-button-save{
+  display: inline-block;
+  margin: 15px;
+}
+
