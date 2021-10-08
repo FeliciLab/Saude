@@ -7677,6 +7677,19 @@ nav {
 
 }
 
+.div-icon{
+  color: #666;
+}
+
+.div-icon-login{
+  color: green;
+}
+
+.registration-button-save{
+  display: inline-block;
+  margin: 15px;
+}
+
 @media screen and (min-width: 768px) {
     .main-nav-wrapper{
       display: flex;
