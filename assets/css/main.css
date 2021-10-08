@@ -1704,15 +1704,15 @@ article.seal .header-image {
 
   /*Inicio da aplicação do estilo no item menu Indicadores*/
 #entities-menu-indicadores.active, #entities-menu-indicadores:hover, #entities-menu-indicadores.current-entity-parent {
-  border-top-color: #42515e;
-  color: #42515e; }
+  border-top-color: #4054B2;
+  color: #4054B2; }
   #entities-menu-indicadores.active a, #entities-menu-indicadores:hover a, #entities-menu-indicadores.current-entity-parent a {
-    color: #42515e; }
+    color: #4054B2; }
 #entities-menu-indicadores.active:after {
   content: "";
   position: absolute;
   top: -8px;
-  border-bottom: 8px solid #42515e;
+  border-bottom: 8px solid #4054B2;
   border-left: 8px solid transparent;
   border-right: 8px solid transparent; }
 /*Fim da aplicação de estilo no item menu Indicadores*/
@@ -7780,3 +7780,30 @@ nav {
   border: none; 
 }
 /*Fim do sstilo da página Indicadores*/
+.registration-button-save{
+  display: inline-block;
+  margin: 15px;
+}
+
+@media screen and (min-width: 768px) {
+    .main-nav-wrapper{
+      display: flex;
+      justify-content: center;
+    }
+    .about-user-logo{
+      display: flex;
+      justify-content: space-between;
+    }
+   } 
+
+   @media screen and (max-width: 600px) {
+
+    .menu > li{
+      border-top: 3px solid black;
+    }
+
+   }
+
+   .a-color{
+     color:gray;
+   }

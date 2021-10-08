@@ -23,17 +23,6 @@
                 <?php $this->applyTemplateHook('nav.main.spaces', 'after'); ?>
             <?php endif; ?>
 
-            <?php if ($app->isEnabled('agents')) : ?>
-                <?php $this->applyTemplateHook('nav.main.agents', 'before'); ?>
-                <li id="entities-menu-agent" ng-click="tabClick('agent')">
-                    <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
-                        <div class="fa fa-users fa-2x icon-agent"></div>
-                        <div class="menu-item-label"><?php $this->dict('entities: Agents') ?></div>
-                    </a>
-                </li>
-                <?php $this->applyTemplateHook('nav.main.agents', 'after'); ?>
-            <?php endif; ?>
-
         <?php if($app->isEnabled('agents')): ?>
             <?php $this->applyTemplateHook('nav.main.agents','before'); ?>
             <li id="entities-menu-agent"
@@ -72,7 +61,7 @@
             </li>
     </ul>
     <!--.menu.entities-menu-->
-    <ul class="menu session-menu clearfix">
+    <ul class="menu session-menu clearfix" style="display: none;">
         <?php if ($app->auth->isUserAuthenticated()): ?>
             <?php $this->applyTemplateHook('nav.main.notifications','before'); ?>
             <li class="notifications" ng-controller="NotificationController" style="display:none" ng-class="{'visible': data.length > 0}">
