@@ -4,7 +4,7 @@
             <?php if ($app->isEnabled('events')) : ?>
                 <?php $this->applyTemplateHook('nav.main.events', 'before'); ?>
                 <li id="entities-menu-event" ng-click="tabClick('event')">
-                    <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
+                    <a class="a-color" class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
                         <div class="fa fa-calendar-o fa-2x icon-event"></div>
                         <div class="menu-item-label"><?php $this->dict('entities: Events') ?></div>
                     </a>
@@ -27,11 +27,9 @@
             <?php $this->applyTemplateHook('nav.main.agents','before'); ?>
             <li id="entities-menu-agent"
                 ng-click="tabClick('agent')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
-                <span class="div-icon">
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
                     <div class="fa fa-users fa-2x icon-agent"></div>
                     <div class="menu-item-label"><?php $this->dict('entities: Agents') ?></div>
-                </span>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.agents','after'); ?>
@@ -41,11 +39,9 @@
             <?php $this->applyTemplateHook('nav.main.projects','before'); ?>
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
-                <span class="div-icon">
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
                     <div class="fa fa-file-text fa-2x icon-project"></div>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
-                </span>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
@@ -53,10 +49,8 @@
         <!--Criação de mais um item de menu-->
         <li id="entities-menu-indicadores">
                 <a class="a-color" href="<?php echo $app->createUrl('indicadores')  ?>">
-                <span class="div-icon">
                     <div class="fa fa-bar-chart fa-2x icon-indicadores"></div>
                     <div class="menu-item-label"><?php \MapasCulturais\i::_e("Indicadores");?></div>
-                </span>
                 </a>
             </li>
     </ul>
