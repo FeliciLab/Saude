@@ -230,6 +230,7 @@ class Theme extends BaseV1\Theme{
         $app->registerController('recursos', 'Saude\Controllers\Resources');
         // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
+        $app->registerController('indicadores', 'Saude\Controllers\Indicadores');
     }
     
 
@@ -338,6 +339,16 @@ class Theme extends BaseV1\Theme{
         App::i()->applyHookBoundTo($this, 'search.filters', [&$filters]);
 
         return $filters;
+    }
+
+    public function getLoginLinkAttributes() {
+        $link_attributes = parent::getLoginLinkAttributes();
+        if($this->controller->id=='indicadores'){
+            $app = \MapasCulturais\App::i();
+            $loginURL = $app->createUrl('panel');
+            $link_attributes = 'href="'. $loginURL .'"';  
+        }
+        return $link_attributes;
     }
 
 }
