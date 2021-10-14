@@ -1,4 +1,4 @@
-<div class="widget redes-sociais" style="display:none">
+<div class="widget">
     <h3><?php \MapasCulturais\i::_e("Compartilhar");?></h3>
     <!-- LinkedIn -->
     <div>
@@ -56,9 +56,3 @@
     <?php endif; ?>
 </div>
 <?php endif; ?>
-
-<script>
-    jQuery(window).load(function () { 
-        $(".redes-sociais").toggle("fast");
-    });
-</script>
