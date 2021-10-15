@@ -70,8 +70,12 @@ $(document).ready(function () {
     $('#resource_status').on('change', function() {
         var type = this.value;
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
+            $("#indeferido_reply").hide();
             $("#divDeferido").show();
             pointMax(MapasCulturais.entity.object.id);
+        }else if(type == 'Indeferido'){
+            $("#divDeferido").show();
+            $("#indeferido_reply").show();
         }else{
             $("#divDeferido").hide();
         }

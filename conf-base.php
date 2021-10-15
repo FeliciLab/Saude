@@ -11,8 +11,8 @@ return [
     'maps.center' => [-5.058114374355702, -39.4134521484375],
     'maps.zoom.default' => 8,
 
-    // 'auth.provider' => 'Fake',
-    'auth.provider' => 'OpauthKeyCloak',
+    'auth.provider' => 'Fake',
+    // 'auth.provider' => 'OpauthKeyCloak',
     'auth.config' => [
         'logout_url'            => env('LOGOUT_URL', ''),
         'client_id'             => env('CLIENT_ID', ''),
