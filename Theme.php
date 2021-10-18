@@ -154,8 +154,7 @@ class Theme extends BaseV1\Theme{
     
     protected function _publishAssets() {
         $app = App::i();
-        $app->view->enqueueStyle('app', 'fontawesome', 'https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css');
-
+        
         $app->view->enqueueScript('app', 'entity.module.opportunity', 'js/ng.entity.module.opportunity.js', array('ng-mapasculturais'));
         $app->view->enqueueScript('app', 'taxonomies', 'js/ng.taxonomies.js');
         $app->view->enqueueScript('app', 'evaluations-send', 'js/evaluations-send.js');

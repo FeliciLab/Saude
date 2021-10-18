@@ -10,6 +10,7 @@ $title = isset($entity) ? $this->getTitle($entity) : $this->getTitle();
         <link rel="profile" href="http://gmpg.org/xfn/11" />
         <link rel="shortcut icon" href="<?php $this->asset('img/favicon.ico') ?>" />
         <?php $this->head(isset($entity) ? $entity : null); ?>
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css" media="all" rel="stylesheet" type="text/css">
         <!--[if lt IE 9]>
         <script src="<?php $this->asset('js/html5.js'); ?>" type="text/javascript"></script>
         <![endif]-->
