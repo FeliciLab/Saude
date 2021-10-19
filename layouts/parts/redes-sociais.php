@@ -1,4 +1,9 @@
-<div class="widget">
+<?php
+    $app_mode = env('APP_MODE', 'production');
+    $is_production = $app_mode == 'production';
+    if($is_production){
+?>
+    <div class="widget">
     <h3><?php \MapasCulturais\i::_e("Compartilhar");?></h3>
     <!-- LinkedIn -->
     <div>
@@ -28,6 +33,11 @@
         </div>
     </div>
 </div>
+
+<?php
+    }
+?>
+
 <div class="btn-social-share" data-href="<?php echo $entity->singleUrl; ?>" data-type="button_count"></div>
 <?php if ($this->isEditable() || $entity->twitter || $entity->facebook || $entity->googleplus || $entity->instagram): ?>
 <div class="widget">
