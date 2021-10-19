@@ -6988,6 +6988,9 @@ h4, h5, h6 {
 #main-section {
   margin-top: 74px; }
 
+.controller-agent > #main-section {
+  margin-top: 162px !important; }
+
 #infobox .espaco-dos-eventos {
   padding: 0.5rem; }
 
@@ -6997,10 +7000,10 @@ h4, h5, h6 {
 .panel-main-content {
   padding: 0.75rem; }
 
-@media print {
+@media screen and (min-width: 1200px) {
   .panel-main-content {
-    width: 100%;
-    padding: 1.5rem; } }
+    width: 60%;
+    padding: 4rem; } }
 .panel-list .objeto h1 .icon {
   width: 1.5rem;
   height: 1.5rem;
