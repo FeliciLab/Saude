@@ -76,24 +76,23 @@ $rec = Resources::getEnabledResource($registration->opportunity->id, 'period');
         <?php
         //VERIFICA SE ENVIOU O RECURSO
         if ($resources == false) {
-            if ($rec['open'] == true && $rec['close'] == false) { ?>
+            if ($rec['open'] == true && $rec['close'] == true) { ?>
                 <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
                     <i class="fa fa-edit"></i> Abrir Recurso
                 </a>
-
-                
         <?php
             }
         } else {
             echo '<label class="text-info">Recurso enviado</label><br/>';
         }
         //MENSAGEM FORA DO PERIODO
-        if ($rec['open'] == false || $rec['close'] == true) {
+        if ($rec['open'] != true || $rec['close'] != true) {
             echo '<label class="text-danger">Fora do período do recurso</label><br/>';
         }
 
         ?>
     <?php endif; ?>
+
     <div class="objeto-meta">
         <div><span class="label" <?php \MapasCulturais\i::esc_attr_e("Responsável:"); ?>></span> <?php echo $registration->owner->name ?></div>
         <?php

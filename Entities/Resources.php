@@ -267,11 +267,11 @@ class Resources extends \MapasCulturais\Entity{
         }
         $dt = $date.' '.$hour;
         $dtFim = $dateEnd .' ' .$hourEnd;
-        $dateinit = \DateTime::createFromFormat('Y-m-d H:i:s', $dt);
+        $dateinit = \DateTime::createFromFormat('Y-m-d H:i', $dt);
         //dump($dateinit);
         $now = new DateTime('now');
         //dump($now);
-        $dateFinal = \DateTime::createFromFormat('Y-m-d H:i:s', $dtFim);
+        $dateFinal = \DateTime::createFromFormat('Y-m-d H:i', $dtFim);
 
         $open = false;
         $close = false;
