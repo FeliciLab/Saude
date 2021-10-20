@@ -99,7 +99,7 @@ class Resources extends \MapasCulturais\Controller{
 
         //ALTERAR A NOTA FINAL
         if(!empty($this->putData['new_consolidated_result'])) {
-            $max = EntitiesResources::maxPoint($reply->opportunityId->id);
+            $max = EntitiesResources::maxPoint($reply->opportunityId->evaluationMethodConfiguration->id);
 
             $reg = $app->repo('Registration')->find($reply->registrationId->id);
             if($this->putData['new_consolidated_result'] > $max) {

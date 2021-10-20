@@ -196,20 +196,29 @@ class Resources extends \MapasCulturais\Entity{
     /**
      * Verifica a pontuação máxima configurada na avaliação para a banca poder alterar a nota
      *
-     * @param [integer] $opportunity id da Oportunidade
+     * @param [integer] $evaluationMethodConfigurationId id da Oportunidade
      * @return integer
      */
-    public static function maxPoint($opportunity) {
+    public static function maxPoint($evaluationMethodConfigurationId) {
         $app = App::i();
         $pointMax = $app->repo("EvaluationMethodConfigurationMeta")->findBy([
-            'owner' => $opportunity,
+            'owner' => $evaluationMethodConfigurationId,
             'key' => 'criteria'
         ]);
-        $spotsToarray = json_decode($pointMax[0]->value);
+
+        $spotsToarray = [];
+        if (count($pointMax)) {
+            $spotsToarray = json_decode($pointMax[0]->value);
+        }
+        
         $spots = 0;
+        /**
+         * @todo deve realizar o calculo da nota máxima possível para a oportunidade
+         */
         foreach ($spotsToarray as $value) {
             $spots = ($spots + $value->max);
         }
+
         return $spots;
     }
 
