@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    //OCULTANDO CAMPO NO FORMULÁRIO DE RESPOSTA
-    $("#divDeferido").hide();
     
     getAllResource();
     $("#formSendResource").submit(function (e) { 
@@ -37,6 +35,7 @@ $(document).ready(function () {
         event.preventDefault();
         var form = $("#formReplyResource").serialize();
         var idResource = $("#resource_id").val();
+
         $.ajax({
             type: "PUT",
             url: MapasCulturais.baseURL+'recursos/replyResource/'+idResource,
@@ -70,8 +69,15 @@ $(document).ready(function () {
     $('#resource_status').on('change', function() {
         var type = this.value;
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
+            $("#indeferido_reply").hide();
             $("#divDeferido").show();
-            pointMax(MapasCulturais.entity.object.id);
+
+            if ($("#evaluationMethod").val() == 'technical') {
+                pointMax(MapasCulturais.entity.object.id);
+            }           
+        }else if(type == 'Indeferido'){
+            $("#divDeferido").show();
+            $("#indeferido_reply").show();
         }else{
             $("#divDeferido").hide();
         }
@@ -316,8 +322,10 @@ function pointMax(opportunity) {
         data: {opportunityId: opportunity},
         dataType: "json",
         success: function (response) {
-            $("#infoNotaMaxima").html("Gostariamos de lhe lembrar que a nota máxima de pontuação é de: " + response.message);
-            $("#new_consolidated_result").attr('max' , response.message);
+            if (response.type == 'technical') {
+                $("#infoNotaMaxima").html("Gostariamos de lhe lembrar que a nota máxima de pontuação é de: " + response.message);
+                $("#new_consolidated_result").attr('max' , response.message);
+            }          
         }
     });
 }
