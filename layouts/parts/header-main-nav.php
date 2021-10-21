@@ -1,60 +1,34 @@
-<?php if($app->getConfig('auth.provider') === 'Fake' && $app->user->id !== 1): ob_start(); ?>
-    <style>
-        span.fake-dummy{
-            white-space:nowrap; padding: 0.5rem 0 0 0.5rem; cursor:default;
-        }
-        span.fake-dummy a{
-            display:inline !important; font-weight:bold !important; vertical-align: baseline !important;
-        }
-    </style>
-    <span class="fake-dummy">
-        Admin:
-        <a onclick="jQuery.get('<?php echo $app->createUrl('auth', 'fakeLogin') ?>/?fake_authentication_user_id=1',
-            function(){
-                console.info(<?php \MapasCulturais\i::_e('Logado como Admin');?>);
-                MapasCulturais.Messages.success(<?php \MapasCulturais\i::_e('Logado como Admin.');?>);
-            })">
-            Login
-        </a>
-        <a onclick="jQuery.get('<?php echo $app->createUrl('auth', 'fakeLogin') ?>/?fake_authentication_user_id=1',
-            function(){ location.reload();})">
-            Reload
-        </a>
-    </span>
-<?php $fake_options = ob_get_clean(); endif; ?>
+<div class="main-nav-wrapper">
+    <nav id="main-nav" class="clearfix">
+        <ul class="menu entities-menu clearfix entties-menu-border">
+            <?php if ($app->isEnabled('events')) : ?>
+                <?php $this->applyTemplateHook('nav.main.events', 'before'); ?>
+                <li id="entities-menu-event" ng-click="tabClick('event')">
+                    <a class="a-color" class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
+                        <div class="fa fa-calendar-o fa-2x icon-event"></div>
+                        <div class="menu-item-label"><?php $this->dict('entities: Events') ?></div>
+                    </a>
+                </li>
+                <?php $this->applyTemplateHook('nav.main.events', 'after'); ?>
+            <?php endif; ?>
 
-<nav id="main-nav" class="clearfix">
-    <ul class="menu entities-menu clearfix">
-        <?php if($app->isEnabled('events')): ?>
-            <?php $this->applyTemplateHook('nav.main.events','before'); ?>
-            <li id="entities-menu-event"
-                ng-click="tabClick('event')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(event:!t),filterEntity:event))'; ?>">
-                    <div class="icon icon-event"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Events') ?></div>
-                </a>
-            </li>
-            <?php $this->applyTemplateHook('nav.main.events','after'); ?>
-        <?php endif; ?>
-
-        <?php if($app->isEnabled('spaces')): ?>
-            <?php $this->applyTemplateHook('nav.main.spaces','before'); ?>
-            <li id="entities-menu-space"
-                ng-click="tabClick('space')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
-                    <div class="icon icon-space"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Spaces') ?></div>
-                </a>
-            </li>
-            <?php $this->applyTemplateHook('nav.main.spaces','after'); ?>
-        <?php endif; ?>
+            <?php if ($app->isEnabled('spaces')) : ?>
+                <?php $this->applyTemplateHook('nav.main.spaces', 'before'); ?>
+                <li id="entities-menu-space" ng-click="tabClick('space')">
+                    <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(space:!t),filterEntity:space))'; ?>">
+                        <div class="fa fa-building fa-2x icon-space"></div>
+                        <div class="menu-item-label"><?php $this->dict('entities: Spaces') ?></div>
+                    </a>
+                </li>
+                <?php $this->applyTemplateHook('nav.main.spaces', 'after'); ?>
+            <?php endif; ?>
 
         <?php if($app->isEnabled('agents')): ?>
             <?php $this->applyTemplateHook('nav.main.agents','before'); ?>
             <li id="entities-menu-agent"
                 ng-click="tabClick('agent')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
-                    <div class="icon icon-agent"></div>
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(agent:!t),filterEntity:agent))'; ?>">
+                    <div class="fa fa-users fa-2x icon-agent"></div>
                     <div class="menu-item-label"><?php $this->dict('entities: Agents') ?></div>
                 </a>
             </li>
@@ -65,39 +39,23 @@
             <?php $this->applyTemplateHook('nav.main.projects','before'); ?>
             <li id="entities-menu-project"
                 ng-click="tabClick('project')">
-                <a href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list))'; ?>">
-                    <div class="icon icon-project"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Projects') ?></div>
+                <a class="a-color" href="<?php if ($this->controller->action !== 'search') echo $app->createUrl('site', 'search') . '##(global:(enabled:(project:!t),filterEntity:project,viewMode:list),project:(filters:(\'@verified\':!t)))'; ?>">
+                    <div class="fa fa-file-text fa-2x icon-project"></div>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Inscrições");?></div>
                 </a>
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
-            
-        <?php if($app->isEnabled('opportunities')): ?>
-            <?php $this->applyTemplateHook('nav.main.opportunities','before'); ?>
-            <li id="entities-menu-opportunity"
-                ng-click="tabClick('opportunity')">
-                <a href="<?php echo $app->createUrl('busca').'?type=opp##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list))'; ?>">
-                    <div class="icon icon-opportunity"></div>
-                    <div class="menu-item-label"><?php $this->dict('entities: Opportunities') ?></div>
+        <!--Criação de mais um item de menu-->
+        <li id="entities-menu-indicadores">
+                <a class="a-color" href="<?php echo $app->createUrl('indicadores')  ?>">
+                    <div class="fa fa-bar-chart fa-2x icon-indicadores"></div>
+                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Indicadores");?></div>
                 </a>
             </li>
-            <?php $this->applyTemplateHook('nav.main.opportunities','after'); ?>
-        <?php endif; ?>
-
-        <?php if($app->isEnabled('opportunities')): ?>
-            <li id="entities-menu-edital"
-                ng-click="tabClick('opportunity')">
-                <a title="Editais e Concursos" href="<?php echo $app->createUrl('busca').'?type=edital##(global:(enabled:(opportunity:!t),filterEntity:opportunity,viewMode:list,type:edital))'; ?>">
-                    <div><i class="fa fa-file-text" aria-hidden="true"></i></div>
-                    <div class="menu-item-label" style="margin-top: 7px;"><?php \MapasCulturais\i::_e("Editais");?></div>
-                </a>
-            </li>
-            <?php $this->applyTemplateHook('nav.main.opportunities','after'); ?>
-        <?php endif; ?>
     </ul>
     <!--.menu.entities-menu-->
-    <ul class="menu session-menu clearfix">
+    <ul class="menu session-menu clearfix" style="display: none;">
         <?php if ($app->auth->isUserAuthenticated()): ?>
             <?php $this->applyTemplateHook('nav.main.notifications','before'); ?>
             <li class="notifications" ng-controller="NotificationController" style="display:none" ng-class="{'visible': data.length > 0}">
@@ -117,51 +75,54 @@
                                     <span ng-bind-html="notification.message"></span>
                                     <br>
 
-                                    <a ng-if="notification.request.permissionTo.approve" class="btn btn-small btn-success" ng-click="approve(notification.id)"><?php \MapasCulturais\i::_e("aceitar");?></a>
+                                            <a ng-if="notification.request.permissionTo.approve" class="btn btn-small btn-success" ng-click="approve(notification.id)"><?php \MapasCulturais\i::_e("aceitar"); ?></a>
 
-                                    <span ng-if="notification.request.permissionTo.reject">
-                                        <span ng-if="notification.request.requesterUser === MapasCulturais.userId">
-                                            <a class="btn btn-small btn-default" ng-click="reject(notification.id)"><?php \MapasCulturais\i::_e("cancelar");?></a>
-                                            <a class="btn btn-small btn-success" ng-click="delete(notification.id)"><?php \MapasCulturais\i::_e("ok");?></a>
-                                        </span>
-                                        <span ng-if="notification.request.requesterUser !== MapasCulturais.userId">
-                                            <a class="btn btn-small btn-danger" ng-click="reject(notification.id)"><?php \MapasCulturais\i::_e("rejeitar");?></a>
-                                        </span>
-                                    </span>
+                                            <span ng-if="notification.request.permissionTo.reject">
+                                                <span ng-if="notification.request.requesterUser === MapasCulturais.userId">
+                                                    <a class="btn btn-small btn-default" ng-click="reject(notification.id)"><?php \MapasCulturais\i::_e("cancelar"); ?></a>
+                                                    <a class="btn btn-small btn-success" ng-click="delete(notification.id)"><?php \MapasCulturais\i::_e("ok"); ?></a>
+                                                </span>
+                                                <span ng-if="notification.request.requesterUser !== MapasCulturais.userId">
+                                                    <a class="btn btn-small btn-danger" ng-click="reject(notification.id)"><?php \MapasCulturais\i::_e("rejeitar"); ?></a>
+                                                </span>
+                                            </span>
 
-                                    <span ng-if="!notification.request">
-                                        <a class="btn btn-small btn-success" ng-click="delete(notification.id)"><?php \MapasCulturais\i::_e("ok");?></a>
-                                    </span>
+                                            <span ng-if="!notification.request">
+                                                <a class="btn btn-small btn-success" ng-click="delete(notification.id)"><?php \MapasCulturais\i::_e("ok"); ?></a>
+                                            </span>
 
-                                </p>
+                                        </p>
+                                    </li>
+                                </ul>
+                                <a href="<?php echo $app->createUrl('panel'); ?>">
+                                    <?php \MapasCulturais\i::_e("Ver todas atividades"); ?>
+                                </a>
                             </li>
                         </ul>
-                        <a href="<?php echo $app->createUrl('panel'); ?>">
-                            <?php \MapasCulturais\i::_e("Ver todas atividades");?>
-                        </a>
+                        <!--.submenu-->
                     </li>
-                </ul>
-                <!--.submenu-->
-            </li>
-            <!--.notifications-->
-            <?php $this->applyTemplateHook('nav.main.notifications','after'); ?>
+                    <!--.notifications-->
+                    <?php $this->applyTemplateHook('nav.main.notifications', 'after'); ?>
 
-            <?php $this->part('nav-main-user') ?>
+                    <?php $this->part('nav-main-user') ?>
 
-        <?php else: ?>
-            <?php $this->applyTemplateHook('nav.main.login','before'); ?>
-            <li class="login">
-                <a ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?> >
-                    <div class="icon icon-login"></div>
-                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Entrar");?></div>
-                </a>
-                <?php if(!empty($fake_options)): ?>
-                    <ul class="submenu" style="margin: 2px 0 0 -12px"><li><?php echo str_ireplace("Login\n        </a>", 'Login</a> |', $fake_options) ?></li></ul>
+                <?php else : ?>
+                    <?php $this->applyTemplateHook('nav.main.login', 'before'); ?>
+                    <li class="login menu-header-login">
+                        <a class="a-color" ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?>>
+
+                            <i class="fa fa-user-circle fa-2x" aria-hidden="true"></i>
+                            <div class="menu-item-label"><?php \MapasCulturais\i::_e("Entrar"); ?></div>
+                        </a>
+                        <?php if (!empty($fake_options)) : ?>
+                            <ul class="submenu" style="margin: 2px 0 0 -12px">
+                                <li><?php echo str_ireplace("Login\n </a>", 'Login</a> |', $fake_options) ?></li>
+                            </ul>
+                        <?php endif; ?>
+                    </li>
+                    <!--.login-->
+                    <?php $this->applyTemplateHook('nav.main.login', 'after'); ?>
                 <?php endif; ?>
-            </li>
-            <!--.login-->
-            <?php $this->applyTemplateHook('nav.main.login','after'); ?>
-        <?php endif; ?>
-    </ul>
-    <!--.menu.session-menu-->
-</nav>
+            </ul>
+    </nav>
+</div>

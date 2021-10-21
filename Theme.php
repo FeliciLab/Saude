@@ -6,6 +6,8 @@ use MapasCulturais\App;
 use MapasCulturais\Entities;
 use MapasCulturais\Definitions;
 use MapasCulturais\i;
+USE MapasCulturais\Entities\Registration;
+USE MapasCulturais\Entities\Opportunity;
 
 class Theme extends BaseV1\Theme{
 
@@ -49,6 +51,15 @@ class Theme extends BaseV1\Theme{
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
             $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
         });
+        //CHAMADA DO TEMPLATE DE RECURSOS 
+        $app->hook('view.partial(claim-configuration).params', function($__data, &$__template){
+            $__template = 'singles/opportunity-resources--form';
+        });
+
+        $app->hook("template(registration.view.registration-save-button):begin", function() use($app){
+            $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
+            $this->part('singles/button/registration-save--button');
+        });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
             $app = App::i();
@@ -86,59 +97,59 @@ class Theme extends BaseV1\Theme{
                 echo $setStatus;
             }
         });
+
+        $app->hook('controller(registration).saveEvaluationValidate', function($registration) use($app) {
+            $evaluation_type = $registration->getEvaluationMethodDefinition()->slug;
+            if ($evaluation_type == 'technical') {
+                $cfg = $registration->getEvaluationMethodConfiguration();
+                foreach($cfg->criteria as $cri){
+                    $key = $cri->id;
+                    if(isset($this->postData['data']["{$key}"]) && $this->postData['data']["{$key}"] > $cri->max) {
+                        return $this->json(['message' => "O valor do campo ".$cri->title." é maior que a pontuação máxima permitida", 'status' => 'error'], 403);
+                    }
+                }
+            }           
+        });
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
         $app = App::i();
         $notaMedia = intval($note);
 
-        if(!empty($note) && $notaMedia >= 0 ) {
-            try {
-                // ALTERANDO CANDIDATOS COM NOTA IGUAL OU SUPERIOR A NOTA MINIMA DA OPORTUNIDADE
-                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult >= '{$notaMedia}'";
+        $opportunityRepo = $app->repo('Opportunity')->find($opportunity);
+
+        if ($opportunityRepo->publishedRegistrations) {
+            return json_encode(['message' => 'Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.', 'status' => 200, 'type' => 'success']);
+        }
+
+        if (empty($note)) {
+            return json_encode(['message' => 'Avaliação para a oportunidade não contém nota mínima', 'status' => 200, 'type' => 'success']);
+        }
+
+        try {
+            $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
+            WHERE r.opportunity = {$opportunity}";
+            $query      = $app->em->createQuery($dql);
+            $upStatus   = $query->getResult();
+            foreach ($upStatus as $key => $value) {
+                $dql = "";
+                $newState = Registration::STATUS_ENABLED;
+                if ($value->consolidatedResult >= $notaMedia) {
+                    $newState = Registration::STATUS_APPROVED;
+                } else {
+                    $newState = Registration::STATUS_NOTAPPROVED;
+                }      
+                                    
+                $dql = "UPDATE MapasCulturais\Entities\Registration r SET r.status = {$newState} WHERE r.id = {$value->id}";
                 $query      = $app->em->createQuery($dql);
                 $upStatus   = $query->getResult();
-                //dump($upStatus);
-                foreach ($upStatus as $key => $value) {
-                    $dql = "";
-                    if(!$value->opportunity->publishedRegistrations) {
-                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                        SET r.status = 10 WHERE r.id = {$value->id}";
-                    }
-                    $query      = $app->em->createQuery($dql);
-                    $upStatus   = $query->getResult();
-                }
-                return json_encode(['message' => 'Alterado status de candidatos nota igual ou maior que a média', 'status' => 200, 'type' => 'success']);
-            } catch (\Throwable $th) {
-                return json_encode(['message' => 'error', 'status' => 500]);
+            
             }
-
-            //NOTA ABAIXO DA NOTA MINIMA
-            try {
-                $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-                WHERE r.opportunity = {$opportunity} AND r.consolidatedResult < '{$notaMedia}'";
-                $query      = $app->em->createQuery($dql);
-                $minimum   = $query->getResult();
-                //dump($minimum);
-                foreach ($minimum as $key => $value) {
-                    $dql = "";
-                    if(!$value->opportunity->publishedRegistrations) {
-                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                        SET r.status = 1 WHERE r.id = {$value->id}";
-                    }else {
-                        $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                        SET r.status = 1 WHERE r.id = {$value->id}";
-                    }
-                    $query      = $app->em->createQuery($dql);
-                    $upStatus   = $query->getResult();
-                }
-                return json_encode(['message' => 'Status de candidato alterado, mas com nota a baixo da média', 'status' => 200, 'type' => 'success']);
-            } catch (\Throwable $th) {
-                return json_encode(['message' => 'error', 'status' => 500]);
-            }
+            return json_encode(['message' => 'Atualização de status dos candidatos realizada com sucesso.', 'status' => 200, 'type' => 'success']);
+        } catch (\Throwable $th) {
+            return json_encode(['message' => 'error', 'status' => $th->getMessage()]);
         }
-        return json_encode(['message' => 'Não foi alterado status com base em nota por que não tem nota média.', 'status' => 200, 'type' => 'success']);
+    
     }
     
     protected function _publishAssets() {
@@ -219,6 +230,7 @@ class Theme extends BaseV1\Theme{
         $app->registerController('recursos', 'Saude\Controllers\Resources');
         // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
+        $app->registerController('indicadores', 'Saude\Controllers\Indicadores');
     }
     
 
@@ -241,7 +253,7 @@ class Theme extends BaseV1\Theme{
                     'type' => 'metadata',
                     'filter' => [
                         'param' => 'instituicao_tipos_unidades',
-                        'value' => 'like(%{val}%)'
+                        'value' => 'like({val}%)'
                     ]
                 ],
                 'instituicao_servicos' => [
@@ -256,8 +268,8 @@ class Theme extends BaseV1\Theme{
             ],
             'agent' => [
                 'profissionais_graus_academicos' => [
-                    'label' => i::__('Grau académico'),
-                    'placeholder' => i::__('Grau académico'),
+                    'label' => i::__('Grau acadêmico'),
+                    'placeholder' => i::__('Grau acadêmico'),
                     'type' => 'metadata',
                     'filter' => [
                         'param' => 'profissionais_graus_academicos',
@@ -293,7 +305,7 @@ class Theme extends BaseV1\Theme{
                 'verificados' => [
                     'label' => $this->dict('search: verified results', false),
                     'tag' => $this->dict('search: verified', false),
-                    'placeholder' => $this->dict('search: display only verified results', false),
+                    'placeholder' => i::__('São exibidas apenas as seleções da ESP'),
                     'fieldType' => 'checkbox-verified',
                     'addClass' => 'verified-filter',
                     'isArray' => false,
@@ -327,6 +339,16 @@ class Theme extends BaseV1\Theme{
         App::i()->applyHookBoundTo($this, 'search.filters', [&$filters]);
 
         return $filters;
+    }
+
+    public function getLoginLinkAttributes() {
+        $link_attributes = parent::getLoginLinkAttributes();
+        if($this->controller->id=='indicadores'){
+            $app = \MapasCulturais\App::i();
+            $loginURL = $app->createUrl('panel');
+            $link_attributes = 'href="'. $loginURL .'"';  
+        }
+        return $link_attributes;
     }
 
 }
