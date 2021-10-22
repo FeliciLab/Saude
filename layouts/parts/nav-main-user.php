@@ -22,7 +22,7 @@
             <?php $this->applyTemplateHook('nav.dropdown.agents','before'); ?>
             <li>
                 <a href="<?php echo $app->createUrl('panel', 'agents') ?>"><?php \MapasCulturais\i::_e("Meus Agentes");?></a>
-                <a class="add" href="<?php echo $app->createUrl('agent', 'create') ?>"></a>
+                <?php $this->renderModalFor('agent'); ?>
             </li>
             <?php $this->applyTemplateHook('nav.dropdown.agents','after'); ?>
         <?php endif; ?>
