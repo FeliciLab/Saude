@@ -97,21 +97,25 @@ class Resources extends \MapasCulturais\Controller{
         $reply->resourceStatus = $this->putData['resource_status'];
         $reply->resourceDateReply = $date;
 
+        $reg = $app->repo('Registration')->find($reply->registrationId->id);
+
+        //ALTERAR O STATUS DO CANDIDATO
+        //VERIFICA SE RECEBEU A OPÇÃO DE HABILITAR O CANDIDATO PARA A FASE SEGUINTE 
+        if(isset($this->putData['status']) && $this->putData['status'] == '1') {
+            //REALIZA A ALTERAÇÃO NO BANCO PARA O STATUS SELECIONADO
+            $dql = "UPDATE MapasCulturais\Entities\Registration r 
+            SET r.status = 10 WHERE r.id = {$reg->id}";
+            $query = $app->em->createQuery($dql);
+            $query->getResult();
+        }
+
         //ALTERAR A NOTA FINAL
         if(!empty($this->putData['new_consolidated_result'])) {
             $max = EntitiesResources::maxPoint($reply->opportunityId->evaluationMethodConfiguration->id);
 
-            $reg = $app->repo('Registration')->find($reply->registrationId->id);
             if($this->putData['new_consolidated_result'] > $max) {
                 $this->json(['title' => 'Ops!','message' => 'A nova nota não pode ser maior que a nota máxima', 'type' => 'error'], 401);
             }else{
-                
-                if(isset($this->putData['status']) && $this->putData['status'] == '1') {
-                    $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                    SET r.status = 10 WHERE r.id = {$reg->id}";
-                    $query      = $app->em->createQuery($dql);
-                    $query->getResult();
-                }
                 $reg->consolidatedResult = $this->putData['new_consolidated_result'];
                 $app->em->persist($reg);
             }
