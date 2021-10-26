@@ -46,10 +46,9 @@
 
                     <form class="js-ajax-upload" method="post" action="{{uploadUrl}}" data-group="{{::field.groupName}}"  enctype="multipart/form-data">
                         <div class="alert danger hidden"></div>
-                        <p class="form-help" style="font-weight: bold;">Arquivos devem ser compactados em formato .zip</p>
-                        <p class="form-help"><?php \MapasCulturais\i::_e("Tamanho máximo do arquivo:");?> {{maxUploadSizeFormatted}}</p>
+                        <p>Selecione seu anexo:</p>
                         <input type="file" name="{{::field.groupName}}" />
-
+                        <p class="form-help">Consulte o edital desta oportunidade para entender as limitações de tamanho e formato dos arquivos solicitados.</p>
                         <div class="js-ajax-upload-progress">
                             <div class="progress">
                                 <div class="bar"></div>
