@@ -22,11 +22,13 @@
                 <thead>
                     <tr>
                         <td>
-                            <label for="resource_status">Situação: </label>
+                            <label for="resource_status">Situação do recurso: </label>
                             <select name="resource_status" id="resource_status" class="form-control">
                                 <option value="default">--Selecione--</option>
                                 <option value="Deferido">Deferido</option>
+                                <?php  if($type == 'technical'): ?>
                                 <option value="ParcialmenteDeferido">Parcialmente Deferido</option>
+                                <?php endif; ?>
                                 <option value="Indeferido">Indeferido</option>
                             </select>
                         </td>
@@ -63,7 +65,7 @@
            <label for="candidate_status">Status do Candidato</label>
             <select name="status" id="candidate_status" class="form-control">
                 <option value="0">--Selecione--</option>
-                <option value="1">Habilitar próxima fase</option>
+                <option value="1">Habilitar próxima fase (Alterar para selecionado)</option>
                 <option value="2">Manter Status</option>
             </select>
         </div>
