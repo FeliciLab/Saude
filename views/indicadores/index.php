@@ -5,7 +5,7 @@
 
 <div class="abas-indicadores">
 <ul class="abas clearfix-indicadores clear">
-        <li class="linhaprincipal active-indicadores"><a href="#instituicoes" rel='noopener noreferrer'><div class="fa fa-building"></div><?php \MapasCulturais\i::_e(" Instituições");?></a></li>
+        <li class="linhaprincipal active-indicadores"><a href="#instituicoes" rel='noopener noreferrer'><div class="fa fa-building"></div><?php \MapasCulturais\i::_e(" Espaços de Saúde");?></a></li>
         <li class="linhaprincipal active-indicadores"><a href="#profissionais" rel='noopener noreferrer'><div class="fa fa-users"></div><?php \MapasCulturais\i::_e(" Profissionais");?></a></li>
 </ul>
 </div>
