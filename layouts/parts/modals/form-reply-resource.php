@@ -45,7 +45,7 @@
             <div class="alert info" style="text-align:center"> 
                 <?php 
                     if($type == 'technical'){ ?>
-                        <label infoNotaMaxima></label>
+                        <label infoNotaMaxima>Atenção! Avalie o Recurso e Preencha os Campos Necessários</label>
                     <?php
                     }else{ ?>
                         <label>Preencha todos os campos abaixo: </label>
