@@ -34,7 +34,7 @@ $resources = Resources::resourceIdOpportunity($entity->id);
             <tr>
                 <th><?php echo $rec->registrationId->number; ?></th>
                 <th><?php echo $rec->agentId->name; ?></th>
-                <th><?php echo  $rec->resourceSend->format('d/m/Y H:i:s'); ?></th>
+                <th><?php echo $rec->resourceSend->format('d/m/Y H:i:s'); ?></th>
                 <th>
                     <?php 
                         ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
@@ -55,7 +55,14 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                         echo 'Recurso já foi publicado';
                     } ?>
                 </th>
-                <th><?php echo  $rec->resourceDateReply->format('d/m/Y H:i:s'); ?></th>
+                <th><?php if ($rec->resourceDateReply !== null){ 
+                    echo $rec->resourceDateReply->format('d/m/Y H:i:s'); 
+                    
+                }
+                else{
+                    echo 'Aguardando';
+                }
+                ?></th>
             </tr>
         <?php } ?>
         </tbody>
