@@ -233,6 +233,7 @@ class Theme extends BaseV1\Theme{
         $app->registerController('indicadores', 'Saude\Controllers\Indicadores');
 
         $this->registerRegistrationMetadata('preliminaryResult', [
+            'label' => i::__('Resultado Preliminar'),
             'type' => 'string',
             'private' => true
         ]);
