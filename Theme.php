@@ -97,6 +97,13 @@ class Theme extends BaseV1\Theme{
                 echo $setStatus;
             }
         });
+
+        /**
+         * Remove a validação da descrição curta dos agentes
+         */
+        $app->hook("entity(Agent).validations", function(&$validations) {
+            unset($validations['shortDescription']);
+        });
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
