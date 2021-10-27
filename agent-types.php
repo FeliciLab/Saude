@@ -145,6 +145,12 @@ return array(
            // 'field_type' => 'brPhone'
         ),
 
+        'curriculoLattes' => array(
+            'label' => \MapasCulturais\i::__('Cole o link aqui'),
+            'type' => 'string',
+            'available_for_opportunities' => true,
+        ),
+
         'telefone1' => array(
             'private' => true,
             'label' => \MapasCulturais\i::__('Telefone 1'),

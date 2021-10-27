@@ -6,6 +6,9 @@ $allPro = ProfessionalCategory::allProfessional();
 //RETORNA AS ESPECIALIDADES DO AGENTE
 $getSpecialty = ProfessionalCategory::getSpecialtyEntity($entity, 'profissionais_especialidades');
 
+//RETORNA O CURRÍCULO LATTES DO AGENTE
+$getCurriculoLattes = ProfessionalCategory::getSpecialtyEntity($entity, 'curriculoLattes');
+
 $upCategoryAndSpecialty = ProfessionalCategory::alterCategoryProfessional($entity->id);
 
 //RETORNA AS CATEGORIAS DO AGENTE
@@ -125,6 +128,12 @@ echo $dtN ? $dtN->format('d/m/Y') : '';?>
                     <?php echo $entity->telefone2; ?>
                 </span>
             </p>
+            <!-- Campo Lattes -->
+            <p><span class="label"><?php \MapasCulturais\i::_e("Currículo Lattes");?>:</span>
+                <span class="js-editable <?php echo ($entity->isPropertyRequired($entity, "curriculoLattes") && $this->isEditable() ? 'required' : ''); ?>" data-edit="curriculoLattes" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Currículo Lattes");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Adicione o link do currículo lattes");?>">
+                    <?php echo $entity->curriculoLattes; ?>
+                </span>
+            </p>
         <?php endif;?>
         <!-- <p>
             <span class="label"><?php \MapasCulturais\i::_e("Categoria profissional");?>:</span>
@@ -178,8 +187,16 @@ endif;
         <span class="">
             <?php echo $getSpecialty; ?>
         </span>
-    <?php endif;
-?>
+    <?php endif;?>
+</p>
+<p>
+    <!-- Currículo Lattes -->
+    <span class="label"><?php \MapasCulturais\i::_e("Currículo Lattes");?>:</span>
+    <?php if (!empty($getCurriculoLattes)): ?>
+        <span class="">
+        <a style="color: #0000FF; text-decoration: underline; font-weight:normal;" target="_blank" href="<?php echo $getCurriculoLattes; ?>"><?php echo $getCurriculoLattes; ?></a>
+        </span>
+    <?php endif;?>
 </p>
 <?php endif;
 if ($this->controller->action === 'edit'): ?>
