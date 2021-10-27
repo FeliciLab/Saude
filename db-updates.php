@@ -1,4 +1,7 @@
 <?php
+
+use function MapasCulturais\__exec;
+
 $app = MapasCulturais\App::i();
 $em = $app->em;
 $conn = $em->getConnection();
@@ -456,6 +459,18 @@ return array(
     'add preliminary registration' => function () use($conn) {
         //
         $conn->executeQuery("ALTER TABLE public.registration ADD preliminary_result character varying(255)");
+     },
+
+    'migra preliminary_result para metadado da inscricao'=> function () use($conn) {
+        $registrations = $conn->fetchAllAssociative("SELECT id, preliminary_result FROM registration WHERE preliminary_result IS NOT NULL");
+        
+        foreach($registrations as $reg) {
+            $reg = (object) $reg;
+            $next_id = $conn->fetchOne("select nextval('registration_meta_id_seq')");
+            __exec("INSERT INTO registration_meta (id, object_id, key, value) ({$next_id}, {$reg->id}, 'preliminaryResult', {$reg->preliminary_result})");
+        }
+
+        __exec("ALTER TABLE public.registration DROP preliminary_result");
      },
 
      'create table resources' => function () use($conn) {

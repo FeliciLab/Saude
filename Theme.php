@@ -104,6 +104,13 @@ class Theme extends BaseV1\Theme{
         $app->hook("entity(Agent).validations", function(&$validations) {
             unset($validations['shortDescription']);
         });
+
+        /**
+         * Define valor do resultado preliminar na consolidação da nota da inscrição
+         */
+        $app->hook('entity(Registration).consolidateResult', function($result) {
+            $this->preliminaryResult = $result;
+        }, 10000);
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
@@ -224,6 +231,11 @@ class Theme extends BaseV1\Theme{
         // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
         $app->registerController('indicadores', 'Saude\Controllers\Indicadores');
+
+        $this->registerRegistrationMetadata('preliminaryResult', [
+            'type' => 'string',
+            'private' => true
+        ]);
     }
     
 
