@@ -6,7 +6,7 @@
 
 <div class="remodal" data-remodal-id="modal-resposta-recurso">
     <button data-remodal-action="close" class="remodal-close"></button>
-    <h1>Atualização do recurso.</h1>
+    <h1>Responder recurso</h1>
     <!-- Utlização do nome da oportunidade dentro do modal. --> 
     <p><strong>Oportunidade: <label id="replyOpportunityNameLabel"></label></strong></p>
     <!-- Utlização da informação enviada pelo usuário para contestação. --> 
@@ -34,9 +34,10 @@
                         </td>
                         <?php 
                             if($type == 'technical'){ ?>
-                                <td>
-                                    <label for="consolidated_result">Nota Resultado Final</label>
-                                </td>
+                        <td>
+                            <label for="">Nota Resultado Final</label>
+                            <input type="text" name="consolidated_result" id="consolidated_result" disabled class="form-control" style="background: #eaeaea;" >
+                        </td>
                             <?php 
                             }
                         ?>
@@ -65,7 +66,7 @@
            <label for="candidate_status">Status do Candidato</label>
             <select name="status" id="candidate_status" class="form-control">
                 <option value="0">--Selecione--</option>
-                <option value="1">Habilitar próxima fase (Alterar para selecionado)</option>
+                <option value="1">Alterar para selecionado</option>
                 <option value="2">Manter Status</option>
             </select>
         </div>
