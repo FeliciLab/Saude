@@ -7,15 +7,26 @@ error_reporting(E_ALL);
     $drafts = $app->repo('Registration')->findByUser($app->user, Registration::STATUS_DRAFT);
     $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
     
-  // ORDENANDO O ARRAY POR DATA DE ENVIO DA INSCRIÇÃO EM ORDEM DECRESCENTE
-  if($sent):
-    if (isset($dateTime)):
-    foreach ($sent as $key => $value){
-    $dateTime[] = $value->sentTimestamp->format('d-m-Y H:i:s');
-    }
-    array_multisort($dateTime,SORT_DESC,SORT_STRING,$sent);   
-    endif;
-  endif;
+
+    // $dql = "
+    //     SELECT
+    //         r
+    //     FROM
+    //         MapasCulturais\Entities\Registration r
+    //         LEFT JOIN  MapasCulturais\Entities\RegistrationAgentRelation rar WITH rar.owner = r
+    //     WHERE
+    //         r.status > 0 AND
+    //         (
+    //             r.owner IN (:agents) OR
+    //             rar.agent IN (:agents)
+    //         )";
+
+    // $query = $app->em->createQuery($dql);
+    // $registrations_ids = $query->getResult();   
+
+    // dump($registrations_ids);
+
+    // die("STOP");
  ?>
 
 <div class="panel-list panel-main-content">
