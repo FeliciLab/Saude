@@ -110,6 +110,25 @@ class Theme extends BaseV1\Theme{
                 }
             }           
         });
+
+        $app->hook('POST(registration.send):before', function () use ($app) {
+            $registration = $this->getRequestedEntity();
+            $dataValue = [
+                'number' => $registration->number,
+                'opportunity' => $registration->opportunity->name
+            ];
+            $message = $app->renderMailerTemplate('registration_confirm', $dataValue);
+    
+            $app->createAndSendMailMessage([
+                'from' => $app->config['mailer.from'],
+                'to' => 'victor.magalhaesp@gmail.com',
+                'subject' => $message['title'],
+                'body' => $message['body']
+            ]); 
+        });
+        
+        
+
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
