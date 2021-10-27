@@ -6,9 +6,6 @@ $allPro = ProfessionalCategory::allProfessional();
 //RETORNA AS ESPECIALIDADES DO AGENTE
 $getSpecialty = ProfessionalCategory::getSpecialtyEntity($entity, 'profissionais_especialidades');
 
-//RETORNA O CURRÍCULO LATTES DO AGENTE
-$getCurriculoLattes = ProfessionalCategory::getSpecialtyEntity($entity, 'curriculoLattes');
-
 $upCategoryAndSpecialty = ProfessionalCategory::alterCategoryProfessional($entity->id);
 
 //RETORNA AS CATEGORIAS DO AGENTE
@@ -190,13 +187,19 @@ endif;
     <?php endif;?>
 </p>
 <p>
-    <!-- Currículo Lattes -->
+    <!-- Início do Trecho de Código Responsável por exibir o campo Currículo Lattes -->
     <span class="label"><?php \MapasCulturais\i::_e("Currículo Lattes");?>:</span>
-    <?php if (!empty($getCurriculoLattes)): ?>
-        <span class="">
-        <a style="color: #0000FF; text-decoration: underline; font-weight:normal;" target="_blank" href="<?php echo $getCurriculoLattes; ?>"><?php echo $getCurriculoLattes; ?></a>
-        </span>
+    <?php
+        $campo_curriculo_lattes = $entity->curriculoLattes;
+        if (!empty($campo_curriculo_lattes)):
+    ?>
+    <span class="">
+        <a style="color: #0000FF; text-decoration: underline; font-weight:normal;" target="_blank" href="<?php echo $entity->curriculoLattes; ?>"><?php echo $entity->curriculoLattes; ?></a>
+    </span>
+    <?php else:?>
+        <span class="">Não Informado</span>
     <?php endif;?>
+    <!-- Fim do Trecho de Código Responsável por exibir o campo Currículo Lattes -->
 </p>
 <?php endif;
 if ($this->controller->action === 'edit'): ?>

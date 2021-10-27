@@ -147,8 +147,7 @@ return array(
 
         'curriculoLattes' => array(
             'label' => \MapasCulturais\i::__('Cole o link aqui'),
-            'type' => 'string',
-            'available_for_opportunities' => true,
+            'type' => 'string'
         ),
 
         'telefone1' => array(
