@@ -11,9 +11,11 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                 <!-- <th>Publicar</th> -->
                 <th>Inscrição</th>
                 <th>Agente</th>
+                <th>Enviado em: </th> 
+                <th>Responsável</th>
                 <th>Status</th>
                 <th>Responder</th>
-                <th>Responsável</th>
+                <th>Respondido em: </th>
             </tr>
         </thead>
         <tbody>
@@ -32,6 +34,12 @@ $resources = Resources::resourceIdOpportunity($entity->id);
             <tr>
                 <th><?php echo $rec->registrationId->number; ?></th>
                 <th><?php echo $rec->agentId->name; ?></th>
+                <th><?php echo  $rec->resourceSend->format('d/m/Y H:i:s'); ?></th>
+                <th>
+                    <?php 
+                        ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
+                    ?>
+                </th>
                 <th><?php echo $rec->resourceStatus; ?></th>
                 <th>
                     <?php  
@@ -47,11 +55,7 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                         echo 'Recurso já foi publicado';
                     } ?>
                 </th>
-                <th>
-                    <?php 
-                        ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
-                    ?>
-                </th>
+                <th><?php echo  $rec->resourceDateReply->format('d/m/Y H:i:s'); ?></th>
             </tr>
         <?php } ?>
         </tbody>
