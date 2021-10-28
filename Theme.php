@@ -111,9 +111,10 @@ class Theme extends BaseV1\Theme{
             }           
         });
 
-        $app->hook('POST(registration.send):before', function () use ($app) {
+        $app->hook('POST(registration.send):after', function () use ($app) {
             $registration = $this->getRequestedEntity();
             $dataValue = [
+                'name' => $registration->owner->name,
                 'number' => $registration->number,
                 'opportunity' => $registration->opportunity->name
             ];
@@ -121,8 +122,9 @@ class Theme extends BaseV1\Theme{
     
             $app->createAndSendMailMessage([
                 'from' => $app->config['mailer.from'],
-                'to' => 'victor.magalhaesp@gmail.com',
-                'subject' => $message['title'],
+                'to' => $registration->owner->user->email,
+                'bcc' => $registration->opportunity->owner->user->email,
+                'subject' => $message['title'] . ' - ' . "#{$dataValue['number']}",
                 'body' => $message['body']
             ]); 
         });
