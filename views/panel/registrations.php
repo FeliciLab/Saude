@@ -7,26 +7,6 @@ error_reporting(E_ALL);
     $drafts = $app->repo('Registration')->findByUser($app->user, Registration::STATUS_DRAFT);
     $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
     
-
-    // $dql = "
-    //     SELECT
-    //         r
-    //     FROM
-    //         MapasCulturais\Entities\Registration r
-    //         LEFT JOIN  MapasCulturais\Entities\RegistrationAgentRelation rar WITH rar.owner = r
-    //     WHERE
-    //         r.status > 0 AND
-    //         (
-    //             r.owner IN (:agents) OR
-    //             rar.agent IN (:agents)
-    //         )";
-
-    // $query = $app->em->createQuery($dql);
-    // $registrations_ids = $query->getResult();   
-
-    // dump($registrations_ids);
-
-    // die("STOP");
  ?>
 
 <div class="panel-list panel-main-content">

@@ -15,6 +15,18 @@ if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
 }
 
 $rec = Resources::getEnabledResource($registration->opportunity->id, 'period');
+
+$phases = $app->repo('Opportunity')->findBy([
+    'parent' => $registration->opportunity,
+    'status' => $registration->opportunity->canUser('@control') ? [0,-1] : -1 
+],['registrationTo' => 'ASC', 'id' => 'ASC']);
+
+$phases = array_filter($phases, function($item) {
+    if($item->isOpportunityPhase){
+        return $item;
+    }
+});
+//dump($phases[0]->singleUrl);
 ?>
 
 <article class="objeto clearfix <?php echo $classeDestaque; ?>" id="<?php echo $registration->id; ?>" name="<?php echo $registration->id; ?>">
@@ -72,7 +84,7 @@ $rec = Resources::getEnabledResource($registration->opportunity->id, 'period');
             <?php endif; ?>
 
     </small><br>
-    <?php if ($registration->canUser('sendClaimMessage')) : ?>
+    <?php if ($registration->canUser('sendClaimMessage')) { ?>
         <?php
         //VERIFICA SE ENVIOU O RECURSO
         if ($resources == false) {
@@ -83,30 +95,43 @@ $rec = Resources::getEnabledResource($registration->opportunity->id, 'period');
         <?php
             }
         } else {
-            echo '<label class="text-info">Recurso enviado</label><br/>';
+            echo '<div style="justify-content: space-between;display: flex;">
+                <label class="text-info">Recurso enviado</label>
+                <label style="color: green">Exibir fases</label>
+            </div>';
         }
         //MENSAGEM FORA DO PERIODO
         if ($rec['open'] != 1 || $rec['close'] != 1) {
-            echo '<label class="text-danger">Fora do período do recurso</label><br/>';
+            echo '<div style="justify-content: space-between;display: flex;">
+                <label class="text-danger">Fora do período do recurso</label>
+                <label style="color: green">Exibir fases</label>
+            </div>';
         }
 
         ?>
-    <?php endif; ?>
-    <div class="objeto-meta">
-        <div><span class="label" <?php \MapasCulturais\i::esc_attr_e("Responsável:"); ?>></span> <?php echo $registration->owner->name ?></div>
-        <?php
-        foreach ($app->getRegisteredRegistrationAgentRelations() as $def) :
-            if (isset($registration->relatedAgents[$def->agentRelationGroupName])) :
-                $agent = $registration->relatedAgents[$def->agentRelationGroupName][0];
-        ?>
-                <div><span class="label"><?php echo $def->label ?>:</span> <?php echo $agent->name; ?></div>
-
-        <?php
-            endif;
-        endforeach;
-        ?>
-        <?php if ($proj->registrationCategories) : ?>
-            <div><span class="label"><?php echo $proj->registrationCategTitle ?>:</span> <?php echo $registration->category ?></div>
-        <?php endif; ?>
+    <?php }else{
+        echo '<div style="text-align: right;">
+                <label style="color: green">Exibir fases</label>
+            </div>';
+    } ?>
+    <div>
+        <h4>Fases</h4>
+            <?php foreach($phases as $phase){ ?>
+                <div style="background-color: white; padding: 20px; padding-bottom: 0px; margin-bottom: 20px;">
+                        <p style="margin-bottom: 0.5rem"><?php echo $phase->name; ?></p>
+                        <div style="display: flex; justify-content: space-between;">
+                            <div>
+                                <small>Inscrição da fase: on-187897879898</small><br>
+                                <small>Status: pedente</small>
+                            </div>
+                            <div style="margin-top: auto; margin-bottom: auto;">
+                                <small style="color: blue; margin-bottom: 0.8rem">Acessar inscrição da fase</small>
+                            </div>
+                        </div>
+                </div>
+            <?php }?>
+            <?php if(!$phases): ?>
+                <div class="alert info"><?php \MapasCulturais\i::_e("Esta oportunidade não possui fases.");?></div>
+            <?php endif; ?>
     </div>
 </article>
