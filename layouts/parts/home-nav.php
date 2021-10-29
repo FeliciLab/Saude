@@ -20,12 +20,12 @@
             </li>
         <?php endif; ?>
 
-        <?php if($app->isEnabled('opportunities')): ?>
+        <?php /*if($app->isEnabled('opportunities')): ?>
             <li id="nav-opportunities">
                 <a class="icon icon-opportunity" href="#home-opportunities"></a>
                 <span class="nav-title"><?php $this->dict('entities: Opportunities') ?></span>
             </li>
-        <?php endif; ?>
+        <?php endif; */?>
 
         <li id="nav-developers">
             <a class="icon icon-developers" href="#home-developers"></a>
