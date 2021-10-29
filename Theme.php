@@ -1,6 +1,7 @@
 <?php
 namespace Saude;
 
+use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
@@ -111,8 +112,8 @@ class Theme extends BaseV1\Theme{
             }           
         });
 
-        $app->hook('POST(registration.send):after', function () use ($app) {
-            $registration = $this->getRequestedEntity();
+        $app->hook('entity(Registration).send:after', function () use ($app) {
+            $registration = $this;
             $dataValue = [
                 'name' => $registration->owner->name,
                 'number' => $registration->number,
@@ -126,7 +127,7 @@ class Theme extends BaseV1\Theme{
                 'bcc' => $registration->opportunity->owner->user->email,
                 'subject' => $message['title'] . ' - ' . "#{$dataValue['number']}",
                 'body' => $message['body']
-            ]); 
+            ]);          
         });
         
         
