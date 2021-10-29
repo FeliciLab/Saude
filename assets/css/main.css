@@ -7807,3 +7807,17 @@ nav {
    .a-color{
      color:gray;
    }
+
+   /*TEXTOS DA HOME*/
+   .b-home{
+    color:black;
+   }
+
+  .home-style{
+    text-align: center;
+    line-height: 1.3rem;
+  }
+
+  .font-style{
+    font-size: 1.3rem;
+  }
