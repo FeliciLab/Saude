@@ -93,7 +93,14 @@ return [
         'request_relation' => [
             'title' => i::__("Solicitação de requisição"),
             'template' => 'request_relation.html'
+        ],
+        'registration_confirm_default' => [
+            'title' => i::__("Confirmação de inscrição"),
+            'template' => 'registration_confirm_default.html'
+        ],
+        'registration_confirm_custom' => [
+            'title' => i::__("Confirmação de inscrição"),
+            'template' => 'registration_confirm_custom.html'
         ]
-
     ]
 ];
