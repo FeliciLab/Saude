@@ -111,6 +111,23 @@ class Theme extends BaseV1\Theme{
         $app->hook('entity(Registration).consolidateResult', function($result) {
             $this->preliminaryResult = $result;
         }, 10000);
+
+
+        /**
+         * Remove aba de oportunidades das páginas de projeto
+         */
+        $app->hook('view.partial(entity-opportunities--<<tabs|content>>-edit).params', function (&$__data, &$__template) {
+            if($this->controller->id == 'project') {
+                $__template = '_empty';
+            }
+        });
+
+        /**
+         * Substitui template da listagem de oportunidades
+         */
+        $app->hook('view.partial(entity-opportunities--item).params', function (&$__data, &$__template) {
+            $__template = 'module-EntityOpportunities/entity-opportunities--item';
+        });
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {

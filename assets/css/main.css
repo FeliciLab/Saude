@@ -3130,7 +3130,7 @@ nav.sidebar-panel ul {
   border-right: solid 1px #ccc;
   width: 20%; }
 .panel-main-content .user-managerment-infos .tabs-content .tab-table.registration button {
-  width: 33.33333%; }
+  width: 25%; }
 .panel-main-content .user-managerment-infos .tabs-content .tab-content-table {
   display: none;
   border: none; }
@@ -8648,5 +8648,52 @@ nav {
 @media screen and (min-width: 768px) {
   #main-header {
     border-top: 0px !important; } }
+/* Modulo EntityOpportunities - BEGIN */
+#entity-opportunities .objeto img {
+  float: left;
+  display: inline;
+  margin-bottom: -72px;
+  /* width: 62px; */ }
+
+#entity-opportunities .objeto {
+  /* min-height: 82px; */
+  display: flex; }
+
+#entity-opportunities .objeto.has-avatar .entity-opportunity--content {
+  float: left;
+  display: inline-block; }
+
+#entity-opportunities .objeto.has-avatar .entity-opportunity--content {
+  /* margin-left: 20px */ }
+
+#entity-opportunities .objeto .objeto-meta > div {
+  margin-right: 1em;
+  /* float:left; */ }
+
+.card-info-opportunity {
+  background: #e8e8e8;
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column; }
+
+.avatar-card-info-opportunity {
+  background: white;
+  border-radius: 50%;
+  padding: 3px;
+  height: 64px;
+  width: 64px; }
+
+.pad-left-10 {
+  margin-left: 2%; }
+
+.card-info-header {
+  display: flex; }
+
+.card-info-header span {
+  display: flex;
+  flex-direction: column;
+  margin-left: 1rem; }
+
+/* Modulo EntityOpportunities -- END */
 
 /*# sourceMappingURL=main.css.map */
