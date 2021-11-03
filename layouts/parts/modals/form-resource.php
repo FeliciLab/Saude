@@ -2,7 +2,6 @@
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1>Formulário de recurso</h1>
     <p>
-        <strong>Oportunidade: 
         <label id="opportunityNameLabel"></label>
         </strong>
     </p>

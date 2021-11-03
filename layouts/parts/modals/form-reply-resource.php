@@ -8,7 +8,7 @@
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1>Responder recurso</h1>
     <!-- Utlização do nome da oportunidade dentro do modal. --> 
-    <p><strong>Oportunidade: <label id="replyOpportunityNameLabel"></label></strong></p>
+    <p><label id="replyOpportunityNameLabel"></label></strong></p>
     <!-- Utlização da informação enviada pelo usuário para contestação. --> 
     <p><small id="resourceText"></small></p>
     <!-- Formulario para envio da atualização da contestação do recurso. --> 
