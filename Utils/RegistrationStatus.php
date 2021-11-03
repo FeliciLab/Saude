@@ -28,4 +28,50 @@ class RegistrationStatus{
         }
         return $status_slug;
     }
+    public static function statusTitleById($status, $title = '') {
+        switch ($status) {
+            case Registration::STATUS_DRAFT:
+                $title = 'O candidato poderá editar e reenviar a sua inscrição.';
+                break;
+            case Registration::STATUS_SENT:
+                $title = 'Ainda não avaliada.';
+                break;
+            case Registration::STATUS_INVALID:
+                $title = 'Em desacordo com o regulamento';
+                break;
+            case Registration::STATUS_NOTAPPROVED:
+                $title = 'Avaliada, mas não selecionada.';
+                break;
+            case Registration::STATUS_WAITLIST:
+                $title = 'Avaliada, mas aguardando vaga.';
+                break;
+            case Registration::STATUS_APPROVED:
+                $title = 'Avaliada e selecionada.';
+                break;
+        }
+        return $title;
+    }
+    public static function statusColorById($status, $color = '') {
+        switch ($status) {
+            case Registration::STATUS_DRAFT:
+                $color = 'statusrasc';
+                break;
+            case Registration::STATUS_SENT:
+                $color = 'statuspend';
+                break;
+            case Registration::STATUS_INVALID:
+                $color = 'statusinv';
+                break;
+            case Registration::STATUS_NOTAPPROVED:
+                $color = 'statusrep';
+                break;
+            case Registration::STATUS_WAITLIST:
+                $color = 'statusespera';
+                break;
+            case Registration::STATUS_APPROVED:
+                $color = 'statusap';
+                break;
+        }
+        return $color;
+    }
 }
