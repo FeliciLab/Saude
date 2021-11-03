@@ -1,28 +1,28 @@
 <?php
 
-namespace Saude\Entities;
+namespace Saude\Utils;
 
 use MapasCulturais\Entities\Registration;
 
-class RegistrationStatus extends \MapasCulturais\Entities\Registration{
+class RegistrationStatus{
     public static function statusSlugById($status, $status_slug = '') {
         switch ($status) {
-            case 0:
+            case Registration::STATUS_DRAFT:
                 $status_slug = 'Rascunho';
                 break;
-            case 1:
+            case Registration::STATUS_SENT:
                 $status_slug = 'Pendente';
                 break;
-            case 2:
+            case Registration::STATUS_INVALID:
                 $status_slug = 'Inválida';
                 break;
-            case 3:
+            case Registration::STATUS_NOTAPPROVED:
                 $status_slug = 'Não selecionada';
                 break;
-            case 8:
+            case Registration::STATUS_WAITLIST:
                 $status_slug = 'Suplente';
                 break;
-            case 10:
+            case Registration::STATUS_APPROVED:
                 $status_slug = 'Selecionada';
                 break;
         }

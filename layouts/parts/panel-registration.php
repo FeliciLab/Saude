@@ -2,7 +2,7 @@
 
 use MapasCulturais\Entities\Registration;
 use Saude\Entities\Resources;
-use Saude\Entities\RegistrationStatus;
+use Saude\Utils\RegistrationStatus;
 
 $app = MapasCulturais\App::i();
 
