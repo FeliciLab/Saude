@@ -42,7 +42,7 @@ class Theme extends BaseV1\Theme{
             'home: colabore' => "Colabore com o Mapa da Saúde",
 
             'home: abbreviation' => "ESP-CE",
-            'home: home_devs' => "<div class='font-style'><b class='b-home'>Inovação Aberta e Colaborativa </b></br>
+            'home: home_devs' => "<div class='font-style'>
             <p>O Mapa da Saúde é uma das ações da Rede de Inovação Aberta no SUS, que estão sendo realizadas para promover o controle social, garantir a transparência e viabilizar a colaboração em rede.</br>
             <p>Se você é uma pessoa desenvolvedora e deseja interagir com o Mapa, basta acessar nosso repositório no <a href='https://github.com/EscolaDeSaudePublica/mapadasaude' target='blank'>GitHub</a> e fazer parte do grupo no <a href='https://t.me/joinchat/WCYOkjUEcYZ0mu1i' target='blank'>Telegram</a>.</div>",
 
