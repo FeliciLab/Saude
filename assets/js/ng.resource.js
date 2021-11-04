@@ -76,13 +76,12 @@ $(document).ready(function () {
                 pointMax(MapasCulturais.entity.object.id);
             }           
         }else if(type == 'Indeferido'){
-            $("#divDeferido").show();
-            $("#indeferido_reply").show();
-        }else{
             $("#divDeferido").hide();
         }
     });
+
 });
+
 
 
 
