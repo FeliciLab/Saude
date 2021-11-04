@@ -47,7 +47,7 @@ return [
     ]),
     'mailer.user'       => env('MAILER_USER', "admin@mapasculturais.org"),
     'mailer.psw'        => env('MAILER_PASS', "password"),
-    'mailer.protocol'   => env('MAILER_PROTOCOL', 'ssl'),
+    'mailer.protocol'   => env('MAILER_PROTOCOL', ''),
     'mailer.server'     => env('MAILER_SERVER', 'localhost'),
     'mailer.port'       => env('MAILER_PORT', '465'),
     'mailer.from'       => env('MAILER_FROM', 'suporte@mapasculturais.org'),
