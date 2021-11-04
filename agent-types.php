@@ -147,7 +147,10 @@ return array(
 
         'curriculoLattes' => array(
             'label' => \MapasCulturais\i::__('Cole o link aqui'),
-            'type' => 'string'
+            'type' => 'string',
+            'validations' => array(
+                "v::url()" => \MapasCulturais\i::__("A url informada é inválida.")
+            )
         ),
 
         'telefone1' => array(
