@@ -5,6 +5,7 @@
 ?>
 
 <div class="remodal" data-remodal-id="modal-resposta-recurso">
+
     <button data-remodal-action="close" class="remodal-close"></button>
     <h1>Responder recurso</h1>
     <!-- Utlização do nome da oportunidade dentro do modal. --> 
@@ -12,7 +13,9 @@
     <!-- Utlização da informação enviada pelo usuário para contestação. --> 
     <p><small id="resourceText"></small></p>
     <!-- Formulario para envio da atualização da contestação do recurso. --> 
+    
     <form id="formReplyResource">
+
         <input type="hidden" name="_METHOD" value="PUT"/>
         <input type="hidden" name="resource_id" id="resource_id">
         <input type="hidden" name="evaluationMethod" id="evaluationMethod" value="<?php echo $type; ?>">
@@ -41,10 +44,12 @@
                             <?php 
                             }
                         ?>
+                    </tr>
                 </thead>
             </table>
         </div>
-        <div id="divDeferido">
+
+        <div id="divDeferido" style="display: none">
             <div class="alert info" style="text-align:center"> 
                 <?php 
                     if($type == 'technical'){ ?>
@@ -69,14 +74,14 @@
                 <option value="1">Alterar para selecionado</option>
                 <option value="2">Manter Status</option>
             </select>
+            <textarea placeholder="Resposta para a contestação do recurso: " name="resource_reply" id="resource_reply" cols="30" rows="20" class="form-control" style="height: 222px !important"></textarea>
         </div>
-        <textarea placeholder="Resposta para a contestação do recurso: " name="resource_reply" id="resource_reply" cols="30" rows="20" class="form-control" style="height: 222px !important"></textarea>
         </hr>
         <br>
         <button data-remodal-action="cancel" class="btn btn-default" title="Sair da resposta">
             <i class="fa fa-close" aria-hidden="true"></i> Fechar
         </button>
-        <button class="btn btn-primary" type="submit" title="Enviar o seu recurso para essa oportunidade" style="margin-left: 20px;">
+        <button class="btn btn-primary" disabled id="button-send-resource" type="submit" title="Enviar o seu recurso para essa oportunidade" style="margin-left: 20px;">
             <i class="fa fa-paper-plane" aria-hidden="true"></i> Responder
         </button>
     </form>

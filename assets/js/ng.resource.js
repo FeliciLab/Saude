@@ -68,6 +68,7 @@ $(document).ready(function () {
     //habilitando div para nota
     $('#resource_status').on('change', function() {
         var type = this.value;
+        $('#button-send-resource').prop("disabled", false);
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
             $("#indeferido_reply").hide();
             $("#divDeferido").show();
@@ -76,6 +77,9 @@ $(document).ready(function () {
                 pointMax(MapasCulturais.entity.object.id);
             }           
         }else if(type == 'Indeferido'){
+            $("#divDeferido").hide();
+        }else {
+            $('#button-send-resource').prop("disabled", true);
             $("#divDeferido").hide();
         }
     });
