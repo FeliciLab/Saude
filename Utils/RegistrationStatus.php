@@ -5,73 +5,30 @@ namespace Saude\Utils;
 use MapasCulturais\Entities\Registration;
 
 class RegistrationStatus{
-    public static function statusSlugById($status, $status_slug = '') {
-        switch ($status) {
-            case Registration::STATUS_DRAFT:
-                $status_slug = 'Rascunho';
-                break;
-            case Registration::STATUS_SENT:
-                $status_slug = 'Pendente';
-                break;
-            case Registration::STATUS_INVALID:
-                $status_slug = 'Inválida';
-                break;
-            case Registration::STATUS_NOTAPPROVED:
-                $status_slug = 'Não selecionada';
-                break;
-            case Registration::STATUS_WAITLIST:
-                $status_slug = 'Suplente';
-                break;
-            case Registration::STATUS_APPROVED:
-                $status_slug = 'Selecionada';
-                break;
-        }
-        return $status_slug;
+    public static function statusTitleById($status) {
+        $statuses =  [
+            Registration::STATUS_DRAFT => 'O candidato poderá editar e reenviar a sua inscrição.',
+            Registration::STATUS_SENT => 'Ainda não avaliada.',
+            Registration::STATUS_INVALID => 'Em desacordo com o regulamento',
+            Registration::STATUS_NOTAPPROVED => 'Avaliada, mas não selecionada.',
+            Registration::STATUS_WAITLIST => 'Avaliada, mas aguardando vaga.',
+            Registration::STATUS_APPROVED => 'Avaliada e selecionada.'
+
+        ];
+        return  $statuses[$status] ?? null;
     }
-    public static function statusTitleById($status, $title = '') {
-        switch ($status) {
-            case Registration::STATUS_DRAFT:
-                $title = 'O candidato poderá editar e reenviar a sua inscrição.';
-                break;
-            case Registration::STATUS_SENT:
-                $title = 'Ainda não avaliada.';
-                break;
-            case Registration::STATUS_INVALID:
-                $title = 'Em desacordo com o regulamento';
-                break;
-            case Registration::STATUS_NOTAPPROVED:
-                $title = 'Avaliada, mas não selecionada.';
-                break;
-            case Registration::STATUS_WAITLIST:
-                $title = 'Avaliada, mas aguardando vaga.';
-                break;
-            case Registration::STATUS_APPROVED:
-                $title = 'Avaliada e selecionada.';
-                break;
-        }
-        return $title;
-    }
-    public static function statusColorById($status, $color = '') {
-        switch ($status) {
-            case Registration::STATUS_DRAFT:
-                $color = 'statusrasc';
-                break;
-            case Registration::STATUS_SENT:
-                $color = 'statuspend';
-                break;
-            case Registration::STATUS_INVALID:
-                $color = 'statusinv';
-                break;
-            case Registration::STATUS_NOTAPPROVED:
-                $color = 'statusrep';
-                break;
-            case Registration::STATUS_WAITLIST:
-                $color = 'statusespera';
-                break;
-            case Registration::STATUS_APPROVED:
-                $color = 'statusap';
-                break;
-        }
-        return $color;
+    
+    public static function statusColorById($status) {
+        
+        $statuses =  [
+            Registration::STATUS_DRAFT => 'statusrasc',
+            Registration::STATUS_SENT => 'statuspend',
+            Registration::STATUS_INVALID => 'statusinv',
+            Registration::STATUS_NOTAPPROVED => 'statusrep',
+            Registration::STATUS_WAITLIST => 'statusespera',
+            Registration::STATUS_APPROVED => 'statusap'
+
+        ];
+        return  $statuses[$status] ?? null;
     }
 }
