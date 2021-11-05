@@ -3515,7 +3515,7 @@ nav.sidebar-panel ul {
   text-align: left; }
   @media screen and (max-width: 768px) {
     .alert {
-      display: block !important;
+      display: none;
       position: absolute !important;
       left: 0;
       right: 0;

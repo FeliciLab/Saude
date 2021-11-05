@@ -1,6 +1,7 @@
 <?php
 namespace Saude;
 
+use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
@@ -110,6 +111,53 @@ class Theme extends BaseV1\Theme{
                 }
             }           
         });
+
+        /**
+         * Adiciona campos de configurações para envio de e-mail
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-field-mail-confirm.php', ['entity' => $entity]);
+        });  
+
+        /**
+         * Ao finalizar o envio das inscrições é enviado um email
+         */
+        $app->hook('entity(Registration).send:after', function () use ($app) {
+            $registration = $this;
+
+            if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
+                $template = 'registration_confirm_custom';
+
+                $dataValue = [
+                    'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
+                    'number' => $registration->number,
+                    'opportunity' => $registration->opportunity->name
+                ];
+
+                $subject = $registration->opportunity->mailTitleSendConfirm;
+
+            } else {
+                $template = 'registration_confirm_default';
+
+                $dataValue = [
+                    'name' => $registration->owner->name,
+                    'number' => $registration->number,
+                    'opportunity' => $registration->opportunity->name
+                ];
+                $subject = 'Confirmação de inscrição - ' . "#{$dataValue['number']}";
+            }
+
+            $message = $app->renderMailerTemplate($template, $dataValue);
+
+            $app->createAndSendMailMessage([
+                'from' => $app->config['mailer.from'],
+                'to' => $registration->owner->user->email,
+                'bcc' => $registration->opportunity->owner->user->email,
+                'subject' => $subject,
+                'body' => $message['body']
+            ]);          
+        });      
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
@@ -224,6 +272,16 @@ class Theme extends BaseV1\Theme{
     function register() {
         parent::register();
         
+        $this->registerOpportunityMetadata('mailTitleSendConfirm', [
+            'label' => 'Título do e-mail',
+            'type' => 'text'
+        ]);
+
+        $this->registerOpportunityMetadata('mailDescriptionSendConfirm', [
+            'label' => 'Descrição do e-mail',
+            'type' => 'text'
+        ]);       
+
         $app = App::i();
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
