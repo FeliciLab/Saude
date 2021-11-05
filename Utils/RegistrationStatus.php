@@ -7,13 +7,10 @@ use MapasCulturais\Entities\Registration;
 class RegistrationStatus{
 
     public static function getStatusNameById($status) {
-
         return Registration::getStatusNameById($status);
-
     }
 
     public static function statusTitleById($status) {
-        
         $statuses =  [
             Registration::STATUS_DRAFT => 'O candidato poderá editar e reenviar a sua inscrição.',
             Registration::STATUS_SENT => 'Ainda não avaliada.',
@@ -24,11 +21,9 @@ class RegistrationStatus{
         ];
 
         return  $statuses[$status] ?? null;
-
     }
     
     public static function statusColorById($status) {
-        
         $statuses =  [
             Registration::STATUS_DRAFT => 'statusrasc',
             Registration::STATUS_SENT => 'statuspend',
@@ -40,6 +35,5 @@ class RegistrationStatus{
         ];
 
         return  $statuses[$status] ?? null;
-        
     }
 }
