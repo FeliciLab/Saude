@@ -5,7 +5,15 @@ namespace Saude\Utils;
 use MapasCulturais\Entities\Registration;
 
 class RegistrationStatus{
+
+    public static function getStatusNameById($status) {
+
+        return Registration::getStatusNameById($status);
+
+    }
+
     public static function statusTitleById($status) {
+        
         $statuses =  [
             Registration::STATUS_DRAFT => 'O candidato poderá editar e reenviar a sua inscrição.',
             Registration::STATUS_SENT => 'Ainda não avaliada.',
@@ -13,9 +21,10 @@ class RegistrationStatus{
             Registration::STATUS_NOTAPPROVED => 'Avaliada, mas não selecionada.',
             Registration::STATUS_WAITLIST => 'Avaliada, mas aguardando vaga.',
             Registration::STATUS_APPROVED => 'Avaliada e selecionada.'
-
         ];
+
         return  $statuses[$status] ?? null;
+
     }
     
     public static function statusColorById($status) {
@@ -29,6 +38,8 @@ class RegistrationStatus{
             Registration::STATUS_APPROVED => 'statusap'
 
         ];
+
         return  $statuses[$status] ?? null;
+        
     }
 }

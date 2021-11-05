@@ -3,6 +3,8 @@
 use MapasCulturais\Entities\Registration;
 use Saude\Entities\Resources;
 
+use Saude\Utils\RegistrationStatus;
+
 $app = MapasCulturais\App::i();
 
 $url = $registration->status == Registration::STATUS_DRAFT ? $registration->editUrl : $registration->singleUrl;
@@ -44,11 +46,11 @@ $phases = array_filter($phases, function($item) {
         <!-- verifica se o resultado já foi publicado antes de exibir o status -->
         <?php if ($registration->opportunity->publishedRegistrations) : ?>
             <td class="registration-status-col">
-                <strong>Status: </strong><?php echo Registration::getStatusNameById($registration->status); ?>
+                <strong>Status: </strong><?php echo RegistrationStatus::getStatusNameById($registration->status); ?>
 
         <?php else : ?>
             <td class="registration-status-col statuspend">
-                <strong>Status: </strong><?php echo Registration::getStatusNameById($registration->status); ?>
+                <strong>Status: </strong><?php echo RegistrationStatus::getStatusNameById($registration->status); ?>
 
         <?php endif; ?>
     </small><br>
@@ -94,7 +96,7 @@ $phases = array_filter($phases, function($item) {
                                 <small><strong>Status:</strong>
                                 <?php 
                                     if(count($registration) > 0){
-                                        echo Registration::getStatusNameById($registration[0]->status);
+                                        echo RegistrationStatus::getStatusNameById($registration[0]->status);
                                     }
                                 ?>
                             </small>
