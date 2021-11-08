@@ -62,71 +62,83 @@ $phases = array_filter($phases, function($item) {
         <?php }else if($rec['open'] != 1 || $rec['close'] != 1){
             echo '<div style="justify-content: space-between;display: flex;">
                 <label class="text-danger">Fora do período do recurso</label>
-                <label style="color: green" onclick="phaseStatus('. $registration->id .')" ><i class="fa fa-angle-down"> Exibir fases </i> </label>
+                <label id="button-'. $registration->id .'" style="color: green; cursor: pointer" onclick="phaseStatus('. $registration->id .')" >Exibir fases <i class="fa fa-angle-down"></i> </label>
             </div>';
         }else{
             echo '<div style="justify-content: space-between;display: flex;">
                 <label class="text-info">Recurso enviado</label>
-                <label style="color: green" onclick="phaseStatus('. $registration->id .')" ><i class="fa fa-angle-down"> Exibir fases </i> </label>
+                <label id="button-'. $registration->id .'" style="color: green; cursor: pointer" onclick="phaseStatus('. $registration->id .')" >Exibir fases <i class="fa fa-angle-down"></i> </label>
             </div>';
         }
     }else{
         echo '<div style="text-align: right;">
-            <label style="color: green" onclick="phaseStatus('. $registration->id .')" ><i class="fa fa-angle-down"> Exibir fases </i> </label>
+        <label id="button-'. $registration->id .'" style="color: green; cursor: pointer" onclick="phaseStatus('. $registration->id .')" >Exibir fases <i class="fa fa-angle-down"></i> </label>
         </div>';
     } ?>
-    <div style="margin-top: 20px; display: none" id="phases-<?php echo $registration->id; ?>">
-        <h4>Fases</h4>
-        <?php foreach($phases as $phase){
-            $registration = $app->repo('Registration')->findByOpportunityAndUser($phase, $app->user);
-        ?>
-            <div style="background-color: white; padding: 20px; padding-bottom: 0px; margin-bottom: 20px;">
-                <p style="margin-bottom: 0.5rem"><?php echo $phase->name; ?></p>
-                    <div style="display: flex; justify-content: space-between;">
-                        <div>
-                            <small><strong>Inscrição da fase:</strong> <?php 
-                                if(count($registration) == 0){
-                                    echo "Não inscrito";
-                                }else{
-                                    echo $registration[0]->number;
-                                }
-                            ?></small><br>
-                            <?php 
-                            if(count($registration) > 0){ ?>
-                                <small><strong>Status:</strong>
-                                <?php 
-                                    if(count($registration) > 0){
-                                        echo RegistrationStatus::getStatusNameById($registration[0]->status);
+    <div style="margin-top: 20px; display: none" id="phases-<?php echo $registration->id; ?>" class="wrapper-show">
+        <div id="sub-div-<?php echo $registration->id; ?>">
+            <h4>Fases</h4>
+            <?php foreach($phases as $phase){
+                $registration = $app->repo('Registration')->findByOpportunityAndUser($phase, $app->user);
+            ?>
+                <div style="background-color: white; padding: 20px; padding-bottom: 0px; margin-bottom: 20px;">
+                    <p style="margin-bottom: 0.5rem"><?php echo $phase->name; ?></p>
+                        <div class="user-oportunity-details">
+                            <div>
+                                <small><strong>Inscrição da fase:</strong> <?php 
+                                    if(count($registration) == 0){
+                                        echo "Não inscrito";
+                                    }else{
+                                        echo $registration[0]->number;
                                     }
-                                ?>
-                            </small>
-                            <?php }  ?>
-                        </div>
-                        <div style="margin-top: auto; margin-bottom: auto;">
-                            <?php 
+                                ?></small><br>
+                                <?php 
                                 if(count($registration) > 0){ ?>
-                                    <a style="color: blue; margin-bottom: 0.8rem" href="<?php echo $registration[0]->singleUrl; ?>">Acessar inscrição da fase</a>
-                                <?php }else{ ?>
-                                    <a style="color: blue; margin-bottom: 0.8rem" href="<?php echo $phase->singleUrl; ?>">Acessar inscrição da fase</a>
-                                <?php } 
-                            ?>
+                                    <small><strong>Status:</strong>
+                                    <?php 
+                                        if(count($registration) > 0){
+                                            echo RegistrationStatus::getStatusNameById($registration[0]->status);
+                                        }
+                                    ?>
+                                </small>
+                                <?php }  ?>
+                            </div>
+                            <div style="margin-top: auto; margin-bottom: auto;">
+                                <?php 
+                                    if(count($registration) > 0){ ?>
+                                        <a style="margin-bottom: 0.8rem" class="text-primary" href="<?php echo $registration[0]->singleUrl; ?>">Acessar inscrição da fase</a>
+                                    <?php }else{ ?>
+                                        <a style="margin-bottom: 0.8rem" class="text-primary" href="<?php echo $phase->singleUrl; ?>">Acessar inscrição da fase</a>
+                                    <?php } 
+                                ?>
+                            </div>
                         </div>
-                    </div>
-            </div>
-        <?php }?>
-        <?php if(!$phases): ?>
-                <div class="alert info"><?php \MapasCulturais\i::_e("Esta oportunidade não possui fases.");?></div>
-        <?php endif; ?>
+                </div>
+            <?php }?>
+            <?php if(!$phases): ?>
+                    <div class="alert info"><?php \MapasCulturais\i::_e("Esta oportunidade não possui fases.");?></div>
+            <?php endif; ?>
+        </div>
     </div>
 </article>
 
 <script>
     function phaseStatus(id){
         let object = $(`#phases-${id}`);
+        object.height($(`#sub-div-${id}`).outerHeight(true));
         if(object.css('display') == 'none'){
             object.css( "display", "block" );
         }else if(object.css('display') == 'block'){
             object.css( "display", "none" );
         }
-    }
+        let div_name = $(`#button-${id}`);
+        div_name[0].innerHTML = div_name[0].innerText == 'Exibir fases ' ? 'Esconder fases <i class="fa fa-angle-up"></i> ' : 'Exibir fases <i class="fa fa-angle-down"></i> '
+        if(object.hasClass('animation-expanded')){
+            object.removeClass('animation-expanded')
+            object.height($(`#sub-div-${id}`).outerHeight(false));
+        }else{
+            object.addClass('animation-expanded')
+            object.height($(`#sub-div-${id}`).outerHeight(true));
+        }
+    }   
 </script>
