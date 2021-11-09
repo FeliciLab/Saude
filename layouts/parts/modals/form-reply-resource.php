@@ -74,8 +74,8 @@
                 <option value="1">Alterar para selecionado</option>
                 <option value="2">Manter Status</option>
             </select>
-            <textarea placeholder="Resposta para a contestação do recurso: " name="resource_reply" id="resource_reply" cols="30" rows="20" class="form-control" style="height: 222px !important"></textarea>
         </div>
+        <textarea placeholder="Resposta para a contestação do recurso: " name="resource_reply" id="resource_reply" cols="30" rows="20" class="form-control" style="height: 222px !important; display: none;"></textarea>
         </hr>
         <br>
         <button data-remodal-action="cancel" class="btn btn-default" title="Sair da resposta">

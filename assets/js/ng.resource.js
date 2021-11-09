@@ -70,17 +70,14 @@ $(document).ready(function () {
         var type = this.value;
         $('#button-send-resource').prop("disabled", false);
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
-            $("#indeferido_reply").hide();
-            $("#divDeferido").show();
-
+            hideIfDeferido();
             if ($("#evaluationMethod").val() == 'technical') {
                 pointMax(MapasCulturais.entity.object.id);
             }           
         }else if(type == 'Indeferido'){
-            $("#divDeferido").hide();
+            hideIfIndeferido();
         }else {
-            $('#button-send-resource').prop("disabled", true);
-            $("#divDeferido").hide();
+            hideIfDefault();
         }
     });
 
@@ -153,13 +150,38 @@ function inforesourceReply(resourceId) {
                 //$( "#resource_status option:selected" ).text('--Selecione--');
                 $('#resource_status option[value=Aguardando]').attr('selected','selected');
             }else{
+                if(response.resourceStatus == 'Deferido' || response.resourceStatus == 'ParcialmenteDeferido'){
+                    hideIfDeferido();
+                }else if(response.resourceStatus == 'Indeferido'){
+                    hideIfIndeferido();
+                }else{
+                    hideIfDefault();
+                }
                 $('#resource_status option[value='+response.resourceStatus+']').attr('selected','selected');
+                console.log();
                 // $( "#resource_status option:selected" ).text(response.resourceStatus);
             }
             
         }
     );
 }
+function hideIfDeferido(){
+    $("#indeferido_reply").hide();
+    $("#divDeferido").show();
+    $("#resource_reply").show();
+}
+
+function hideIfIndeferido(){
+    $("#divDeferido").hide();
+    $("#resource_reply").show();
+}
+
+function hideIfDefault(){
+    $('#button-send-resource').prop("disabled", true);
+    $("#divDeferido").hide();
+    $("#resource_reply").hide();
+}
+
 // para mudar a cor da class na tr > td
 function infoColorStatus(status) {
     var classStatus = '';
