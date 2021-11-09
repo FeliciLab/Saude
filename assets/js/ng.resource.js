@@ -49,7 +49,6 @@ $(document).ready(function () {
                 });
                 var inst = $('[data-remodal-id=modal-resposta-recurso]').remodal();
                 setTimeout(() => {
-                    // $( "#resource_status option:selected" ).text('--Selecione--');
                     inst.close();
                     location.reload();
                 }, 1000);
@@ -143,11 +142,11 @@ function inforesourceReply(resourceId) {
     }
     $.get(MapasCulturais.baseURL+'recursos/inforesourceReply', data,
         function (response) {
-            $("#resource_reply").val(response.resourceReply)
+            $('#resource_status').val(response.resourceStatus);
+            $("#resource_reply").val(response.resourceReply);
             $("#resourceText").html('<strong>Recurso: </strong>'+response.resourceText);
             $("#resource_id").val(response.id);
             if(response.resourceStatus == 'Aguardando'){
-                //$( "#resource_status option:selected" ).text('--Selecione--');
                 $('#resource_status option[value=Aguardando]').attr('selected','selected');
             }else{
                 if(response.resourceStatus == 'Deferido' || response.resourceStatus == 'ParcialmenteDeferido'){
@@ -157,9 +156,6 @@ function inforesourceReply(resourceId) {
                 }else{
                     hideIfDefault();
                 }
-                $('#resource_status option[value='+response.resourceStatus+']').attr('selected','selected');
-                console.log();
-                // $( "#resource_status option:selected" ).text(response.resourceStatus);
             }
             
         }
