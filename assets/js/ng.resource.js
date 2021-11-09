@@ -147,7 +147,7 @@ function inforesourceReply(resourceId) {
             $("#resourceText").html('<strong>Recurso: </strong>'+response.resourceText);
             $("#resource_id").val(response.id);
             if(response.resourceStatus == 'Aguardando'){
-                $('#resource_status option[value=Aguardando]').attr('selected','selected');
+                $('#resource_status').val('default');
             }else{
                 if(response.resourceStatus == 'Deferido' || response.resourceStatus == 'ParcialmenteDeferido'){
                     hideIfDeferido();
