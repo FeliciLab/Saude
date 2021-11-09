@@ -68,8 +68,8 @@
                 <?php
                 }
             ?>
-           <label for="candidate_status">Status do Candidato</label>
-            <select name="status" id="candidate_status" class="form-control">
+           <label for="decisao_recurso">Status do Candidato</label>
+            <select name="status" id="decisao_recurso" class="form-control">
                 <option value="0">--Selecione--</option>
                 <option value="1">Alterar para selecionado</option>
                 <option value="2">Manter Status</option>

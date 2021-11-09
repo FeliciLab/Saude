@@ -95,6 +95,7 @@ class Resources extends \MapasCulturais\Controller{
         $reply = $app->em->find('Saude\Entities\Resources', $this->putData['resource_id']);
         $reply->resourceReply = $this->putData['resource_reply'];
         $reply->resourceStatus = $this->putData['resource_status'];
+        $reply->decisao_recurso = $this->putData['status'];
         $reply->resourceDateReply = $date;
 
         $reg = $app->repo('Registration')->find($reply->registrationId->id);

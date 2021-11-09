@@ -96,12 +96,17 @@ function showModalResource(reg, opp, age, oppName) {
     $("#opportunityNameLabel").html(oppName)
 }
 
-function showModalReply(resourceId, opportunity, oppName, note) {
+function showModalReply(resourceId, opportunity, oppName, recurso_sit,note) {
     $("#replyOpportunityNameLabel").html('');
     $("#resourceText").html('');
     $("#resource_id").val(0);
     $("#replyOpportunityNameLabel").html(oppName);
     $("#consolidated_result").val(note);
+    if(!recurso_sit){
+        recurso_sit=0;
+    }
+    //Pega a decisão do recurso
+    $("#decisao_recurso").val(recurso_sit);
 
     $.ajax({
         type: "POST",

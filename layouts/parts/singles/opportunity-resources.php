@@ -47,7 +47,7 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                         echo substr($rec->resourceReply, 0 , 30) ;
                     ?>...
                     <p>
-                    <a href="#modal-resposta-recurso" onclick="showModalReply('<?php echo $rec->id; ?>', '<?php echo $entity->id; ?>', '<?php echo $rec->opportunityId->name; ?>','<?php echo $registration->consolidatedResult; ?>')" class="btn btn-info" title="Responder o recurso do <?php echo $rec->agentId->name; ?>">
+                    <a href="#modal-resposta-recurso" onclick="showModalReply('<?php echo $rec->id; ?>', '<?php echo $entity->id; ?>', '<?php echo $rec->opportunityId->name; ?>','<?php echo $rec->decisao_recurso;?>','<?php echo $registration->consolidatedResult; ?>')" class="btn btn-info" title="Responder o recurso do <?php echo $rec->agentId->name; ?>">
                         <i class="fa fa-share-square" aria-hidden="true"></i> Responder Recurso
                     </a>
                     </p>

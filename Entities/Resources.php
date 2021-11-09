@@ -101,6 +101,13 @@ class Resources extends \MapasCulturais\Entity{
      */
     protected $replyPublish = false;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="decisao_recurso", type="integer")
+     */
+    protected $decisao_recurso;
+
     public static function allResource() {
         $app = App::i();
         $userId = $app->user->profile->id;
