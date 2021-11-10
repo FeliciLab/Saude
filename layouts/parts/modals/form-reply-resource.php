@@ -81,7 +81,7 @@
         <button data-remodal-action="cancel" class="btn btn-default" title="Sair da resposta">
             <i class="fa fa-close" aria-hidden="true"></i> Fechar
         </button>
-        <button class="btn btn-primary" disabled id="button-send-resource" type="submit" title="Enviar o seu recurso para essa oportunidade" style="margin-left: 20px;">
+        <button class="btn btn-primary" id="button-send-resource" type="submit" title="Enviar o seu recurso para essa oportunidade" style="margin-left: 20px;">
             <i class="fa fa-paper-plane" aria-hidden="true"></i> Responder
         </button>
     </form>

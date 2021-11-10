@@ -67,7 +67,6 @@ $(document).ready(function () {
     //habilitando div para nota
     $('#resource_status').on('change', function() {
         var type = this.value;
-        $('#button-send-resource').prop("disabled", false);
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
             hideIfDeferido();
             if ($("#evaluationMethod").val() == 'technical') {
