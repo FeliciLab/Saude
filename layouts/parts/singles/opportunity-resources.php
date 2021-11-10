@@ -40,7 +40,7 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                         ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
                     ?>
                 </th>
-                <th><?php echo $rec->resourceStatus; ?></th>
+                <th><?php echo preg_replace('/(?<!\ )[A-Z]/', ' $0', $rec->resourceStatus);  ?></th>
                 <th>
                     <?php  
                        if(isset($resources[0]['resources_reply_publish']) && $resources[0]['resources_reply_publish'] == false) {
