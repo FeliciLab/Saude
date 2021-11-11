@@ -9,8 +9,7 @@
             <div ng-if="field.fieldType !== 'file' && field.fieldType !== 'section' && field.fieldType !== 'persons' && field.config.entityField !== '@location' && field.config.entityField !== '@links' &&  field.fieldType !== 'links' ">
                 <label>{{field.required ? '*' : ''}} {{field.title}}: </label>
                 <span ng-if="entity[field.fieldName] && field.fieldType !== 'textarea'&& field.fieldType !== 'checkbox'" ng-bind-html="printField(field, entity[field.fieldName])"></span>
-                <span ng-if="entity[field.fieldName] && field.fieldType === 'checkbox'">{{field.description}}</span>
-                
+                <span ng-if="entity[field.fieldName] && field.fieldType === 'checkbox'">{{field.description}}<span>
                 <p ng-if="entity[field.fieldName] && field.fieldType === 'textarea'" ng-bind-html="printField(field, entity[field.fieldName])" style="white-space: pre-line"></p>
                 <span ng-if="!entity[field.fieldName]"><em><?php \MapasCulturais\i::_e("Campo não informado.");?></em></span>
             </div>
