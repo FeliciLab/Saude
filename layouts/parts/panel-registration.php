@@ -54,33 +54,6 @@ $phases = array_filter($phases, function($item) {
 
         <?php endif; ?>
     </small><br>
-    <?php if ($registration->canUser('sendClaimMessage')) : ?>
-        <?php
-        //VERIFICA SE ENVIOU O RECURSO
-        if ($resources == false) {
-            if ($rec['open'] == true && $rec['close'] == true) { ?>
-                <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
-                    <i class="fa fa-edit"></i> Abrir Recurso
-                </a>
-        <?php
-            }
-        } else {
-            echo '<label class="text-info">Recurso enviado</label><br/>';
-        }
-        //MENSAGEM FORA DO PERIODO
-        if ($rec['open'] != true || $rec['close'] != true) {
-            echo '<label class="text-danger">Fora do período do recurso</label><br/>';
-        }
-
-        ?>
-    <?php endif; ?>
-
-    <div class="objeto-meta">
-        <div><span class="label" <?php \MapasCulturais\i::esc_attr_e("Responsável:"); ?>></span> <?php echo $registration->owner->name ?></div>
-        <?php
-        foreach ($app->getRegisteredRegistrationAgentRelations() as $def) :
-            if (isset($registration->relatedAgents[$def->agentRelationGroupName])) :
-                $agent = $registration->relatedAgents[$def->agentRelationGroupName][0];
     <?php if ($registration->canUser('sendClaimMessage')) { 
         if($rec['open'] == 1 && $rec['close'] == 1){?>
             <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
