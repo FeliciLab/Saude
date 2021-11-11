@@ -542,6 +542,11 @@ return array(
     'create sequence category_meta' => function () use($conn) {
         $conn->executeQuery("CREATE SEQUENCE category_meta_id_seq INCREMENT BY 1 MINVALUE 1 START 1;");
     },
+
+    //NOVO CAMPO DA TABELA RECURSO PARA SITUACAO DO CANDIDATO
+    'add decisao_recurso' => function () use($conn) {
+        $conn->executeQuery("ALTER TABLE public.resources ADD decisao_recurso INT");
+    },
 );
 
 
