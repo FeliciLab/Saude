@@ -1578,9 +1578,14 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
             }
         });
         $scope.findRegistrations = function(){
+            if (!registrationsApi) {
+                return;
+            }
+
             if(registrationsApi.finish()){
                 return null;
             }
+            
             $scope.data.findingRegistrations = true;
             return registrationsApi.find().success(function(){
                 $scope.data.findingRegistrations = false;

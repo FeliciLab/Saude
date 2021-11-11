@@ -3515,7 +3515,6 @@ nav.sidebar-panel ul {
   text-align: left; }
   @media screen and (max-width: 768px) {
     .alert {
-      display: block !important;
       position: absolute !important;
       left: 0;
       right: 0;
@@ -4283,7 +4282,7 @@ h1 .icon {
     content: "Entrar";
     font-size: 12px;
     position: absolute;
-    /top: 30px;
+    top: 30px;
     right: 1px; 
   }
     .menu-header-login{
@@ -7807,3 +7806,17 @@ nav {
    .a-color{
      color:gray;
    }
+
+   /*TEXTOS DA HOME*/
+   .b-home{
+    color:black;
+   }
+
+  .home-style{
+    text-align: center;
+    line-height: 1.3rem;
+  }
+
+  .font-style{
+    font-size: 1.3rem;
+  }

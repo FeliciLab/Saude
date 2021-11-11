@@ -1,6 +1,7 @@
 <?php
 namespace Saude;
 
+use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
@@ -15,21 +16,36 @@ class Theme extends BaseV1\Theme{
         $self = App::i()->view;
 
         return array(
+                        
             'site: of the region' => 'do estado de Ceará',
             'site: by the site owner' => 'pela Escola de saúde pública do Ceará',
 
-            'home: welcome' => "O Mapa da Saúde é um software livre, gratuito e construído de modo colaborativo, implementado pela Escola de Saúde Pública do Ceará (ESP-CE). Integra dados de diferentes sistemas, serviços e recursos para melhor subsidiar a sociedade e os governos sobre o setor de saúde do Estado do Ceará, trazendo informações sobre os profissionais, os serviços e os sistemas relacionados à Escola. Para saber mais e colaborar na gestão estadual, basta criar seu perfil.
+            'home: title' => "Bem Vindes!",
+
+            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, através do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</br></br>
+            <p>A plataforma estrutura uma política digital de relacionamento e gestão de informações, integrando dados de diferentes sistemas e serviços, oferecendo à cidadania e aos governos um importante instrumento de apoio, avaliação e qualificação da <b class='b-home'>Força de Trabalho do SUS</b>.</br>
+            <p>No Mapa, é possível encontrar e inserir informações sobre profissionais (pessoas gestoras e trabalhadoras), eventos (oficiais e comunitários), espaços (públicos e privados), além de indicadores e inscrições em diferentes oportunidades na área da saúde no Ceará.</br> 
+            <p>Crie seu perfil e colabore com a transformação digital do SUS!
+            </div>
+            
             ",
             /*'home: events' => "Você pode pesquisar eventos culturais da cidade nos campos de busca combinada. Como usuário cadastrado, você pode incluir seus eventos na plataforma e divulgá-los gratuitamente.",*/
-            'home: agents' => "Você pode colaborar na gestão da saúde da cidade com suas próprias informações, preenchendo seu perfil de ator de mudança. Neste espaço, estão registrados profissionais, gestores e instituições; uma rede de atores envolvidos no cenário de saúde. Você pode cadastrar um ou mais informes, além de associar ao seu perfil eventos e espaços de com divulgação gratuita.",
-            'home: spaces' => "Procure por espaços culturais incluídos na plataforma, acessando os campos de busca combinada que ajudam na precisão de sua pesquisa. Cadastre também os espaços onde desenvolve suas atividades artísticas e culturais na cidade.",
-            'home: projects' => "Reúne os projetos ou agrupa os eventos de todos os tipos executados pela escola. Neste espaço, você encontra leis de fomento, mostras, convocatórias e editais criado pela Escola de Saúde Pública-CE, além de diversas iniciativas cadastradas pelos usuários da plataforma. Cadastre-se e divulgue seus projetos.",
-            'home: opportunities' => "Faça a sua inscrição ou acesse o resultado de diversas convocatórias como editais, oficinas, prêmios e concursos. Você também pode criar o seu próprio formulário e divulgar uma oportunidade para outros atores de mudança.",
+            'home: agents' => "<div class='font-style'>Se você é uma pessoa trabalhadora ou gestora da saúde em seu município, pode criar seu perfil e fazer a gestão da informação que você conhece e produz.</br></br>
+            <p>Tornando-se um agente, você fortalece a transparência e o diálogo com sua comunidade e colabora com a transformação da saúde de sua cidade ou região.</br>
+            <p>Aqui é possível cadastrar sua instituição, vincular seu perfil aos espaços nos quais você trabalha, divulgar e participar de oportunidades, tais como eventos e editais de projetos vinculados à Escola de Saúde Pública do Ceará.</div>
+            ",
+            'home: spaces' => "<div class='font-style'>No Mapa da Saúde já estão disponíveis todas as unidades do Ceará, presentes no <a href='https://mapa.sus.ce.gov.br/selo/id:1/#/tab=sobre' target='blank'>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</a>.</br></br>
+            <p>Para encontrá-las, diga onde e o que busca, através dos campos de busca combinada, que ajudam na precisão de sua pesquisa.</br>
+            <p>Cadastre também os espaços nos quais desenvolve suas atividades em saúde, na capital ou no interior.</br>
+            <p>E lembrando: como agente, você que é profissional de saúde poderá também vincular o seu perfil às unidades já cadastradas. </div>
+            ",
+            /*'home: opportunities' => "Faça a sua inscrição ou acesse o resultado de diversas convocatórias como editais, oficinas, prêmios e concursos. Você também pode criar o seu próprio formulário e divulgar uma oportunidade para outros atores de mudança.",*/
             'home: colabore' => "Colabore com o Mapa da Saúde",
 
             'home: abbreviation' => "ESP-CE",
-            'home: home_devs' => 'Existem algumas maneiras de desenvolvedores interagirem com o Mapa de Saúde. A primeira é através da nossa  <a href="https://github.com/hacklabr/mapasculturais/blob/master/documentation/docs/mc_config_api.md" target="_blank">API</a>. 
-            Com ela você pode acessar os dados públicos no nosso banco de dados e utilizá-los para desenvolver aplicações externas. Além disso, o Mapa da Saúde é construído a partir do software livre, recebendo contribuição para o seu desenvolvimento através do <a href="https://github.com/hacklabr/mapasculturais/" target="_blank">GitHub</a>.',
+            'home: home_devs' => "<div class='font-style'>
+            <p>O Mapa da Saúde é uma das ações da Rede de Inovação Aberta no SUS, que estão sendo realizadas para promover o controle social, garantir a transparência e viabilizar a colaboração em rede.</br>
+            <p>Se você é uma pessoa desenvolvedora e deseja interagir com o Mapa, basta acessar nosso repositório no <a href='https://github.com/EscolaDeSaudePublica/mapadasaude' target='blank'>GitHub</a> e fazer parte do grupo no <a href='https://t.me/joinchat/WCYOkjUEcYZ0mu1i' target='blank'>Telegram</a>.</div>",
 
             'search: verified results' => 'Resultados da ESP-CE',
             'search: verified' => "ESP-CE"
@@ -110,6 +126,53 @@ class Theme extends BaseV1\Theme{
                 }
             }           
         });
+
+        /**
+         * Adiciona campos de configurações para envio de e-mail
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-field-mail-confirm.php', ['entity' => $entity]);
+        });  
+
+        /**
+         * Ao finalizar o envio das inscrições é enviado um email
+         */
+        $app->hook('entity(Registration).send:after', function () use ($app) {
+            $registration = $this;
+
+            if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
+                $template = 'registration_confirm_custom';
+
+                $dataValue = [
+                    'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
+                    'number' => $registration->number,
+                    'opportunity' => $registration->opportunity->name
+                ];
+
+                $subject = $registration->opportunity->mailTitleSendConfirm;
+
+            } else {
+                $template = 'registration_confirm_default';
+
+                $dataValue = [
+                    'name' => $registration->owner->name,
+                    'number' => $registration->number,
+                    'opportunity' => $registration->opportunity->name
+                ];
+                $subject = 'Confirmação de inscrição - ' . "#{$dataValue['number']}";
+            }
+
+            $message = $app->renderMailerTemplate($template, $dataValue);
+
+            $app->createAndSendMailMessage([
+                'from' => $app->config['mailer.from'],
+                'to' => $registration->owner->user->email,
+                'bcc' => $registration->opportunity->owner->user->email,
+                'subject' => $subject,
+                'body' => $message['body']
+            ]);          
+        });      
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
@@ -224,6 +287,16 @@ class Theme extends BaseV1\Theme{
     function register() {
         parent::register();
         
+        $this->registerOpportunityMetadata('mailTitleSendConfirm', [
+            'label' => 'Título do e-mail',
+            'type' => 'text'
+        ]);
+
+        $this->registerOpportunityMetadata('mailDescriptionSendConfirm', [
+            'label' => 'Descrição do e-mail',
+            'type' => 'text'
+        ]);       
+
         $app = App::i();
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');

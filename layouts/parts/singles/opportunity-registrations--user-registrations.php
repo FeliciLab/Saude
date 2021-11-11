@@ -2,6 +2,7 @@
 
 use Saude\Entities\Resources;
 use \MapasCulturais\Entities\RegistrationEvaluation;
+use Saude\Utils\RegistrationStatus;
 
 $registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
 
@@ -105,7 +106,7 @@ if (!empty($registrations)) {
                             if ($resource['text'] !== "" && $resource['publish'] == false) {
                                 echo '<td>Recurso enviado. Aguarde!</td>';
                             } else
-                                //SE NÃO ENTROU EM RECURSO
+                                //SE NÃO ENTROU EM RECURSO.
                                 if ($resource['text'] == 'Não existe texto' && $resource['publish'] == 'sem publicacao') {
                                     echo '<td>' . $registration->consolidatedResult . '</td>';
                                 }
@@ -113,48 +114,12 @@ if (!empty($registrations)) {
                     <?php endif; ?>
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
 
-                    <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args);
-
-                    $status = '';
-                    $color = '';
-                    $title = '';
-                    switch ($registration->status) {
-                        case 0:
-                            $status = 'Rascunho';
-                            $colorStatus = 'statusrasc';
-                            $title = 'O candidato poderá editar e reenviar a sua inscrição.';
-                            break;
-                        case 1:
-                            $status = 'Pendente';
-                            $colorStatus = 'statuspend';
-                            $title = 'Ainda não avaliada.';
-                            break;
-                        case 2:
-                            $status = 'Inválida';
-                            $colorStatus = 'statusinv';
-                            $title = 'Em desacordo com o regulamento.';
-                            break;
-                        case 3:
-                            $status = 'Não selecionada';
-                            $colorStatus = 'statusrep';
-                            $title = 'Avaliada, mas não selecionada.';
-                            break;
-                        case 8:
-                            $status = 'Suplente';
-                            $colorStatus = 'statusespera';
-                            $title = 'Avaliada, mas aguardando vaga.';
-                            break;
-                        case 10:
-                            $status = 'Selecionada';
-                            $colorStatus = 'statusap';
-                            $title = 'Avaliada e selecionada.';
-                            break;
-                    }
-                    ?>
+                    <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args);?>
                     <!-- Apenas mosta o status quando a oportinudade já foi publicada -->
                     <?php if ($registration->opportunity->publishedRegistrations) : ?>
-                        <td class="registration-status-col <?php echo $colorStatus; ?>" style="text-align: center; font-size: 11px;">
-                            <?php $this->part('singles/tooltip', ['title' => $title, 'chield' => $status]); ?>
+                        <td class="registration-status-col <?php echo RegistrationStatus::statusColorById($registration->status); ?>" style="text-align: center; font-size: 11px;">
+                            <?php $this->part('singles/tooltip', ['title' => RegistrationStatus::statusTitleById($registration->status), 
+                            'chield' => RegistrationStatus::statusSlugById($registration->status)]); ?>
                         </td>
                     <?php else : ?>
                         <td class="registration-status-col statuspend" style="text-align: center; font-size: 11px;">
