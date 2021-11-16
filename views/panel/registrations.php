@@ -6,7 +6,12 @@ error_reporting(E_ALL);
     
     $drafts = $app->repo('Registration')->findByUser($app->user, Registration::STATUS_DRAFT);
     $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
-    
+    $unique_opportunities = [];
+    foreach($sent as $s){
+        if(!array_key_exists($s->opportunity->ownerEntity->id , $unique_opportunities)){
+            $unique_opportunities[$s->opportunity->ownerEntity->id] = $s;
+        }
+    }
  ?>
 
 <div class="panel-list panel-main-content">
@@ -35,7 +40,7 @@ error_reporting(E_ALL);
     </div>
     <!-- #ativos-->
     <div id="enviadas">
-        <?php foreach($sent as $registration): ?>
+        <?php foreach($unique_opportunities as $registration): ?>
         <?php $this->part('panel-registration', array('registration' => $registration)); ?>
         <?php endforeach; ?>
         <?php if(!$sent): ?>
