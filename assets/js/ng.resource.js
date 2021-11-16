@@ -1,6 +1,4 @@
 $(document).ready(function () {
-    //OCULTANDO CAMPO NO FORMULÁRIO DE RESPOSTA
-    $("#divDeferido").hide();
     
     getAllResource();
     $("#formSendResource").submit(function (e) { 
@@ -37,6 +35,7 @@ $(document).ready(function () {
         event.preventDefault();
         var form = $("#formReplyResource").serialize();
         var idResource = $("#resource_id").val();
+
         $.ajax({
             type: "PUT",
             url: MapasCulturais.baseURL+'recursos/replyResource/'+idResource,
@@ -50,7 +49,6 @@ $(document).ready(function () {
                 });
                 var inst = $('[data-remodal-id=modal-resposta-recurso]').remodal();
                 setTimeout(() => {
-                    // $( "#resource_status option:selected" ).text('--Selecione--');
                     inst.close();
                     location.reload();
                 }, 1000);
@@ -70,13 +68,19 @@ $(document).ready(function () {
     $('#resource_status').on('change', function() {
         var type = this.value;
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
-            $("#divDeferido").show();
-            pointMax(MapasCulturais.entity.object.id);
-        }else{
-            $("#divDeferido").hide();
+            hideIfDeferido();
+            if ($("#evaluationMethod").val() == 'technical') {
+                pointMax(MapasCulturais.entity.object.id);
+            }           
+        }else if(type == 'Indeferido'){
+            hideIfIndeferido();
+        }else {
+            hideIfDefault();
         }
     });
+
 });
+
 
 
 
@@ -87,12 +91,17 @@ function showModalResource(reg, opp, age, oppName) {
     $("#opportunityNameLabel").html(oppName)
 }
 
-function showModalReply(resourceId, opportunity, oppName, note) {
+function showModalReply(resourceId, opportunity, oppName, recurso_sit,note) {
     $("#replyOpportunityNameLabel").html('');
     $("#resourceText").html('');
     $("#resource_id").val(0);
     $("#replyOpportunityNameLabel").html(oppName);
     $("#consolidated_result").val(note);
+    if(!recurso_sit){
+        recurso_sit=0;
+    }
+    //Pega a decisão do recurso
+    $("#decisao_recurso").val(recurso_sit);
 
     $.ajax({
         type: "POST",
@@ -132,20 +141,42 @@ function inforesourceReply(resourceId) {
     }
     $.get(MapasCulturais.baseURL+'recursos/inforesourceReply', data,
         function (response) {
-            $("#resource_reply").val(response.resourceReply)
+            $('#resource_status').val(response.resourceStatus);
+            $("#resource_reply").val(response.resourceReply);
             $("#resourceText").html('<strong>Recurso: </strong>'+response.resourceText);
             $("#resource_id").val(response.id);
             if(response.resourceStatus == 'Aguardando'){
-                //$( "#resource_status option:selected" ).text('--Selecione--');
-                $('#resource_status option[value=Aguardando]').attr('selected','selected');
+                $('#resource_status').val('default');
             }else{
-                $('#resource_status option[value='+response.resourceStatus+']').attr('selected','selected');
-                // $( "#resource_status option:selected" ).text(response.resourceStatus);
+                if(response.resourceStatus == 'Deferido' || response.resourceStatus == 'ParcialmenteDeferido'){
+                    hideIfDeferido();
+                }else if(response.resourceStatus == 'Indeferido'){
+                    hideIfIndeferido();
+                }else{
+                    hideIfDefault();
+                }
             }
             
         }
     );
 }
+function hideIfDeferido(){
+    $("#indeferido_reply").hide();
+    $("#divDeferido").show();
+    $("#resource_reply").show();
+}
+
+function hideIfIndeferido(){
+    $("#divDeferido").hide();
+    $("#resource_reply").show();
+}
+
+function hideIfDefault(){
+    $('#button-send-resource').prop("disabled", true);
+    $("#divDeferido").hide();
+    $("#resource_reply").hide();
+}
+
 // para mudar a cor da class na tr > td
 function infoColorStatus(status) {
     var classStatus = '';
@@ -316,8 +347,10 @@ function pointMax(opportunity) {
         data: {opportunityId: opportunity},
         dataType: "json",
         success: function (response) {
-            $("#infoNotaMaxima").html("Gostariamos de lhe lembrar que a nota máxima de pontuação é de: " + response.message);
-            $("#new_consolidated_result").attr('max' , response.message);
+            if (response.type == 'technical') {
+                $("#infoNotaMaxima").html("Gostariamos de lhe lembrar que a nota máxima de pontuação é de: " + response.message);
+                $("#new_consolidated_result").attr('max' , response.message);
+            }          
         }
     });
 }
