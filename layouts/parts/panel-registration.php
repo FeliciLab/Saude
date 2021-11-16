@@ -17,6 +17,8 @@ if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
 
 $rec = Resources::getEnabledResource($registration->opportunity->id, 'period');
 
+$resources = Resources::validateOnlyResource($registration->id, $registration->opportunity->id, $registration->owner->id);
+
 $phases = $app->repo('Opportunity')->findBy([
     'parent' => $registration->opportunity,
     'status' => $registration->opportunity->canUser('@control') ? [0,-1] : -1 
@@ -55,11 +57,12 @@ $phases = array_filter($phases, function($item) {
         <?php endif; ?>
     </small><br>
     <?php if ($registration->canUser('sendClaimMessage')) { 
-        if($rec['open'] == 1 && $rec['close'] == 1){?>
-            <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
-                <i class="fa fa-edit"></i> Abrir Recurso
-            </a>
-        <?php }else if($rec['open'] != 1 || $rec['close'] != 1){
+        if($resources == false){
+            if($rec['open'] == 1 && $rec['close'] == 1){?>
+                <a data-remodal-target="modal-recurso" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')" class="btn btn-primary">
+                    <i class="fa fa-edit"></i> Abrir Recurso
+                </a>
+        <?php }}else if($rec['open'] != 1 || $rec['close'] != 1){
             echo '<div style="justify-content: space-between;display: flex;">
                 <label class="text-danger">Fora do período do recurso</label>
                 <label style="color: green" onclick="phaseStatus('. $registration->id .')" ><i class="fa fa-angle-down"> Exibir fases </i> </label>

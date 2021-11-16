@@ -119,7 +119,7 @@ if (!empty($registrations)) {
                     <?php if ($registration->opportunity->publishedRegistrations) : ?>
                         <td class="registration-status-col <?php echo RegistrationStatus::statusColorById($registration->status); ?>" style="text-align: center; font-size: 11px;">
                             <?php $this->part('singles/tooltip', ['title' => RegistrationStatus::statusTitleById($registration->status), 
-                            'chield' => RegistrationStatus::statusSlugById($registration->status)]); ?>
+                            'chield' => RegistrationStatus::getStatusNameById($registration->status)]); ?>
                         </td>
                     <?php else : ?>
                         <td class="registration-status-col statuspend" style="text-align: center; font-size: 11px;">
