@@ -176,6 +176,14 @@ class Theme extends BaseV1\Theme{
                 'body' => $message['body']
             ]);          
         });      
+
+        /**
+         * Add visão para gerenciar o label do regulamento
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--rules):before', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-field-label-rules.php', ['entity' => $entity]);
+        }); 
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
@@ -298,7 +306,12 @@ class Theme extends BaseV1\Theme{
         $this->registerOpportunityMetadata('mailDescriptionSendConfirm', [
             'label' => 'Descrição do e-mail',
             'type' => 'text'
-        ]);       
+        ]);
+
+        $this->registerOpportunityMetadata('labelCustomRules', [
+            'label' => 'Label do regulamento',
+            'type' => 'text'
+        ]); 
 
         $app = App::i();
         $app->registerAuthProvider('keycloak');
