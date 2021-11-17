@@ -101,6 +101,13 @@ class Resources extends \MapasCulturais\Entity{
      */
     protected $replyPublish = false;
 
+    /**
+     * @var integer
+     *
+     * @ORM\Column(name="decisao_recurso", type="integer")
+     */
+    protected $decisao_recurso;
+
     public static function allResource() {
         $app = App::i();
         $userId = $app->user->profile->id;
@@ -196,20 +203,29 @@ class Resources extends \MapasCulturais\Entity{
     /**
      * Verifica a pontuação máxima configurada na avaliação para a banca poder alterar a nota
      *
-     * @param [integer] $opportunity id da Oportunidade
+     * @param [integer] $evaluationMethodConfigurationId id da Oportunidade
      * @return integer
      */
-    public static function maxPoint($opportunity) {
+    public static function maxPoint($evaluationMethodConfigurationId) {
         $app = App::i();
         $pointMax = $app->repo("EvaluationMethodConfigurationMeta")->findBy([
-            'owner' => $opportunity,
+            'owner' => $evaluationMethodConfigurationId,
             'key' => 'criteria'
         ]);
-        $spotsToarray = json_decode($pointMax[0]->value);
+
+        $spotsToarray = [];
+        if (count($pointMax)) {
+            $spotsToarray = json_decode($pointMax[0]->value);
+        }
+        
         $spots = 0;
+        /**
+         * @todo deve realizar o calculo da nota máxima possível para a oportunidade
+         */
         foreach ($spotsToarray as $value) {
             $spots = ($spots + $value->max);
         }
+
         return $spots;
     }
 
@@ -258,11 +274,11 @@ class Resources extends \MapasCulturais\Entity{
         }
         $dt = $date.' '.$hour;
         $dtFim = $dateEnd .' ' .$hourEnd;
-        $dateinit = \DateTime::createFromFormat('Y-m-d H:i:s', $dt);
+        $dateinit = \DateTime::createFromFormat('Y-m-d H:i', $dt);
         //dump($dateinit);
         $now = new DateTime('now');
         //dump($now);
-        $dateFinal = \DateTime::createFromFormat('Y-m-d H:i:s', $dtFim);
+        $dateFinal = \DateTime::createFromFormat('Y-m-d H:i', $dtFim);
 
         $open = false;
         $close = false;

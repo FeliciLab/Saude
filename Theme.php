@@ -132,7 +132,9 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
             $entity = $this->controller->requestedEntity;
-            $this->part('singles/opportunity-field-mail-confirm.php', ['entity' => $entity]);
+            $mailTitleSendConfirmDefault = 'Confirmação de inscrição';
+            $mailDescriptionSendConfirmDefault = "Olá! Confirmamos sua inscrição no Mapa da Saúde.";
+            $this->part('singles/opportunity-field-mail-confirm.php', ['entity' => $entity, 'mailTitleSendConfirmDefault'=>$mailTitleSendConfirmDefault, 'mailDescriptionSendConfirmDefault'=>$mailDescriptionSendConfirmDefault]);
         });  
 
         /**
@@ -146,6 +148,7 @@ class Theme extends BaseV1\Theme{
 
                 $dataValue = [
                     'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
+                    'name' => $registration->owner->name,
                     'number' => $registration->number,
                     'opportunity' => $registration->opportunity->name
                 ];
@@ -173,6 +176,14 @@ class Theme extends BaseV1\Theme{
                 'body' => $message['body']
             ]);          
         });      
+
+        /**
+         * Add visão para gerenciar o label do regulamento
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--rules):before', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-field-label-rules.php', ['entity' => $entity]);
+        }); 
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
@@ -295,7 +306,12 @@ class Theme extends BaseV1\Theme{
         $this->registerOpportunityMetadata('mailDescriptionSendConfirm', [
             'label' => 'Descrição do e-mail',
             'type' => 'text'
-        ]);       
+        ]);
+
+        $this->registerOpportunityMetadata('labelCustomRules', [
+            'label' => 'Label do regulamento',
+            'type' => 'text'
+        ]); 
 
         $app = App::i();
         $app->registerAuthProvider('keycloak');

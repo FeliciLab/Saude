@@ -11,9 +11,11 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                 <!-- <th>Publicar</th> -->
                 <th>Inscrição</th>
                 <th>Agente</th>
+                <th>Enviado em: </th> 
+                <th>Responsável</th>
                 <th>Status</th>
                 <th>Responder</th>
-                <th>Responsável</th>
+                <th>Respondido em: </th>
             </tr>
         </thead>
         <tbody>
@@ -32,14 +34,20 @@ $resources = Resources::resourceIdOpportunity($entity->id);
             <tr>
                 <th><?php echo $rec->registrationId->number; ?></th>
                 <th><?php echo $rec->agentId->name; ?></th>
-                <th><?php echo $rec->resourceStatus; ?></th>
+                <th><?php echo $rec->resourceSend->format('d/m/Y H:i:s'); ?></th>
+                <th>
+                    <?php 
+                        ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
+                    ?>
+                </th>
+                <th><?php echo preg_replace('/(?<!\ )[A-Z]/', ' $0', $rec->resourceStatus);  ?></th>
                 <th>
                     <?php  
                        if(isset($resources[0]['resources_reply_publish']) && $resources[0]['resources_reply_publish'] == false) {
                         echo substr($rec->resourceReply, 0 , 30) ;
                     ?>...
                     <p>
-                    <a href="#modal-resposta-recurso" onclick="showModalReply('<?php echo $rec->id; ?>', '<?php echo $entity->id; ?>', '<?php echo $rec->opportunityId->name; ?>','<?php echo $registration->consolidatedResult; ?>')" class="btn btn-info" title="Responder o recurso do <?php echo $rec->agentId->name; ?>">
+                    <a href="#modal-resposta-recurso" onclick="showModalReply('<?php echo $rec->id; ?>', '<?php echo $entity->id; ?>', '<?php echo $rec->opportunityId->name; ?>','<?php echo $rec->decisao_recurso;?>','<?php echo $registration->consolidatedResult; ?>')" class="btn btn-info" title="Responder o recurso do <?php echo $rec->agentId->name; ?>">
                         <i class="fa fa-share-square" aria-hidden="true"></i> Responder Recurso
                     </a>
                     </p>
@@ -47,11 +55,14 @@ $resources = Resources::resourceIdOpportunity($entity->id);
                         echo 'Recurso já foi publicado';
                     } ?>
                 </th>
-                <th>
-                    <?php 
-                        ($resources[$key]['reply_agent_id'] !== NULL && $resources[$key]['reply_agent_id'] > 0) ? printf($agentReply->name) : $agentReply;
-                    ?>
-                </th>
+                <th><?php if ($rec->resourceDateReply !== null){ 
+                    echo $rec->resourceDateReply->format('d/m/Y H:i:s'); 
+                    
+                }
+                else{
+                    echo 'Aguardando';
+                }
+                ?></th>
             </tr>
         <?php } ?>
         </tbody>

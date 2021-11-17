@@ -7807,6 +7807,22 @@ nav {
      color:gray;
    }
 
+   .wrapper-show{
+    transition: height 200ms;
+   }
+   .user-oportunity-details{
+    /* display: flex; 
+    justify-content: space-between; */
+    display: inline;
+   }
+   @media screen and (min-width: 768px) {
+
+    .user-oportunity-details{
+      display: flex; 
+      justify-content: space-between;
+     }
+
+   }
    /*TEXTOS DA HOME*/
    .b-home{
     color:black;
