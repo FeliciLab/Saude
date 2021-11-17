@@ -43,10 +43,8 @@ $_params = [
 
         <?php $this->applyTemplateHook('form','end'); ?>
         <form>
-        <a class="btn btn-primary" href="<?php echo $app->config['base.url'].'pdf/minha_inscricao/'.$entity->id; ?>" >
-            <i class="fa fa-print" aria-hidden="true"></i> 
-            Imprimir Inscrição
-        </a>
+        <button class="btn btn-primary" onClick="window.print()">
+        <i class="fa fa-print" aria-hidden="true"></i> Imprimir Inscrição</button>
         </form>
     </article>
     <?php $this->part('singles/registration--valuers-list', $_params) ?>
