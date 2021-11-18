@@ -2,7 +2,6 @@
    $labelCustomRulesDefault = 'Baixar o regulamento'; 
    $labelCustomRules = $entity->labelCustomRules;
 ?>
-<p ng-if="!data.isEditable && data.entity.registrationRulesFile"><a class="btn btn-default download-rules" href="{{data.entity.registrationRulesFile.url}}" target="_blank" rel='noopener noreferrer'><?php echo !empty($labelCustomRules) ? $labelCustomRules : $labelCustomRulesDefault; ?> </a></p>
 <?php if ($this->isEditable()): ?>
 <div class="registration-fieldset">
 <h4><?php \MapasCulturais\i::_e("Botão customizável para acesso ao regulamento");?></h4>
@@ -20,8 +19,3 @@
 </label> <br><br>
 </div>
 <?php endif; ?>
-<script>
-   $(function() {
-      $(".download").hide();
-   });
-</script>
