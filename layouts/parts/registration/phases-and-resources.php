@@ -7,7 +7,7 @@
     $phases = $app->repo('Opportunity')->findBy([
         'parent' => $registration->opportunity,
         'status' => $registration->opportunity->canUser('@control') ? [0,-1] : -1 
-    ],['registrationTo' => 'ASC', 'id' => 'ASC']);
+    ],['createTimestamp' => 'ASC', 'id' => 'ASC']);
 
     $phases = array_filter($phases, function($item) {
         if($item->isOpportunityPhase){
@@ -16,14 +16,14 @@
     });
 
     if($registration->canUser('sendClaimMessage')){
-        if($resources == false && ($rec['open'] == 1 && $rec['close'] == 1)){
-            echo '<div style="justify-content: space-between;display: flex;">
-                    <a data-remodal-target="modal-recurso" class="btn btn-primary" onclick="showModalResource('.$registration->id.', '.$registration->opportunity->id.','.$registration->opportunity->id.', '.$registration->opportunity->id.')">
-                        <i class="fa fa-edit"></i> Abrir Recurso
-                    </a>
-                    <label id="button-'.$registration->id.'" style="color: green; cursor: pointer" onclick="phaseStatus('.$registration->id.')" >Exibir fases <i class="fa fa-angle-down"></i> </label>
-                </div>';
-        }else if($resources == true){
+        if($resources == false && ($rec['open'] == 1 && $rec['close'] == 1)){ ?>
+            <div style="justify-content: space-between;display: flex;">
+                <a data-remodal-target="modal-recurso" class="btn btn-primary" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')">
+                    <i class="fa fa-edit"></i> Abrir Recurso
+                </a>
+                <label id="button-<?php echo $registration->id; ?>" style="color: green; cursor: pointer" onclick="phaseStatus('<?php echo $registration->id; ?>')" >Exibir fases <i class="fa fa-angle-down"></i> </label>
+            </div>
+        <?php }else if($resources == true){
             echo '<div style="justify-content: space-between;display: flex;">
                     <label class="text-info">Recurso enviado</label>
                     <label id="button-'. $registration->id .'" style="color: green; cursor: pointer" onclick="phaseStatus('. $registration->id .')" >Exibir fases <i class="fa fa-angle-down"></i> </label>
