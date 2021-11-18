@@ -45,12 +45,12 @@ return [
 
         'publishFolderCommand' => 'cp -R {IN} {PUBLISH_PATH}{FILENAME}'
     ]),
-    'mailer.user'       => env('MAILER_USER', "admin@mapasculturais.org"),
-    'mailer.psw'        => env('MAILER_PASS', "password"),
+    'mailer.user'       => env('MAILER_USER', ""),
+    'mailer.psw'        => env('MAILER_PASS', ""),
     'mailer.protocol'   => env('MAILER_PROTOCOL', ''),
-    'mailer.server'     => env('MAILER_SERVER', 'localhost'),
-    'mailer.port'       => env('MAILER_PORT', '465'),
-    'mailer.from'       => env('MAILER_FROM', 'suporte@mapasculturais.org'),
+    'mailer.server'     => env('MAILER_SERVER', ''),
+    'mailer.port'       => env('MAILER_PORT', ''),
+    'mailer.from'       => env('MAILER_FROM', ''),
     'mailer.alwaysTo'   => env('MAILER_ALWAYSTO', false),
 
     'mailer.templates' => [
