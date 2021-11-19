@@ -42,10 +42,7 @@ $_params = [
         <?php $this->part('singles/registration-single--fields', $_params) ?>
 
         <?php $this->applyTemplateHook('form','end'); ?>
-        <form>
-        <button class="btn btn-primary" onClick="window.print()">
-        <i class="fa fa-print" aria-hidden="true"></i> Imprimir Inscrição</button>
-        </form>
+        
     </article>
     <?php $this->part('singles/registration--valuers-list', $_params) ?>
 </article>
