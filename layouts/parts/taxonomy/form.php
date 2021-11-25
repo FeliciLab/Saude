@@ -8,14 +8,14 @@
             </a>
         </li>
             <input type="hidden" ng-model="data.taxonomy" value="<?php echo $key; ?>">  
-    <?php } ?> <span class="required_form">Obrigatório escolher uma taxonomia</span><br>
+    <?php } ?> <span class="field-required">Obrigatório escolher uma taxonomia</span><br>
     </ul>
     <br>
     </div>
     <div class="clearfix">
     <hr>
         <div class="form-group">
-            <label>Nome: </label> <span class="required_form">Obrigatório</span><br>
+            <label>Nome: </label> <span class="field-required">Obrigatório</span><br>
             <input type="text" ng-model="data.termName" id="term" class="form-control" placeholder="Taxomonias Escrita">
         </div>
     </div>

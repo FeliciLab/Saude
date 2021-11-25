@@ -12,7 +12,7 @@ $this->bodyProperties['ng-app'] = "professional.category";
         <div class="panel-body">
         <div ng-controller="professionalCategoryController">
             <div class="form-group">
-                <label>Nome: </label> <span class="required_form">Obrigatório</span><br>
+                <label>Nome: </label> <span class="field-required">Obrigatório</span><br>
                 <input type="text" ng-model="data.name" id="catPro" class="form-control" placeholder="Ex: Comunicação">
             </div>
             <div class="form-group">
