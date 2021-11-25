@@ -102,5 +102,6 @@ return [
             'title' => i::__("Confirmação de inscrição"),
             'template' => 'registration_confirm_custom.html'
         ]
-    ]
+    ],
+    'app.enabled.events' => false
 ];

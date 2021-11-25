@@ -53,13 +53,20 @@
                 <a href="<?php echo $app->createUrl('recursos', 'todos') ?>"><span class="icon icon-opportunity"></span> <?php \MapasCulturais\i::_e("Meus Recursos");?></a></li>
 
         <?php if($app->user->is('saasAdmin')): ?>
-        <li>
-            <a href="<?php echo $app->createUrl('categoria-profissional') ?>"
-            title="Cadastrar categoria profissional">
-                <i class="fa fa-briefcase" aria-hidden="true" style="margin-right: 5px;"></i>
-                <?php \MapasCulturais\i::_e(" Categoria Profissional");?>
-            </a>
-        </li>
+            <li>
+                <a href="<?php echo $app->createUrl('indicadores')  ?>"
+                title="Cadastrar categoria profissional">
+                    <i class="fa fa-bar-chart" aria-hidden="true" style="margin-right: 5px;"></i>
+                    <?php \MapasCulturais\i::_e("Indicadores");?>
+                </a>
+            </li>
+            <li>
+                <a href="<?php echo $app->createUrl('categoria-profissional') ?>"
+                title="Cadastrar categoria profissional">
+                    <i class="fa fa-briefcase" aria-hidden="true" style="margin-right: 5px;"></i>
+                    <?php \MapasCulturais\i::_e(" Categoria Profissional");?>
+                </a>
+            </li>
         <?php endif; ?>
 
         <?php if($app->isEnabled('subsite') && $app->user->is('saasAdmin')): ?>
