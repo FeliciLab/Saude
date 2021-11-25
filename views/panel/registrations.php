@@ -5,17 +5,32 @@ error_reporting(E_ALL);
     $this->layout = 'panel';
     
     $drafts = $app->repo('Registration')->findByUser($app->user, Registration::STATUS_DRAFT);
-    $sent = $app->repo('Registration')->findByUser($app->user, 'sent');
     
-  // ORDENANDO O ARRAY POR DATA DE ENVIO DA INSCRIÇÃO EM ORDEM DECRESCENTE
-  if($sent):
-    if (isset($dateTime)):
-    foreach ($sent as $key => $value){
-    $dateTime[] = $value->sentTimestamp->format('d-m-Y H:i:s');
+    $dql = "
+            SELECT
+                r
+            FROM
+                MapasCulturais\Entities\Registration r
+                LEFT JOIN  MapasCulturais\Entities\RegistrationAgentRelation rar WITH rar.owner = r
+            WHERE
+                r.status > 0 AND
+                (
+                    r.owner IN (:agents) OR
+                    rar.agent IN (:agents)
+                )
+            ORDER BY r.opportunity";
+    
+    $q = $app->em->createQuery($dql);
+    $usuario = $app->user;
+    $q->setParameter('agents', $usuario->agents ? $usuario->agents->toArray() : [-1]);
+    $sent = $q->getResult();
+
+    $unique_opportunities = [];
+    foreach($sent as $s){
+        if(!array_key_exists($s->opportunity->ownerEntity->id , $unique_opportunities)){
+            $unique_opportunities[$s->opportunity->ownerEntity->id] = $s;
+        }
     }
-    array_multisort($dateTime,SORT_DESC,SORT_STRING,$sent);   
-    endif;
-  endif;
  ?>
 
 <div class="panel-list panel-main-content">
@@ -44,7 +59,7 @@ error_reporting(E_ALL);
     </div>
     <!-- #ativos-->
     <div id="enviadas">
-        <?php foreach($sent as $registration): ?>
+        <?php foreach($unique_opportunities as $registration): ?>
         <?php $this->part('panel-registration', array('registration' => $registration)); ?>
         <?php endforeach; ?>
         <?php if(!$sent): ?>

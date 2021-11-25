@@ -8292,7 +8292,7 @@ input-lg + .form-control-feedback,
   .form-horizontal .form-group-sm .control-label {
     padding-top: 6px;
     font-size: 12px; } }
-.required_form {
+.field-required {
   font-size: 9px;
   color: #914545;
   margin-top: 15px; }

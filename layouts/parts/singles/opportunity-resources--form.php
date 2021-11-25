@@ -50,7 +50,7 @@
                 </div>
                 <div class="">
                     <label for="hora-inicial">Hora de início </label>
-                    <input type="text" class="time form-control" name="hour-initial" value="<?php echo $period['horIni']; ?>">
+                    <input type="time" class="form-control" name="hour-initial" value="<?php echo $period['horIni']; ?>">
                 </div>
                 <div class="form-group">
                     <label for="data-final">Data final </label>
@@ -58,7 +58,7 @@
                 </div>
                 <div class="form-group">
                     <label for="hora-final">Hora final </label>
-                    <input type="text" class="time form-control" name="hour-final" value="<?php echo $period['horFim']; ?>">
+                    <input type="time" class="form-control" name="hour-final" value="<?php echo $period['horFim']; ?>">
                 </div>
                 <div class="form-group">
                     <input type="hidden" name="opportunity" id="opportunityIdResources">
