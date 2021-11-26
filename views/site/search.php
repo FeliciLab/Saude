@@ -22,17 +22,6 @@ $this->jsObject['classificacoesEtarias'] = array_values($def->config['options'])
 $this->includeMapAssets();
 
 ?>
-  <div id="filtro-local" class="clearfix js-leaflet-control" data-leaflet-target=".leaflet-top.leaflet-left" ng-controller="SearchSpatialController" ng-show="data.global.viewMode ==='map'">
-        <form id="form-local" method="post">
-            <label for="proximo-a"><?php \MapasCulturais\i::_e("Local");?>: </label>
-            <input id="endereco" ng-model="data.global.locationFilters.address.text" type="text" class="proximo-a" name="proximo-a" placeholder="<?php \MapasCulturais\i::esc_attr_e("Digite um endereço");?>" />
-            <input type="hidden" name="lat" />
-            <input type="hidden" name="lng" />
-        </form>
-        <a id="near-me" class="control-infobox-open hltip btn-map" ng-click="filterNeighborhood()" title="<?php \MapasCulturais\i::esc_attr_e("Buscar somente resultados próximos a mim.");?>"></a>
-        <!--<a class="btn btn-primary hltip" href="#" ng-click="drawCircle()" title="Buscar somente resultados em uma área delimitada" rel='noopener noreferrer'>delimitar área</a>-->
-    </div>
-    <!--#filtro-local-->
     <div id="mc-entity-layers" class="js-leaflet-control" data-leaflet-target=".leaflet-bottom.leaflet-right" ng-show="data.global.viewMode ==='map'">
         <div class="label"><?php \MapasCulturais\i::_e("Mostrar");?>:</div>
         <div>
