@@ -22,7 +22,7 @@ class Theme extends BaseV1\Theme{
 
             'home: title' => "",
 
-            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, através do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</p>
+            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, por meio do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</p>
             <p>A plataforma estrutura uma política digital de relacionamento e gestão de informações, integrando dados de diferentes sistemas e serviços, oferecendo à cidadania e aos governos um importante instrumento de apoio, avaliação e qualificação da <b class='b-home'>Força de Trabalho do SUS.</b></p>
             <p>Crie seu perfil e colabore com a transformação digital do SUS!</p>
             </div>
