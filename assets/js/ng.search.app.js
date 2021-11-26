@@ -607,7 +607,7 @@
                 return from !== to ? labels['dateFrom'] + ' ' + from + ' ' + labels['dateTo'] + ' ' + to : from;
             };
 
-            $scope.collapsedFilters = true;
+            $scope.collapsedFilters = false;
 
             $scope.toggleAdvancedFilters = function() {
 
