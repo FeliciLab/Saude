@@ -20,32 +20,31 @@ class Theme extends BaseV1\Theme{
             'site: of the region' => 'do estado de Ceará',
             'site: by the site owner' => 'pela Escola de saúde pública do Ceará',
 
-            'home: title' => "Bem Vindes!",
+            'home: title' => "",
 
-            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, através do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</br></br>
-            <p>A plataforma estrutura uma política digital de relacionamento e gestão de informações, integrando dados de diferentes sistemas e serviços, oferecendo à cidadania e aos governos um importante instrumento de apoio, avaliação e qualificação da <b class='b-home'>Força de Trabalho do SUS</b>.</br>
-            <p>No Mapa, é possível encontrar e inserir informações sobre profissionais (pessoas gestoras e trabalhadoras), eventos (oficiais e comunitários), espaços (públicos e privados), além de indicadores e inscrições em diferentes oportunidades na área da saúde no Ceará.</br> 
-            <p>Crie seu perfil e colabore com a transformação digital do SUS!
+            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, através do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</p>
+            <p>A plataforma estrutura uma política digital de relacionamento e gestão de informações, integrando dados de diferentes sistemas e serviços, oferecendo à cidadania e aos governos um importante instrumento de apoio, avaliação e qualificação da <b class='b-home'>Força de Trabalho do SUS.</b></p>
+            <p>Crie seu perfil e colabore com a transformação digital do SUS!</p>
             </div>
             
             ",
             /*'home: events' => "Você pode pesquisar eventos culturais da cidade nos campos de busca combinada. Como usuário cadastrado, você pode incluir seus eventos na plataforma e divulgá-los gratuitamente.",*/
-            'home: agents' => "<div class='font-style'>Se você é uma pessoa trabalhadora ou gestora da saúde em seu município, pode criar seu perfil e fazer a gestão da informação que você conhece e produz.</br></br>
-            <p>Tornando-se um agente, você fortalece a transparência e o diálogo com sua comunidade e colabora com a transformação da saúde de sua cidade ou região.</br>
-            <p>Aqui é possível cadastrar sua instituição, vincular seu perfil aos espaços nos quais você trabalha, divulgar e participar de oportunidades, tais como eventos e editais de projetos vinculados à Escola de Saúde Pública do Ceará.</div>
+            'home: agents' => "<div class='font-style'><p>Se você é uma pessoa trabalhadora ou gestora da saúde em seu município, pode criar seu perfil e fazer a gestão da informação que você conhece e produz.</p>
+            <p>Tornando-se um agente, você fortalece a transparência e o diálogo com sua comunidade e colabora com a transformação da saúde de sua cidade ou região.</p>
+            <p>Aqui é possível cadastrar sua instituição, vincular seu perfil aos espaços nos quais você trabalha, divulgar e participar de oportunidades, tais como eventos e editais de projetos vinculados à Escola de Saúde Pública do Ceará.</p></div>
             ",
-            'home: spaces' => "<div class='font-style'>No Mapa da Saúde já estão disponíveis todas as unidades do Ceará, presentes no <a href='https://mapa.sus.ce.gov.br/selo/id:1/#/tab=sobre' target='blank'>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</a>.</br></br>
-            <p>Para encontrá-las, diga onde e o que busca, através dos campos de busca combinada, que ajudam na precisão de sua pesquisa.</br>
-            <p>Cadastre também os espaços nos quais desenvolve suas atividades em saúde, na capital ou no interior.</br>
-            <p>E lembrando: como agente, você que é profissional de saúde poderá também vincular o seu perfil às unidades já cadastradas. </div>
+            'home: spaces' => "<div class='font-style'><p>No Mapa da Saúde já estão disponíveis todas as unidades do Ceará, presentes no <a href='https://mapa.sus.ce.gov.br/selo/id:1/#/tab=sobre' target='blank'>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</a>.</p>
+            <p>Para encontrá-las, diga onde e o que busca, através dos campos de busca combinada, que ajudam na precisão de sua pesquisa.</p>
+            <p>Cadastre também os espaços nos quais desenvolve suas atividades em saúde, na capital ou no interior.</p>
+            <p>E lembrando: como agente, você que é profissional de saúde poderá também vincular o seu perfil às unidades já cadastradas. </p></div>
             ",
             /*'home: opportunities' => "Faça a sua inscrição ou acesse o resultado de diversas convocatórias como editais, oficinas, prêmios e concursos. Você também pode criar o seu próprio formulário e divulgar uma oportunidade para outros atores de mudança.",*/
             'home: colabore' => "Colabore com o Mapa da Saúde",
 
             'home: abbreviation' => "ESP-CE",
             'home: home_devs' => "<div class='font-style'>
-            <p>O Mapa da Saúde é uma das ações da Rede de Inovação Aberta no SUS, que estão sendo realizadas para promover o controle social, garantir a transparência e viabilizar a colaboração em rede.</br>
-            <p>Se você é uma pessoa desenvolvedora e deseja interagir com o Mapa, basta acessar nosso repositório no <a href='https://github.com/EscolaDeSaudePublica/mapadasaude' target='blank'>GitHub</a> e fazer parte do grupo no <a href='https://t.me/joinchat/WCYOkjUEcYZ0mu1i' target='blank'>Telegram</a>.</div>",
+            <p>O Mapa da Saúde é uma das ações da Rede de Inovação Aberta no SUS, que estão sendo realizadas para promover o controle social, garantir a transparência e viabilizar a colaboração em rede.</p>
+            <p>Se você é uma pessoa desenvolvedora e deseja interagir com o Mapa, basta acessar nosso repositório no <a href='https://github.com/EscolaDeSaudePublica/mapadasaude' target='blank'>GitHub</a> e fazer parte do grupo no <a href='https://t.me/joinchat/WCYOkjUEcYZ0mu1i' target='blank'>Telegram</a>.</p></div>",
 
             'search: verified results' => 'Resultados da ESP-CE',
             'search: verified' => "ESP-CE"

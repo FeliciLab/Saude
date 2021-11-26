@@ -1,6 +1,6 @@
 <div class="main-nav-wrapper">
     <nav id="main-nav" class="clearfix">
-        <ul class="menu entities-menu clearfix entties-menu-border">
+        <ul class="menu entities-menu clearfix entities-menu-border">
             <?php if ($app->isEnabled('events')) : ?>
                 <?php $this->applyTemplateHook('nav.main.events', 'before'); ?>
                 <li id="entities-menu-event" ng-click="tabClick('event')">
@@ -46,13 +46,6 @@
             </li>
             <?php $this->applyTemplateHook('nav.main.projects','after'); ?>
         <?php endif; ?>
-        <!--Criação de mais um item de menu-->
-        <li id="entities-menu-indicadores">
-                <a class="a-color" href="<?php echo $app->createUrl('indicadores')  ?>">
-                    <div class="fa fa-bar-chart fa-2x icon-indicadores"></div>
-                    <div class="menu-item-label"><?php \MapasCulturais\i::_e("Indicadores");?></div>
-                </a>
-            </li>
     </ul>
     <!--.menu.entities-menu-->
     <ul class="menu session-menu clearfix" style="display: none;">
