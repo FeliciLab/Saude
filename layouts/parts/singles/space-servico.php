@@ -48,12 +48,12 @@
     <?php endif; ?>
 
     <?php if($this->isEditable() || $entity->telefonePublico): ?>
-    <p><span class="label"><?php \MapasCulturais\i::_e("Telefone Público");?>:</span> <span class="js-editable js-mask-phone" data-edit="telefonePublico" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Telefone Público');?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e('Insira um telefone que será exibido publicamente');?>"><?php echo $entity->telefonePublico; ?></span></p>
+    <p><span class="label"><?php \MapasCulturais\i::_e("Telefone Público");?>:</span> <span class="js-editable" data-edit="telefonePublico" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Telefone Público');?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e('Insira um telefone que será exibido publicamente');?>"><?php echo $entity->telefonePublico; ?></span></p>
     <?php endif; ?>
 
     <?php if($this->isEditable()):?>
-        <p class="privado"><span class="icon icon-private-info"></span><span class="label"><?php \MapasCulturais\i::_e("Telefone Privado 1");?>:</span> <span class="js-editable js-mask-phone" data-edit="telefone1" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Telefone Privado');?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e('Insira um telefone que não será exibido publicamente');?>"><?php echo $entity->telefone1; ?></span></p>
-        <p class="privado"><span class="icon icon-private-info"></span><span class="label"><?php \MapasCulturais\i::_e("Telefone Privado 2");?>:</span> <span class="js-editable js-mask-phone" data-edit="telefone2" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Telefone Privado');?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e('Insira um telefone que não será exibido publicamente');?>"><?php echo $entity->telefone2; ?></span></p>
+        <p class="privado"><span class="icon icon-private-info"></span><span class="label"><?php \MapasCulturais\i::_e("Telefone Privado 1");?>:</span> <span class="js-editable" data-edit="telefone1" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Telefone Privado');?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e('Insira um telefone que não será exibido publicamente');?>"><?php echo $entity->telefone1; ?></span></p>
+        <p class="privado"><span class="icon icon-private-info"></span><span class="label"><?php \MapasCulturais\i::_e("Telefone Privado 2");?>:</span> <span class="js-editable" data-edit="telefone2" data-original-title="<?php \MapasCulturais\i::esc_attr_e('Telefone Privado');?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e('Insira um telefone que não será exibido publicamente');?>"><?php echo $entity->telefone2; ?></span></p>
     <?php endif; ?>
 
     <?php if($this->isEditable() || $entity->instituicao_tipos_unidades): ?>

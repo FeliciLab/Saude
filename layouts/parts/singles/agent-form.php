@@ -104,7 +104,7 @@ echo $dtN ? $dtN->format('d/m/Y') : '';?>
         <!-- Email Público -->
         <?php if ($this->isEditable() || $entity->telefonePublico): ?>
             <p><span class="label"><?php \MapasCulturais\i::_e("Telefone Público");?>:</span>
-                <span class="js-editable js-mask-phone <?php echo ($entity->isPropertyRequired($entity, "telefonePublico") && $this->isEditable() ? 'required' : ''); ?>" data-edit="telefonePublico" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Telefone Público");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira um telefone que será exibido publicamente");?>">
+                <span class="js-editable <?php echo ($entity->isPropertyRequired($entity, "telefonePublico") && $this->isEditable() ? 'required' : ''); ?>" data-edit="telefonePublico" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Telefone Público");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira um telefone que será exibido publicamente");?>">
                     <?php echo $entity->telefonePublico; ?>
                 </span>
             </p>
@@ -114,14 +114,14 @@ echo $dtN ? $dtN->format('d/m/Y') : '';?>
             <!-- Telefone Privado 1 -->
             <p class="privado"><span class="icon icon-private-info"></span>
                 <span class="label"><?php \MapasCulturais\i::_e("Telefone 1");?>:</span>
-                <span class="js-editable js-mask-phone <?php echo ($entity->isPropertyRequired($entity, "telefone1") && $this->isEditable() ? 'required' : ''); ?>" data-edit="telefone1" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Telefone Privado");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira um telefone que não será exibido publicamente");?>">
+                <span class="js-editable <?php echo ($entity->isPropertyRequired($entity, "telefone1") && $this->isEditable() ? 'required' : ''); ?>" data-edit="telefone1" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Telefone Privado");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira um telefone que não será exibido publicamente");?>">
                     <?php echo $entity->telefone1; ?>
                 </span>
             </p>
             <!-- Telefone Privado 2 -->
             <p class="privado"><span class="icon icon-private-info"></span>
                 <span class="label"><?php \MapasCulturais\i::_e("Telefone 2");?>:</span>
-                <span class="js-editable js-mask-phone <?php echo ($entity->isPropertyRequired($entity, "telefone2") && $this->isEditable() ? 'required' : ''); ?>" data-edit="telefone2" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Telefone Privado");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira um telefone que não será exibido publicamente");?>">
+                <span class="js-editable <?php echo ($entity->isPropertyRequired($entity, "telefone2") && $this->isEditable() ? 'required' : ''); ?>" data-edit="telefone2" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Telefone Privado");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira um telefone que não será exibido publicamente");?>">
                     <?php echo $entity->telefone2; ?>
                 </span>
             </p>
