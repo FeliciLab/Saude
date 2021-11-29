@@ -53,7 +53,7 @@ $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
         <?php //if ($opportunity->status == Opportunity::STATUS_DRAFT) : ?>
             <em><?php //i::_e('(Rascunho)') ?></em>
         <?php //endif; 
-        $this->part('singles/opportunity-registrations--form', ['entity' => $opportunity]) 
+        $this->part('singles/opportunity-registrations--form', ['entity' => $opportunity, 'show_button_access_registration' => true]) 
         ?>
 
     </div>

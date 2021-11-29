@@ -10,22 +10,10 @@ $user = $app->user;
 
 $userRelation = $entity->evaluationMethodConfiguration->getUserRelation($user);
 
-$btnHideShow = false;
-
-if (strpos($url_atual, 'opportunity') !== false) {
-	$btnHideShow = true;
-} else {
-	$btnHideShow = false;
-}
 
 $registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
 
-if ($entity->isRegistrationOpen()): ?>
-    <?php if ($app->auth->isUserAuthenticated()): ?>
-
-       <!-- // SE O USUARIO TIVER PERMISSÃO PARA MODIFICAR A ENTIDADE -->
-        <?php if (!($entity->canUser('modify')) && empty($userRelation)) : ?>
-            <?php if (empty($registrations)): ?>
+if ($entity->isRegistrationOpen() && $entity->canUser('register')): ?>
             <form class="registration-form clearfix">
                 <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>
                 <div class="registration-form-content">
@@ -42,14 +30,19 @@ if ($entity->isRegistrationOpen()): ?>
                         </edit-box>
                         <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register(<?php echo $entity->id; ?>)" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
                     </div>
-                    <div style="visibility: <?php echo $btnHideShow ? 'hidden' : 'visible' ?>">
+                    <div style="visibility: <?php echo ($show_button_access_registration ?? false) ? 'visible' : 'hidden' ?>">
                         <a href="<?=$entity->singleUrl;?>" class="btn btn-access-opportunity" style="color: #ffffff;" rel='noopener noreferrer' title="Acessar inscrições"><?php \MapasCulturais\i::_e("Acessar Inscrição");?></a>
                     </div>
                 </div>
             </form>
-            <?php endif; ?>
-        <?php endif;?>
-    <?php else: ?>
+<?php elseif ($entity->isRegistrationOpen() && !$entity->canUser('register')): ?>
+    <?php if ($app->user->is('admin')): ?>
+        <p class='alert warning'><?php \MapasCulturais\i::_e('Admins não podem se inscrever em oportunidades.'); ?></p>
+    <?php elseif ($entity->canUser('@control')): ?>
+        <p class='alert warning'><?php \MapasCulturais\i::_e('Gestores da oportunidade não podem se inscrever.'); ?></p>
+    <?php elseif ($entity->canUser('viewEvaluations')): ?>
+        <p class='alert warning'><?php \MapasCulturais\i::_e('Avaliadores da oportunidade não podem se inscrever.') ?></p>
+    <?php elseif (!$app->auth->isUserAuthenticated()): ?>
         <div class="alert danger" style="position: relative !important;">
             <p>
                 <?php \MapasCulturais\i::_e("Para se inscrever é preciso ter uma conta e estar logado nesta plataforma. Clique no botão abaixo para criar uma conta ou fazer login.");?>
@@ -60,5 +53,5 @@ if ($entity->isRegistrationOpen()): ?>
                 </a>
             </p>
         </div>
-    <?php endif;?>
-<?php endif;?>
+    <?php endif; ?>
+<?php endif;

@@ -39,4 +39,3 @@ $editable = $this->isEditable() && !isset($disable_editable);
     </ul>
 </div>
 <?php endif; ?>
-<?php $this->part('singles/opportunity-registrations--form', ['entity' => $entity]) ?>
