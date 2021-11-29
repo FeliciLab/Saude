@@ -59,6 +59,20 @@ class Theme extends BaseV1\Theme{
     function _init() {
         parent::_init();
         $app = App::i();
+
+        // adiciona aba de documentos necessários em oportunidades
+        $app->hook('template(opportunity.single.tabs):end', function () {
+            $this->part('tab', ['id' => 'necessary-documents', 'label' => 'Documentos necessários']);
+        });
+
+        // adiciona aba de recursos em oportunidades
+        $app->hook('template(opportunity.single.tabs):end', function () {
+            $opportunity = $this->controller->requestedEntity;
+            if (!$opportunity->claimDisabled) {
+                $this->part('tab', ['id' => 'resource', 'label' => 'Recursos']);
+            }
+        });
+
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
