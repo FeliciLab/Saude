@@ -36,3 +36,14 @@ function confirmSendEvaluation(url) {
         stack: {'dir1': 'down', 'dir2': 'right', 'modal': true}
       });
 }
+
+$(function (){ 
+  var $btn = $('#evaluation-committee-buttons a.btn-primary');
+  if($btn.length && $btn.prop('href')) {
+    $btn.data('href', $btn.prop('href'));
+    $btn.prop('href', '#');
+    $btn.click(function () {
+      confirmSendEvaluation($(this).data('href'));
+    });
+  }
+});
