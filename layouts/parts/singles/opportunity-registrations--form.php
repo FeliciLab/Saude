@@ -18,14 +18,10 @@ if (strpos($url_atual, 'opportunity') !== false) {
 	$btnHideShow = false;
 }
 
-$registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
-
 if ($entity->isRegistrationOpen()): ?>
     <?php if ($app->auth->isUserAuthenticated()): ?>
-
        <!-- // SE O USUARIO TIVER PERMISSÃO PARA MODIFICAR A ENTIDADE -->
         <?php if (!($entity->canUser('modify')) && empty($userRelation)) : ?>
-            <?php if (empty($registrations)): ?>
             <form class="registration-form clearfix">
                 <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>
                 <div class="registration-form-content">
@@ -47,7 +43,6 @@ if ($entity->isRegistrationOpen()): ?>
                     </div>
                 </div>
             </form>
-            <?php endif; ?>
         <?php endif;?>
     <?php else: ?>
         <div class="alert danger" style="position: relative !important;">
