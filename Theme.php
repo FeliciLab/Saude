@@ -73,6 +73,24 @@ class Theme extends BaseV1\Theme{
             }
         });
 
+        /* ABAS DOS PROJETOS */
+        // muda o nome da aba Principal para Detalhes
+        $app->hook('view.partial(tab).params', function(&$__data, &$__template) {
+            if ($this->controller->id === 'project' && $__data['id'] === 'sobre') {
+                $__data['label'] = i::__('Detalhes');
+                unset($__data['active']);
+            }
+        });
+
+        // adiciona a aba inscrições na primeira posição
+        $app->hook('template(project.<<*>>.tabs):begin', function () {
+            $this->part('tab', ['id' => 'inscricoes', 'label' => i::__('Inscrições'), 'active' => true]);
+        });
+
+
+
+        /* ----- */
+
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
