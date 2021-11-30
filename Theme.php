@@ -312,6 +312,11 @@ class Theme extends BaseV1\Theme{
             'type' => 'text'
         ]); 
 
+        $this->registerOpportunityMetadata('checkRequireCategory', [
+            'label' => 'Categoria Obrigatoria',
+            'type' => 'checkbox'
+        ]);
+
         $app = App::i();
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
