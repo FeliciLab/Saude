@@ -60,16 +60,17 @@ class Theme extends BaseV1\Theme{
         parent::_init();
         $app = App::i();
 
+        /* ABAS DAS OPORTUNIDADES */
         // adiciona aba de documentos necessários em oportunidades
         $app->hook('template(opportunity.single.tabs):end', function () {
-            $this->part('tab', ['id' => 'necessary-documents', 'label' => 'Documentos necessários']);
+            $this->part('tab', ['id' => 'necessary-documents', 'label' => i::__('Documentos necessários')]);
         });
 
         // adiciona aba de recursos em oportunidades
         $app->hook('template(opportunity.single.tabs):end', function () {
             $opportunity = $this->controller->requestedEntity;
             if (!$opportunity->claimDisabled) {
-                $this->part('tab', ['id' => 'resource', 'label' => 'Recursos']);
+                $this->part('tab', ['id' => 'resource', 'label' => i::__('Recursos')]);
             }
         });
 
