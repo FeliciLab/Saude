@@ -88,8 +88,6 @@ class Theme extends BaseV1\Theme{
             $this->part('tab', ['id' => 'inscricoes', 'label' => i::__('Inscrições'), 'active' => true]);
         });
 
-
-
         /* ----- */
 
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
@@ -176,6 +174,15 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('view.partial(entity-opportunities--item).params', function (&$__data, &$__template) {
             $__template = 'module-EntityOpportunities/entity-opportunities--item';
+        });
+
+        /**
+         * Substitui template das datas das oportunidades dentro da página da oportunida
+         */
+        $app->hook('view.partial(singles/opportunity-about--registration-dates).params', function (&$__data, &$__template) {
+            if ($this->controller->id === 'opportunity') {
+                $__template = 'singles/opportunity-about--registration-dates-link';
+            }
         });
 
         /**
