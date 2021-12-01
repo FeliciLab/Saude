@@ -30,8 +30,11 @@
       <span class="<?php echo $editable_class ?> js-categories-values" data-edit="registrationCategories" data-type="textarea" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Opções de inscrição (coloque uma opção por linha)");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Insira as opções de inscrição");?>"><?php echo $registration_categories; ?></span>
    </p>
    <p>
-      <span class="label">Cor preferida:</span>
-      <span class="js-editable" data-edit="checkRequireCategory"  data-original-title="Cor preferida" data-emptytext="Selecione" ></span>
+      <span class="label"><?php \MapasCulturais\i::_e("Este campo é obrigatório?");?></span><br>
+      <span class="js-editable clear" data-edit="checkRequireCategory" data-type="select" data-showbuttons="false"
+         data-value="<?php echo $entity->checkRequireCategory ? '1' : '0';?>"
+         data-source="[{value: 1, text: '<?php \MapasCulturais\i::esc_attr_e("Sim");?>'},{value: 0, text:'<?php \MapasCulturais\i::esc_attr_e("Não");?>'}]">
+      </span>
    </p>
    <p>
       <br>
