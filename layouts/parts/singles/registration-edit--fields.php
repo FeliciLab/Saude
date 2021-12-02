@@ -29,13 +29,23 @@
                         (<a class="attachment-template" target="_blank" href="{{::field.template.url}}" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("baixar modelo");?></a>)
                     </span>
                 </div>
-                <a ng-if="field.file" class="attachment-title" href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'>{{field.file.name}}</a>
+                <a ng-if="!field.multiple && field.file" class="delete delete-attachment" ng-if="field.file" ng-click="removeFile(file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"></a>
+                <a ng-if="!field.multiple && field.file" class="attachment-title" href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'>{{field.file.name}}</a>
+                
+                <p ng-if="field.multiple" ng-repeat="file in field.file" id="{{file.id}}">
+                    <a class="delete delete-attachment" ng-if="field.file" ng-click="removeFile(file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"></a>
+                    {{file.description}} - <a class="attachment-title" href="{{file.url}}" target="_blank" rel='noopener noreferrer'>{{file.name}}</a>
 
-                <div class="btn-group">
+                </p>
+                <div class="btn-group" ng-if="::!field.multiple">
                     <!-- se já subiu o arquivo-->
                     <!-- se não subiu ainda -->
                     <a class="btn btn-default" ng-class="{'send':!field.file,'edit':field.file}" ng-click="openFileEditBox(field.id, $index, $event)" title="{{!field.file ? 'enviar' : 'editar'}} <?php \MapasCulturais\i::_e("anexo");?>">{{!field.file ? 'Enviar' : 'Editar'}}</a>
-                    <a class="btn btn-default delete" ng-if="!field.required && field.file" ng-click="removeFile(field.id, $index)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"><?php \MapasCulturais\i::_e("Excluir");?></a>
+                </div>
+                <div class="btn-group" ng-if="::field.multiple">
+                    <!-- se já subiu o arquivo-->
+                    <!-- se não subiu ainda -->
+                    <a class="btn btn-default send" ng-click="openFileEditBox(field.id, $index, $event)" title="Enviar anexo">Enviar</a>
                 </div>
                 <div ng-repeat="error in field.error" class="alert danger">{{error}}</div>
                 <edit-box id="editbox-file-{{::field.id}}" position="bottom" title="{{::field.title}} {{::field.required ? '*' : ''}}"
@@ -46,6 +56,11 @@
 
                     <form class="js-ajax-upload" method="post" action="{{uploadUrl}}" data-group="{{::field.groupName}}"  enctype="multipart/form-data">
                         <div class="alert danger hidden"></div>
+                        <label ng-if="::field.multiple">
+                            Descrição:
+                            <input type="input" name="description[{{::field.groupName}}]" />
+                        </label>
+                        
                         <p>Selecione seu anexo:</p>
                         <input type="file" name="{{::field.groupName}}" />
                         <p class="form-help">Consulte o edital desta oportunidade para entender as limitações de tamanho e formato dos arquivos solicitados.</p>

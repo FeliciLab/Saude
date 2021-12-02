@@ -7838,3 +7838,11 @@ nav {
   .font-style{
     font-size: 1.3rem;
   }
+
+  .delete-attachment {
+    color: #f00 !important; 
+  }
+
+  .delete-attachment:hover {
+    color: #fd5858 !important; 
+  }
