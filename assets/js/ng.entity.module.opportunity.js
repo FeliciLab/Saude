@@ -2274,7 +2274,7 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                     if(field === 'projectName'){
                         $el = $('#projectName').parent().find('.label');
                     }else if(field === 'category'){
-                        $el = $('.js-editable-registrationCategory').parent();
+                        $el = $('#category').parent().find('.attachment-description');
                     }else if(field.indexOf('agent') !== -1){
                         $el = $('#' + field).parent().find('.registration-label');
                     }else if(field.indexOf('space') !== -1){
@@ -2288,7 +2288,7 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                         message = message.replace('{{'+prop.name+'}}', prop.label);
                     });
                     $el.append('<span title="' + message + '" class="danger hltip js-response-error" data-hltip-classes="hltip-danger"></span>');
-                    if(!focused){
+                    if(!focused && $el.parents('li').lenght > 0){
                         $('html,body').animate({scrollTop: $el.parents('li').get(0).offsetTop - 10}, 300);
                         focused = true;
                     }
