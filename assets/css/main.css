@@ -3605,7 +3605,6 @@ nav.sidebar-panel ul {
     padding-right: 4rem;
     min-height: 1.5rem; }
     .widget-list .is-editable .botoes {
-      display: none;
       position: absolute;
       top: 0;
       right: 0;
@@ -7839,8 +7838,10 @@ nav {
     font-size: 1.3rem;
   }
 
+
   .delete-attachment {
-    color: #f00 !important; 
+    color: #f00 !important;
+    margin-right: 10px;
   }
 
   .delete-attachment:hover {

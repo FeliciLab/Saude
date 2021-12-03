@@ -29,14 +29,25 @@
                         (<a class="attachment-template" target="_blank" href="{{::field.template.url}}" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("baixar modelo");?></a>)
                     </span>
                 </div>
-                <a ng-if="!field.multiple && field.file" class="delete delete-attachment hltip" ng-if="field.file" ng-click="removeFile(field.file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>" ></a>
-                <a ng-if="!field.multiple && field.file" class="attachment-title" href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'>{{field.file.name}}</a>
-                
-                <p ng-if="field.multiple" ng-repeat="file in field.file" id="{{file.id}}">
-                    <a class="delete delete-attachment hltip"  ng-if="field.file" ng-click="removeFile(file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"></a>
-                    {{file.description}} - <a class="attachment-title" href="{{file.url}}" target="_blank" rel='noopener noreferrer'>{{file.name}}</a>
 
-                </p>
+                <ul ng-if="!field.multiple && field.file" class="widget-list js-downloads js-slimScroll">
+                    <li class="widget-list-item is-editable">
+                        <a href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'><span>{{field.file.name}}</span></a>
+                        <div class="botoes">
+                            <a hltip ng-click="removeFile(field.file)" class="delete delete-attachment hltip" title="<?php \MapasCulturais\i::esc_attr_e("Excluir arquivo");?>"></a>
+                        </div>
+                    </li>
+                </ul>
+
+                <ul ng-if="field.multiple" class="widget-list js-downloads js-slimScroll">
+                    <li ng-repeat="file in field.file" id="{{file.id}}" class="widget-list-item is-editable">
+                        <a href="{{file.url}}" target="_blank" rel='noopener noreferrer'><span>{{file.description}} - {{file.name}}</span></a>
+                        <div class="botoes">
+                            <a hltip ng-click="removeFile(file)" class="delete delete-attachment hltip" title="<?php \MapasCulturais\i::esc_attr_e("Excluir arquivo");?>"></a>
+                        </div>
+                    </li>
+                </ul>
+                
                 <div class="btn-group" ng-if="::!field.multiple">
                     <!-- se já subiu o arquivo-->
                     <!-- se não subiu ainda -->
