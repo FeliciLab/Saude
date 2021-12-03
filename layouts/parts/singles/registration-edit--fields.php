@@ -29,11 +29,11 @@
                         (<a class="attachment-template" target="_blank" href="{{::field.template.url}}" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("baixar modelo");?></a>)
                     </span>
                 </div>
-                <a ng-if="!field.multiple && field.file" class="delete delete-attachment" ng-if="field.file" ng-click="removeFile(file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"></a>
+                <a ng-if="!field.multiple && field.file" class="delete delete-attachment hltip" ng-if="field.file" ng-click="removeFile(field.file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>" ></a>
                 <a ng-if="!field.multiple && field.file" class="attachment-title" href="{{field.file.url}}" target="_blank" rel='noopener noreferrer'>{{field.file.name}}</a>
                 
                 <p ng-if="field.multiple" ng-repeat="file in field.file" id="{{file.id}}">
-                    <a class="delete delete-attachment" ng-if="field.file" ng-click="removeFile(file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"></a>
+                    <a class="delete delete-attachment hltip"  ng-if="field.file" ng-click="removeFile(file)" title="<?php \MapasCulturais\i::esc_attr_e("excluir anexo");?>"></a>
                     {{file.description}} - <a class="attachment-title" href="{{file.url}}" target="_blank" rel='noopener noreferrer'>{{file.name}}</a>
 
                 </p>
