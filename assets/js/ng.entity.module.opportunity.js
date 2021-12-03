@@ -1068,10 +1068,6 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
             var file = response[$scope.data.fields[index].groupName];
 
             if ($scope.data.fields[index].multiple) {
-                if (!$scope.data.fields[index].file instanceof Array) {
-                    $scope.data.fields[index].file = [];
-                }
-
                 if ( typeof $scope.data.fields[index].file === 'undefined') {
                     $scope.data.fields[index].file = [file[0]];
                 } else {
