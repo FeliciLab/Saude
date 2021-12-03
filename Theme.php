@@ -186,6 +186,15 @@ class Theme extends BaseV1\Theme{
         });
 
         /**
+         * Renomeia widget de downloads para Publicações da Oportunidade
+         */
+        $app->hook('view.partial(downloads).params', function(&$__data){
+            if($this->controller->id == 'opportunity') {
+                $__data['label'] = i::__('Publicações da Oportunidade');
+            }
+        });
+
+        /**
          * Adiciona campos de configurações para envio de e-mail
          */
         $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
