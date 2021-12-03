@@ -195,6 +195,17 @@ class Theme extends BaseV1\Theme{
         });
 
         /**
+         * Adiciona novos menus no painel
+         */
+        $app->hook('template(panel.index.nav.panel.registrations):after', function () use($app) {
+            if ($app->user->is('saasAdmin')) {
+                $this->part('panel/nav-categoria-profissional');
+            }
+
+            $this->part('panel/nav-recursos');
+        });
+
+        /**
          * Adiciona campos de configurações para envio de e-mail
          */
         $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
