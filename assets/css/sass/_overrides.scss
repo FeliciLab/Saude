@@ -1386,26 +1386,26 @@ nav.sidebar-panel ul a {
     border-bottom-color: #ddd;
   }
   
-  .panel-primary {
+  .panel-main-content>section {
     border-color: #337ab7;
   }
   
-  .panel-primary>.panel-heading {
+  .panel-main-content>section>h2 {
     color: #fff;
     background-color: #337ab7;
     border-color: #337ab7;
   }
   
-  .panel-primary>.panel-heading+.panel-collapse>.panel-body {
+  .panel-main-content>section>h2+.panel-collapse>.panel-body {
     border-top-color: #337ab7;
   }
   
-  .panel-primary>.panel-heading .badge {
+  .panel-main-content>section>h2 .badge {
     color: #337ab7;
     background-color: #fff;
   }
   
-  .panel-primary>.panel-footer+.panel-collapse>.panel-body {
+  .panel-main-content>section>.panel-footer+.panel-collapse>.panel-body {
     border-bottom-color: #337ab7;
   }
   

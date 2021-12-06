@@ -131,7 +131,28 @@ class Theme extends BaseV1\Theme{
                 $this->part('space/integrasus');
             });
         }
+
+        /* PAINEL */
+        // adiciona h2 na seção principal
+        $app->hook('template(panel.index.content.entities):begin', function () use($app){
+            echo '<h2>Seus itens</h2>';
+        });
         
+        // adiciona as seções para gerencimanto de taxonomias e conta
+        $app->hook('template(panel.index.content.entities):after', function () use($app){
+            if ($app->user->is('admin')) {
+                $this->part('panel/taxonomies');
+            }
+
+            $this->part('panel/account');
+        });
+
+        // remove link padrão de apagar conta
+        $app->hook('view.partial(delete-account--button).params', function (&$__data, &$__template) {
+            if ($this->controller->id === 'panel') {
+                $__template = '_empty';
+            }
+        });
         /* ----- */
 
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
