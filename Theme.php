@@ -88,6 +88,17 @@ class Theme extends BaseV1\Theme{
             $this->part('tab', ['id' => 'inscricoes', 'label' => i::__('Inscrições'), 'active' => true]);
         });
 
+        /* ABAS DOS AGENTES */
+
+        // adiciona aba de espaços relacionados
+        $app->hook('template(agent.single.tabs):end', function () {
+            $this->part('tab', ['id' => 'related-spaces', 'label' => i::__('Espaços')]);
+        });
+
+        $app->hook('template(agent.single.tabs-content):end', function () {
+            $this->part('agent/related-spaces'); 
+        });
+        
         /* ----- */
 
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';

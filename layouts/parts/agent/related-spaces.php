@@ -5,7 +5,9 @@
   $groups = $entities->getGroupRelationsAgent();
 
     if(is_array($groups) && count($groups) > 0): ?>
-    
+    <?php $this->applyTemplateHook('related-spaces','before'); ?>
+    <div id="related-spaces" class="aba-content">
+        <?php $this->applyTemplateHook('related-spaces','begin'); ?>
         <div class="widget">
             <h3><?php \MapasCulturais\i::_e("Unidades de saúde que participa e suas funções");?></h3>
             <ul class="js-slimScroll widget-list">
@@ -29,7 +31,9 @@
                 
             </ul>    
         </div>
-    
+        <?php $this->applyTemplateHook('related-spaces','end'); ?>
+    </div>
+    <?php $this->applyTemplateHook('related-spaces','after'); ?>
 <?php endif; ?>
 
     
