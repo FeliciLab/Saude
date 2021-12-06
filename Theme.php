@@ -74,7 +74,7 @@ class Theme extends BaseV1\Theme{
             }
         });
 
-        /* ABAS DOS PROJETOS */
+        /* PROJETOS */
         // muda o nome da aba Principal para Detalhes
         $app->hook('view.partial(tab).params', function(&$__data, &$__template) {
             if ($this->controller->id === 'project' && $__data['id'] === 'sobre') {
@@ -86,6 +86,16 @@ class Theme extends BaseV1\Theme{
         // adiciona a aba inscrições na primeira posição
         $app->hook('template(project.<<*>>.tabs):begin', function () {
             $this->part('tab', ['id' => 'inscricoes', 'label' => i::__('Inscrições'), 'active' => true]);
+        });
+        $app->hook('template(project.single.tabs-content):begin', function () {
+            $this->part('singles/project-registrations', ['entity' => $this->controller->requestedEntity]); 
+        });
+        
+        // remove aba oportunidades
+        $app->hook('view.partial(entity-opportunities--<<tabs-single|item>>).params', function (&$__data, &$__template) {
+            if ($this->controller->id === 'project' && $this->controller->action === 'single') {
+                $__template = '_empty';
+            }
         });
 
         /* ABAS DOS AGENTES */
