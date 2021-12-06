@@ -2,6 +2,7 @@ $(function(){
    console.log('space.js')
 });
 $(document).ready(function () {
+    var nameH = MapasCulturais.entity.object.name;
     //POR PADRÃO INICIA OCULTANDO A DIV DAS INFORMAÇÕES
     $("#infoIntegrasus").hide();
     $("#iframeBoxIntegrasus").hide();

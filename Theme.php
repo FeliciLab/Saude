@@ -89,15 +89,38 @@ class Theme extends BaseV1\Theme{
         });
 
         /* ABAS DOS AGENTES */
-
         // adiciona aba de espaços relacionados
         $app->hook('template(agent.single.tabs):end', function () {
             $this->part('tab', ['id' => 'related-spaces', 'label' => i::__('Espaços')]);
         });
-
         $app->hook('template(agent.single.tabs-content):end', function () {
             $this->part('agent/related-spaces'); 
         });
+        
+
+        /* ESPAÇOS */
+        // adiciona aba profissionais de saúde
+        $app->hook('template(space.single.tabs):end', function () {
+            $this->part('tab', ['id' => 'profsaude', 'label' => i::__('Profissionais de Saúde')]);
+        });
+        $app->hook('template(space.single.tabs-content):end', function () {
+            $this->part('space/profsaude', ['entity' => $this->controller->requestedEntity]); 
+        });
+
+        // remove os agentes relacionados da sidebar
+        $app->hook('view.partial(related-agents).params', function (&$__data, &$__template) {
+            if ($this->controller->id === 'space' && $this->controller->action === 'single' && !isset($__data['profsaude'])) {
+                $__template = '_empty';
+            }
+        });
+
+        // adiciona o integrasus ao sidebar right
+        if(false) {
+            // @todo tirar do if quando corrigir a integração.
+            $app->hook('template(space.single.sidebar-right):begin', function () {
+                $this->part('space/integrasus');
+            });
+        }
         
         /* ----- */
 
