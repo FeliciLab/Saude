@@ -309,16 +309,10 @@ if (isset($_SESSION['not_admin_error'])) {
                 <section class="clearfix menu-stats">
                     <div>
                         <div class="clearfix">
-                            <a href="https://dev.id.org.br/auth/realms/saude/account/password" target="_blank" class="btn btn-secound" title="<?php \MapasCulturais\i::_e('Trocar Senha'); ?>">
+                            <?php $authConfig = $app->getConfig('auth.config'); ?>
+                            <a href="<?= $authConfig['reset_password_url']; ?>" target="_blank" class="btn btn-secound" title="<?php \MapasCulturais\i::_e('Trocar Senha'); ?>">
                                 <i class="fa fa-lock alignleft icon-fa" aria-hidden="true"></i>
                                 <?php \MapasCulturais\i::_e('Trocar Senha'); ?></a>
-                        </div>
-                    </div>
-                    <div>
-                        <div class="clearfix">
-                            <a href="https://dev.id.org.br/auth/realms/saude/login-actions/reset-credentials?client_id=DigitalSaude" class="btn btn-secound" title="<?php \MapasCulturais\i::_e('Em casos que você não venha lembrar da senha atual para trocar a sua senha.'); ?>" target="_blank">
-                                <i class="fa fa-unlock-alt alignleft icon-fa" aria-hidden="true"></i>
-                                <?php \MapasCulturais\i::_e('Esqueci a senha'); ?></a>
                         </div>
                     </div>
                     <div>
