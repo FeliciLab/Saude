@@ -60,17 +60,31 @@ class Theme extends BaseV1\Theme{
         parent::_init();
         $app = App::i();
 
+        // modifica valor padrão do metadado Opportunity::claimDisabled
+        $app->getRegisteredMetadata('MapasCulturais\Entities\Opportunity')['claimDisabled']->default_value = '1';
+
         /* ABAS DAS OPORTUNIDADES */
         // adiciona aba de documentos necessários em oportunidades
         $app->hook('template(opportunity.single.tabs):end', function () {
             $this->part('tab', ['id' => 'necessary-documents', 'label' => i::__('Documentos necessários')]);
         });
+        $app->hook('template(opportunity.single.tabs-content):end', function () {
+            $opportunity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-necessary-documents', ['entity' => $opportunity]);
+        });
 
         // adiciona aba de recursos em oportunidades
         $app->hook('template(opportunity.single.tabs):end', function () {
             $opportunity = $this->controller->requestedEntity;
-            if (!$opportunity->claimDisabled) {
+            if (($opportunity->canUser('viewEvaluations') || $opportunity->canUser('@control')) && !$opportunity->claimDisabled) {
                 $this->part('tab', ['id' => 'resource', 'label' => i::__('Recursos')]);
+            }
+        });
+        $app->hook('template(opportunity.single.tabs-content):end', function () {
+            $opportunity = $this->controller->requestedEntity;
+            
+            if (($opportunity->canUser('viewEvaluations') || $opportunity->canUser('@control')) && !$opportunity->claimDisabled) {
+                $this->part('singles/opportunity-resources', ['entity' => $opportunity]);
             }
         });
 
@@ -454,8 +468,8 @@ class Theme extends BaseV1\Theme{
             'label' => 'Label do regulamento',
             'type' => 'text'
         ]); 
-
         $app = App::i();
+
         $app->registerAuthProvider('keycloak');
         $app->registerController('taxonomias', 'Saude\Controllers\Taxonomias');
         $app->registerController('recursos', 'Saude\Controllers\Resources');

@@ -204,6 +204,8 @@ class Resources extends \MapasCulturais\Controller{
         $id = $this->postData['opportunity'];
         //instancia da oportunidade
         $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
+        $opportunity->claimDisabled = '0';
+        $opportunity->save(true);
         $dql = "SELECT o
                 FROM 
                 MapasCulturais\Entities\OpportunityMeta o
@@ -264,9 +266,11 @@ class Resources extends \MapasCulturais\Controller{
 
     function POST_disabledResource(){
         $app = App::i();
-        $opp = $app->repo('OpportunityMeta')->findBy(['owner'=>$this->postData['id'],'key'=>'claimDisabled']);
-        $opp[0]->value = 1;
-        $opp[0]->save(true);
+        $opp = $app->repo('Opportunity')->find($this->postData['id']);
+        if ($opp) {
+            $opp->claimDisabled = '1';
+            $opp->save(true);
+        }
     }
 
     function DataBRtoMySQL( $DataBR ) 
