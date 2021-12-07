@@ -183,6 +183,14 @@ class Theme extends BaseV1\Theme{
             $entity = $this->controller->requestedEntity;
             $this->part('singles/opportunity-field-label-rules.php', ['entity' => $entity]);
         }); 
+
+
+        // add validação opportunity categorias
+        $app->hook('entity(Opportunity).validations', function(&$validations) use($app) { 
+            $validations['registrationCategories'] = [
+                'required' => \MapasCulturais\i::__('Categorias é obrigatório'),
+            ];
+        });
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {

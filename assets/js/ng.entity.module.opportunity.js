@@ -380,6 +380,8 @@ module.controller('RegistrationConfigurationsController', ['$scope', '$rootScope
         title: null,
         description: null,
         required: false,
+        metadata: {},
+        multiple: false,
         categories: []
     };
 
@@ -637,6 +639,8 @@ module.controller('RegistrationConfigurationsController', ['$scope', '$rootScope
                 required: model.required,
                 template: model.template,
                 categories: model.categories.length ? model.categories : '',
+                metadata: model.metadata,
+                multiple: model.multiple,
             };
             fileService.edit(data).then(function(response){
                 $scope.data.uploadSpinner = false;
@@ -910,7 +914,7 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
         } else if (/\d{4}-\d{2}-\d{2}/.test(val)) {
             val = moment(val).toDate();
         }
-        console.log({val})
+
         $scope.entity[field.fieldName] = val;
     });
 
@@ -1020,10 +1024,30 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
         initAjaxUploader(id, index);
     };
 
-    $scope.removeFile = function (id, $index) {
+    $scope.removeFile = function (file) {
         if(confirm(labels['confirmRemoveAttachment'])){
-            $http.get($scope.data.fields[$index].file.deleteUrl).success(function(response){
-                delete $scope.data.fields[$index].file;
+            $http.get(file.deleteUrl).success(function(response){
+                for (var key in $scope.data.fields) {
+                    var field = $scope.data.fields[key];
+                    if (field.multiple && field.file instanceof Array) {
+                        for (var f in field.file) {
+                            var fil = field.file[f];
+                            if (file.id == fil.id) {
+                                delete $scope.data.fields[key].file[f];
+                            }
+                        }
+                    } else {
+                        fil = field.file;
+                        if (typeof fil !== 'undefined') {
+                            if (file.id == fil.id) {
+                                delete $scope.data.fields[key].file;
+                            }
+                        }  
+                    }
+                }
+        
+                $("#" + file.id).remove();
+                             
             });
         }
     };
@@ -1041,7 +1065,19 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
         });
 
         $form.on('ajaxForm.success', function(evt, response){
-            $scope.data.fields[index].file = response[$scope.data.fields[index].groupName];
+            var file = response[$scope.data.fields[index].groupName];
+
+            if ($scope.data.fields[index].multiple) {
+                if ( typeof $scope.data.fields[index].file === 'undefined') {
+                    $scope.data.fields[index].file = [file[0]];
+                } else {
+                    $scope.data.fields[index].file.push(file[0]);
+                }
+                
+            } else {
+                $scope.data.fields[index].file = file;
+            }
+            
             $scope.$apply();
             setTimeout(function(){
                 $('.carregando-arquivo').hide();
@@ -2168,33 +2204,16 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
 
     $scope.register = function(idOpportunity){
         var registration = $scope.data.registration;
-        var ownerRegistration = [];
-        /**
-         * idOpportunity = id da oportunidade
-         * Atualizado para passar o id de uma determinada oportunidade, pois anteriormente estava recebendo o id da oportunidade da entidade.
-         */
-        // @TODO: buscar na api
-        for(var i in $scope.data.registrations) {
-            if(registration.owner && $scope.data.registrations[i].owner){
-                if($scope.data.registrations[i].owner.id == registration.owner.id) {
-                    ownerRegistration.push($scope.data.registrations[i].owner);
+
+        RegistrationService.register(registration, idOpportunity).success(function(rs){
+            if (typeof rs.error !== 'undefined') {
+                if (rs.data.owner) {
+                    MapasCulturais.Messages.error(rs.data.owner);
                 }
-            }
-        }
-        if(MapasCulturais.entity.object.registrationLimitPerOwner > 0 && ownerRegistration.length >= MapasCulturais.entity.object.registrationLimitPerOwner) {
-            MapasCulturais.Messages.error(labels['limitReached']);
-        }else if(MapasCulturais.entity.object.registrationLimit > 0 && registration.owner && $scope.data.registrations.length >= MapasCulturais.entity.object.registrationLimit){
-            MapasCulturais.Messages.error(labels['VacanciesOver']);
-        }else if(registration.owner && (MapasCulturais.entity.object.registrationLimit == 0 || $scope.data.registrations.length <= MapasCulturais.entity.object.registrationLimit)){
-            RegistrationService.register(registration, idOpportunity).success(function(rs){
+            } else {
                 document.location = rs.editUrl;
-            });
-        }else {
-            setTimeout(function(){
-                $('#select-registration-owner-button').trigger("click");
-            }, 0);
-            MapasCulturais.Messages.error(labels['needResponsible']);
-        }
+            }
+        });
     };
 
     $scope.sendRegistrationRulesFile = function(){
@@ -2291,7 +2310,7 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                     if(field === 'projectName'){
                         $el = $('#projectName').parent().find('.label');
                     }else if(field === 'category'){
-                        $el = $('.js-editable-registrationCategory').parent();
+                        $el = $('#category').parent().find('.attachment-description');
                     }else if(field.indexOf('agent') !== -1){
                         $el = $('#' + field).parent().find('.registration-label');
                     }else if(field.indexOf('space') !== -1){
@@ -2305,7 +2324,7 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                         message = message.replace('{{'+prop.name+'}}', prop.label);
                     });
                     $el.append('<span title="' + message + '" class="danger hltip js-response-error" data-hltip-classes="hltip-danger"></span>');
-                    if(!focused){
+                    if(!focused && $el.parents('li').lenght > 0){
                         $('html,body').animate({scrollTop: $el.parents('li').get(0).offsetTop - 10}, 300);
                         focused = true;
                     }
