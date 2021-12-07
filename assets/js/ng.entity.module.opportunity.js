@@ -1029,7 +1029,7 @@ module.controller('RegistrationFieldsController', ['$scope', '$rootScope', '$int
             $http.get(file.deleteUrl).success(function(response){
                 for (var key in $scope.data.fields) {
                     var field = $scope.data.fields[key];
-                    if (field.multiple && !field.file instanceof Array) {
+                    if (field.multiple && field.file instanceof Array) {
                         for (var f in field.file) {
                             var fil = field.file[f];
                             if (file.id == fil.id) {
