@@ -36,7 +36,9 @@ $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
 
 ?>
 <article class="objeto card-info-opportunity" ng-controller="OpportunityController">
-
+    <?php if($opportunity->status == 0): ?>
+        <p class="alert warning"><?php i::_e('Esta oportunidade é um rascunho')?></p>
+    <?php endif; ?>
     <div class="card-info-header">
         <?php if ($avatar) : ?>
             <img src="<?php echo $avatar->url ?>" class="avatar-card-info-opportunity">

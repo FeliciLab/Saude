@@ -18,7 +18,19 @@ if ($entity instanceof MapasCulturais\Entities\Project) {
 ?>
 
 <div class="widget">
-    <?php foreach ($projects as $project) : ?>
+    <?php 
+    foreach ($projects as $project) : 
+        $opportunities = $project->getOpportunities(Opportunity::STATUS_DRAFT);
+        $opportunities = array_filter($opportunities, function($opportunity) {
+            if($opportunity->status > 0 || $opportunity->canUser('modify')) {
+                return $opportunity;
+            }
+        });
+
+        if(count($opportunities) == 0) {
+            continue;
+        }
+    ?>
         <h2 style="color: black;">
             <span><?php echo $project->name; ?></span>
         </h2>
@@ -27,11 +39,12 @@ if ($entity instanceof MapasCulturais\Entities\Project) {
 
             <?php $this->applyTemplateHook('entity-opportunities', 'begin'); ?>
             <?php
-            foreach ($project->getOpportunities(Opportunity::STATUS_DRAFT) as $opportunity) : ?>
-
+            foreach ($opportunities as $opportunity) : 
+            ?>
                 <?php $this->part('entity-opportunities--item', ['opportunity' => $opportunity, 'entity' => $entity]) ?>
                 <br>
-            <?php endforeach; ?>
+            <?php 
+            endforeach; ?>
 
 
             <?php $this->applyTemplateHook('entity-opportunities', 'end'); ?>
