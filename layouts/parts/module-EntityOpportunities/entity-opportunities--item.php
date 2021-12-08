@@ -32,7 +32,6 @@ $this->includeAngularEntityAssets($opportunity);
 $avatar = $opportunity->avatar ? $opportunity->avatar->transform('avatarSmall') : null;
 
 $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
-// $entity = $app->repo('ProjectOpportunity')->find();
 
 ?>
 <article class="objeto card-info-opportunity" ng-controller="OpportunityController">
@@ -52,28 +51,8 @@ $url = $this->isEditable() ? $opportunity->editUrl : $opportunity->singleUrl;
         </span>
     </div>
     <div class="card-info-content">
-        <?php //if ($opportunity->status == Opportunity::STATUS_DRAFT) : ?>
-            <em><?php //i::_e('(Rascunho)') ?></em>
-        <?php //endif; 
-        $this->part('singles/opportunity-registrations--form', ['entity' => $opportunity, 'show_button_access_registration' => true]) 
+        <?php
+            $this->part('singles/opportunity-registrations--form', ['entity' => $opportunity, 'show_button_access_registration' => true]) 
         ?>
-
     </div>
-
-    <!-- <div class="entity-opportunity--content pad-left-10">
-       
-        <div class="">
-           
-        </div>
-        <?php //if ($opportunity->status == Opportunity::STATUS_DRAFT) : ?>
-            <em><?php //i::_e('(Rascunho)') ?></em>
-        <?php //endif; ?>
-        <br>
-        <div>
-            <?php
-            //$this->part('singles/opportunity-registrations--form', ['entity' => $opportunity]) ?>
-        </div>
-    </div> -->
-
-
 </article>
