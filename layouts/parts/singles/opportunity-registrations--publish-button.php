@@ -10,7 +10,7 @@
             $totalEvaluator = count($sendEvaluation);// total de avaliadores
             $totalCheck = 0;// total de avaliadores que enviaram suas avaliações
             foreach ($sendEvaluation as $key => $evaluation) {
-                if($evaluation->status == 10){
+                if($evaluation->status == 10 || $evaluation->status == 8){
                     $totalCheck++;
                 }
             }
