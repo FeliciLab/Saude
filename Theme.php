@@ -92,6 +92,11 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(opportunity.edit.evaluation-config-form--technical):after', function () {
             $this->part('opportunity/nota-minima', ['entity' => $this->controller->requestedEntity]);
         });
+
+        // remove a seção de configuração da vinculação de espaço à ficha de inscrição
+        $app->hook('view.partial(singles/opportunity-registrations--space-relations).params', function (&$__data, &$__template) {
+            $__template = '_empty';
+        });
             
         /* PROJETOS */
         // muda o nome da aba Principal para Detalhes
