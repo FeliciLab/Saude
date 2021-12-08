@@ -63,7 +63,7 @@ class Theme extends BaseV1\Theme{
         // modifica valor padrão do metadado Opportunity::claimDisabled
         $app->getRegisteredMetadata('MapasCulturais\Entities\Opportunity')['claimDisabled']->default_value = '1';
 
-        /* ABAS DAS OPORTUNIDADES */
+        /* OPORTUNIDADES */
         // adiciona aba de documentos necessários em oportunidades
         $app->hook('template(opportunity.single.tabs):end', function () {
             $this->part('tab', ['id' => 'necessary-documents', 'label' => i::__('Documentos necessários')]);
@@ -88,6 +88,11 @@ class Theme extends BaseV1\Theme{
             }
         });
 
+        // adiciona configuração da nota mínima nas avaliações técnicas
+        $app->hook('template(opportunity.edit.evaluation-config-form--technical):after', function () {
+            $this->part('opportunity/nota-minima', ['entity' => $this->controller->requestedEntity]);
+        });
+            
         /* PROJETOS */
         // muda o nome da aba Principal para Detalhes
         $app->hook('view.partial(tab).params', function(&$__data, &$__template) {
