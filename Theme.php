@@ -97,6 +97,17 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(singles/opportunity-registrations--space-relations).params', function (&$__data, &$__template) {
             $__template = '_empty';
         });
+
+        // adiciona botões para modificação dos status das inscrições das avaliações técnica
+        // <!-- TEMPLATE HOOK: template(opportunity.single.header-inscritos):end -->
+        $app->hook('template(opportunity.single.header-inscritos):end', function() {
+            $entity = $this->controller->requestedEntity;
+            if($entity->publishedRegistrations) {
+                 return;
+            }
+            $_evaluation_type = $entity->evaluationMethodConfiguration->getType();
+            $this->part('opportunity/registration-status-buttons', ['_evaluation_type' => $_evaluation_type]);
+        });
             
         /* PROJETOS */
         // muda o nome da aba Principal para Detalhes
