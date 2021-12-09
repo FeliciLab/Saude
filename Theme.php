@@ -191,6 +191,13 @@ class Theme extends BaseV1\Theme{
                 'required' => \MapasCulturais\i::__('Categorias é obrigatório'),
             ];
         });
+
+        /** 
+         * Substitui template da listagem de oportunidades 
+         */ 
+        $app->hook('view.partial(entity-opportunities--item).params', function (&$__data, &$__template) { 
+            $__template = 'module-EntityOpportunities/entity-opportunities--item'; 
+        }); 
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
