@@ -108,6 +108,12 @@ class Theme extends BaseV1\Theme{
             $_evaluation_type = $entity->evaluationMethodConfiguration->getType();
             $this->part('opportunity/registration-status-buttons', ['_evaluation_type' => $_evaluation_type]);
         });
+
+        /* INSCRIÇÕES */
+        // modifica mensagem de ajuda no form de upload
+        $app->hook('view.partial(singles/registration-edit--upload-form).params', function (&$__data) {
+            $__data['form_help'] = i::__('Consulte o edital desta oportunidade para entender as limitações de tamanho e formato dos arquivos solicitados.');
+        });
             
         /* PROJETOS */
         // muda o nome da aba Principal para Detalhes
