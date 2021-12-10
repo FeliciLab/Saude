@@ -88,17 +88,17 @@ class Theme extends BaseV1\Theme{
         });
         
         $app->hook('POST(opportunity.setStatus)', function() use($app) { 
-            //$plugin = $app->plugins['EvaluationMethodTechnical'];
-            try {
-                $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                SET r.status = 10 WHERE r.opportunity = {$this->postData['opportunity']} AND r.status = 1";
-                $query      = $app->em->createQuery($dql);
-                $upStatus   = $query->getResult();
-                $this->json(['message' => 'Total de registro alterado: '.$upStatus], 200);
- 
-            } catch (Exception $th) {
-                $this->json(['message' => $th->getMessage()], 500);
+            $opportunity = $app->repo('Opportunity')->find($this->postData['opportunity']);
+
+            if ($opportunity->publishedRegistrations) {
+                return json_encode(['message' => 'Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.', 'status' => 200, 'type' => 'success']);
             }
+
+            $dql = "UPDATE MapasCulturais\Entities\Registration r 
+            SET r.status = 10 WHERE r.opportunity = {$this->postData['opportunity']} AND r.status = 1";
+            $query      = $app->em->createQuery($dql);
+            $upStatus   = $query->getResult();
+            $this->json(['message' => 'Total de registro alterado: '.$upStatus], 200);
         });
 
          /**
