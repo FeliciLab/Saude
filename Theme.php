@@ -215,13 +215,12 @@ class Theme extends BaseV1\Theme{
         }
 
         try {
+            $statusEnabled = Registration::STATUS_ENABLED;
             $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-            WHERE r.opportunity = {$opportunity}";
+            WHERE r.opportunity = {$opportunity} AND  r.status = {$statusEnabled}";
             $query      = $app->em->createQuery($dql);
             $upStatus   = $query->getResult();
-            foreach ($upStatus as $key => $value) {
-                $dql = "";
-                $newState = Registration::STATUS_ENABLED;
+            foreach ($upStatus as $value) {
                 if ($value->consolidatedResult >= $notaMedia) {
                     $newState = Registration::STATUS_APPROVED;
                 } else {
