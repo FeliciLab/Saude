@@ -45,15 +45,19 @@ if ($entity->isRegistrationOpen()): ?>
             </form>
         <?php endif;?>
     <?php else: ?>
-        <div class="alert danger" style="position: relative !important;">
-            <p>
-                <?php \MapasCulturais\i::_e("Para se inscrever é preciso ter uma conta e estar logado nesta plataforma. Clique no botão abaixo para criar uma conta ou fazer login.");?>
-            </p>
-            <p>
-                <a class="btn btn-primary" ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?>>
-                    <?php \MapasCulturais\i::_e("Fazer login");?>
-                </a>
-            </p>
-        </div>
+    <hr>
+    <div>
+    </div>
+    <div>
+        <p>
+        <i class="fa fa-info-circle" aria-hidden="true" style="border-radius: 200px solid black;"></i>
+            <?php \MapasCulturais\i::_e("Para iniciar sua inscrição, você precisa acessar o Mapa através de uma conta. Entre com seu login de agente ou crie uma nova conta se for sua primeira vez por aqui:
+");?>
+       </p>
+    </div>
+            <a class="btn btn-primary" ng-click="setRedirectUrl()" <?php echo $this->getLoginLinkAttributes() ?>
+            style="float: left; margin-left: 0px !important;">
+            <?php \MapasCulturais\i::_e("Fazer login ou criar conta");?>
+            </a>
     <?php endif;?>
 <?php endif;?>
