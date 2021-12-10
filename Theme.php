@@ -225,30 +225,109 @@ class Theme extends BaseV1\Theme{
             empty($regis) ? $this->json(['message' => true]) : $this->json(['message' => false]);
         });
         
-        $app->hook('POST(opportunity.setStatus)', function() use($app) { 
-            //$plugin = $app->plugins['EvaluationMethodTechnical'];
-            try {
-                $dql = "UPDATE MapasCulturais\Entities\Registration r 
-                SET r.status = 10 WHERE r.opportunity = {$this->postData['opportunity']} AND r.status = 1";
-                $query      = $app->em->createQuery($dql);
-                $upStatus   = $query->getResult();
-                $this->json(['message' => 'Total de registro alterado: '.$upStatus], 200);
- 
-            } catch (Exception $th) {
-                $this->json(['message' => $th->getMessage()], 500);
+        $app->hook('POST(opportunity.setAllStatusToApproved)', function() use($app) { 
+            $app = App::i();
+            $opportunity_id = intval($this->postData['opportunity']);
+
+            $opportunity = $app->repo('Opportunity')->find($opportunity_id);
+
+            if(!$opportunity) {
+                $this->errorJson(i::__('Oportunidade não encontrada'), 400);
             }
+
+            $opportunity->checkPermission('@controll');
+
+
+            $dql = "SELECT 
+                r.id 
+            FROM 
+                MapasCulturais\\Entities\\Registration r 
+            WHERE 
+                r.status = 1 AND
+                r.opportunity = :opp";  
+
+            $query = $app->em->createQuery($dql);
+
+            $query->setParameter('opp', $opportunity);
+            
+            $result = $query->getArrayResult();
+            $ids = array_map(function ($item) {
+                return $item['id'];
+            }, $result);
+
+            $num = count($ids);
+            foreach($ids as $i => $id) {
+                $i++;
+                $registration = $app->repo('Registration')->find($id);
+
+                $registration->setStatusToApproved();
+
+                $app->log->info("setAllStatusToApproved: {$i}/{$num} - {$id}");
+
+                $app->em->clear();
+            }
+
+            $this->json($ids);
         });
 
          /**
          * Verifica a nota minima da oportunidade e altera as inscrições com a mudança do status
          */
-        $app->hook('POST(opportunity.minimumNote)', function() use($app) {
-            $opportunity = $app->repo('Opportunity')->find($this->postData['id']);
-            //MUDARÁ O STATUS EM CASO DA AVALIAÇAO SER TÉCNICA
-            if($opportunity->evaluationMethodConfiguration->getDefinition()->slug == 'technical') {
-                $setStatus = self::setStatusOwnerOpportunity($this->postData['id'], $opportunity->metadata['registrationMinimumNote']);
-                echo $setStatus;
+        $app->hook('POST(opportunity.updateStatusNote)', function() use($app) {
+            $app = App::i();
+            $opportunity_id = intval($this->postData['id']);
+
+            $opportunity = $app->repo('Opportunity')->find($opportunity_id);
+
+            if (!$opportunity) {
+                $this->errorJson(i::__('Oportunidade não encontrada'), 400);
             }
+
+            $opportunity->checkPermission('@controll');
+
+            if ($opportunity->publishedRegistrations) {
+                $this->errorJson(i::__('Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.'), 400);
+            }
+
+            if (!$opportunity->registrationMinimumNote) {
+                $this->errorJson(i::__('Avaliação para a oportunidade não contém nota mínima'), 400);
+            }
+
+            $dql = "SELECT 
+                r.id 
+            FROM 
+                MapasCulturais\\Entities\\Registration r 
+            WHERE 
+                r.status = 1 AND
+                r.opportunity = :opp";  
+
+            $query = $app->em->createQuery($dql);
+
+            $query->setParameter('opp', $opportunity);
+
+            $result = $query->getArrayResult();
+            $ids = array_map(function ($item) {
+                return $item['id'];
+            }, $result);
+
+            $num = count($ids);
+            foreach($ids as $i => $id) {
+                $i++;
+                $registration = $app->repo('Registration')->find($id);
+
+                if($registration->consolidatedResult >= intval($opportunity->registrationMinimumNote)) {
+                    $registration->setStatusToApproved();
+                    $app->log->info("updateStatusNote (APPROVED): {$i}/{$num} - {$id}");
+                } else {
+                    $registration->setStatusToNotApproved();
+                    $app->log->info("updateStatusNote (NOT APPROVED): {$i}/{$num} - {$id}");
+                }
+
+                $app->em->clear();
+            }
+
+            $this->json($ids);
+
         });
 
         /**
@@ -370,45 +449,7 @@ class Theme extends BaseV1\Theme{
         }); 
     }
 
-    public static function setStatusOwnerOpportunity($opportunity, $note) {
-        $app = App::i();
-        $notaMedia = intval($note);
-
-        $opportunityRepo = $app->repo('Opportunity')->find($opportunity);
-
-        if ($opportunityRepo->publishedRegistrations) {
-            return json_encode(['message' => 'Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.', 'status' => 200, 'type' => 'success']);
-        }
-
-        if (empty($note)) {
-            return json_encode(['message' => 'Avaliação para a oportunidade não contém nota mínima', 'status' => 200, 'type' => 'success']);
-        }
-
-        try {
-            $dql = "SELECT r FROM MapasCulturais\Entities\Registration r 
-            WHERE r.opportunity = {$opportunity}";
-            $query      = $app->em->createQuery($dql);
-            $upStatus   = $query->getResult();
-            foreach ($upStatus as $key => $value) {
-                $dql = "";
-                $newState = Registration::STATUS_ENABLED;
-                if ($value->consolidatedResult >= $notaMedia) {
-                    $newState = Registration::STATUS_APPROVED;
-                } else {
-                    $newState = Registration::STATUS_NOTAPPROVED;
-                }      
-                                    
-                $dql = "UPDATE MapasCulturais\Entities\Registration r SET r.status = {$newState} WHERE r.id = {$value->id}";
-                $query      = $app->em->createQuery($dql);
-                $upStatus   = $query->getResult();
-            
-            }
-            return json_encode(['message' => 'Atualização de status dos candidatos realizada com sucesso.', 'status' => 200, 'type' => 'success']);
-        } catch (\Throwable $th) {
-            return json_encode(['message' => 'error', 'status' => $th->getMessage()]);
-        }
     
-    }
     
     protected function _publishAssets() {
         $app = App::i();
