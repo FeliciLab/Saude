@@ -7842,7 +7842,7 @@ nav {
     list-style-type: none !important;
   }
 
-  .owner-button{
+  #change-owner-button{
 
   color: #D9D9D9;
   border: 1px solid #D9D9D9;
@@ -7850,7 +7850,7 @@ nav {
 
   }
 
-  .owner-button:hover{
+  #change-owner-button:hover{
 
     color: #D9D9D9;
     border: 1px solid #D9D9D9;
