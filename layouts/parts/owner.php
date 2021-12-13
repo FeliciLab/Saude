@@ -38,7 +38,7 @@ if ($this->isEditable() || "$entity" != "$owner"):
                 <?php if($entity->canUser('changeOwner')): ?>
                     <a id="change-owner-button" class="btn btn-small btn-primary" ng-click="editbox.open('editbox-change-owner', $event)" rel='noopener noreferrer'><?php i::_e("Ceder propriedade");?></a>
                 <?php else: ?>
-                    <a id="change-owner-button" class="btn btn-small btn-primary owner-button" ng-click="editbox.open('editbox-change-owner', $event)" rel='noopener noreferrer'><?php i::_e("Reivindicar propriedade");?></a>
+                    <a id="change-owner-button" class="btn btn-small owner-button" ng-click="editbox.open('editbox-change-owner', $event)" rel='noopener noreferrer'><?php i::_e("Reivindicar propriedade");?></a>
                 <?php endif; ?>
                 <edit-box id="editbox-change-owner" position="right" title="<?php i::esc_attr_e("Selecione o agente para o qual você deseja passar a propriedade deste");?> <?php echo strtolower($entity->getEntityTypeLabel()) ?>" cancel-label="<?php i::esc_attr_e("Cancelar");?>" close-on-cancel='true' spinner-condition="data.spinner">
                     <find-entity id='find-entity-change-owner' entity="agent" no-results-text="<?php i::esc_attr_e("Nenhum agente encontrado");?>" select="requestEntity" api-query='data.apiQuery' spinner-condition="data.spinner"></find-entity>
