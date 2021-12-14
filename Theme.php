@@ -210,7 +210,7 @@ class Theme extends BaseV1\Theme{
     {
         $app = App::i();
 
-        $app->hook('template(project.edit.tab-about-service):after', function () {
+        $app->hook('template(project.<<*>>.tab-about-service):after', function () {
             $entity = $this->controller->requestedEntity;
             $this->part('singles/project-newfields', ['entity' => $entity]);
         });
