@@ -720,7 +720,6 @@ MapasCulturais.Editables = {
                     }
                 },
                 success: function(response) {
-                    console.log(response)
                     $('.js-pending-project, .js-pending-parent').hide();
                     $('.js-response-error').remove();
                     var unknow_errors = [];
@@ -755,9 +754,7 @@ MapasCulturais.Editables = {
                                         $field.parent().append(errorHtml);
                                     }
                                 } else {
-                                    //console.log(response.data[p])
                                     unknow_errors.push(response.data[p]);
-                                    //MapasCulturais.Messages.error(response.data[p]);
                                 }
                             }
                             if (!firstShown) {
@@ -820,29 +817,15 @@ MapasCulturais.Editables = {
 
                             }
                         }
-
-
                     }
 
                     if (unknow_errors) {
-                        //PARA OUTRAS MENSAGENS DE ERROS
-                        var menError = '';
-                        for (var i in unknow_errors) {
-                            if (menError !== "O campo é obrigatório." || menError !== "O campo Categoria é obrigatório.") {
-                                menError = unknow_errors[i];
-                            }
-                        }
                         // filtrar valores duplicados
                         let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
                         findDuplicates(unknow_errors)
-                            // CASO TENHA MAIS DE UM CAMPO OBRIGATÓRIO
+                        // CASO TENHA MAIS DE UM CAMPO OBRIGATÓRIO
                         if (unknow_errors.length > 0) {
-                            if (menError == "O campo é obrigatório.") {
-                                MapasCulturais.Messages.error('Confira os campo obrigatórios.')
-                            }
-                            if (menError == "O campo Categoria é obrigatório.") {
-                                MapasCulturais.Messages.error('O campo Categoria é obrigatório.')
-                            }
+                            MapasCulturais.Messages.error('Confira os campos obrigatórios.')
                         }
                     }
 
