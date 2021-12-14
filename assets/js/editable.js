@@ -825,23 +825,16 @@ MapasCulturais.Editables = {
                     }
 
                     if (unknow_errors) {
-                        //MapasCulturais.Messages.error(unknow_errors);
-                        //console.log(unknow_errors)
                         //PARA OUTRAS MENSAGENS DE ERROS
                         var menError = '';
                         for (var i in unknow_errors) {
-                            //MapasCulturais.Messages.error(unknow_errors[i]);
-                            console.log({ i })
-                            console.log(unknow_errors[i])
                             if (menError !== "O campo é obrigatório." || menError !== "O campo Categoria é obrigatório.") {
                                 menError = unknow_errors[i];
-                                console.log({ menError })
                             }
                         }
                         // filtrar valores duplicados
                         let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
                         findDuplicates(unknow_errors)
-                        console.log(unknow_errors)
                             // CASO TENHA MAIS DE UM CAMPO OBRIGATÓRIO
                         if (unknow_errors.length > 0) {
                             if (menError == "O campo é obrigatório.") {
@@ -850,7 +843,6 @@ MapasCulturais.Editables = {
                             if (menError == "O campo Categoria é obrigatório.") {
                                 MapasCulturais.Messages.error('O campo Categoria é obrigatório.')
                             }
-                            MapasCulturais.Messages.error([...new Set(findDuplicates(unknow_errors))])
                         }
                     }
 
