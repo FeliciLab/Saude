@@ -36,7 +36,7 @@
                             </select>
                         </td>
                         <?php 
-                            if($type == 'technical'){ ?>
+                            if($type == 'technical' || $type == 'technicalna'){ ?>
                         <td>
                             <label for="">Nota Resultado Final</label>
                             <input type="text" name="consolidated_result" id="consolidated_result" disabled class="form-control" style="background: #eaeaea;" >
@@ -62,7 +62,7 @@
                 ?>
             </div>
             <?php 
-                if($type == 'technical'){ ?>
+                if($type == 'technical' || $type == 'technicalna'){ ?>
                     <label for="">Nova nota</label>
                     <input type="number"  min="0" step=".01" name="new_consolidated_result" id="new_consolidated_result" class="form-control">
                 <?php
