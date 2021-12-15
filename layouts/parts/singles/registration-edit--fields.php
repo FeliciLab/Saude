@@ -20,7 +20,7 @@
             <div ng-class="field.error ? 'invalidField': '' " ng-if="::field.fieldType === 'file'" id="file_{{::field.id}}" >
                 <span class="label"> 
                     {{::field.title}}
-                    <span ng-if="::field.required "><?php \MapasCulturais\i::_e('obrigatório'); ?></span>
+                    <span ng-if="::field.required " class="required_form ng-scope"><?php \MapasCulturais\i::_e('obrigatório'); ?></span>
                 </span>
 
                 <div class="attachment-description">

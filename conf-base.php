@@ -19,6 +19,7 @@ return [
         'token_endpoint'        => env('TOKEN_ENDPOINT', ''),
         'user_info_endpoint'    => env('USER_INFO_ENDPOINT', ''),
         'redirect_uri'          => env('REDIRECT_URI', ''),
+        'reset_password_url'    => env('RESET_PASSWORD_URL', ''),
     ],
 
     // CEP API

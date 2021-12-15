@@ -69,7 +69,7 @@ $(document).ready(function () {
         var type = this.value;
         if(type == 'Deferido' || type == 'ParcialmenteDeferido') {
             hideIfDeferido();
-            if ($("#evaluationMethod").val() == 'technical') {
+            if ($("#evaluationMethod").val() == 'technical' || $("#evaluationMethod").val() == 'technicalna') {
                 pointMax(MapasCulturais.entity.object.id);
             }           
         }else if(type == 'Indeferido'){

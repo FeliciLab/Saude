@@ -16,8 +16,10 @@ $parent = $entity->parent;
 <div id="inscricoes" class="aba-content">
 
     <?php foreach ($entity->getOpportunities(Opportunity::STATUS_DRAFT) as $opportunity) : ?>
-        <?php $this->part('entity-opportunities--item', ['opportunity' => $opportunity, 'entity' => $entity]) ?>
-        <br>
+        <?php if($opportunity->status > 0 || $opportunity->canUser('modify')): ?>
+            <?php $this->part('entity-opportunities--item', ['opportunity' => $opportunity, 'entity' => $entity]) ?>
+            <br>
+        <?php endif; ?>
     <?php endforeach; ?>
 
     <?php $this->applyTemplateHook('tab-inscricoes', 'begin'); ?>
