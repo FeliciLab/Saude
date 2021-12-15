@@ -215,8 +215,7 @@ class Theme extends BaseV1\Theme{
             $this->part('singles/project-newfields', ['entity' => $entity]);
         });
 
-        $thisTheme = $this;
-        $app->hook("entity(Registration).validations", function(&$validations) use($thisTheme) {  
+        $app->hook("entity(Registration).validations", function(&$validations) {  
             $validations['owner']['$app->view->validateRegistrationLimitPerOwnerProjectRegistration($this)'] = \MapasCulturais\i::__('Foi excedido o limite de inscrições para este agente responsável no projeto.');   
         });
     }
