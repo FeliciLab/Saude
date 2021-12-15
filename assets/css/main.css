@@ -10326,3 +10326,21 @@ nav {
 .widget-list-item {
   list-style-type: none !important;
 }
+  .widget-list-item {
+    list-style-type: none !important;
+  }
+
+  #change-owner-button{
+
+  color: #D9D9D9;
+  border: 1px solid #D9D9D9;
+  background-color: #FFFFFF;
+
+  }
+
+  #change-owner-button:hover{
+
+    color: #D9D9D9;
+    border: 1px solid #D9D9D9;
+    background-color: #FFFFFF;
+  }
