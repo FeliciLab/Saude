@@ -2208,10 +2208,10 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
         RegistrationService.register(registration, idOpportunity).success(function(rs){
             if (typeof rs.error !== 'undefined') {
                 if (rs.data.owner) {
-                    MapasCulturais.Messages.error(rs.data.owner);
+                    MapasCulturais.Messages.error(rs.data.owner[0]);
                 }
             } else {
-                document.location = rs.editUrl;
+               document.location = rs.editUrl;
             }
         });
     };

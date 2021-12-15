@@ -5,6 +5,7 @@ use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
+use MapasCulturais\Entities\Project;
 use MapasCulturais\Definitions;
 use MapasCulturais\i;
 USE MapasCulturais\Entities\Registration;
@@ -198,6 +199,70 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(entity-opportunities--item).params', function (&$__data, &$__template) { 
             $__template = 'module-EntityOpportunities/entity-opportunities--item'; 
         }); 
+
+
+        $this->validateRegistrationLimitPerOwnerProject();
+       
+    }
+
+
+    private function validateRegistrationLimitPerOwnerProject()
+    {
+        $app = App::i();
+
+        $app->hook('template(project.<<*>>.entity-opportunities):begin', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/project-newfields', ['entity' => $entity]);
+        });
+
+        $app->hook("entity(Registration).validations", function(&$validations) {  
+            $validations['owner']['$app->view->validateRegistrationLimitPerOwnerProjectRegistration($this)'] = \MapasCulturais\i::__('Foi excedido o limite de inscrições para este agente responsável no projeto.');   
+        });
+    }
+
+    function validateRegistrationLimitPerOwnerProjectRegistration($registration)
+    { 
+        $app = App::i();
+
+        $opportunity = $registration->opportunity;
+        
+        if (is_null($opportunity->parent) && $opportunity->ownerEntity instanceof Project) {
+            $project = $opportunity->ownerEntity;
+            $limit = $project->registrationLimitPerOwnerProject;
+            while (!$limit && $project->parent) {
+                $project = $project->parent;
+                $limit = $project->registrationLimitPerOwnerProject;
+            }
+
+            if (!$limit) {
+                return true;
+            }
+            
+            $projectIds = $project->getChildrenIds();
+            $projectIds[] = $project->id;
+
+            $dql = "SELECT 
+                r.id
+            FROM 
+                MapasCulturais\\Entities\\Registration r 
+            WHERE
+                r.owner = :owner AND
+                r.opportunity in (
+                    SELECT o FROM MapasCulturais\\Entities\\ProjectOpportunity o WHERE o.ownerEntity in (:projectIds) 
+                 ) 
+            ";  
+
+            $query = $app->em->createQuery($dql);
+
+            $query->setParameter('owner', $registration->owner);
+            $query->setParameter('projectIds', $projectIds);
+            
+            $result = $query->getScalarResult();
+
+            return (int)$limit > count($result);
+        }
+
+        return true;
     }
 
     public static function setStatusOwnerOpportunity($opportunity, $note) {
@@ -324,6 +389,14 @@ class Theme extends BaseV1\Theme{
         $this->registerOpportunityMetadata('labelCustomRules', [
             'label' => 'Label do regulamento',
             'type' => 'text'
+        ]); 
+
+        // @todo necessário implementar validação do quantitativo de inscrições por projetos pai, o valor não deve ser maior que os valores definidos nos projetos pai e avó
+        $this->registerProjectMetadata('registrationLimitPerOwnerProject', [
+            'label' => \MapasCulturais\i::__('Número máximo de inscrições por agente responsável no projeto'),
+            'validations' => array(
+                "v::intVal()" => \MapasCulturais\i::__("O número máximo de inscrições por agente responsável no projeto deve ser um número inteiro")
+            )
         ]); 
 
         $app = App::i();
