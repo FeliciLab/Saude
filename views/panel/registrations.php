@@ -27,10 +27,13 @@ error_reporting(E_ALL);
 
     $unique_opportunities = [];
     foreach($sent as $s){
-        if(!array_key_exists($s->opportunity->ownerEntity->id , $unique_opportunities)){
-            $unique_opportunities[$s->opportunity->ownerEntity->id] = $s;
+        if($s->opportunity->parent == null){
+            $unique_opportunities[$s->id] = $s;
         }
     }
+
+    $unique_opportunities = array_reverse($unique_opportunities);
+
  ?>
 
 <div class="panel-list panel-main-content">
