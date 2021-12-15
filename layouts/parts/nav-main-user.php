@@ -8,7 +8,7 @@
                 <img class="login circle-avatar menu-header-login" src="<?php $this->asset('img/avatar--agent-saude.png'); ?>" />
             <?php endif; ?>
         </div>
-        <span class="meu-perfil-text a-color">Meu perfil</span>
+        <span class="menu-item-label a-color">Meu perfil</span>
     </a>
     <ul class="submenu hidden">
         <li>
