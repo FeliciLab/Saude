@@ -1,7 +1,7 @@
 <div class="registration-fieldset">
     <?php if($entity->opportunity->isRegistrationOpen()): ?>
         <p class="registration-help"><?php \MapasCulturais\i::_e("Certifique-se que você preencheu as informações corretamente antes de enviar sua inscrição.");?> <strong><?php \MapasCulturais\i::_e("Depois de enviada, não será mais possível editá-la.");?></strong></p>
-        <a data-remodal-target="modal-info-inscricao" class="btn btn-primary" onclick="">
+        <a data-remodal-target="modal-info-registration-confirm" class="btn btn-primary" onclick="">
                             <i class="fa fa-edit"></i> Enviar Inscrição
                         </a>
         <?php $this->applyTemplateHook('registration-save-button','begin'); ?>
