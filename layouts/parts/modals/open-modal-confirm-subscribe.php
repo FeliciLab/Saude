@@ -17,7 +17,7 @@ e você não conseguirá editar os dados.
 
 <p>
 Você poderá verificar o status de sua inscrição em <br>
-<b>Meu Perfil > Minhas Inscrições. </b>
+<b>Meu Perfil -> Minhas Inscrições. </b>
 </p>
 
 </div>
