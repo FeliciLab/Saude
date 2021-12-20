@@ -2342,6 +2342,8 @@ module.controller('OpportunityController', ['$scope', '$rootScope', '$location',
                 } 
             }
         });
+
+        $('[data-remodal-id=modal-info-registration-confirm]').remodal().close();
     };
 
     var url = new UrlService('opportunity');

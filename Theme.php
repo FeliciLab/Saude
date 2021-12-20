@@ -72,9 +72,14 @@ class Theme extends BaseV1\Theme{
             $__template = 'singles/opportunity-resources--form';
         });
 
-        $app->hook("template(registration.view.registration-save-button):begin", function() use($app){
+        $app->hook("template(registration.view.registration-opportunity-buttons):after", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
             $this->part('singles/button/registration-save--button');
+        });
+
+        $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
+            $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
+            $this->part('singles/button/registration-send--button');
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
