@@ -5,9 +5,10 @@
             <?php if ($app->user->profile->avatar): ?>
                 <img class="login circle-avatar menu-header-login" src="<?php echo $app->user->profile->avatar->transform('avatarSmall')->url; ?>" />
             <?php else: ?>
-                <img class="login circle-avatar menu-header-login" src="<?php $this->asset('img/avatar--agent.png'); ?>" />
+                <img class="login circle-avatar menu-header-login" src="<?php $this->asset('img/avatar--agent-saude.png'); ?>" />
             <?php endif; ?>
         </div>
+        <span class="menu-item-label a-color">Meu perfil</span>
     </a>
     <ul class="submenu hidden">
         <li>
@@ -15,7 +16,7 @@
         </li>
 
         <li>
-            <a href="<?php echo $app->createUrl('agente', $app->user->profile->id) ?>"></span><?php \MapasCulturais\i::_e("Meu Perfil");?></a>
+            <a href="<?php echo $app->createUrl('agente', $app->user->profile->id) ?>"></span><?php \MapasCulturais\i::_e("Meus Dados");?></a>
         </li>
 
         <?php if($app->isEnabled('agents')): ?>
