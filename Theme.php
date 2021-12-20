@@ -116,7 +116,7 @@ class Theme extends BaseV1\Theme{
 
         $app->hook('controller(registration).saveEvaluationValidate', function($registration) use($app) {
             $evaluation_type = $registration->getEvaluationMethodDefinition()->slug;
-            if ($evaluation_type == 'technical') {
+            if ($evaluation_type == 'technical' || $evaluation_type == 'technicalna') {
                 $cfg = $registration->getEvaluationMethodConfiguration();
                 foreach($cfg->criteria as $cri){
                     $key = $cri->id;
