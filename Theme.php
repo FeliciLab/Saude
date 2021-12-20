@@ -5,6 +5,7 @@ use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
+use MapasCulturais\Entities\Project;
 use MapasCulturais\Definitions;
 use MapasCulturais\i;
 USE MapasCulturais\Entities\Registration;
@@ -20,32 +21,31 @@ class Theme extends BaseV1\Theme{
             'site: of the region' => 'do estado de Ceará',
             'site: by the site owner' => 'pela Escola de saúde pública do Ceará',
 
-            'home: title' => "Bem Vindes!",
+            'home: title' => "",
 
-            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, através do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</br></br>
-            <p>A plataforma estrutura uma política digital de relacionamento e gestão de informações, integrando dados de diferentes sistemas e serviços, oferecendo à cidadania e aos governos um importante instrumento de apoio, avaliação e qualificação da <b class='b-home'>Força de Trabalho do SUS</b>.</br>
-            <p>No Mapa, é possível encontrar e inserir informações sobre profissionais (pessoas gestoras e trabalhadoras), eventos (oficiais e comunitários), espaços (públicos e privados), além de indicadores e inscrições em diferentes oportunidades na área da saúde no Ceará.</br> 
-            <p>Crie seu perfil e colabore com a transformação digital do SUS!
+            'home: welcome' => "<div class='font-style'>O <b class='b-home'>Mapa da Saúde</b> é uma solução aberta para governança colaborativa, desenvolvida pela <a href='https://www.esp.ce.gov.br/' target='blank'>Escola de Saúde Pública do  Ceará</a>, por meio do <a href='https://sus.ce.gov.br/felicilab/' target='blank'>Felicilab</a>.</p>
+            <p>A plataforma estrutura uma política digital de relacionamento e gestão de informações, integrando dados de diferentes sistemas e serviços, oferecendo à cidadania e aos governos um importante instrumento de apoio, avaliação e qualificação da <b class='b-home'>Força de Trabalho do SUS.</b></p>
+            <p>Crie seu perfil e colabore com a transformação digital do SUS!</p>
             </div>
             
             ",
             /*'home: events' => "Você pode pesquisar eventos culturais da cidade nos campos de busca combinada. Como usuário cadastrado, você pode incluir seus eventos na plataforma e divulgá-los gratuitamente.",*/
-            'home: agents' => "<div class='font-style'>Se você é uma pessoa trabalhadora ou gestora da saúde em seu município, pode criar seu perfil e fazer a gestão da informação que você conhece e produz.</br></br>
-            <p>Tornando-se um agente, você fortalece a transparência e o diálogo com sua comunidade e colabora com a transformação da saúde de sua cidade ou região.</br>
-            <p>Aqui é possível cadastrar sua instituição, vincular seu perfil aos espaços nos quais você trabalha, divulgar e participar de oportunidades, tais como eventos e editais de projetos vinculados à Escola de Saúde Pública do Ceará.</div>
+            'home: agents' => "<div class='font-style'><p>Se você é uma pessoa trabalhadora ou gestora da saúde em seu município, pode criar seu perfil e fazer a gestão da informação que você conhece e produz.</p>
+            <p>Tornando-se um agente, você fortalece a transparência e o diálogo com sua comunidade e colabora com a transformação da saúde de sua cidade ou região.</p>
+            <p>Aqui é possível cadastrar sua instituição, vincular seu perfil aos espaços nos quais você trabalha, divulgar e participar de oportunidades, tais como eventos e editais de projetos vinculados à Escola de Saúde Pública do Ceará.</p></div>
             ",
-            'home: spaces' => "<div class='font-style'>No Mapa da Saúde já estão disponíveis todas as unidades do Ceará, presentes no <a href='https://mapa.sus.ce.gov.br/selo/id:1/#/tab=sobre' target='blank'>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</a>.</br></br>
-            <p>Para encontrá-las, diga onde e o que busca, através dos campos de busca combinada, que ajudam na precisão de sua pesquisa.</br>
-            <p>Cadastre também os espaços nos quais desenvolve suas atividades em saúde, na capital ou no interior.</br>
-            <p>E lembrando: como agente, você que é profissional de saúde poderá também vincular o seu perfil às unidades já cadastradas. </div>
+            'home: spaces' => "<div class='font-style'><p>No Mapa da Saúde já estão disponíveis todas as unidades do Ceará, presentes no <a href='https://mapa.sus.ce.gov.br/selo/id:1/#/tab=sobre' target='blank'>Cadastro Nacional de Estabelecimentos de Saúde (CNES)</a>.</p>
+            <p>Para encontrá-las, diga onde e o que busca, através dos campos de busca combinada, que ajudam na precisão de sua pesquisa.</p>
+            <p>Cadastre também os espaços nos quais desenvolve suas atividades em saúde, na capital ou no interior.</p>
+            <p>E lembrando: como agente, você que é profissional de saúde poderá também vincular o seu perfil às unidades já cadastradas. </p></div>
             ",
             /*'home: opportunities' => "Faça a sua inscrição ou acesse o resultado de diversas convocatórias como editais, oficinas, prêmios e concursos. Você também pode criar o seu próprio formulário e divulgar uma oportunidade para outros atores de mudança.",*/
             'home: colabore' => "Colabore com o Mapa da Saúde",
 
             'home: abbreviation' => "ESP-CE",
             'home: home_devs' => "<div class='font-style'>
-            <p>O Mapa da Saúde é uma das ações da Rede de Inovação Aberta no SUS, que estão sendo realizadas para promover o controle social, garantir a transparência e viabilizar a colaboração em rede.</br>
-            <p>Se você é uma pessoa desenvolvedora e deseja interagir com o Mapa, basta acessar nosso repositório no <a href='https://github.com/EscolaDeSaudePublica/mapadasaude' target='blank'>GitHub</a> e fazer parte do grupo no <a href='https://t.me/joinchat/WCYOkjUEcYZ0mu1i' target='blank'>Telegram</a>.</div>",
+            <p>O Mapa da Saúde é uma das ações da Rede de Inovação Aberta no SUS, que estão sendo realizadas para promover o controle social, garantir a transparência e viabilizar a colaboração em rede.</p>
+            <p>Se você é uma pessoa desenvolvedora e deseja interagir com o Mapa, basta acessar nosso repositório no <a href='https://github.com/EscolaDeSaudePublica/mapadasaude' target='blank'>GitHub</a> e fazer parte do grupo no <a href='https://t.me/joinchat/WCYOkjUEcYZ0mu1i' target='blank'>Telegram</a>.</p></div>",
 
             'search: verified results' => 'Resultados da ESP-CE',
             'search: verified' => "ESP-CE"
@@ -383,6 +383,10 @@ class Theme extends BaseV1\Theme{
          * Adiciona novos menus no painel
          */
         $app->hook('template(panel.index.nav.panel.registrations):after', function () use($app) {
+            if ($app->user->is('admin')) {
+                $this->part('panel/nav-categoria-indicadores');
+            }
+            
             if ($app->user->is('saasAdmin')) {
                 $this->part('panel/nav-categoria-profissional');
             }
@@ -447,8 +451,86 @@ class Theme extends BaseV1\Theme{
             $entity = $this->controller->requestedEntity;
             $this->part('singles/opportunity-field-label-rules.php', ['entity' => $entity]);
         }); 
+
+
+        // add validação opportunity categorias
+        $app->hook('entity(Opportunity).validations', function(&$validations) use($app) { 
+            $validations['registrationCategories'] = [
+                'required' => \MapasCulturais\i::__('Categorias é obrigatório'),
+            ];
+        });
+
+        /** 
+         * Substitui template da listagem de oportunidades 
+         */ 
+        $app->hook('view.partial(entity-opportunities--item).params', function (&$__data, &$__template) { 
+            $__template = 'module-EntityOpportunities/entity-opportunities--item'; 
+        }); 
+
+
+        $this->validateRegistrationLimitPerOwnerProject();
+       
     }
 
+
+    private function validateRegistrationLimitPerOwnerProject()
+    {
+        $app = App::i();
+
+        $app->hook('template(project.<<*>>.entity-opportunities):begin', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/project-newfields', ['entity' => $entity]);
+        });
+
+        $app->hook("entity(Registration).validations", function(&$validations) {  
+            $validations['owner']['$app->view->validateRegistrationLimitPerOwnerProjectRegistration($this)'] = \MapasCulturais\i::__('Foi excedido o limite de inscrições para este agente responsável no projeto.');   
+        });
+    }
+
+    function validateRegistrationLimitPerOwnerProjectRegistration($registration)
+    { 
+        $app = App::i();
+
+        $opportunity = $registration->opportunity;
+        
+        if (is_null($opportunity->parent) && $opportunity->ownerEntity instanceof Project) {
+            $project = $opportunity->ownerEntity;
+            $limit = $project->registrationLimitPerOwnerProject;
+            while (!$limit && $project->parent) {
+                $project = $project->parent;
+                $limit = $project->registrationLimitPerOwnerProject;
+            }
+
+            if (!$limit) {
+                return true;
+            }
+            
+            $projectIds = $project->getChildrenIds();
+            $projectIds[] = $project->id;
+
+            $dql = "SELECT 
+                r.id
+            FROM 
+                MapasCulturais\\Entities\\Registration r 
+            WHERE
+                r.owner = :owner AND
+                r.opportunity in (
+                    SELECT o FROM MapasCulturais\\Entities\\ProjectOpportunity o WHERE o.ownerEntity in (:projectIds) 
+                 ) 
+            ";  
+
+            $query = $app->em->createQuery($dql);
+
+            $query->setParameter('owner', $registration->owner);
+            $query->setParameter('projectIds', $projectIds);
+            
+            $result = $query->getScalarResult();
+
+            return (int)$limit > count($result);
+        }
+
+        return true;
+    }
     
     
     protected function _publishAssets() {
@@ -536,6 +618,15 @@ class Theme extends BaseV1\Theme{
             'label' => 'Label do regulamento',
             'type' => 'text'
         ]); 
+
+        // @todo necessário implementar validação do quantitativo de inscrições por projetos pai, o valor não deve ser maior que os valores definidos nos projetos pai e avó
+        $this->registerProjectMetadata('registrationLimitPerOwnerProject', [
+            'label' => \MapasCulturais\i::__('Número máximo de inscrições por agente responsável no projeto'),
+            'validations' => array(
+                "v::intVal()" => \MapasCulturais\i::__("O número máximo de inscrições por agente responsável no projeto deve ser um número inteiro")
+            )
+        ]); 
+
         $app = App::i();
 
         $app->registerAuthProvider('keycloak');

@@ -10,9 +10,6 @@ $user = $app->user;
 
 $userRelation = $entity->evaluationMethodConfiguration->getUserRelation($user);
 
-
-$registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
-
 if ($entity->isRegistrationOpen() && $entity->canUser('register')): ?>
             <form class="registration-form clearfix">
                 <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido.");?></p>

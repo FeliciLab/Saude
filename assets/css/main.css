@@ -3481,7 +3481,6 @@ nav.sidebar-panel ul {
     padding-right: 4rem;
     min-height: 1.3rem; }
     .widget-list .is-editable .botoes {
-      display: none;
       position: absolute;
       top: 0;
       right: 0;
