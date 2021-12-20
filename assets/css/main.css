@@ -7856,3 +7856,7 @@ nav {
     border: 1px solid #D9D9D9;
     background-color: #FFFFFF;
   }
+
+  .modal-border{
+    border-top: 8px solid #4CAF50;
+  }
