@@ -206,6 +206,13 @@ class Theme extends BaseV1\Theme{
         }); 
 
 
+        /**
+         * Oculta as situaões na página de inscrito
+         */
+        $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'hideinfo', 'js/hideinfo.js');
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
        
     }
