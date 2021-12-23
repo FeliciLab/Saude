@@ -206,6 +206,13 @@ class Theme extends BaseV1\Theme{
         }); 
 
 
+        /**
+         * Oculta as situaões na página de inscrito
+         */
+        $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'hideinfo', 'js/hideinfo.js');
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
        
     }
@@ -251,7 +258,7 @@ class Theme extends BaseV1\Theme{
             FROM 
                 MapasCulturais\\Entities\\Registration r 
             WHERE
-                r.owner = :owner AND
+                r.owner = :owner AND r.status <> 0 AND
                 r.opportunity in (
                     SELECT o FROM MapasCulturais\\Entities\\ProjectOpportunity o WHERE o.ownerEntity in (:projectIds) 
                  ) 

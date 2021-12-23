@@ -43,9 +43,6 @@ if (!empty($registrations)) {
                         <?php \MapasCulturais\i::_e("Nota final"); ?>
                     </th>
                 <?php endif; ?>
-                <th class="registration-status-col" style="text-align: center;width: 20%">
-                    <?php \MapasCulturais\i::_e("Status"); ?>
-                </th>
             </tr>
         </thead>
         <tbody>
@@ -112,21 +109,6 @@ if (!empty($registrations)) {
                                 }
                         ?>
                     <?php endif; ?>
-                    <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
-
-                    <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args);?>
-                    <!-- Apenas mosta o status quando a oportinudade já foi publicada -->
-                    <?php if ($registration->opportunity->publishedRegistrations) : ?>
-                        <td class="registration-status-col <?php echo RegistrationStatus::statusColorById($registration->status); ?>" style="text-align: center; font-size: 11px;">
-                            <?php $this->part('singles/tooltip', ['title' => RegistrationStatus::statusTitleById($registration->status), 
-                            'chield' => RegistrationStatus::getStatusNameById($registration->status)]); ?>
-                        </td>
-                    <?php else : ?>
-                        <td class="registration-status-col statuspend" style="text-align: center; font-size: 11px;">
-                            <?php $this->part('singles/tooltip', ['title' => 'Ainda não avaliada.', 'chield' => 'Pendente']); ?>
-                        </td>
-                    <?php endif; ?>
-
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'end', $reg_args); ?>
                 </tr>
             <?php endforeach; ?>

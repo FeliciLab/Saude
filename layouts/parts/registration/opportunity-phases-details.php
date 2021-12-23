@@ -11,7 +11,6 @@
     <div class="user-oportunity-details">
         <div>
             <small><strong>Inscrição da fase: <?php echo count($registration) == 0 ? 'Não inscrito' : $registration[0]->number ?></strong></small><br>
-            <?php echo count($registration) > 0 ? '<small><strong>Status:</strong>'. RegistrationStatus::getStatusNameById($registration[0]->status) .'</small><br>' : '';?>
             <?php 
                 if(count($registration) > 0 && $registration[0]->canUser('sendClaimMessage')){
                     if($resources == false && ($rec['open'] == 1 && $rec['close'] == 1)){  ?>
