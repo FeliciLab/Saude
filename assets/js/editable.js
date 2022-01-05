@@ -740,6 +740,8 @@ MapasCulturais.Editables = {
                             } else if (MapasCulturais.request.controller === 'registration' && p === 'owner') {
                                 firstShown = true; // don't show editable
                                 $field = $('#agent_owner').parent().find('.registration-label span');
+                            }else if (p == "registrationTo"){
+                                MapasCulturais.Messages.error(response.data[p]);
                             }
 
                             for (var k in response.data[p]) {
