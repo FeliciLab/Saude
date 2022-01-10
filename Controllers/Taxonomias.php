@@ -122,4 +122,47 @@ class Taxonomias extends \MapasCulturais\Controller{
         (count($search) > 0) ? $this->json(['message' => 'Já existem dados vinculados ao registro', 'status' => 'warning'], 200) : $this->json(['message' => 'Não tem registro', 'status' => 'success'], 200);
     }
 
+
+    function GET_alterTypeTaxo() {
+        dump($this->data);
+        $app = App::i();
+        $term = $app->repo('Term')->findBy([
+            'taxonomy' => 'project_type'
+        ]);
+        foreach ($term as $key => $value) {
+           dump(($key+1) .' - '. $value);
+        }
+        $project = $app->repo('Project')->findBy([
+            'status' => 1
+        ]);
+        dump(count($project));
+        foreach ($project as $key => $value) {
+           dump($project[$key]->type);
+        }
+    }
+
+    function POST_syncTaxo() {
+        $app = App::i();
+        $allTaxo = $app->repo('Term')->findBy([
+            'taxonomy' => 'project_type'
+        ]);
+        $project = $app->repo('Project')->findBy([
+            'status' => 1
+        ]);
+        $app->disableAccessControl();
+
+        foreach ($allTaxo as $key => $value) {
+            $idTaxo = null;
+           
+            if(isset($project[$key])) {
+                $idTaxo = $project[$key]->type->id;
+                $id = ($idTaxo - 1);
+                $project[$key]->type = $allTaxo[$id]->id;
+                $project[$key]->save(true);
+            }
+        }
+        $app->enableAccessControl();
+        $this->json(['message' => 'Taxonomias de projeto realizado com sucesso'], 200);
+       
+    }
 }

@@ -200,6 +200,22 @@
             $scope.data.taxonomy = params;
             $scope.getDataGrau(params);
         }
+
+        $scope.SyncTaxo = function () {
+            $http.post(MapasCulturais.baseURL+'taxonomias/syncTaxo').then(function successCallback(response) {
+                console.log(response.status);
+                if(response.status == 200) {
+                    new PNotify({
+                        title: 'Sucesso!',
+                        text: 'Type de projeto alterado com sucesso.',
+                        type: 'success'
+                    });
+                }
+            }).catch(function(e){
+                console.log(e);
+            });
+        }
+
     }]);
 
 
