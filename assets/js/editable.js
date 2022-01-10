@@ -740,6 +740,9 @@ MapasCulturais.Editables = {
                             } else if (MapasCulturais.request.controller === 'registration' && p === 'owner') {
                                 firstShown = true; // don't show editable
                                 $field = $('#agent_owner').parent().find('.registration-label span');
+                            }else if (p == "registrationTo"){
+                                $field = $('.js-editable[data-edit="registrationTo_datepicker"]');
+                                MapasCulturais.Messages.error(response.data[p]);
                             }
 
                             for (var k in response.data[p]) {
@@ -768,8 +771,11 @@ MapasCulturais.Editables = {
                                 $(this).parent().find('.danger.hltip').remove();
                             });
                         }
-                        if (field_found)
-                            MapasCulturais.Messages.error(labels['correctErrors']);
+                        if (field_found){
+                            if(!response.data['registrationTo']){
+                                MapasCulturais.Messages.error(labels['correctErrors']);
+                            }
+                        }
 
                     } else {
 
