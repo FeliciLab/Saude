@@ -155,7 +155,8 @@ class Theme extends BaseV1\Theme{
                     'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
                     'name' => $registration->owner->name,
                     'number' => $registration->number,
-                    'opportunity' => $registration->opportunity->name
+                    'opportunity' => $registration->opportunity->name,
+                    'url_project' => $registration->singleUrl
                 ];
 
                 $subject = $registration->opportunity->mailTitleSendConfirm;
