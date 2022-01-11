@@ -201,9 +201,12 @@
             $scope.getDataGrau(params);
         }
 
-        $scope.SyncTaxo = function () {
-            $http.post(MapasCulturais.baseURL+'taxonomias/syncTaxo').then(function successCallback(response) {
-                console.log(response.status);
+        $scope.SyncTaxo = function (taxo, entity) {
+            var data = {
+                'taxo'   : taxo,
+                'entity' : entity
+            };
+            $http.post(MapasCulturais.baseURL+'taxonomias/syncTaxo' , data).then(function successCallback(response) {
                 if(response.status == 200) {
                     new PNotify({
                         title: 'Sucesso!',
@@ -212,7 +215,11 @@
                     });
                 }
             }).catch(function(e){
-                console.log(e);
+                new PNotify({
+                    title: 'Ops!',
+                    text: 'A Sincronização já foi feita ou contacte o administrador.',
+                    type: 'error'
+                });
             });
         }
 

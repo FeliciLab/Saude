@@ -28,8 +28,4 @@
         </tr>
         </tbody>
     </table>
-
-    <div>
-       <a href="#" class="btn btn-default" ng-click="SyncTaxo()">Sincronizar Taxonomia</a>
-    </div>
 </div>
