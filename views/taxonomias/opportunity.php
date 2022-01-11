@@ -28,7 +28,17 @@ $this->jsObject['deleteType'] = "opportunity";
                     ];
                 $this->part('taxonomy/form', ['taxo' => $taxo]); ?>
                 <div>
-                    <?php $this->part('taxonomy/table-taxonomy'); ?>
+                    <?php $this->part('taxonomy/table-taxonomy');
+                     // ARRAY DE CONFIGURAÇÃO PARA USO DO COMPONENTE
+                     $data = [
+                        'nameHook'          => 'sync-taxo',
+                        'titleTaxo'         => 'Type de Oportunidade',
+                        'descriptionTaxo'   => "Alterar os types atuais pelos os id's da taxonomia.",
+                        'taxonomy'          => 'opportunity_taxonomia',
+                        'entity'            => 'Opportunity'
+                    ];
+                    $this->part('taxonomy/sync-taxo', ['data' => $data]);
+                ?>
                 </div>
             </div>
         </div>
