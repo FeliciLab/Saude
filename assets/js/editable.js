@@ -830,9 +830,9 @@ MapasCulturais.Editables = {
                         let findDuplicates = arr => arr.filter((item, index) => arr.indexOf(item) != index)
                         findDuplicates(unknow_errors)
                         // CASO TENHA MAIS DE UM CAMPO OBRIGATÓRIO
-                        if (unknow_errors.length > 0) {
+                        /*if (unknow_errors.length > 0) {
                             MapasCulturais.Messages.error('Confira os campos obrigatórios.')
-                        }
+                        }*/
                     }
 
                     $submitButton.data('clicked', false);
