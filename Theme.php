@@ -156,7 +156,7 @@ class Theme extends BaseV1\Theme{
                     'name' => $registration->owner->name,
                     'number' => $registration->number,
                     'opportunity' => $registration->opportunity->name,
-                    'url_project' => $registration->singleUrl
+                    'url_project' => $app->createUrl('panel', 'registrations')
                 ];
 
                 $subject = $registration->opportunity->mailTitleSendConfirm;
