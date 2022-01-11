@@ -14,7 +14,8 @@ if($app->user->is('admin')){
                         <i class="fa fa-info-circle" aria-hidden="true"></i>
                         <?php echo $data['descriptionTaxo']; ?>
                     </p>
-                    <a href="#" class="btn btn-default" ng-click="SyncTaxo('<?php echo $data['taxonomy']; ?>', '<?php echo $data['entity']; ?>')">
+                    <a class="btn btn-default" 
+                    ng-click="SyncTaxo('<?php echo $data['taxonomy']; ?>', '<?php echo $data['entity']; ?>')">
                         <i class="fa fa-refresh" aria-hidden="true"></i>
                         Sincronizar Taxonomia
                     </a>

@@ -217,7 +217,7 @@
             }).catch(function(e){
                 new PNotify({
                     title: 'Ops!',
-                    text: 'A Sincronização já foi feita ou contacte o administrador.',
+                    text: 'A Sincronização já foi feita ou contate o administrador.',
                     type: 'error'
                 });
             });
