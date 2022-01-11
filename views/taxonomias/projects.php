@@ -12,6 +12,7 @@ $this->jsObject['deleteType'] = "project";
 ?>
 <?php $this->applyTemplateHook('content','before'); ?>
 <div class="panel-main-content">
+   
 <?php $this->applyTemplateHook('content','begin'); ?>
     <?php if($subsite && $subsite->canUser('modify')):?>
     <p class="highlighted-message" style="margin-top:-2em;">
@@ -21,7 +22,7 @@ $this->jsObject['deleteType'] = "project";
     <div class="panel panel-default">
         <div class="panel-heading"><?php \MapasCulturais\i::_e('Taxonomias dos Projetos'); ?></div>
         <div class="panel-body">
-
+       
             <div ng-controller="TaxonomiaController">
                 <?php 
                     $taxo = [
@@ -30,7 +31,17 @@ $this->jsObject['deleteType'] = "project";
                     ];
                 $this->part('taxonomy/form', ['taxo' => $taxo]); ?>
                 <div>
-                    <?php $this->part('taxonomy/table-taxonomy'); ?>
+                    <?php $this->part('taxonomy/table-taxonomy');
+                        // ARRAY DE CONFIGURAÇÃO PARA USO DO COMPONENTE
+                        $data = [
+                            'nameHook'          => 'sync-taxo',
+                            'titleTaxo'         => 'Type de projeto',
+                            'descriptionTaxo'   => "Alterar os types atuais pelos os id's da taxonomia.",
+                            'taxonomy'          => 'project_type',
+                            'entity'            => 'Project'
+                        ];
+                        $this->part('taxonomy/sync-taxo', ['data' => $data]);
+                    ?>
                 </div>
             </div>
         </div>

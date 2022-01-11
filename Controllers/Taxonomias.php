@@ -122,4 +122,62 @@ class Taxonomias extends \MapasCulturais\Controller{
         (count($search) > 0) ? $this->json(['message' => 'Já existem dados vinculados ao registro', 'status' => 'warning'], 200) : $this->json(['message' => 'Não tem registro', 'status' => 'success'], 200);
     }
 
+
+    function GET_alterTypeTaxo() {
+        dump($this->data);
+        $app = App::i();
+        $term = $app->repo('Term')->findBy([
+            'taxonomy' => 'project_type'
+        ]);
+        foreach ($term as $key => $value) {
+           dump(($key+1) .' - '. $value);
+        }
+        $project = $app->repo('Project')->findBy([
+            'status' => 1
+        ]);
+        dump(count($project));
+        foreach ($project as $key => $value) {
+           dump($project[$key]->type);
+        }
+    }
+
+    function POST_syncTaxo() {
+        $app = App::i();
+        $nameEntity = $this->data['entity'];
+        //TEM QUE ESTÁ AUTENTICADO
+        $this->requireAuthentication();
+        $allTaxo = $app->repo('Term')->findBy([
+            'taxonomy' => $this->data['taxo']
+        ]);
+        //PASSANDO O NOME DA ENTIDADE PARA O METODO REPO()
+        $entity = $app->repo($nameEntity)->findBy([
+            'status' => 1
+        ]);
+        //DESABILITA O CONTOLER
+        $app->disableAccessControl();
+        
+        // FAZENDO LOOP EM TODAS AS TAXONOMIAS DE PROJETOS
+        //foreach ($allTaxo as $key => $value) {
+        for ($i=0; $i < count($entity) ; $i++) { 
+            $idTaxo = null;
+            //SE EXISTE O PROJETO ENTRA NA CONDIÇÃO
+            if(isset($entity[$i])) {
+                if($entity[$i]->type->id !== null){
+                    $idTaxo = $entity[$i]->type->id;
+                    //DIMINUINDO UM VALOR DO INDICE ATUAL QUE SERÁ A POSIÇÃO DO ARRAY DAS TAXO
+                    $id = ($idTaxo - 1);
+                    //PASSANDO O VALOR PARA CONSULTAR O ID DO DETERMINADO INDICE
+                    $entity[$i]->type = $allTaxo[$id]->id;
+                    $entity[$i]->save(true);
+                }else{
+                    $this->errorJson(['message' => 'Error'] , 403); 
+                }
+            }
+        }
+            
+        //}
+        $app->enableAccessControl();
+        $this->json(['message' => 'Sincronização realizada com sucesso'], 200);
+       
+    }
 }
