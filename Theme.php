@@ -140,6 +140,13 @@ class Theme extends BaseV1\Theme{
             $mailTitleSendConfirmDefault = 'Confirmação de inscrição';
             $mailDescriptionSendConfirmDefault = "Olá! Confirmamos sua inscrição no Mapa da Saúde.";
             $this->part('singles/opportunity-field-mail-confirm.php', ['entity' => $entity, 'mailTitleSendConfirmDefault'=>$mailTitleSendConfirmDefault, 'mailDescriptionSendConfirmDefault'=>$mailDescriptionSendConfirmDefault]);
+        }); 
+        
+        /**
+         * Adicionar campo de enviar para email
+        */
+        $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
+            $this->part('singles/opportunity-rascunho-email-field.php');
         });  
 
         /**
