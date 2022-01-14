@@ -10,7 +10,8 @@ $typeOpportunity = [];
 $new = "";
 $indice = 0;
 foreach ($taxoOpportunityType as $key => $value) {
-    $indice = ($indice + 1);
+    // $indice = ($indice + 1);
+    $indice = $value->id;
     //PREENCHENDO O VALOR QUE É RETORNADO DO BANCO
     $new = $value->term;
     //EXCLUINDO O INDICE
