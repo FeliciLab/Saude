@@ -146,7 +146,8 @@ class Theme extends BaseV1\Theme{
          * Adicionar campo de enviar para email
         */
         $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
-            $this->part('singles/opportunity-rascunho-email-field.php');
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-rascunho-email-field.php', ['entity' => $entity]);
         });  
 
         /**
@@ -411,11 +412,15 @@ class Theme extends BaseV1\Theme{
             'type' => 'text'
         ]); 
 
-        $this->registerOpportunityMetadata('checkboxTesteTeste', [
+        $this->registerOpportunityMetadata('checkboxDraftEmail', [
             'label' => 'Um exemplo de campo booleano com checkbox.',
-            'type' => 'checkbox',
+            'type' => 'select',
             'input_value' => 1,
-            'default_value' => 0
+            'default_value' => 0,
+            'options' => (object) array(
+                '1' => \MapasCulturais\i::__('Sim'),
+                '0' => \MapasCulturais\i::__('Não')
+            ),
         ]); 
 
         $this->registerOpportunityMetadata('sendDraftEmail', [
