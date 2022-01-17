@@ -411,6 +411,32 @@ class Theme extends BaseV1\Theme{
             'type' => 'text'
         ]); 
 
+        $this->registerOpportunityMetadata('checkboxTesteTeste', [
+            'label' => 'Um exemplo de campo booleano com checkbox.',
+            'type' => 'checkbox',
+            'input_value' => 1,
+            'default_value' => 0
+        ]); 
+
+        $this->registerOpportunityMetadata('sendDraftEmail', [
+            'label' => \MapasCulturais\i::__('Programar o envio de um e-mail para alertar aos agentes que não finalizaram a inscrição que o prazo está próximo do final.'),
+            'type' => 'select',
+            'default_value' => 2,
+            'options' => (object) array(
+                '1' => \MapasCulturais\i::__('1'),
+                '2' => \MapasCulturais\i::__('2'),
+                '3' => \MapasCulturais\i::__('3'),
+                '4' => \MapasCulturais\i::__('4'),
+                '5' => \MapasCulturais\i::__('5'),
+            ),
+        ]);
+
+        $this->registerRegistrationMetadata('draftEmailCheck', [
+            'label' => 'Campo para informar se o email de rascunho já foi enviado',
+            'type' => 'checkbox',
+            'default_value' => 0
+        ]); 
+
         // @todo necessário implementar validação do quantitativo de inscrições por projetos pai, o valor não deve ser maior que os valores definidos nos projetos pai e avó
         $this->registerProjectMetadata('registrationLimitPerOwnerProject', [
             'label' => \MapasCulturais\i::__('Número máximo de inscrições por agente responsável no projeto'),

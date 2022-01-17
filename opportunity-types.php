@@ -112,23 +112,6 @@ return array(
             'type' => 'select',
             'options' => $oportunidades
         ],
-        'checkboxTesteTeste' => array(
-            'label' => 'Um exemplo de campo booleano com checkbox.',
-            'type' => 'checkbox',
-            'input_value' => 1,
-            'default_value' => 0
-        ),
-        'sendDraftEmail' => [
-            'label' => \MapasCulturais\i::__('Programar o envio de um e-mail para alertar aos agentes que não finalizaram a inscrição que o prazo está próximo do final.'),
-            'type' => 'select',
-            'options' => (object) array(
-                '1' => \MapasCulturais\i::__('1'),
-                '2' => \MapasCulturais\i::__('2'),
-                '3' => \MapasCulturais\i::__('3'),
-                '4' => \MapasCulturais\i::__('4'),
-                '5' => \MapasCulturais\i::__('5'),
-            ),
-        ]
     ),
     'items' => $typeOpportunity
     /* EXEMPLOS DE METADADOS:
