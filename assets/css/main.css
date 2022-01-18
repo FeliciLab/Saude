@@ -10348,4 +10348,12 @@ nav {
   .modal-border{
     border-top: 8px solid #4CAF50;
   }
+
+  .modal-gender-font{
+    font-family:Arial, Helvetica, sans-serif;
+  }
+
+  .modal-gender-align{
+    text-align: left;
+  }
  
