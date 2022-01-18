@@ -151,6 +151,16 @@ class Theme extends BaseV1\Theme{
         });  
 
         /**
+         * Adicionar campo ao criar inscrição
+        */
+        $app->hook("view.partial(singles/registration-edit--categories):before", function() use($app){
+            $entity = $this->controller->requestedEntity;
+            if($entity->opportunity->checkboxDraftEmail == 1){
+                $this->part('singles/registration-email-field.php', ['entity' => $entity]);
+            }
+        });
+
+        /**
          * Ao finalizar o envio das inscrições é enviado um email
          */
         $app->hook('entity(Registration).send:after', function () use ($app) {
@@ -438,8 +448,11 @@ class Theme extends BaseV1\Theme{
 
         $this->registerRegistrationMetadata('draftEmailCheck', [
             'label' => 'Campo para informar se o email de rascunho já foi enviado',
-            'type' => 'checkbox',
-            'default_value' => 0
+            'type' => 'select',
+            'options' => (object) array(
+                '1' => \MapasCulturais\i::__('Sim'),
+                '0' => \MapasCulturais\i::__('Não')
+            ),
         ]); 
 
         // @todo necessário implementar validação do quantitativo de inscrições por projetos pai, o valor não deve ser maior que os valores definidos nos projetos pai e avó
