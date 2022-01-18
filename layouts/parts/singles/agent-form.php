@@ -64,13 +64,12 @@ echo $dtN ? $dtN->format('d/m/Y') : '';?>
             <!-- Gênero -->
             <p class="privado">
                 <span class="icon icon-private-info"></span>
-                <span class="label"><?php \MapasCulturais\i::_e("Gênero");?>
-                <i class="fa fa-question-circle-o" data-remodal-target="modal-info-registration-confirm">
+                <span class="label"><?php \MapasCulturais\i::_e("Gênero");?> <i class="fa fa-question-circle-o" data-remodal-target="modal-info-registration-confirm"></i>:</span>
                 <span class="js-editable <?php echo ($entity->isPropertyRequired($entity, "genero") && $editEntity ? 'required' : ''); ?>" data-edit="genero" data-original-title="<?php \MapasCulturais\i::esc_attr_e("Gênero");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione o gênero se for pessoa física");?>">
                     <?php echo $entity->genero;
                      ?>
                 </span>
-                <!-- modal de informação de genêro --></i>:</span>
+                <!-- modal de informação de gênero -->
                 <?php $this->part('modals/open-modal--inform-gender') ?>
             </p>
             <!-- Orientação Sexual -->
