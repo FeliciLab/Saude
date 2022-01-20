@@ -1,0 +1,8 @@
+.alert:before {
+    position: absolute;
+    margin: 0;
+    left: 0.5rem;
+    top: 25px;
+    bottom: 25px;
+    font-size: 20px;
+}

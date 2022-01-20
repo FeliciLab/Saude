@@ -209,9 +209,14 @@ class Theme extends BaseV1\Theme{
             $__template = 'singles/opportunity-resources--form';
         });
 
-        $app->hook("template(registration.view.registration-save-button):begin", function() use($app){
+        $app->hook("template(registration.view.registration-opportunity-buttons):after", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
             $this->part('singles/button/registration-save--button');
+        });
+
+        $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
+            $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
+            $this->part('singles/button/registration-send--button');
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
@@ -392,6 +397,7 @@ class Theme extends BaseV1\Theme{
             }
 
             $this->part('panel/nav-recursos');
+
         });
 
         /**
@@ -417,7 +423,8 @@ class Theme extends BaseV1\Theme{
                     'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
                     'name' => $registration->owner->name,
                     'number' => $registration->number,
-                    'opportunity' => $registration->opportunity->name
+                    'opportunity' => $registration->opportunity->name,
+                    'url_project' => $app->createUrl('panel', 'registrations')
                 ];
 
                 $subject = $registration->opportunity->mailTitleSendConfirm;
@@ -468,6 +475,21 @@ class Theme extends BaseV1\Theme{
         }); 
 
 
+        /**
+         * Oculta as situaões na página de inscrito
+         */
+        $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'hideinfo', 'js/hideinfo.js');
+        });
+
+        /**
+         * Adicionar alteracao do alert
+         */
+        $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'alert_change', 'js/alert_change.js');
+            $app->view->enqueueStyle('app', 'alert_changes', 'css/alert_changes.css');
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
        
     }
@@ -513,7 +535,7 @@ class Theme extends BaseV1\Theme{
             FROM 
                 MapasCulturais\\Entities\\Registration r 
             WHERE
-                r.owner = :owner AND
+                r.owner = :owner AND r.status <> 0 AND
                 r.opportunity in (
                     SELECT o FROM MapasCulturais\\Entities\\ProjectOpportunity o WHERE o.ownerEntity in (:projectIds) 
                  ) 

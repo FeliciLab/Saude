@@ -27,19 +27,6 @@ if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
     <small>
         <strong>Inscrição:</strong> <?php echo $registration->number; ?>
     </small> <br>
-
-    <small>
-        <!-- verifica se o resultado já foi publicado antes de exibir o status -->
-        <?php if ($registration->opportunity->publishedRegistrations) : ?>
-            <td class="registration-status-col">
-                <strong>Status: </strong><?php echo RegistrationStatus::getStatusNameById($registration->status); ?>
-
-        <?php else : ?>
-            <td class="registration-status-col statuspend">
-                <strong>Status: </strong><?php echo RegistrationStatus::getStatusNameById($registration->status); ?>
-
-        <?php endif; ?>
-    </small><br>
     <?php $this->part('registration/phases-and-resources.php', 
         ['registration' => $registration]
     ); ?>
