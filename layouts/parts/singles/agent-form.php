@@ -78,40 +78,25 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             </span>
             <edit-box id="editbox-select-registration-owner_<?php echo $entity->id; ?>" position="bottom" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
                 
-                <div class="modal-gender-font">
+            <!-- Conteúdo do edit-box -->
+            <div>
+                <h5 style="text-align: center;"><b>Identidade de gênero<b></h5>
 
-                <h3><b>Identidade de gênero<b></h3>
-                <hr>
-                    <h5>
-                        <b> Mulher Cis</b>
-                    </h5>
-                    <p>
-                        Pessoa do sexo feminino com identidade de gênero consonante, também feminina.
-                    </p>
+                <b class="title-gender"> Mulher Cis</b>
+                <p>Pessoa do sexo feminino com identidade de gênero consonante, também feminina.</p>
 
-                    <h5>
-                        <b>Homem Cis</b>
-                    </h5>
-                    <p>
-                        Pessoa do sexo masculino com identidade de gênero consonante, também masculina.
-                    </p>
+                <b class="title-gender">Homem Cis</b>
+                <p>Pessoa do sexo masculino com identidade de gênero consonante, também masculina.</p>
 
-                    <h5>
-                        <b>Mulher Trans/travesti</b>
-                    </h5>
-                    <p>Pessoa que possui identidade de gênero feminina, embora tenha nascido com o sexo masculino, optando por se definir como mulher.</p>
+                <b class="title-gender">Mulher Trans/travesti</b>
+                <p>Pessoa que possui identidade de gênero feminina, embora tenha nascido com o sexo masculino, optando por se definir como mulher.</p>
 
-                    <h5>
-                        <b>Homem Trans</b>
-                    </h5>
-                    <p>Pessoa que possui identidade de gênero masculina, embora tenha nascido com o sexo feminino, optando por se definir como homem.</p>
+                <b class="title-gender">Homem Trans</b>
+                <p>Pessoa que possui identidade de gênero masculina, embora tenha nascido com o sexo feminino, optando por se definir como homem.</p>
 
-                    <h5>
-                        <b>Não binário/ outra variabilidade</b>
-                    </h5>
-                    <p>Pessoa cuja identidade de gênero não se ancora nem em definições de masculina nem de feminina.</p>
-                </div>
-                <br>
+                <b class="title-gender">Não binário/ outra variabilidade</b>
+                <p>Pessoa cuja identidade de gênero não se ancora nem em definições de masculina nem de feminina.</p>
+            </div>
             </edit-box>
         </div>
         </p>
