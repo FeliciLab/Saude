@@ -214,6 +214,14 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'hideinfo', 'js/hideinfo.js');
         });
 
+        /**
+         * Adicionar alteracao do alert
+         */
+        $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'alert_change', 'js/alert_change.js');
+            $app->view->enqueueStyle('app', 'alert_changes', 'css/alert_changes.css');
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
        
     }
