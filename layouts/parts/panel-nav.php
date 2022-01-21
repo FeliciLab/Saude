@@ -1,11 +1,11 @@
 <nav id="panel-nav" class="sidebar-panel">
     <ul>
         <?php $app->applyHookBoundTo($this, 'panel.menu:before') ?>
-        <li><a <?php if($this->template == 'panel/index') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel') ?>"><span class="icon icon-panel"></span> <?php \MapasCulturais\i::_e("Painel");?></a></li>
+        <li><a <?php if($this->template == 'panel/index') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel') ?>"><span class="icon icon-panel"></span> <?php \MapasCulturais\i::_e("Painel de Controle");?></a></li>
         
         <li>
             <a href="<?php echo $app->createUrl('agente', $app->user->profile->id) ?>">
-                <span class="icon icon-agent"></span> <?php \MapasCulturais\i::_e("Meu Perfil"); ?>
+                <span class="icon icon-agent"></span> <?php \MapasCulturais\i::_e("Meus Dados"); ?>
             </a>
         </li>
 
@@ -100,7 +100,11 @@
             </li>
             <?php $this->applyTemplateHook('nav.panel.adminManagement','after'); ?>
         <?php endif; ?>
-
+            <li>
+                <a style="padding-left: 15px" href="<?php echo $app->createUrl('auth', 'logout'); ?>">
+                    <span class="fa fa-sign-out"></span> <?php \MapasCulturais\i::_e("Sair");?>
+                </a>
+            </li>
         <?php $app->applyHookBoundTo($this, 'panel.menu:after') ?>
     </ul>
 </nav>

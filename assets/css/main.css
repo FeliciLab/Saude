@@ -3560,6 +3560,7 @@ body.editable #main-section {
 
 .sidebar-panel {
   display: none;
+  margin-top: 20px;
 }
 
 @media screen and (min-width: 768px) {
