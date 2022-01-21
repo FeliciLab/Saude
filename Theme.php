@@ -214,6 +214,20 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'hideinfo', 'js/hideinfo.js');
         });
 
+        $app->hook('POST(registration.alterStatusRegistration)', function () use ($app) {
+            //dump($this->data);
+            try {
+                $app->disableAccessControl();
+                $reg = $app->repo('Registration')->find($this->data['id']);
+                $reg->setStatusToDraft();//metodo para alterar o status para 0  (Rascunho)
+                $reg->save(true);
+                $app->enableAccessControl();
+                $app->redirect($app->request()->getReferer());
+            } catch (\Exception $e) {
+                echo "Error: " . $e->getMessage();
+            }
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
        
     }

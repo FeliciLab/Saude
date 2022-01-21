@@ -10349,3 +10349,14 @@ nav {
     border-top: 8px solid #4CAF50;
   }
  
+.registration-div-info {
+  display: flex;
+  flex-direction: row;
+}
+
+.registration-btn-edit {
+  display: flex;
+  flex-direction: column-reverse;
+  align-items: flex-end;
+  flex: 1;
+}
