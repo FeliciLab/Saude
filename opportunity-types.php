@@ -112,13 +112,14 @@ return array(
             'type' => 'select',
             'options' => $oportunidades
         ],
+
         'select_edit_registration' => [
             'label' => \MapasCulturais\i::__('Selecione'),
             'type' => 'select',
             'options' => (object) array(
-                '0' => \MapasCulturais\i::__('Não Utilizar'),
-                '1' => \MapasCulturais\i::__('Opcional'),
-                '2' => \MapasCulturais\i::__('Obrigatório'),
+                '' => \MapasCulturais\i::__('Escolha a opção'),
+                '0' => \MapasCulturais\i::__('Não'),
+                '1' => \MapasCulturais\i::__('Sim')
             )
         ]
     ),

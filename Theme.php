@@ -417,7 +417,6 @@ class Theme extends BaseV1\Theme{
             'label' => 'Label do regulamento',
             'type' => 'text'
         ]); 
-
         // @todo necessário implementar validação do quantitativo de inscrições por projetos pai, o valor não deve ser maior que os valores definidos nos projetos pai e avó
         $this->registerProjectMetadata('registrationLimitPerOwnerProject', [
             'label' => \MapasCulturais\i::__('Número máximo de inscrições por agente responsável no projeto'),
