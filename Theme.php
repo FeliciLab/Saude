@@ -223,6 +223,11 @@ class Theme extends BaseV1\Theme{
         });
 
         $this->validateRegistrationLimitPerOwnerProject();
+
+        $app->hook('view.partial(registration-field-types/agent-owner-field):after', function($template, &$html){
+            $app = App::i();
+            $html = $this->part('agent-owner--field-saude');
+        });
        
     }
 
