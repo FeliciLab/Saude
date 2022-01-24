@@ -24,8 +24,8 @@ foreach (Entities\Agent::getPropertiesMetadata() as $key => $def) {
         <span ng-if="field.config.entityField == 'genero'">
             <div ng-click="editbox.open('editbox-select-registration-owner_', $event)">
                 <i class="icon icon-agent"></i>
-                {{::field.title}} <i class="fa fa-question-circle-o"></i>
-                <span ng-if="requiredField(field)"><?php i::_e('obrigatório') ?></span>
+                {{::field.title}} <span ng-if="requiredField(field)"><?php i::_e('obrigatório') ?></span>
+                <i class="fa fa-question-circle-o"></i>
             </div> 
         </span>
     </span>

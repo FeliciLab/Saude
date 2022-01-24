@@ -24,8 +24,8 @@ foreach (Entities\Agent::getPropertiesMetadata() as $key => $def) {
         <span ng-if="field.config.entityField == 'genero'">
             <div ng-click="editbox.open('editbox-select-registration-owner_', $event)">
                 <i class="icon icon-agent"></i>
-                {{::field.title}} <i class="fa fa-question-circle-o"></i>
-                <span ng-if="requiredField(field)"><?php i::_e('obrigatório') ?></span>
+                {{::field.title}} <span ng-if="requiredField(field)"><?php i::_e('obrigatório') ?></span>
+                <i class="fa fa-question-circle-o"></i>
             </div> 
         </span>
 
@@ -58,24 +58,24 @@ foreach (Entities\Agent::getPropertiesMetadata() as $key => $def) {
 </div>
 
 <!-- Conteúdo do edit-box -->
-<edit-box id="editbox-select-registration-owner_" position="up" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
-
-    <div>
-        <h5 style="text-align: center;"><b>Identidade de gênero<b></h5>
-
-        <b class="title-gender"> Mulher Cis</b>
+<article>
+    <edit-box id="editbox-select-registration-owner_" position="up" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
+    
+        <h5 style="text-align: center;"><b>Identidade de gênero</b></h5>
+        
+        <b>Mulher Cis</b>
         <p>Pessoa do sexo feminino com identidade de gênero consonante, também feminina.</p>
 
-        <b class="title-gender">Homem Cis</b>
+        <b>Homem Cis</b>
         <p>Pessoa do sexo masculino com identidade de gênero consonante, também masculina.</p>
 
-        <b class="title-gender">Mulher Trans/travesti</b>
+        <b>Mulher Trans/travesti</b>
         <p>Pessoa que possui identidade de gênero feminina, embora tenha nascido com o sexo masculino, optando por se definir como mulher.</p>
 
-        <b class="title-gender">Homem Trans</b>
+        <b>Homem Trans</b>
         <p>Pessoa que possui identidade de gênero masculina, embora tenha nascido com o sexo feminino, optando por se definir como homem.</p>
 
-        <b class="title-gender">Não binário/ outra variabilidade</b>
+        <b>Não binário/ outra variabilidade</b>
         <p>Pessoa cuja identidade de gênero não se ancora nem em definições de masculina nem de feminina.</p>
-    </div>
-</edit-box>
+    </edit-box>
+</article>
