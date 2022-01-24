@@ -102,7 +102,7 @@
         <?php endif; ?>
             <li>
                 <a href="<?php echo $app->createUrl('auth', 'logout'); ?>">
-                    <span class="fa fa-sign-out"></span> <?php \MapasCulturais\i::_e("Sair");?>
+                    <i class="fa fa-sign-out" style="margin-right: 5px;"></i> <?php \MapasCulturais\i::_e("Sair");?>
                 </a>
             </li>
         <?php $app->applyHookBoundTo($this, 'panel.menu:after') ?>
