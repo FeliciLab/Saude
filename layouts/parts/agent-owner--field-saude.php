@@ -59,7 +59,7 @@ foreach (Entities\Agent::getPropertiesMetadata() as $key => $def) {
 
 <!-- Conteúdo do edit-box -->
 <article>
-    <edit-box id="editbox-select-registration-owner_" position="up" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
+    <edit-box id="editbox-select-registration-owner_" position="bottom" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
     
         <h5 style="text-align: center;"><b>Identidade de gênero</b></h5>
         

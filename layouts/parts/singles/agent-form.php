@@ -76,11 +76,11 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
             <?php echo $entity->genero;
             ?>
             </span>
-            <edit-box id="editbox-select-registration-owner_<?php echo $entity->id; ?>" position="up" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
+            <edit-box id="editbox-select-registration-owner_<?php echo $entity->id; ?>" position="bottom" cancel-label="<?php \MapasCulturais\i::esc_attr_e("Fechar"); ?>" close-on-cancel='true' spinner-condition="data.registrationSpinner">
                 
             <!-- Conteúdo do edit-box -->
             <div>
-                <h5 style="text-align: center;"><b>Identidade de gênero<b></h5>
+                <h5 style="text-align: center;"><b>Identidade de gênero</b></h5>
 
                 <b class="title-gender"> Mulher Cis</b>
                 <p>Pessoa do sexo feminino com identidade de gênero consonante, também feminina.</p>
