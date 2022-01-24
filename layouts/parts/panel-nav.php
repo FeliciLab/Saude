@@ -75,7 +75,7 @@
             <?php $this->applyTemplateHook('nav.panel.subsite','after'); ?>
         <?php endif; ?>
 
-        <?php if($app->isEnabled('apps')): ?>
+        <?php if($app->isEnabled('apps') && $app->user->is('saasAdmin')): ?>
             <?php $this->applyTemplateHook('nav.panel.apps','before'); ?>
             <li><a <?php if($this->template == 'panel/apps') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel', 'apps') ?>"><span class="icon icon-api"></span> <?php \MapasCulturais\i::_e("Meus Apps");?></a></li>
             <?php $this->applyTemplateHook('nav.panel.apps','after'); ?>
