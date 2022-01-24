@@ -41,16 +41,16 @@
 
         <?php if($app->isEnabled('opportunities')): ?>
             <?php $this->applyTemplateHook('nav.panel.opportunities','before'); ?>
-            <li><a <?php if($this->template == 'panel/opportunities') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel', 'opportunities') ?>"><span class="icon icon-opportunity"></span> <?php \MapasCulturais\i::_e("Minhas Oportunidades");?></a></li>
+            <li><a <?php if($this->template == 'panel/opportunities') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel', 'opportunities') ?>"><i class="fa fa-sticky-note-o" style="margin-right: 5px;"></i> <?php \MapasCulturais\i::_e("Minhas Oportunidades");?></a></li>
             <?php $this->applyTemplateHook('nav.panel.opportunities','after'); ?>
 
             <?php $this->applyTemplateHook('nav.panel.registrations','before'); ?>
-            <li><a <?php if($this->template == 'panel/registrations') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel', 'registrations') ?>"><span class="icon icon-opportunity"></span> <?php \MapasCulturais\i::_e("Minhas Inscrições");?></a></li>
+            <li><a <?php if($this->template == 'panel/registrations') echo 'class="active"'; ?> href="<?php echo $app->createUrl('panel', 'registrations') ?>"><i class="fa fa-pencil-square-o" style="margin-right: 5px;"></i> <?php \MapasCulturais\i::_e("Minhas Inscrições");?></a></li>
             <?php $this->applyTemplateHook('nav.panel.registrations','after'); ?>
         <?php endif; ?>
 
         <li>
-                <a href="<?php echo $app->createUrl('recursos', 'todos') ?>"><span class="icon icon-opportunity"></span> <?php \MapasCulturais\i::_e("Meus Recursos");?></a></li>
+                <a href="<?php echo $app->createUrl('recursos', 'todos') ?>"><i class="fa fa-exchange" style="margin-right: 5px;"></i> <?php \MapasCulturais\i::_e("Meus Recursos");?></a></li>
 
         <?php if($app->user->is('saasAdmin')): ?>
             <li>
@@ -101,7 +101,7 @@
             <?php $this->applyTemplateHook('nav.panel.adminManagement','after'); ?>
         <?php endif; ?>
             <li>
-                <a style="padding-left: 15px" href="<?php echo $app->createUrl('auth', 'logout'); ?>">
+                <a href="<?php echo $app->createUrl('auth', 'logout'); ?>">
                     <span class="fa fa-sign-out"></span> <?php \MapasCulturais\i::_e("Sair");?>
                 </a>
             </li>
