@@ -62,6 +62,8 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
+            //Adicionando o arquivo modal-information.js
+            $app->view->enqueueScript('app', 'modal-information', 'js/modal-information.js');
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
