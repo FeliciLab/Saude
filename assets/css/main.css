@@ -6302,4 +6302,10 @@ button.mfp-arrow-left {
   margin-top: 5px;
   font-size: 17px !important; }
 
+.alert.info {
+  background: #E8E8E8;
+  border: 1px solid rgba(0, 0, 0, 0.6);
+  box-sizing: border-box;
+  border-radius: 8px; }
+
 /*# sourceMappingURL=main.css.map */
