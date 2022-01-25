@@ -1,0 +1,96 @@
+#main-header {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    z-index: $z-index-main-header;
+    background: #fff;
+    h1 {
+        margin-bottom: 0;
+        img {
+            display: block;
+        }
+    }
+    @media screen and (min-width: $screen-tablet) {
+        border-top: 0px solid $brand-accent;
+    }
+    @media print {
+        position: relative;
+        border-top: none;
+    }
+
+    @media screen and(min-width: $screen-md) and (max-width: 1104px) {
+        #about-nav {
+            padding: 20px 10px;
+        }
+        #brand-logo { padding-right: 0; }
+        #main-nav {
+            .entities-menu {
+                li {
+                    width: 6.25rem;
+                    a {
+                        font-size: 0.7rem;
+                    }
+                }
+            }
+            .session-menu {
+                li {
+                    &.notifications { width: 5.8rem; }
+                    a {
+                        font-size: 0.7rem;
+                    }
+                }
+
+            }
+        }
+    }
+}
+
+@media screen and (min-width: 768px) {
+    .main-nav-wrapper{
+      display: flex;
+      justify-content: center;
+    }
+    .about-user-logo{
+      display: flex;
+      justify-content: space-between;
+    }
+}
+@media screen and (min-width: 768px) {
+    #about-nav {
+      padding: 0.75rem; 
+    } 
+}
+@media print, screen and (min-width: 992px) {
+    #about-nav {
+      padding: 0.75rem 1.5rem; 
+    } 
+}
+
+@media screen and (max-width: 768px) {
+    .icon-login::after {
+      content: "Entrar";
+      font-size: 12px;
+      position: absolute;
+      top: 30px;
+      right: 1px; 
+    }
+    .menu-header-login{
+        position: absolute;
+        right: -200px;
+        border-top: none !important;
+    }
+    .menu-logo-esp{
+        position: absolute;
+    }
+    .circle-avatar {
+        border-radius: 100px !important;
+        float: none;
+        width: 1.875rem;
+        height: 1.875rem;
+        margin: 0;
+    }
+}
+
+.a-color{
+    color:gray;
+}
