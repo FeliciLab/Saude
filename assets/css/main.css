@@ -6274,4 +6274,32 @@ button.mfp-arrow-left {
   height: 1.875rem;
   margin-left: 10px; }
 
+.menu-stats {
+  margin-right: -0.75rem;
+  margin-bottom: 1.5rem; }
+  .menu-stats > div {
+    float: left;
+    width: 50%; }
+  .menu-stats > div > div {
+    box-sizing: border-box;
+    margin-right: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem;
+    border-radius: 2px;
+    background: #eee;
+    color: #000;
+    transition: all .3s; }
+    .menu-stats > div > div:hover {
+      background: #e4e4e4; }
+
+.sidebar-panel {
+  margin-top: 20px; }
+
+.btn {
+  padding: 0 0.5rem; }
+
+.icon-fa {
+  margin-top: 5px;
+  font-size: 17px !important; }
+
 /*# sourceMappingURL=main.css.map */
