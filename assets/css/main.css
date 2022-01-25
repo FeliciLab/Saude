@@ -6264,6 +6264,7 @@ button.mfp-arrow-left {
   border-top: 0px; }
 
 .entities-menu {
-  border-left: 0px; }
+  border-left: 0px;
+  margin: 5px; }
 
 /*# sourceMappingURL=main.css.map */
