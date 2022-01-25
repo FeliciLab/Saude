@@ -6267,4 +6267,11 @@ button.mfp-arrow-left {
   border-left: 0px;
   margin: 5px; }
 
+.circle-avatar {
+  border-radius: 100px;
+  float: none;
+  width: 1.875rem;
+  height: 1.875rem;
+  margin-left: 10px; }
+
 /*# sourceMappingURL=main.css.map */
