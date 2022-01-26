@@ -1,13 +1,14 @@
 <?php
 namespace Saude;
 
+use DateTime;
 use Exception;
-use MapasCulturais\Themes\BaseV1;
+use MapasCulturais\i;
 use MapasCulturais\App;
 use MapasCulturais\Entities;
-use MapasCulturais\Entities\Project;
 use MapasCulturais\Definitions;
-use MapasCulturais\i;
+use MapasCulturais\Themes\BaseV1;
+use MapasCulturais\Entities\Project;
 USE MapasCulturais\Entities\Registration;
 USE MapasCulturais\Entities\Opportunity;
 
@@ -79,7 +80,14 @@ class Theme extends BaseV1\Theme{
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
-            $this->part('singles/button/registration-send--button');
+            
+            $nameBtn = 'Finalizar Inscrição';
+            $titleBtn = 'Você está enviando sua inscrição para análise';
+            if(!is_null($this->data['entity']->sentTimestamp)) {
+                $nameBtn = 'Finalizar Edição';
+                $titleBtn = 'Você está finalizando sua edição.';
+            }
+            $this->part('singles/button/registration-send--button', ['nameBtn' => $nameBtn, 'titleBtn' => $titleBtn]);
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
@@ -215,8 +223,9 @@ class Theme extends BaseV1\Theme{
         });
 
         $app->hook('POST(registration.alterStatusRegistration)', function () use ($app) {
-            //dump($this->data);
             try {
+                //
+                $this->requireAuthentication();
                 $app->disableAccessControl();
                 $reg = $app->repo('Registration')->find($this->data['id']);
                 $reg->setStatusToDraft();//metodo para alterar o status para 0  (Rascunho)
@@ -224,7 +233,7 @@ class Theme extends BaseV1\Theme{
                 $app->enableAccessControl();
                 $app->redirect($app->request()->getReferer());
             } catch (\Exception $e) {
-                echo "Error: " . $e->getMessage();
+                dump($e);
             }
         });
 
@@ -550,6 +559,23 @@ class Theme extends BaseV1\Theme{
             $link_attributes = 'href="'. $loginURL .'"';  
         }
         return $link_attributes;
+    }
+
+    /**
+     * Metodo para verificar a data final da inscrição
+     * Compara de é maior que a data e hora atual para habilitar
+     * a div de inclusao de avaliadores
+     *
+     * @param [DateTime] $entity->registrationTo
+     * @return void
+     */
+    public function getEndDateopportunity($entity) {
+        $hoje = new DateTime('now');
+        $canEdit = false;
+        if($hoje <= $entity) {
+            $canEdit = true;
+        }
+        return $canEdit;
     }
 
 }

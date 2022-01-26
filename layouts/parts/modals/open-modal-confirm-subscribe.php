@@ -1,16 +1,17 @@
 <div class="remodal modal-border" data-remodal-id="modal-info-registration-confirm">
         <button data-remodal-action="close" class="remodal-close"></button>
-    <h3>Você está enviando sua inscrição para análise</h3>
+    <h3 class="remodal-title">
+        <?php echo $titleBtn; ?>
+    </h3>
     <div>
         <h4 style="color: #F26822; font-weight: bold;">Você conferiu os seus dados?</h4>
     </div>
     <div>
-        <p>Ao confirmar, essa <b>ação não poderá ser desfeita</b><br>
-            e você não conseguirá editar os dados.
+        <p>Ao confirmar, <b>você só poderá editar sua inscrição</b> dentro do período de inscrição.
         </p>
         <p>
             Você poderá verificar o status de sua inscrição em <br>
-            <b>Meu Perfil -> Minhas Inscrições. </b>
+            <b>Meu Perfil > Minhas Inscrições. </b>
         </p>
     </div>
     <br>

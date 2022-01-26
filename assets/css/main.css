@@ -10360,3 +10360,14 @@ nav {
   align-items: flex-end;
   flex: 1;
 }
+
+.remodal {
+    color: #484a51 !important;
+}
+.remodal-close {
+    left: auto !important; 
+    right: 5px !important;
+}
+.remodal-title {
+    color: #484a51 !important;
+}
