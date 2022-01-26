@@ -472,6 +472,12 @@ class Theme extends BaseV1\Theme{
             $definition['label'] = 'Categorias';
             $definition['type'] = 'text';
         });
+
+        $app->hook("modal(Opportunity<<*>>).field(registrationCategories)", function ($entity_classname, &$definition, &$show_field) {
+            $definition['placeholder'] = 'Insira uma opção por linha';
+            $definition['label'] = 'Categorias';
+            $definition['type'] = 'text';
+        });
         /** 
          * Substitui template da listagem de oportunidades 
          */ 
