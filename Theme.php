@@ -461,19 +461,13 @@ class Theme extends BaseV1\Theme{
 
 
         // add validação opportunity categorias
-        $app->hook('entity(Opportunity<<*>>).validations', function(&$validations) use($app) { 
+        $app->hook('entity(Opportunity).validations', function(&$validations) use($app) { 
             $validations['registrationCategories'] = [
                 'required' => \MapasCulturais\i::__('Categorias é obrigatório'),
             ];
         });
 
-        $app->hook("modal(Opportunity<<*>>).field(registrationCategories)", function ($entity_classname, &$definition, &$show_field) {
-            $definition['placeholder'] = 'Insira uma opção por linha';
-            $definition['label'] = 'Categorias';
-            $definition['type'] = 'text';
-        });
-
-        $app->hook("modal(Opportunity<<*>>).field(registrationCategories)", function ($entity_classname, &$definition, &$show_field) {
+        $app->hook("modal(Opportunity).field(registrationCategories)", function ($entity_classname, &$definition, &$show_field) {
             $definition['placeholder'] = 'Insira uma opção por linha';
             $definition['label'] = 'Categorias';
             $definition['type'] = 'text';
