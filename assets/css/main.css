@@ -3560,6 +3560,7 @@ body.editable #main-section {
 
 .sidebar-panel {
   display: none;
+  margin-top: 20px;
 }
 
 @media screen and (min-width: 768px) {
@@ -10348,4 +10349,7 @@ nav {
   .modal-border{
     border-top: 8px solid #4CAF50;
   }
- 
+
+  .title-gender{
+    color: black;
+  }

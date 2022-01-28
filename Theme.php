@@ -214,7 +214,31 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'hideinfo', 'js/hideinfo.js');
         });
 
+        /**
+         * Adicionar alteracao do alert
+         */
+        $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'alert_change', 'js/alert_change.js');
+            $app->view->enqueueStyle('app', 'alert_changes', 'css/alert_changes.css');
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
+
+        /**
+         * Adicionar a informação de gênero no agente individual
+         */
+        $app->hook('view.partial(registration-field-types/agent-owner-field):after', function($template, &$html){
+            $app = App::i();
+            $html = $this->part('agent-owner--field-saude');
+        });
+
+        /**
+         * Adicionar a informação de gênero no agente coletivo
+         */
+        $app->hook('view.partial(registration-field-types/agent-collective-field):after', function($template, &$html){
+            $app = App::i();
+            $html = $this->part('agent-collective--field-saude');
+        });
        
     }
 
