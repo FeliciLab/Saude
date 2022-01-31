@@ -239,7 +239,17 @@ class Theme extends BaseV1\Theme{
             $app = App::i();
             $html = $this->part('agent-collective--field-saude');
         });
-       
+
+
+        /**
+         * Oculta a aba agenda
+         */
+        $app->hook('view.partial(agenda-singles--tab):after', function($template, &$html){
+            $app = App::i();
+
+                $html = '';
+           
+        });
     }
 
 
