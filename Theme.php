@@ -79,7 +79,6 @@ class Theme extends BaseV1\Theme{
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
-            $this->part('singles/button/registration-send--button');
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
@@ -238,6 +237,12 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(registration-field-types/agent-collective-field):after', function($template, &$html){
             $app = App::i();
             $html = $this->part('agent-collective--field-saude');
+        });
+
+        $app->hook('template(registration.view.registration-opportunity-buttons):before', function() use($app){
+            $app->view->enqueueStyle('app', 'remodalCustom', 'css/remodal-styleCustom.css');
+            $app->view->enqueueScript('app', 'remodalCustom', 'js/remodal-custom.js');
+            $this->part('modals/info-field--required');
         });
        
     }
