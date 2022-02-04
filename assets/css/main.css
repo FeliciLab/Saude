@@ -6735,7 +6735,7 @@ button.mfp-arrow-left {
   margin-bottom: 1.5rem; }
   .menu-stats > div {
     float: left;
-    width: 50%; }
+    width: 25%; }
   .menu-stats > div > div {
     box-sizing: border-box;
     margin-right: 0.75rem;
@@ -6750,6 +6750,25 @@ button.mfp-arrow-left {
 
 .sidebar-panel {
   margin-top: 20px; }
+
+#user-stats, #taxonomies-panel, #account-panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid #337ab7;
+  border-radius: 4px; }
+  #user-stats h2, #taxonomies-panel h2, #account-panel h2 {
+    padding: 10px 15px;
+    border-bottom: 1px solid #337ab7;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px;
+    color: #fff;
+    background-color: #337ab7;
+    font-size: 1rem;
+    line-height: 1.5rem; }
+  #user-stats > div > div, #taxonomies-panel > div > div, #account-panel > div > div {
+    margin-right: 0.75rem;
+    margin-bottom: 0.75rem;
+    padding: 0.75rem; }
 
 .btn {
   padding: 0 0.5rem; }

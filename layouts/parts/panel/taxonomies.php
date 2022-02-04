@@ -1,7 +1,7 @@
 <?php
 use MapasCulturais\i;
 ?>
-<section class="clearfix">
+<section id="taxonomies-panel" class="clearfix">
     <h2><?php i::_e('Menu Taxonomia'); ?></h2>
     <div class="panel-body">
         <section id="" class="clearfix menu-stats">

@@ -3,7 +3,7 @@ use MapasCulturais\i;
 
 $app = MapasCulturais\App::i();
 ?>
-<section class="clearfix">
+<section id="account-panel" class="clearfix">
     <h2><?php i::_e('Conta'); ?></h2>
     <div class="panel-body">
         <section class="clearfix menu-stats">
