@@ -239,6 +239,16 @@ class Theme extends BaseV1\Theme{
             $html = $this->part('agent-collective--field-saude');
         });
 
+        /**
+         * Oculta a aba agenda
+         */
+        $app->hook('view.partial(agenda-singles--tab):after', function($template, &$html){
+            $app = App::i();
+
+                $html = '';
+
+        });
+        
         $app->hook('template(registration.view.registration-opportunity-buttons):before', function() use($app){
             $app->view->enqueueStyle('app', 'remodalCustom', 'css/remodal-styleCustom.css');
             $app->view->enqueueScript('app', 'remodalCustom', 'js/remodal-custom.js');
