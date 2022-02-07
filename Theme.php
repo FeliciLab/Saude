@@ -79,7 +79,6 @@ class Theme extends BaseV1\Theme{
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
-            $this->part('singles/button/registration-send--button');
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
