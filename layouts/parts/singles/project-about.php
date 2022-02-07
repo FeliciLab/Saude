@@ -5,7 +5,9 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
 <div id="sobre" class="aba-content">
     <?php $this->applyTemplateHook('tab-about','begin'); ?>
 
-    <?php $this->part('singles/project-about--highlighted-message', ['entity' => $entity]) ?>
+    <!-- Ocultando a parte que chama a datas na criação/edição de um projeto
+    <?php //$this->part('singles/project-about--highlighted-message', ['entity' => $entity]) ?>
+    -->
 
     <div class="ficha-spcultura">
         <?php if($this->isEditable() && $entity->shortDescription && strlen($entity->shortDescription) > 2000): ?>
