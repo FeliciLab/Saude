@@ -62,10 +62,14 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
+            $this->jsObject['errorsSendRegis'] = isset($_SESSION['errorsR']) ? $_SESSION['errorsR']  : [];
+
+            
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
             $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
+            
         });
         //CHAMADA DO TEMPLATE DE RECURSOS 
         $app->hook('view.partial(claim-configuration).params', function($__data, &$__template){
@@ -75,10 +79,13 @@ class Theme extends BaseV1\Theme{
         $app->hook("template(registration.view.registration-opportunity-buttons):after", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
             $this->part('singles/button/registration-save--button');
+
         });
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
+            $this->part('modals/info-field--required');
+           
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
@@ -146,7 +153,6 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('entity(Registration).send:after', function () use ($app) {
             $registration = $this;
-
             if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
                 $template = 'registration_confirm_custom';
 
@@ -198,6 +204,17 @@ class Theme extends BaseV1\Theme{
             ];
         });
 
+        /** somente para utilização enquanto estou concluindo a branch */
+        $app->hook('GET(opportunity.emptySession)', function() use($app) {
+            unset($_SESSION['errorsR']);
+        });
+
+        $app->hook('entity(Registration).sendValidationErrors', function(&$errorsResult) use ($app){
+            $_SESSION['errorsR'] = $errorsResult;
+            // $app->view->jsObject['errorsR'] = new \ArrayObject;
+            // $app->view->jsObject['errorsR'][0] = 'category';
+            $app->redirect($app->request()->getReferer());
+        });
         /** 
          * Substitui template da listagem de oportunidades 
          */ 
@@ -239,6 +256,7 @@ class Theme extends BaseV1\Theme{
             $html = $this->part('agent-collective--field-saude');
         });
 
+
         /**
          * Oculta a aba agenda
          */
@@ -246,14 +264,11 @@ class Theme extends BaseV1\Theme{
             $app = App::i();
 
                 $html = '';
+           
+        });
 
-        });
-        
-        $app->hook('template(registration.view.registration-opportunity-buttons):before', function() use($app){
-            $app->view->enqueueStyle('app', 'remodalCustom', 'css/remodal-styleCustom.css');
-            $app->view->enqueueScript('app', 'remodalCustom', 'js/remodal-custom.js');
-            $this->part('modals/info-field--required');
-        });
+       
+
        
     }
 
@@ -379,6 +394,11 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueStyle('app', 'jqueryModal', 'css/remodal.css');
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
+
+        $app->view->enqueueStyle('app', 'pnotify.buttons', 'css/remodal-styleCustom.css');
+
+        /** AVISO DE CAMPOS OBRIGATORIOS */
+        $app->view->enqueueScript('app', 'errorsSend', 'js/errorValidationsSend.js');
         
     }
 
