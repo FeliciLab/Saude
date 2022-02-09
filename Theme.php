@@ -62,9 +62,8 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
+            $app->view->enqueueScript('app', 'modal-information', 'js/modal-information.js');
             $this->jsObject['errorsSendRegis'] = isset($_SESSION['errorsR']) ? $_SESSION['errorsR']  : [];
-
-            
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
