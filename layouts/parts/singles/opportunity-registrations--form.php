@@ -1,6 +1,7 @@
 <?php
 
 use MapasCulturais\App;
+USE MapasCulturais\Entities\Registration;
 
 $url_atual = $app->view->controller->id;
 
@@ -13,6 +14,14 @@ $userRelation = $entity->evaluationMethodConfiguration->getUserRelation($user);
 $btnHideShow = false;
 
 $registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
+
+$unfinished = null;
+foreach($registrations as $registration){
+    if($registration->status == Registration::STATUS_DRAFT){
+        $unfinished = $registration->editUrl;
+        break;
+    }
+}
 
 if (strpos($url_atual, 'opportunity') !== false) {
 	$btnHideShow = true;
@@ -41,7 +50,16 @@ if  ($entity->isRegistrationOpen() &&
                             <find-entity id='find-entity-registration-owner_<?php echo $entity->id; ?>' entity="agent" no-results-text="<?php \MapasCulturais\i::esc_attr_e("Nenhum agente encontrado");?>" select="setRegistrationOwner" opportunityid="<?php echo $entity->id; ?>" api-query='data.relationApiQuery.owner' spinner-condition="data.registrationSpinner"></find-entity>
                             <strong><?php \MapasCulturais\i::_e("Apenas são visíveis os agentes publicados.");?> <a target="_blank" href="<?php echo $app->createUrl('panel', 'agents') ?>"><?php \MapasCulturais\i::_e("Ver mais.");?></a></strong>
                         </edit-box>
-                        <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register(<?php echo $entity->id; ?>)" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
+                        <?php 
+                            if(is_null($unfinished)){ ?>
+                                <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register(<?php echo $entity->id; ?>)" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
+                        <?php }else{ ?>
+                                <a href="#" class="btn btn-primary btn-register-opportunity" id="open-modal-continue" style="color: #ffffff;" data-url="<?php echo $unfinished; ?>"  data-remodal-target="modal-edit-registration" title="Fazer inscrição">
+                                    <?php \MapasCulturais\i::_e("Fazer inscrição"); ?>
+                                </a>
+                        <?php }
+                        ?>
+                        
                     </div>
                     <div style="visibility: <?php echo $btnHideShow ? 'hidden' : 'visible' ?>">
                         <a href="<?=$entity->singleUrl;?>" class="btn btn-access-opportunity" style="color: #ffffff;" rel='noopener noreferrer' title="Acessar inscrições"><?php \MapasCulturais\i::_e("Acessar Inscrição");?></a>

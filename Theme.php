@@ -256,8 +256,13 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(panel.registrations.pdf-registrations-edit):before', function($registration) use($app){
                 $this->enqueueStyle('app', 'editRegistration', 'css/edtRegistrationStyle.css');
                 $this->enqueueScript('app', 'editRegistration', 'js/editRegistration.js');
-                // $this->part('singles/edit-registration-button-edition');
-                //$this->part('modals/edit-registration-on-my-opportunity.php', ['entity' => $registration, 'opportunity' => $registration, 'id' => $registration->id]);
+        });
+
+        /**
+         * Adicionando modal a tela de ver info sobre oportunidade
+         */
+        $app->hook('view.partial(singles/opportunity-tabs):after', function($template, &$html){
+           $this->part('modals/continue-registration');
         });
     }
 
