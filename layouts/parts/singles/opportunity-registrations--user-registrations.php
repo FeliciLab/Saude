@@ -3,6 +3,7 @@
 use Saude\Entities\Resources;
 use \MapasCulturais\Entities\RegistrationEvaluation;
 use Saude\Utils\RegistrationStatus;
+use MapasCulturais\Entities\Registration;
 
 $registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
 
@@ -23,7 +24,7 @@ if (!empty($registrations)) {
         <caption class="caption-table"><?php \MapasCulturais\i::_e("Minhas inscrições"); ?></caption>
         <thead>
             <tr>
-                <th class="registration-status-col" style="text-align: center;width: 20%">
+                <th class="registration-status-col" style="text-align: center;width: 30%">
                     <?php \MapasCulturais\i::_e("Inscrição"); ?>
                 </th>
                 <th class="registration-agents-col" style="text-align: center;">
@@ -53,7 +54,10 @@ if (!empty($registrations)) {
                     <?php $this->applyTemplateHook('user-registration-table--registration', 'begin', $reg_args); ?>
                     <td class="registration-status-col" style="text-align: center;">
                         <?php $this->applyTemplateHook('user-registration-table--registration--number', 'begin', $reg_args); ?>
-                        <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?></a>
+                        <a href="<?php echo $registration->singleUrl ?>"><?php echo $registration->number ?> </a>
+                        <?php if($registration->status == Registration::STATUS_DRAFT){ ?> 
+                            <p class='text-danger'><?php \MapasCulturais\i::_e("Inscrição em rascunho"); ?></p>
+                        <?php } ?>
                         <?php $this->applyTemplateHook('user-registration-table--registration--number', 'end', $reg_args); ?>
                     </td>
                     <td class="registration-agents-col" style="text-align: center;">
@@ -76,13 +80,12 @@ if (!empty($registrations)) {
                         <?php endforeach; ?>
                         <?php $this->applyTemplateHook('user-registration-table--registration--agents', 'end', $reg_args); ?>
                     </td>
-                    <td class="registration-status-col" style="text-align: center;">
+                    <td class="registration-status-col" style="text-align: center; vertical-align: middle;">
                         <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args); ?>
                         <?php if ($registration->status > 0) : ?>
                             <?php echo $registration->sentTimestamp ? $registration->sentTimestamp->format(\MapasCulturais\i::__('d/m/Y à\s H:i')) : ''; ?>.
                         <?php else : ?>
-                            <?php \MapasCulturais\i::_e("Não enviada."); ?><br>
-                            <a class="btn btn-small btn-primary" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar e enviar"); ?></a>
+                            <a class="btn btn-small btn-primary mt-auto" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                         <?php endif; ?>
                         <?php $this->applyTemplateHook('user-registration-table--registration--status', 'end', $reg_args); ?>
                     </td>
