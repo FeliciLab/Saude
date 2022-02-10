@@ -10353,3 +10353,10 @@ nav {
   .title-gender{
     color: black;
   }
+
+  .btn-see-inscription{
+    color: white;
+    background: #8C9EFF;
+    border: 1px solid #8C9EFF;
+    margin-left: 20px;
+  }
