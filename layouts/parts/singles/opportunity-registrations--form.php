@@ -12,13 +12,18 @@ $userRelation = $entity->evaluationMethodConfiguration->getUserRelation($user);
 
 $btnHideShow = false;
 
+$registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
+
 if (strpos($url_atual, 'opportunity') !== false) {
 	$btnHideShow = true;
 } else {
 	$btnHideShow = false;
 }
 
-if ($entity->isRegistrationOpen()): ?>
+if  ($entity->isRegistrationOpen() && 
+        ($entity->ownerEntity->registrationLimitPerOwnerProject == 0) || 
+        ($entity->ownerEntity->registrationLimitPerOwnerProject != 0 && count($registrations) < $entity->ownerEntity->registrationLimitPerOwnerProject )
+    ): ?>
     <?php if ($app->auth->isUserAuthenticated()): ?>
        <!-- // SE O USUARIO TIVER PERMISSÃO PARA MODIFICAR A ENTIDADE -->
         <?php if (!($entity->canUser('modify')) && empty($userRelation)) : ?>
