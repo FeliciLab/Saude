@@ -33,9 +33,10 @@ if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
             <?php 
                 if($registration->status == Registration::STATUS_DRAFT){ ?>
                     <a href="<?php echo $url; ?>" class="btn btn-success btn-registration">Editar Inscrição</a>
+                <?php }else { ?>
+                    <a href="<?php echo $url; ?>" class="btn btn-see-inscription">Acessar inscrição</a>
                 <?php }
             ?>
-            <a href="<?php echo $url; ?>" class="btn btn-see-inscription">Acessar inscrição</a>
         </div>
     </div> 
     <br>
