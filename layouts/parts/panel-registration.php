@@ -25,16 +25,17 @@ if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
     <h1 style="margin-top: 5px;"><?php echo $proj->name ?></h1>
     <div style="display: flex; justify-content: space-between;">
         <small>
-            <strong>Inscrição:</strong> <?php echo $registration->number; ?>
+            <strong>Inscrição:</strong> <?php echo $registration->number; ?><br>
+            <?php if($registration->status == Registration::STATUS_DRAFT){?> <p class='text-danger'><?php \MapasCulturais\i::_e("Inscrição não enviada.");?></p> <?php } ?>
         </small>
         <div style="display:flex">
         
             <?php $this->applyTemplateHook('pdf-registrations-edit', 'before', ['registration' =>  $registration]); ?>
             <?php 
                 if($registration->status == Registration::STATUS_DRAFT){ ?>
-                    <a href="<?php echo $url; ?>" class="btn btn-success btn-registration">Editar Inscrição</a>
+                    <a href="<?php echo $url; ?>" class="btn btn-success btn-registration"><?php \MapasCulturais\i::_e("Editar Inscrição");?></a>
                 <?php }else { ?>
-                    <a href="<?php echo $url; ?>" class="btn btn-see-inscription">Acessar inscrição</a>
+                    <a href="<?php echo $url; ?>" class="btn btn-see-inscription"><?php \MapasCulturais\i::_e("Acessar inscrição");?></a>
                 <?php }
             ?>
         </div>
