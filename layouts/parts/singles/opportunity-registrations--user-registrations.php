@@ -84,6 +84,10 @@ if (!empty($registrations)) {
                         <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args); ?>
                         <?php if ($registration->status > 0) : ?>
                             <?php echo $registration->sentTimestamp ? $registration->sentTimestamp->format(\MapasCulturais\i::__('d/m/Y à\s H:i')) : ''; ?>.
+                            <div style="display: flex">
+                                <a class="btn btn-small btn-primary mt-auto" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
+                                <a class="btn btn-small btn-primary mt-auto" style="margin-left: 10px" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Ver comprovante"); ?></a>
+                            </div>
                         <?php else : ?>
                             <a class="btn btn-small btn-primary mt-auto" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                         <?php endif; ?>
