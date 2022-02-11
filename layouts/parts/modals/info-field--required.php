@@ -13,7 +13,7 @@
   </div>
   <div>
   
-    <button onclick="fecharModal()" class="btn btn-default" title="Fechar aviso">Voltar</button>
+    <button data-remodal-action="cancel"  class="btn btn-default" title="Fechar aviso">Voltar</button>
     <small id="info_required_loading"> <i class="fa fa-spinner fa-spin fa-fw"></i>aguarde ...</small>
   </div>
 </div>
