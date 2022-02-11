@@ -203,17 +203,6 @@ class Theme extends BaseV1\Theme{
             ];
         });
 
-        /** somente para utilização enquanto estou concluindo a branch */
-        $app->hook('GET(opportunity.emptySession)', function() use($app) {
-            unset($_SESSION['errorsR']);
-        });
-
-        $app->hook('entity(Registration).sendValidationErrors', function(&$errorsResult) use ($app){
-            $_SESSION['errorsR'] = $errorsResult;
-            // $app->view->jsObject['errorsR'] = new \ArrayObject;
-            // $app->view->jsObject['errorsR'][0] = 'category';
-            $app->redirect($app->request()->getReferer());
-        });
         /** 
          * Substitui template da listagem de oportunidades 
          */ 
@@ -398,6 +387,8 @@ class Theme extends BaseV1\Theme{
 
         /** AVISO DE CAMPOS OBRIGATORIOS */
         $app->view->enqueueScript('app', 'errorsSend', 'js/errorValidationsSend.js');
+
+        $app->view->enqueueScript('app', 'errorValidation', 'js/ng.errorValidation.js');
         
     }
 
