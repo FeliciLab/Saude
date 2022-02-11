@@ -62,6 +62,7 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
+            $app->view->enqueueScript('app', 'modal-information', 'js/modal-information.js');
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
@@ -79,7 +80,6 @@ class Theme extends BaseV1\Theme{
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
-            $this->part('singles/button/registration-send--button');
         });
        
         $app->hook('GET(opportunity.evaluationCandidate)', function() use($app){
@@ -239,7 +239,17 @@ class Theme extends BaseV1\Theme{
             $app = App::i();
             $html = $this->part('agent-collective--field-saude');
         });
-       
+
+
+        /**
+         * Oculta a aba agenda
+         */
+        $app->hook('view.partial(agenda-singles--tab):after', function($template, &$html){
+            $app = App::i();
+
+                $html = '';
+           
+        });
     }
 
 
