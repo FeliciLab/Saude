@@ -6,6 +6,7 @@ use Saude\Utils\RegistrationStatus;
 use MapasCulturais\Entities\Registration;
 
 $registrations = $app->repo('Registration')->findByOpportunityAndUser($entity, $app->user);
+$now = new DateTime('now');
 
 if (!empty($registrations)) {
     $resource = Resources::checkPublishOpportunity($entity->id, $registrations[0]->id);
@@ -15,7 +16,6 @@ if (!empty($registrations)) {
         ['opportunity' => $registrations[0]->opportunity->id]
     );
 }
-
 ?>
 
 </style>
@@ -85,14 +85,18 @@ if (!empty($registrations)) {
                             <?php $this->applyTemplateHook('user-registration-table--registration--status', 'begin', $reg_args); ?>
                             <?php if ($registration->status > 0) : ?>
                                 <?php echo $registration->sentTimestamp ? $registration->sentTimestamp->format(\MapasCulturais\i::__('d/m/Y à\s H:i')) : ''; ?>.
-                                <div class="div-to-show-button">
-                                    <form action="<?php echo $app->createUrl('registration', 'alterStatusRegistration', [$registration->id]); ?>" method="post">
-                                        <button type="submit" class="btn btn-small btn-primary mt-auto"  style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></button>
-                                    </form>
+                                <div class="div-to-show-button" style="justify-content: center;">
+                                    <?php if ($now < $entity->registrationTo) : ?>
+                                        <form action="<?php echo $app->createUrl('registration', 'alterStatusRegistration', [$registration->id]); ?>" method="post">
+                                            <button type="submit" class="btn btn-small btn-primary mt-auto"  style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></button>
+                                        </form>
+                                    <?php endif; ?>
                                     <a class="btn btn-small btn-primary mt-auto button-ver" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Ver comprovante"); ?></a>
                                 </div>
                             <?php else : ?>
-                                <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
+                                <?php if ($now < $entity->registrationTo) : ?>
+                                    <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
+                                <?php endif; ?>
                             <?php endif; ?>
                             <?php $this->applyTemplateHook('user-registration-table--registration--status', 'end', $reg_args); ?>
                         </td>
