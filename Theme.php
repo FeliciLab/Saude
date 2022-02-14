@@ -384,11 +384,6 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
 
         $app->view->enqueueStyle('app', 'pnotify.buttons', 'css/remodal-styleCustom.css');
-
-        /** AVISO DE CAMPOS OBRIGATORIOS */
-        $app->view->enqueueScript('app', 'errorsSend', 'js/errorValidationsSend.js');
-
-        $app->view->enqueueScript('app', 'errorValidation', 'js/ng.errorValidation.js');
         
     }
 
