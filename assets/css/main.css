@@ -6920,6 +6920,12 @@ h1 .icon {
   }
 }
 
+@media screen and (max-width: 320px) {
+    #main-section{
+      width: 400px;
+    }
+}
+
 #status-info {
   display: none;
 }
@@ -6943,7 +6949,6 @@ h1 .icon {
 }
 
 .registrations-table, .my-registrations {
-  display: none;
   width: 100%;
   max-width: 100%;
   margin-bottom: 3rem;
@@ -6961,6 +6966,13 @@ h1 .icon {
 
   .registrations-table .dropdown, .my-registrations .dropdown {
     font-size: .70rem;
+  }
+  
+  .div-to-show-button{
+    display: inline !important;
+  }
+  .button-ver{
+    margin-left: 0px !important;
   }
 }
 
@@ -10359,4 +10371,10 @@ nav {
     background: #8C9EFF;
     border: 1px solid #8C9EFF;
     margin-left: 20px;
+  }
+  .div-to-show-button{
+    display: flex;
+  }
+  .button-ver{
+    margin-left: 10px;
   }
