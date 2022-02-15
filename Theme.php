@@ -268,11 +268,25 @@ class Theme extends BaseV1\Theme{
         });
 
         /**
-         * Adicionando modal a tela de ver info sobre oportunidade
+         * Adicionando modal para continuar o registro do usuário na oportunidade
          */
         $app->hook('view.partial(singles/opportunity-tabs):after', function($template, &$html){
-           $this->part('modals/continue-registration');
+            $this->part('modals/continue-registration');
         });
+        /**
+         * Adicionando modal para editar inscrição
+         */
+        $app->hook('template(opportunity.single.modal-edit-registration):before', function($registration){
+            $infoModal = [
+                'title' => 'Você editará sua inscrição.',
+                'subTitle' => 'Todas as alterações feitas serão automaticamente salvas.',
+                'body' => 'Ao confirmar essa ação, <strong>você irá alterar uma inscrição já enviada.</strong> Você conseguirá editar novamente os dados desta inscrição se fizer isso durante o período de incrições.',
+                'buttonConfirm' => 'Confirmar'
+            ];
+            $this->part('modals/open-modal-confirm-edit-registration', ["id" => null, "infoModal" => $infoModal, "entity" => $registration]);
+        });
+
+
     }
 
 

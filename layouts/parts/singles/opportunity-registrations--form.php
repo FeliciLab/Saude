@@ -53,7 +53,7 @@ if  ($entity->isRegistrationOpen()): ?>
                                     if(is_null($unfinished)){ ?>
                                         <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register(<?php echo $entity->id; ?>)" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
                                 <?php }else{ ?>
-                                        <a href="#" class="btn btn-primary btn-register-opportunity" id="open-modal-continue" style="color: #ffffff;" data-url="<?php echo $unfinished; ?>"  data-remodal-target="modal-edit-registration" title="Fazer inscrição">
+                                        <a href="#" class="btn btn-primary btn-register-opportunity" id="open-modal-continue" style="color: #ffffff;" data-url="<?php echo $unfinished; ?>"  data-remodal-target="modal-edit-registration-confirmation" title="Fazer inscrição">
                                             <?php \MapasCulturais\i::_e("Fazer inscrição"); ?>
                                         </a>
                                 <?php } ?>
