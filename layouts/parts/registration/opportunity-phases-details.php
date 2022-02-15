@@ -2,8 +2,11 @@
     use Saude\Entities\Resources;
     use Saude\Utils\RegistrationStatus;
     $rec = Resources::getEnabledResource($phase->id, 'period');
-    $registration = $app->repo('Registration')->find($next_phase);
-    $resources = is_null($registration) ? Resources::validateOnlyResource($registration->id, $phase->id, $registration->owner->id) : null;
+    $registration = null;
+    if($next_phase != null){
+        $registration = $app->repo('Registration')->find($next_phase);
+        $resources = is_null($registration) ? Resources::validateOnlyResource($registration->id, $phase->id, $registration->owner->id) : null;
+    }
 ?>
 
 <div style="background-color: white; padding: 20px; padding-bottom: 0px; margin-bottom: 20px;">
@@ -12,7 +15,7 @@
         <div>
             <small><strong>Inscrição da fase: <?php echo is_null($registration) ? 'Não inscrito' : $registration->number ?></strong></small><br>
             <?php 
-                if(is_null($registration) && $registration->canUser('sendClaimMessage')){
+                if(!is_null($registration) && $registration->canUser('sendClaimMessage')){
                     if($resources == false && ($rec['open'] == 1 && $rec['close'] == 1)){  ?>
                         <a data-remodal-target="modal-recurso" class="btn btn-primary" onclick="showModalResource('<?php echo $registration->id; ?>', '<?php echo $registration->opportunity->id; ?>', '<?php echo $registration->owner->id; ?>', '<?php echo $registration->opportunity->name; ?>')">
                             <i class="fa fa-edit"></i> Abrir Recurso
