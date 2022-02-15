@@ -68,6 +68,7 @@ class Theme extends BaseV1\Theme{
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
             $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
+            
         });
         //CHAMADA DO TEMPLATE DE RECURSOS 
         $app->hook('view.partial(claim-configuration).params', function($__data, &$__template){
@@ -77,6 +78,7 @@ class Theme extends BaseV1\Theme{
         $app->hook("template(registration.view.registration-opportunity-buttons):after", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
             $this->part('singles/button/registration-save--button');
+
         });
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
@@ -148,7 +150,6 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('entity(Registration).send:after', function () use ($app) {
             $registration = $this;
-
             if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
                 $template = 'registration_confirm_custom';
 
@@ -396,6 +397,8 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueStyle('app', 'jqueryModal', 'css/remodal.css');
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
+
+        $app->view->enqueueStyle('app', 'pnotify.buttons', 'css/remodal-styleCustom.css');
         
     }
 
