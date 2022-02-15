@@ -50,7 +50,7 @@
         <?php 
             foreach($phases as $phase){
                 $this->part('registration/opportunity-phases-details.php', 
-                    ['phase' => $phase]
+                    ['phase' => $phase, 'next_phase' => $registration->nextPhaseRegistrationId]
                 );
             }
             if(!$phases){ ?>
