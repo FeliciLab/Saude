@@ -1,6 +1,7 @@
 <?php
 namespace Saude;
 
+use DateTime;
 use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
@@ -62,7 +63,7 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
-            $app->view->enqueueScript('app', 'modal-information', 'js/modal-information.js');
+            
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
@@ -220,6 +221,12 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
             $app->view->enqueueScript('app', 'alert_change', 'js/alert_change.js');
             $app->view->enqueueStyle('app', 'alert_changes', 'css/alert_changes.css');
+        });
+        /**
+         * Hook para adicionar o modal de aviso de edição de inscrição
+         */
+        $app->hook('view.partial(singles/registration-edit--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'modal-information', 'js/modal-information.js');
         });
 
         $this->validateRegistrationLimitPerOwnerProject();
