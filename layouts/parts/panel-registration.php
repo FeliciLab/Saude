@@ -22,11 +22,25 @@ if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
             <img src="<?php echo $avatar->transform('avatarSmall')->url ?>">
         </div>
     <?php endif; ?>
-    <a href="<?php echo $url; ?>" class="text-primary">Acessar inscrição</a>
     <h1 style="margin-top: 5px;"><?php echo $proj->name ?></h1>
-    <small>
-        <strong>Inscrição:</strong> <?php echo $registration->number; ?>
-    </small> <br>
+    <div style="display: flex; justify-content: space-between;">
+        <small>
+            <strong>Inscrição:</strong> <?php echo $registration->number; ?><br>
+            <?php if($registration->status == Registration::STATUS_DRAFT){?> <p class='text-danger'><?php \MapasCulturais\i::_e("Inscrição não enviada.");?></p> <?php } ?>
+        </small>
+        <div style="display:flex">
+        
+            <?php $this->applyTemplateHook('pdf-registrations-edit', 'before', ['registration' =>  $registration]); ?>
+            <?php 
+                if($registration->status == Registration::STATUS_DRAFT){ ?>
+                    <a href="<?php echo $url; ?>" class="btn btn-success btn-registration"><?php \MapasCulturais\i::_e("Editar Inscrição");?></a>
+                <?php }else { ?>
+                    <a href="<?php echo $url; ?>" class="btn btn-see-inscription"><?php \MapasCulturais\i::_e("Acessar inscrição");?></a>
+                <?php }
+            ?>
+        </div>
+    </div> 
+    <br>
     <?php $this->part('registration/phases-and-resources.php', 
         ['registration' => $registration]
     ); ?>

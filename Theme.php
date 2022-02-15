@@ -257,6 +257,21 @@ class Theme extends BaseV1\Theme{
                 $html = '';
            
         });
+
+        /**
+         *  Hook para adicionar botão de editar inscrições a tela de minhas inscrições
+         */ 
+        $app->hook('template(panel.registrations.pdf-registrations-edit):before', function($registration) use($app){
+                $this->enqueueStyle('app', 'editRegistration', 'css/edtRegistrationStyle.css');
+                $this->enqueueScript('app', 'editRegistration', 'js/editRegistration.js');
+        });
+
+        /**
+         * Adicionando modal a tela de ver info sobre oportunidade
+         */
+        $app->hook('view.partial(singles/opportunity-tabs):after', function($template, &$html){
+           $this->part('modals/continue-registration');
+        });
     }
 
 
