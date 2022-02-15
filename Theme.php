@@ -63,10 +63,7 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
-<<<<<<< HEAD
-=======
             
->>>>>>> 71d9347e98c37c8a624aefc77118eeb5ff490aa2
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
@@ -262,11 +259,6 @@ class Theme extends BaseV1\Theme{
            
         });
 
-<<<<<<< HEAD
-       
-
-       
-=======
         /**
          *  Hook para adicionar botão de editar inscrições a tela de minhas inscrições
          */ 
@@ -281,7 +273,6 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(singles/opportunity-tabs):after', function($template, &$html){
            $this->part('modals/continue-registration');
         });
->>>>>>> 71d9347e98c37c8a624aefc77118eeb5ff490aa2
     }
 
 
