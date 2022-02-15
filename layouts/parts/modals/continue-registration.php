@@ -1,5 +1,5 @@
 <div class="registration-btn-edit">
-   <div class="remodal modal-border" data-remodal-id="modal-edit-registration" id="modal-continue">
+   <div class="remodal modal-border" data-remodal-id="modal-edit-registration-confirmation" id="modal-continue">
         <button data-remodal-action="close" class="remodal-close"></button>
         <h3>Você tem uma inscrição no rascunho</h3>
         <div>
