@@ -1,6 +1,7 @@
 <?php
 namespace Saude;
 
+use DateTime;
 use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
@@ -62,10 +63,12 @@ class Theme extends BaseV1\Theme{
         //$this->jsObject['angularAppDependencies'][] = 'taxonomies';
         $app->hook('view.render(<<*>>):before', function() use($app) {
             $this->_publishAssets();
+            
         });
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
             $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
+            
         });
         //CHAMADA DO TEMPLATE DE RECURSOS 
         $app->hook('view.partial(claim-configuration).params', function($__data, &$__template){
@@ -75,6 +78,7 @@ class Theme extends BaseV1\Theme{
         $app->hook("template(registration.view.registration-opportunity-buttons):after", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
             $this->part('singles/button/registration-save--button');
+
         });
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
@@ -146,7 +150,6 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('entity(Registration).send:after', function () use ($app) {
             $registration = $this;
-
             if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
                 $template = 'registration_confirm_custom';
 
@@ -219,6 +222,12 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(singles/registration-single--header):after', function () use ($app) {
             $app->view->enqueueScript('app', 'alert_change', 'js/alert_change.js');
             $app->view->enqueueStyle('app', 'alert_changes', 'css/alert_changes.css');
+        });
+        /**
+         * Hook para adicionar o modal de aviso de edição de inscrição
+         */
+        $app->hook('view.partial(singles/registration-edit--header):after', function () use ($app) {
+            $app->view->enqueueScript('app', 'modal-information', 'js/modal-information.js');
         });
 
         $this->validateRegistrationLimitPerOwnerProject();
@@ -402,6 +411,8 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueStyle('app', 'jqueryModal', 'css/remodal.css');
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
+
+        $app->view->enqueueStyle('app', 'pnotify.buttons', 'css/remodal-styleCustom.css');
         
     }
 
