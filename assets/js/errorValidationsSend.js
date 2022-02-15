@@ -6,7 +6,7 @@ $(document).ready(function () {
     if(MapasCulturais.hasOwnProperty('errorsSendRegis')) {
         fields = MapasCulturais.errorsSendRegis;
     }
-    console.log({fields})
+
     //PARA O NOME DOS CAMPOS
     var nameFields = [];
     if(Object.keys(fields).length > 0) {
@@ -46,8 +46,6 @@ function fecharModal() {
     $("#info_required_loading").show();
     var ins = MapasCulturais.entity.id;
     let url = MapasCulturais.baseURL;
-    console.log(url + 'opportunity/emptySession');
-    console.log({ins});
     $.ajax({
         type: "GET",
         url: url + 'opportunity/emptySession',
