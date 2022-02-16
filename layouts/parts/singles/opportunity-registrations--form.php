@@ -47,8 +47,11 @@ if  ($entity->isRegistrationOpen()): ?>
                             <find-entity id='find-entity-registration-owner_<?php echo $entity->id; ?>' entity="agent" no-results-text="<?php \MapasCulturais\i::esc_attr_e("Nenhum agente encontrado");?>" select="setRegistrationOwner" opportunityid="<?php echo $entity->id; ?>" api-query='data.relationApiQuery.owner' spinner-condition="data.registrationSpinner"></find-entity>
                             <strong><?php \MapasCulturais\i::_e("Apenas são visíveis os agentes publicados.");?> <a target="_blank" href="<?php echo $app->createUrl('panel', 'agents') ?>"><?php \MapasCulturais\i::_e("Ver mais.");?></a></strong>
                         </edit-box>
-                        <?php if(($entity->ownerEntity->registrationLimitPerOwnerProject == 0) || 
-                                ($entity->ownerEntity->registrationLimitPerOwnerProject != 0 && count($registrations) < $entity->ownerEntity->registrationLimitPerOwnerProject )){ ?>
+                        <?php if(($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && $entity->registrationLimitPerOwner == 0) 
+                                    || ($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && count($registrations) < $entity->registrationLimitPerOwner )
+                                    || ($entity->ownerEntity->registrationLimitPerOwner == 0 && count($registrations) < $entity->registrationLimitPerOwnerProject )
+                                    || (count($registrations) < $entity->registrationLimitPerOwnerProject && count($registrations) < $entity->registrationLimitPerOwner)
+                                ){ ?>
                                 <?php 
                                     if(is_null($unfinished)){ ?>
                                         <a class="btn btn-primary btn-register-opportunity" style="color: #ffffff;" ng-click="register(<?php echo $entity->id; ?>)" rel='noopener noreferrer'><?php \MapasCulturais\i::_e("Fazer inscrição");?></a>
