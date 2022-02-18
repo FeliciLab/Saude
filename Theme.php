@@ -288,6 +288,13 @@ class Theme extends BaseV1\Theme{
             $this->part('modals/open-modal-confirm-edit-registration', ["id" => null, "infoModal" => $infoModal, "entity" => $registration]);
         });
 
+        /**
+         * Adicionando campos agentes responsaveis nas fases de uma oportunidade
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--agent-relations).params', function (&$params, &$template) use ($app) {
+            $template = "singles/opportunity-registrations--agent-relations.php";
+            return;
+        });
 
     }
 
