@@ -148,41 +148,43 @@ class Theme extends BaseV1\Theme{
         /**
          * Ao finalizar o envio das inscrições é enviado um email
          */
-        $app->hook('entity(Registration).send:after', function () use ($app) {
-            $registration = $this;
-            if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
-                $template = 'registration_confirm_custom';
-
-                $dataValue = [
-                    'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
-                    'name' => $registration->owner->name,
-                    'number' => $registration->number,
-                    'opportunity' => $registration->opportunity->name,
-                    'url_project' => $app->createUrl('panel', 'registrations')
-                ];
-
-                $subject = $registration->opportunity->mailTitleSendConfirm;
-
-            } else {
-                $template = 'registration_confirm_default';
-
-                $dataValue = [
-                    'name' => $registration->owner->name,
-                    'number' => $registration->number,
-                    'opportunity' => $registration->opportunity->name
-                ];
-                $subject = 'Confirmação de inscrição - ' . "#{$dataValue['number']}";
-            }
-
-            $message = $app->renderMailerTemplate($template, $dataValue);
-
-            $app->createAndSendMailMessage([
-                'from' => $app->config['mailer.from'],
-                'to' => $registration->owner->user->email,
-                'bcc' => $registration->opportunity->owner->user->email,
-                'subject' => $subject,
-                'body' => $message['body']
-            ]);          
+        $app->hook('entity(Registration).send:before', function () use ($app) {
+            if(is_null($this->sentTimestamp)){
+                $registration = $this;
+                if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
+                    $template = 'registration_confirm_custom';
+    
+                    $dataValue = [
+                        'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
+                        'name' => $registration->owner->name,
+                        'number' => $registration->number,
+                        'opportunity' => $registration->opportunity->name,
+                        'url_project' => $app->createUrl('panel', 'registrations')
+                    ];
+    
+                    $subject = $registration->opportunity->mailTitleSendConfirm;
+    
+                } else {
+                    $template = 'registration_confirm_default';
+    
+                    $dataValue = [
+                        'name' => $registration->owner->name,
+                        'number' => $registration->number,
+                        'opportunity' => $registration->opportunity->name
+                    ];
+                    $subject = 'Confirmação de inscrição - ' . "#{$dataValue['number']}";
+                }
+    
+                $message = $app->renderMailerTemplate($template, $dataValue);
+    
+                $app->createAndSendMailMessage([
+                    'from' => $app->config['mailer.from'],
+                    'to' => $registration->owner->user->email,
+                    'bcc' => $registration->opportunity->owner->user->email,
+                    'subject' => $subject,
+                    'body' => $message['body']
+                ]);
+            }          
         });      
 
         /**
