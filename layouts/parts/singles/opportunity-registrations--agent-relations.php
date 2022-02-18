@@ -4,7 +4,6 @@ $can_edit = $entity->canUser('modifyRegistrationFields');
 $ditable_class = $can_edit ? 'js-editable' : '';
 
 $editEntity = $this->controller->action === 'create' || $this->controller->action === 'edit';
-
 ?>
 <div id="registration-agent-relations" class="registration-fieldset">
     <h4><?php \MapasCulturais\i::_e("Agentes");?></h4>
@@ -24,7 +23,14 @@ $editEntity = $this->controller->action === 'create' || $this->controller->actio
             <p>
                 <span class="label <?php echo ($entity->isPropertyRequired($entity,$metadata_name) && $editEntity? 'required': '');?>"><?php echo $def->label ?></span> <span class="registration-help">(<?php echo $def->description ?>)</span>
                 <br>
-                <span class="<?php echo $ditable_class ?>" data-edit="<?php echo $metadata_name ?>" data-original-title="<?php echo $def->metadataConfiguration['label'] ?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione uma opção");?>"><?php echo $option_label ?></span>
+                <?php 
+                    $currentValue = $entity->parent != null ? $entity->parent->$metadata_name : null;
+                    if(!is_null($currentValue) && $entity->isOpportunityPhase && $can_edit && ($entity->$metadata_name == null)){ ?>
+                        <span class="<?php echo $ditable_class ?>" data-edit="<?php echo $metadata_name ?>" data-original-title="<?php echo $def->metadataConfiguration['label'] ?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione uma opção");?>"><?php echo $currentValue ?></span>
+                    <?php }else{ ?>
+                        <span class="<?php echo $ditable_class ?>" data-edit="<?php echo $metadata_name ?>" data-original-title="<?php echo $def->metadataConfiguration['label'] ?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Selecione uma opção");?>"><?php echo $option_label ?></span>
+                    <?php }
+                ?>
             </p>
 
         </div>
