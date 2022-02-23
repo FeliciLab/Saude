@@ -68,6 +68,7 @@ class Theme extends BaseV1\Theme{
         //ADICIONANDO SOMENTE QUANDO FOR UMA ROTA DO TIPO DE EDIÇÃO
         $app->hook("template(<<*>>.edit.tabs):end", function() use($app){
             $app->view->enqueueScript('app', 'resources-meta', 'js/resources-meta.js');
+            
         });
         //CHAMADA DO TEMPLATE DE RECURSOS 
         $app->hook('view.partial(claim-configuration).params', function($__data, &$__template){
@@ -77,6 +78,7 @@ class Theme extends BaseV1\Theme{
         $app->hook("template(registration.view.registration-opportunity-buttons):after", function() use($app){
             $app->view->enqueueStyle('app', 'novo', 'css/registration-button-save-style.css');
             $this->part('singles/button/registration-save--button');
+
         });
 
         $app->hook("template(registration.view.registration-opportunity-buttons):before", function() use($app){
@@ -146,42 +148,43 @@ class Theme extends BaseV1\Theme{
         /**
          * Ao finalizar o envio das inscrições é enviado um email
          */
-        $app->hook('entity(Registration).send:after', function () use ($app) {
-            $registration = $this;
-
-            if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
-                $template = 'registration_confirm_custom';
-
-                $dataValue = [
-                    'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
-                    'name' => $registration->owner->name,
-                    'number' => $registration->number,
-                    'opportunity' => $registration->opportunity->name,
-                    'url_project' => $app->createUrl('panel', 'registrations')
-                ];
-
-                $subject = $registration->opportunity->mailTitleSendConfirm;
-
-            } else {
-                $template = 'registration_confirm_default';
-
-                $dataValue = [
-                    'name' => $registration->owner->name,
-                    'number' => $registration->number,
-                    'opportunity' => $registration->opportunity->name
-                ];
-                $subject = 'Confirmação de inscrição - ' . "#{$dataValue['number']}";
-            }
-
-            $message = $app->renderMailerTemplate($template, $dataValue);
-
-            $app->createAndSendMailMessage([
-                'from' => $app->config['mailer.from'],
-                'to' => $registration->owner->user->email,
-                'bcc' => $registration->opportunity->owner->user->email,
-                'subject' => $subject,
-                'body' => $message['body']
-            ]);          
+        $app->hook('entity(Registration).send:before', function () use ($app) {
+            if(is_null($this->sentTimestamp)){
+                $registration = $this;
+                if ($registration->opportunity->mailTitleSendConfirm && $registration->opportunity->mailDescriptionSendConfirm) {
+                    $template = 'registration_confirm_custom';
+    
+                    $dataValue = [
+                        'mailDescriptionSendConfirm' => $registration->opportunity->mailDescriptionSendConfirm,
+                        'name' => $registration->owner->name,
+                        'number' => $registration->number,
+                        'opportunity' => $registration->opportunity->name,
+                        'url_project' => $app->createUrl('panel', 'registrations')
+                    ];
+    
+                    $subject = $registration->opportunity->mailTitleSendConfirm;
+    
+                } else {
+                    $template = 'registration_confirm_default';
+    
+                    $dataValue = [
+                        'name' => $registration->owner->name,
+                        'number' => $registration->number,
+                        'opportunity' => $registration->opportunity->name
+                    ];
+                    $subject = 'Confirmação de inscrição - ' . "#{$dataValue['number']}";
+                }
+    
+                $message = $app->renderMailerTemplate($template, $dataValue);
+    
+                $app->createAndSendMailMessage([
+                    'from' => $app->config['mailer.from'],
+                    'to' => $registration->owner->user->email,
+                    'bcc' => $registration->opportunity->owner->user->email,
+                    'subject' => $subject,
+                    'body' => $message['body']
+                ]);
+            }          
         });      
 
         /**
@@ -257,6 +260,42 @@ class Theme extends BaseV1\Theme{
                 $html = '';
            
         });
+
+        /**
+         *  Hook para adicionar botão de editar inscrições a tela de minhas inscrições
+         */ 
+        $app->hook('template(panel.registrations.pdf-registrations-edit):before', function($registration) use($app){
+                $this->enqueueStyle('app', 'editRegistration', 'css/edtRegistrationStyle.css');
+                $this->enqueueScript('app', 'editRegistration', 'js/editRegistration.js');
+        });
+
+        /**
+         * Adicionando modal para continuar o registro do usuário na oportunidade
+         */
+        $app->hook('view.partial(singles/opportunity-tabs):after', function($template, &$html){
+            $this->part('modals/continue-registration');
+        });
+        /**
+         * Adicionando modal para editar inscrição
+         */
+        $app->hook('template(opportunity.single.modal-edit-registration):before', function($registration){
+            $infoModal = [
+                'title' => 'Você editará sua inscrição.',
+                'subTitle' => 'Todas as alterações feitas serão automaticamente salvas.',
+                'body' => 'Ao confirmar essa ação, <strong>você irá alterar uma inscrição já enviada.</strong> Você conseguirá editar novamente os dados desta inscrição se fizer isso durante o período de incrições.',
+                'buttonConfirm' => 'Confirmar'
+            ];
+            $this->part('modals/open-modal-confirm-edit-registration', ["id" => null, "infoModal" => $infoModal, "entity" => $registration]);
+        });
+
+        /**
+         * Adicionando campos agentes responsaveis nas fases de uma oportunidade
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--agent-relations).params', function (&$params, &$template) use ($app) {
+            $template = "singles/opportunity-registrations--agent-relations.php";
+            return;
+        });
+
     }
 
 
@@ -381,6 +420,8 @@ class Theme extends BaseV1\Theme{
         $app->view->enqueueStyle('app', 'jqueryModal', 'css/remodal.css');
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
+
+        $app->view->enqueueStyle('app', 'pnotify.buttons', 'css/remodal-styleCustom.css');
         
     }
 
