@@ -52,7 +52,7 @@ $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_ca
         <p class="privado">
             <span class="icon icon-private-info"></span>
             <span class="label"><?php \MapasCulturais\i::_e("CPF/CNPJ"); ?>:</span>
-            <span class="js-editable <?php echo ($entity->isPropertyRequired($entity, "documento") && $editEntity ? 'required' : ''); ?>" data-edit="documento" data-original-title="<?php \MapasCulturais\i::esc_attr_e("CPF/CNPJ"); ?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Informe seu CPF ou CNPJ com pontos, hífens e barras"); ?>">
+            <span id="user_cpf" class="js-editable <?php echo ($entity->isPropertyRequired($entity, "documento") && $editEntity ? 'required' : ''); ?>" data-edit="documento" data-original-title="<?php \MapasCulturais\i::esc_attr_e("CPF/CNPJ"); ?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Informe seu CPF ou CNPJ com pontos, hífens e barras"); ?>">
                 <?php echo $entity->documento; ?>
             </span>
         </p>

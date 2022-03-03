@@ -97,7 +97,11 @@ if (!empty($registrations)) {
                                     <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                                 <?php endif; ?>
                             <?php endif; ?>
-                            <?php $this->applyTemplateHook('user-registration-table--registration--status', 'end', $reg_args); ?>
+                            <?php if($entity->claimDisabled != null): ?>
+                                <?php $this->applyTemplateHook('user-registration-table--registration--status', 'end', $reg_args); ?>
+                            <?php endif; ?>
+
+                            
                         </td>
                         <?php if (
                             $verifyPublish->publishedRegistrations == true
