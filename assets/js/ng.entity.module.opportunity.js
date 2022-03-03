@@ -1489,7 +1489,7 @@ module.controller('EvaluationMethodConfigurationController', ['$scope', '$rootSc
             $scope.data[varname + '_lastpage'] = false;
 
             if(!params['@limit']){
-                params['@limit'] = 50;
+                params['@limit'] = 1000;
             }
             
             this.find = function(){
