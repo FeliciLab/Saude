@@ -467,7 +467,7 @@ return array(
         foreach($registrations as $reg) {
             $reg = (object) $reg;
             $next_id = $conn->fetchOne("select nextval('registration_meta_id_seq')");
-            __exec("INSERT INTO registration_meta (id, object_id, key, value) values ({$next_id}, {$reg->id}, 'preliminaryResult', {$reg->preliminary_result})");
+            __exec("INSERT INTO registration_meta (id, object_id, key, value) VALUES ({$next_id}, {$reg->id}, 'preliminaryResult', {$reg->preliminary_result})");
         }
 
         __exec("ALTER TABLE public.registration DROP preliminary_result");

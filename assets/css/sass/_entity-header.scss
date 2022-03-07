@@ -1,0 +1,28 @@
+.header-image {
+    position: relative;
+    height: 12rem;
+    margin-top: -$padding-base;
+    margin-right: -$padding-base;
+    margin-bottom: -3.75rem;
+    margin-left: -$padding-base;
+    background-image: url(../img/fundo.png);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    >.btn {
+        position: absolute;
+        bottom: $line-height-base;
+        right: $line-height-base;
+
+        @media screen and (max-width: $screen-tablet) {
+            bottom:inherit;
+            top:$line-height-base;
+        }
+    }
+    @media print, screen and (min-width: $screen-tablet) {
+        margin: -2rem -2rem 2rem;
+    }
+    @media screen and (min-width: $screen-lg-desktop) {
+        margin: -4rem -4rem 4rem;
+    }
+}
