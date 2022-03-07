@@ -500,14 +500,6 @@ class Theme extends BaseV1\Theme{
         });
 
         $this->validateRegistrationLimitPerOwnerProject();
-
-
-        // ocultando oportunidades na home
-        $app->hook('view.partial(home-opportunities):before', function (&$__data, &$__template) {
-           // echo '<h1>dddddddd</h1>';
-            $template = 'dddd';
-        });
-       
     }
 
 
@@ -515,7 +507,7 @@ class Theme extends BaseV1\Theme{
     {
         $app = App::i();
 
-        $app->hook('template(project.<<*>>.entity-opportunities):begin', function () {
+        $app->hook('template(project.edit.tab-about--highlighted-message):after', function () {
             $entity = $this->controller->requestedEntity;
             $this->part('singles/project-newfields', ['entity' => $entity]);
         });
