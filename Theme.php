@@ -98,6 +98,10 @@ class Theme extends BaseV1\Theme{
             $__template = '_empty';
         });
 
+        $app->hook('view.partial(home-opportunities).params', function (&$__data, &$__template) {
+            $__template = '_empty';
+        });
+
         // adiciona botões para modificação dos status das inscrições das avaliações técnica
         // <!-- TEMPLATE HOOK: template(opportunity.single.header-inscritos):end -->
         $app->hook('template(opportunity.single.header-inscritos):end', function() {
@@ -496,6 +500,13 @@ class Theme extends BaseV1\Theme{
         });
 
         $this->validateRegistrationLimitPerOwnerProject();
+
+
+        // ocultando oportunidades na home
+        $app->hook('view.partial(home-opportunities):before', function (&$__data, &$__template) {
+           // echo '<h1>dddddddd</h1>';
+            $template = 'dddd';
+        });
        
     }
 
