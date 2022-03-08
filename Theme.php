@@ -507,7 +507,7 @@ class Theme extends BaseV1\Theme{
     {
         $app = App::i();
 
-        $app->hook('template(project.edit.tab-about--highlighted-message):after', function () {
+        $app->hook('template(project.<<edit||create>>.tab-about--highlighted-message):after', function () {
             $entity = $this->controller->requestedEntity;
             $this->part('singles/project-newfields', ['entity' => $entity]);
         });
