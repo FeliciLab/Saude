@@ -505,6 +505,13 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(widget-opportunity-phases):before', function () use ($app) {
             $app->view->enqueueScript('app', 'opportunity-phase-button', 'js/opportunity-phase-button.js');
         });
+        
+        /**
+         * Adicionar botão para imprimir inscrição
+         */
+        $app->hook('view.partial(singles/registration-single--header):before', function () use ($app) {
+            $this->part('singles/button/imprimir-button.php');
+        });
 
         $this->validateRegistrationLimitPerOwnerProject();
     }

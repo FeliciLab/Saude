@@ -6836,6 +6836,14 @@ button.mfp-arrow-left {
   margin-top: 5px;
   font-size: 17px !important; }
 
+.imprimir-button {
+  float: right;
+  padding: 0.65rem;
+  background-color: #42515e; }
+
+.registration-header {
+  border-radius: 0px; }
+
 .alert {
   position: relative;
   margin-bottom: 1.5rem !important;
