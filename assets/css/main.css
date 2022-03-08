@@ -6770,6 +6770,65 @@ button.mfp-arrow-left {
     margin-bottom: 0.75rem;
     padding: 0.75rem; }
 
+.panel {
+  margin-bottom: 20px;
+  background-color: #fff;
+  border: 1px solid transparent;
+  border-radius: 4px; }
+
+.panel-default {
+  border-color: #ddd; }
+  .panel-default > .panel-heading {
+    color: #333;
+    background-color: #f5f5f5;
+    border-color: #ddd;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-top-left-radius: 3px;
+    border-top-right-radius: 3px; }
+  .panel-default > .panel-body {
+    padding: 15px; }
+  .panel-default .form-control {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 2px 12px !important;
+    font-size: 14px;
+    line-height: 1.42857143 !important;
+    color: #555;
+    background-color: #fff;
+    background-image: none;
+    border: 1px solid #ccc !important;
+    border-radius: 4px !important; }
+
+.opportunity-phases {
+  margin-top: 0px !important; }
+  .opportunity-phases .list-group {
+    padding-left: 0;
+    margin: 0 !important; }
+  .opportunity-phases li {
+    margin-bottom: 0.5em;
+    list-style: none !important; }
+  .opportunity-phases .label-info-opportunity {
+    color: rgba(0, 0, 0, 0.6); }
+
+.opportunity-phases:nth-child(n+2) li {
+  position: relative;
+  padding: 10px 15px;
+  margin-bottom: -1px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  display: block;
+  justify-content: center;
+  align-items: center; }
+  .opportunity-phases:nth-child(n+2) li .btn-access {
+    color: #fff;
+    background-color: #249243;
+    border: 1px solid #1a6930;
+    height: auto;
+    margin: 0px;
+    margin-right: 10px; }
+
 .btn {
   padding: 0 0.5rem; }
 

@@ -498,6 +498,13 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'alert_change', 'js/alert_change.js');
             $app->view->enqueueStyle('app', 'alert_changes', 'css/alert_changes.css');
         });
+        
+        /**
+         * Adicionar botão para acessar fase
+         */
+        $app->hook('view.partial(widget-opportunity-phases):before', function () use ($app) {
+            $app->view->enqueueScript('app', 'opportunity-phase-button', 'js/opportunity-phase-button.js');
+        });
 
         $this->validateRegistrationLimitPerOwnerProject();
     }
