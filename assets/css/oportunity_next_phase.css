@@ -1,0 +1,33 @@
+.opportunity-phases {
+    margin-top: 0px !important; 
+}
+.opportunity-phases .list-group {
+    padding-left: 0;
+    margin: 0 !important; 
+}
+.opportunity-phases li {
+    margin-bottom: 0.5em;
+    list-style: none !important; 
+}
+.opportunity-phases .label-info-opportunity {
+    color: rgba(0, 0, 0, 0.6); 
+}
+  
+.opportunity-phases:nth-child(n+2) li {
+    position: relative;
+    padding: 10px 15px;
+    margin-bottom: -1px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    display: block;
+    justify-content: center;
+    align-items: center; 
+}
+.opportunity-phases:nth-child(n+2) li .btn-access {
+    color: #fff;
+    background-color: #249243;
+    border: 1px solid #1a6930;
+    height: auto;
+    margin: 0px;
+    margin-right: 10px; 
+}

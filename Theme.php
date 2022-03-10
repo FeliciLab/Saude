@@ -504,6 +504,7 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('view.partial(widget-opportunity-phases):before', function () use ($app) {
             $app->view->enqueueScript('app', 'opportunity-phase-button', 'js/opportunity-phase-button.js');
+            $app->view->enqueueStyle('app', 'oportunity_next_phase', 'css/oportunity_next_phase.css');
         });
         
         /**
