@@ -41,7 +41,8 @@ return array(
             'private' => true,
             'label' => \MapasCulturais\i::__('CPF ou CNPJ'),
             'validations' => array(
-               'v::oneOf(v::cpf(),v::cnpj())' => \MapasCulturais\i::__('O número de documento informado é inválido.')
+                'required' => \MapasCulturais\i::__('Seu documento deve ser informado.'),
+                'v::oneOf(v::cpf(),v::cnpj())' => \MapasCulturais\i::__('O número de documento informado é inválido.')
             ),
             'available_for_opportunities' => true
         ),
