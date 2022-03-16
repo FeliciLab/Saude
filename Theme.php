@@ -521,6 +521,20 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'hide_agent_home', 'js/details/hide_agent_home.js');
         });
 
+        /**
+         * Oculta a aba agenda
+         */
+        $app->hook('view.partial(agenda-singles--tab):after', function($template, &$html){
+            $__template = '_empty';
+        });
+
+        /**
+         * Oculta aba de denuncia e contato
+         */
+        $app->hook('view.partial(compliant_suggestion).params', function($template, &$html){
+           $html = "_empty";
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
     }
 
