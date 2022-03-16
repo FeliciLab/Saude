@@ -534,6 +534,13 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(compliant_suggestion).params', function($template, &$html){
            $html = "_empty";
         });
+        
+        /**
+         * Adicionando parte de criação de oportunidades na tela de agente
+         */
+        $app->hook('template(agent.edit.entity-opportunities):after', function(){
+            $this->renderModalFor('opportunity', true, "Criar Oportunidade", "btn btn-default add js-open-dialog");
+         });
 
         $this->validateRegistrationLimitPerOwnerProject();
     }
