@@ -513,6 +513,13 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(singles/registration-single--header):before', function () use ($app) {
             $this->part('singles/button/imprimir-button.php');
         });
+        
+        /**
+         * Removendo info sobre agente da pagina inicial
+         */
+        $app->hook('template(site.index.home-agents):begin', function () use ($app) {
+            $app->view->enqueueScript('app', 'hide_agent_home', 'js/details/hide_agent_home.js');
+        });
 
         $this->validateRegistrationLimitPerOwnerProject();
     }
