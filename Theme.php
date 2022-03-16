@@ -525,7 +525,7 @@ class Theme extends BaseV1\Theme{
          * Oculta a aba agenda
          */
         $app->hook('view.partial(agenda-singles--tab):after', function($template, &$html){
-            $__template = '_empty';
+            $html = '';
         });
 
         /**
