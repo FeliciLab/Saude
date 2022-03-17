@@ -540,7 +540,21 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('template(agent.edit.entity-opportunities):after', function(){
             $this->renderModalFor('opportunity', true, "Criar Oportunidade", "btn btn-default add js-open-dialog");
-         });
+        });
+
+         /**
+         * Adicionando o campo rascunho para a tipagem quando o usuário não preenche as informações
+         */
+        $app->hook('view.partial(panel-opportunity).params', function($data) use ($app){
+            $entity = $data['entity'];
+            if($entity->type == null){
+                $term = $app->repo('Term')->findBy(['taxonomy' => 'opportunity_taxonomia' , 'term' => 'Rascunho']);
+                $entity->type = reset($term)->id;
+            }
+        });
+
+
+         
 
         $this->validateRegistrationLimitPerOwnerProject();
     }
