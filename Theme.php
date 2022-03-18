@@ -750,7 +750,7 @@ class Theme extends BaseV1\Theme{
                     'type' => 'metadata',
                     'filter' => [
                         'param' => 'instituicao_tipos_unidades',
-                        'value' => 'like({val}%)'
+                        'value' => 'IN({val})'
                     ]
                 ],
                 'instituicao_servicos' => [
@@ -759,7 +759,7 @@ class Theme extends BaseV1\Theme{
                     'type' => 'metadata',
                     'filter' => [
                         'param' => 'instituicao_servicos',
-                        'value' => 'like(*{val}*)'
+                        'value' => 'IN({val})'
                     ]
                 ],
             ],
