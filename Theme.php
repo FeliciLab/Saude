@@ -389,22 +389,6 @@ class Theme extends BaseV1\Theme{
         });
 
         /**
-         * Adiciona novos menus no painel
-         */
-        $app->hook('template(panel.index.nav.panel.registrations):after', function () use($app) {
-            if ($app->user->is('admin')) {
-                $this->part('panel/nav-indicadores');
-            }
-            
-            if ($app->user->is('saasAdmin')) {
-                $this->part('panel/nav-categoria-profissional');
-            }
-
-            $this->part('panel/nav-recursos');
-
-        });
-
-        /**
          * Adiciona campos de configurações para envio de e-mail
          */
         $app->hook('view.partial(singles/opportunity-registrations--fields):after', function () {
@@ -553,7 +537,19 @@ class Theme extends BaseV1\Theme{
             }
         });
 
+        /**
+         * Removendo parte de prestação de contas
+         */
+        $app->hook('view.partial(accountability/accountability-nav-panel).params', function($template, &$html){
+            $html = "_empty";
+         });
 
+        /**
+         * Hook para alterar nomes nas opções do menu e icones;
+         */
+        $app->hook('template(panel.index.content):before', function() use ($app){
+            $app->view->enqueueScript('app', 'menu_names', 'js/menu_names.js');
+        });
          
 
         $this->validateRegistrationLimitPerOwnerProject();
