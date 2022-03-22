@@ -4202,6 +4202,26 @@ h1 .icon {
   .icon-instagram:before {
     content: ""; }
 
+.icon-linkedin {
+  color: #0A66C2 !important; }
+  .icon-linkedin:before {
+    content: ""; }
+
+.icon-spotify {
+  color: #1CD15D !important; }
+  .icon-spotify:before {
+    content: ""; }
+
+.icon-youtube {
+  color: #FF0000 !important; }
+  .icon-youtube:before {
+    content: ""; }
+
+.icon-pinterest {
+  color: #FF0000 !important; }
+  .icon-pinterest:before {
+    content: ""; }
+
 @media screen and (max-width: 768px) {
   .icon-login::after {
     content: "Entrar";
@@ -6877,5 +6897,31 @@ button.mfp-arrow-left {
 .entity-modal {
   max-height: calc(100vh - 210px);
   overflow-y: auto; }
+
+.widget > .selos > .avatar-seal {
+  position: unset !important;
+  height: auto;
+  width: auto;
+  margin-right: 0px;
+  margin-bottom: 0px; }
+  .widget > .selos > .avatar-seal > img {
+    max-width: 150px;
+    max-height: 150px;
+    height: 50px; }
+  .widget > .selos > .avatar-seal > div {
+    margin-top: 20px; }
+  .widget > .selos > .avatar-seal > .descricao-do-selo {
+    margin-top: 0px;
+    position: relative;
+    top: 0px; }
+
+.edit-box .selos > .avatar-seal {
+  position: relative !important;
+  width: 5rem !important;
+  height: 5rem !important;
+  margin-right: 0.5rem !important;
+  margin-bottom: 0.75rem !important;
+  overflow: hidden;
+  text-overflow: ellipsis; }
 
 /*# sourceMappingURL=main.css.map */
