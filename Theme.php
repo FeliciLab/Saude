@@ -556,7 +556,7 @@ class Theme extends BaseV1\Theme{
         $app->hook('entity(Opportunity.importFields:after', function() use($app) { 
             $entity = $this->controller->requestedEntity;
             $app->redirect($entity->editUrl.'#tab=form-config');
-        });         
+        });
 
         $this->validateRegistrationLimitPerOwnerProject();
     }
