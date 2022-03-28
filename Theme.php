@@ -551,6 +551,13 @@ class Theme extends BaseV1\Theme{
             $app->redirect($entity->editUrl.'#tab=form-config');
         });
 
+        /**
+         * Adicionando modal para continuar o registro do usuário na oportunidade
+         */
+        $app->hook('view.partial(singles/opportunity-tabs):after', function($template, &$html){
+            $this->part('modals/continue-registration');
+        });
+
         $this->validateRegistrationLimitPerOwnerProject();
     }
 
