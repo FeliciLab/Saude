@@ -48,9 +48,9 @@
     <div id="sub-div-<?php echo $registration->id; ?>">
         <h4>Fases</h4>
         <?php 
-            foreach($phases as $phase){
+            foreach($phases as $phase) {
                 $this->part('registration/opportunity-phases-details.php', 
-                    ['phase' => $phase]
+                    ['phase' => $phase, 'next_phase' => $registration->nextPhaseRegistrationId]
                 );
             }
             if(!$phases){ ?>
