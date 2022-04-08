@@ -86,14 +86,14 @@ if (!empty($registrations)) {
                             <?php if ($registration->status > 0) : ?>
                                 <?php echo $registration->sentTimestamp ? $registration->sentTimestamp->format(\MapasCulturais\i::__('d/m/Y à\s H:i')) : ''; ?>.
                                 <div class="div-to-show-button" style="justify-content: center;">
-                                    <?php if ($now < $entity->registrationTo) : ?>
+                                    <?php if ($now < $entity->registrationTo && $entity->select_edit_registration == '1') : ?>
                                         <?php $this->applyTemplateHook('modal-edit-registration','before', ['registration' => $registration]); ?>
                                         <a href="#" class="btn btn-small btn-primary mt-auto" data-remodal-target="modal-edit-registration" title="Edite a sua inscrição"  style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                                     <?php endif; ?>
                                     <a class="btn btn-small btn-primary mt-auto button-ver" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Ver comprovante"); ?></a>
                                 </div>
                             <?php else : ?>
-                                <?php if ($now < $entity->registrationTo) : ?>
+                                <?php if ($now < $entity->registrationTo && $entity->select_edit_registration == '1') : ?>
                                     <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                                 <?php endif; ?>
                             <?php endif; ?>
