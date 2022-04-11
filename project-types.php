@@ -27,7 +27,7 @@ return array(
         'site' => array(
             'label' => \MapasCulturais\i::__('Site'),
             'validations' => array(
-                "v::url()" => \MapasCulturais\i::__("Adicione http ou htpps para validar essa URL.")
+                "v::url()" => \MapasCulturais\i::__("A url informada é inválida.")
             )
         ),
 
