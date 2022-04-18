@@ -8,15 +8,15 @@ $app = MapasCulturais\App::i();
 
 $url = $registration->status == Registration::STATUS_DRAFT ? $registration->editUrl : $registration->singleUrl;
 $proj = $registration->opportunity;
-$classeDestaque = "";
+$styleDestaque = "";
 
 if (isset($_GET['id']) && $_GET['id'] == $registration->id) {
-    $classeDestaque = "classeDestaque";
+    $styleDestaque = "border:2px solid green;border-radius: 5px;";
 }
 
 ?>
 
-<article class="objeto clearfix <?php echo $classeDestaque; ?>" id="<?php echo $registration->id; ?>" name="<?php echo $registration->id; ?>">
+<article class="objeto clearfix" style="<?php echo $styleDestaque; ?>" id="<?php echo $registration->id; ?>" name="<?php echo $registration->id; ?>">
     <?php if ($avatar = $proj->avatar) : ?>
         <div class="thumb">
             <img src="<?php echo $avatar->transform('avatarSmall')->url ?>">
