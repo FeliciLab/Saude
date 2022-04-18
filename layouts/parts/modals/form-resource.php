@@ -5,7 +5,7 @@
         <label id="opportunityNameLabel"></label>
     </p>
     <form id="formSendResource">
-        <textarea name="resource_text" id="" cols="30" rows="20" class="form-control" style="height: 322px !important"></textarea>
+        <textarea name="resource_text" id="" rows="30" class="form-control" style="width:100%;"></textarea>
         <input type="hidden" id="registration_id" name="registration_id">
         <input type="hidden" name="opportunity_id" id="opportunity_id">
         <input type="hidden" name="agent_id" id="agent_id" >
