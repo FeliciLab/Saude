@@ -559,6 +559,13 @@ class Theme extends BaseV1\Theme{
         });
 
         $this->validateRegistrationLimitPerOwnerProject();
+
+        $app->hook("template(opportunity.<<*>>.user-registration-table--registration--status):end", function ($registration, $opportunity){
+            if($registration->canUser('sendClaimMessage')){
+                $this->part('singles/button-resource.php', ['registration' => $registration]);
+            }
+        });
+        
     }
 
 
