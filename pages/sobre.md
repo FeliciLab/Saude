@@ -11,4 +11,4 @@ Um recurso tecnológico que se propõe, entre outros, a realizar o mapeamento do
 
 Através de painéis de acompanhamento de Políticas de Saúde do Estado do Ceará, apresentando por meio de gráficos e infográficos informações publicadas de maneira integral. Além de usufruir dos recursos de consultas oferecidos pelo sistema, os usuários também poderão colaborar na gestão da saúde do estado e seus municípios, enviando sugestões, comentários, elogios e críticas.
 
-Para saber mais acesse:  [Mapas da Saúde](https://github.com/EscolaDeSaudePublica/MapaDaSaude)
+Para saber mais acesse:  [Mapa da Saúde](https://github.com/EscolaDeSaudePublica/MapaDaSaude)
