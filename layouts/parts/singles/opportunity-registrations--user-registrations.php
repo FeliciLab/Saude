@@ -88,13 +88,13 @@ if (!empty($registrations)) {
                                 <div class="div-to-show-button" style="justify-content: center;">
                                     <?php if ($now < $entity->registrationTo && $entity->select_edit_registration == '1') : ?>
                                         <?php $this->applyTemplateHook('modal-edit-registration','before', ['registration' => $registration]); ?>
-                                        <a href="#" class="btn btn-small btn-primary mt-auto" data-remodal-target="modal-edit-registration" title="Edite a sua inscrição"  style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
+                                        <a href="#" class="btn btn-small btn-primary mt-auto" data-remodal-target="modal-edit-registration" title="Edite a sua inscrição"  style="width: 113.81px;margin:1px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                                     <?php endif; ?>
-                                    <a class="btn btn-small btn-primary mt-auto button-ver" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Ver comprovante"); ?></a>
+                                    <a class="btn btn-small btn-primary mt-auto button-ver" style="margin:1px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Ver comprovante"); ?></a>
                                 </div>
                             <?php else : ?>
                                 <?php if ($now < $entity->registrationTo && $entity->select_edit_registration == '1') : ?>
-                                    <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
+                                    <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;margin:1px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                                 <?php endif; ?>
                             <?php endif; ?>
                             <?php if($entity->claimDisabled != null): ?>
