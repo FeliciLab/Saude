@@ -93,7 +93,7 @@ if (!empty($registrations)) {
                                     <a class="btn btn-small btn-primary mt-auto button-ver" style="margin:1px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Ver comprovante"); ?></a>
                                 </div>
                             <?php else : ?>
-                                <?php if ($now < $entity->registrationTo && $entity->select_edit_registration == '1') : ?>
+                                <?php if ($now < $entity->registrationTo) : ?>
                                     <a class="btn btn-small btn-primary mt-auto" style="width: 113.81px;margin:1px;" href="<?php echo $registration->singleUrl ?>"><?php \MapasCulturais\i::_e("Editar inscrição"); ?></a>
                                 <?php endif; ?>
                             <?php endif; ?>
