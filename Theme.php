@@ -565,7 +565,13 @@ class Theme extends BaseV1\Theme{
                 $this->part('singles/button-resource.php', ['registration' => $registration]);
             }
         });
-        
+
+         /**
+         * Adicionando hook para mascara e bloqueando o campo cpf de edição.
+         */
+        $app->hook('view.partial(singles/agent-form):before', function() use ($app){
+            $app->view->enqueueScript('app', 'user_edit', 'js/user_edit.js');
+        });        
     }
 
 
