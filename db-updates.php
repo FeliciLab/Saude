@@ -462,11 +462,11 @@ return array(
      },
 
     'migra preliminary_result para metadado da inscricao'=> function () use($conn) {
-        $registrations = $conn->fetchAllAssociative("SELECT id, preliminary_result FROM registration WHERE preliminary_result IS NOT NULL");
+        $registrations = $conn->query("SELECT id, preliminary_result FROM registration WHERE preliminary_result IS NOT NULL")->fetchAll(PDO::FETCH_OBJ);
         
         foreach($registrations as $reg) {
             $reg = (object) $reg;
-            $next_id = $conn->fetchOne("select nextval('registration_meta_id_seq')");
+            $next_id = $conn->query("select nextval('registration_meta_id_seq')")->fetch();
             __exec("INSERT INTO registration_meta (id, object_id, key, value) VALUES ({$next_id}, {$reg->id}, 'preliminaryResult', {$reg->preliminary_result})");
         }
 
