@@ -298,7 +298,7 @@ class Theme extends BaseV1\Theme{
                 $this->errorJson(i::__('Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.'), 400);
             }
 
-            if (!$opportunity->registrationMinimumNote) {
+            if (empty($opportunity->registrationMinimumNote) && (int)$opportunity->registrationMinimumNote !== 0) {
                 $this->errorJson(i::__('Avaliação para a oportunidade não contém nota mínima'), 400);
             }
 
