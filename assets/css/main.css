@@ -6900,9 +6900,7 @@ button.mfp-arrow-left {
 
 .widget > .selos > .avatar-seal {
   position: unset !important;
-  height: auto;
-  margin-right: 0px;
-  margin-bottom: 0px; }
+  height: auto; }
   .widget > .selos > .avatar-seal > img {
     max-width: 150px;
     max-height: 150px;
