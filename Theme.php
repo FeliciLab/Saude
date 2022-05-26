@@ -588,6 +588,11 @@ class Theme extends BaseV1\Theme{
 
             $this->part('panel/nav-recursos');
         });
+
+        $app->hook('template(space.<<*>>.tab-about-extra-info):before', function(){
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/space-services', ['entity' => $entity]);
+        }); 
     }
 
 
