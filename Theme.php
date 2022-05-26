@@ -572,6 +572,22 @@ class Theme extends BaseV1\Theme{
         $app->hook('view.partial(singles/agent-form-1):before', function() use ($app){
             $app->view->enqueueScript('app', 'user_edit', 'js/user_edit.js');
         });
+
+
+         /**
+         * Adiciona novos menus no painel
+         */
+        $app->hook('template(panel.index.nav.panel.registrations):after', function () use($app) {
+            if ($app->user->is('admin')) {
+                $this->part('panel/nav-indicadores');
+            }
+            
+            if ($app->user->is('saasAdmin')) {
+                $this->part('panel/nav-categoria-profissional');
+            }
+
+            $this->part('panel/nav-recursos');
+        });
     }
 
 
