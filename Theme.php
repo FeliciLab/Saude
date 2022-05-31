@@ -573,6 +573,13 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'user_edit', 'js/user_edit.js');
         });
 
+        /**
+        * Adiciona máscara no input de CPF/CNPJ na modal de criação de agentes
+        */
+        $app->hook('template(panel.agents.panel-header):end', function() use ($app){
+            $app->view->enqueueScript('app', 'agent-creation', 'js/agent-creation.js');
+        });
+
 
          /**
          * Adiciona novos menus no painel
