@@ -1,1 +1,0 @@
-<iframe src="http://metabase.esp.ce.gov.br/public/dashboard/ad867f63-2183-46c4-a857-d34adfedde84" frameborder="0" width="100%" height="1000px" allowtransparency></iframe>

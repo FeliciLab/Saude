@@ -18,7 +18,7 @@
       list-style-type: none;
       margin: 0;
       padding: 0;
-      width: 50%;
+      width: 33.3%;
       display: table;
       /* Transforma a div numa tabela */
       table-layout: fixed;
@@ -93,15 +93,20 @@
 
 <div class="abas-indicadores">
    <ul class="abas clearfix-indicadores clear">
+   <li class="linhaprincipal active-indicadores"><a href="#forcaTrabalho" rel='noopener noreferrer'>
+            <div class="fa fa-users"></div><?php \MapasCulturais\i::_e(" Força de Trabalho"); ?>
+         </a></li>
       <li class="linhaprincipal active-indicadores"><a href="#instituicoes" rel='noopener noreferrer'>
             <div class="fa fa-building"></div><?php \MapasCulturais\i::_e(" Espaços de Saúde"); ?>
          </a></li>
       <li class="linhaprincipal active-indicadores"><a href="#profissionais" rel='noopener noreferrer'>
-            <div class="fa fa-users"></div><?php \MapasCulturais\i::_e(" Profissionais"); ?>
+            <div class="fa fa-users"></div><?php \MapasCulturais\i::_e(" Agentes"); ?>
          </a></li>
    </ul>
 </div>
 <div class="container-iframe">
+<iframe class="responsive-iframe" id="forcaTrabalho" src="https://metabase.esp.ce.gov.br/public/dashboard/34161172-bcdc-4f6d-a939-6543e4e752ee">
+   </iframe>
    <iframe class="responsive-iframe" id="instituicoes" src="https://metabase.esp.ce.gov.br/public/dashboard/d42b7987-c687-48ad-af5b-fd252585cea4">
    </iframe>
    <iframe class="responsive-iframe" id="profissionais" src="https://metabase.esp.ce.gov.br/public/dashboard/e9f6d26f-3495-4556-a9eb-2a59e387755b">
