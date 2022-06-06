@@ -608,7 +608,7 @@ class Theme extends BaseV1\Theme{
             $registration = $app->repo('Registration')->find(intval($data['id']));
 
             $sql = "SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc 
-                    WHERE rfc.owner = :opportunityId and rfc.fieldType = 'agent-owner-field' and LOWER(rfc.title) LIKE '%cpf%'";
+                    WHERE rfc.owner = :opportunityId AND rfc.fieldType = 'agent-owner-field' AND rfc.config LIKE '%documento%'";
             $query = $app->em->createQuery($sql);
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
