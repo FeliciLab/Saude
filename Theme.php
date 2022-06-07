@@ -613,9 +613,9 @@ class Theme extends BaseV1\Theme{
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
 
-            $result = $query->getResult();
+            $result = $query->getSingleResult();
 
-            $field_id = $result[0]['id'];
+            $field_id = $result['id'];
             $cpf = $data["field_{$field_id}"];
 
             $sql = "SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId";
