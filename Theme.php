@@ -600,6 +600,38 @@ class Theme extends BaseV1\Theme{
             $entity = $this->controller->requestedEntity;
             $this->part('singles/space-services', ['entity' => $entity]);
         }); 
+
+        /**
+         * Não permite que CPF seja salvo no agente responsável pela inscrição se este já estiver vinculado a outro agente
+         */
+        $app->hook('PATCH(registration.single):data', function(&$data) use ($app) {
+            $registration = $app->repo('Registration')->find(intval($data['id']));
+
+            $sql = "SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc 
+                    WHERE rfc.owner = :opportunityId AND rfc.fieldType = 'agent-owner-field' AND rfc.config LIKE '%documento%'";
+            $query = $app->em->createQuery($sql);
+
+            $query->setParameter('opportunityId', $registration->opportunity->id);
+
+            $result = $query->getSingleResult();
+
+            $field_id = $result['id'];
+            $cpf = $data["field_{$field_id}"];
+
+            $sql = "SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId";
+            $query = $app->em->createQuery($sql);
+
+            $query->setParameter('cpf', $cpf);
+            $query->setParameter('agentId', $registration->owner->id);
+            
+            $result = $query->getResult();
+
+            if($cpf && count($result)) {
+                $this->errorJson(
+                    json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF! Verifique se você possui outra conta no Mapa da Saúde."]}'), 400
+                );
+            }
+        });
     }
 
 
