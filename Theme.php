@@ -608,7 +608,7 @@ class Theme extends BaseV1\Theme{
             $registration = $app->repo('Registration')->find(intval($data['id']));
 
             $sql = "SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc 
-                    WHERE rfc.owner = :opportunityId AND rfc.fieldType = 'agent-owner-field' AND rfc.config LIKE '%documento%'";
+                    WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'";
             $query = $app->em->createQuery($sql);
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
@@ -628,7 +628,7 @@ class Theme extends BaseV1\Theme{
 
             if($cpf && count($result)) {
                 $this->errorJson(
-                    json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF! Verifique se você possui outra conta no Mapa da Saúde."]}'), 400
+                    json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400
                 );
             }
         });
