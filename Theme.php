@@ -566,15 +566,8 @@ class Theme extends BaseV1\Theme{
             }
         });
 
-         /**
-         * Adicionando hook para mascara e bloqueando o campo cpf de edição.
-         */
-        $app->hook('view.partial(singles/agent-form-<<*>>):before', function() use ($app) {
-            $app->view->enqueueScript('app', 'agent', 'js/agent.js');
-        });
-
         /**
-        * Adiciona máscara no input de CPF/CNPJ na modal de criação de agentes
+        * Adiciona máscara de CPF/CNPJ na criação e edição de um agente
         */
         $app->hook('entity(Agent).get(site)', function() use ($app) {
             $app->view->enqueueScript('app', 'agent', 'js/agent.js');
