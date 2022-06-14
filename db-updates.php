@@ -562,15 +562,12 @@ return array(
     'add decisao_recurso' => function () use($conn) {
         $conn->executeQuery("ALTER TABLE public.resources ADD decisao_recurso INT");
     },
+
+    'insert mask into document key value in agent_meta' => function() use ($conn) {
+        $conn->executeQuery(
+            "UPDATE public.agent_meta
+            SET value = CONCAT(SUBSTRING(value,1,3),'.',SUBSTRING(value,4,3),'.',SUBSTRING(value,7,3),'-',SUBSTRING(value,10,2))
+            WHERE key = 'documento' AND LENGTH(value) = 11;"
+        );
+    },
 );
-
-
-
-
-
-
-
-
-
-
-
