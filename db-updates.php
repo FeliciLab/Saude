@@ -566,8 +566,13 @@ return array(
     'insert mask into document key value in agent_meta' => function() use ($conn) {
         $conn->executeQuery(
             "UPDATE public.agent_meta
-            SET value = CONCAT(SUBSTRING(value,1,3),'.',SUBSTRING(value,4,3),'.',SUBSTRING(value,7,3),'-',SUBSTRING(value,10,2))
-            WHERE key = 'documento' AND LENGTH(value) = 11;"
+            SET value = CASE
+                            WHEN LENGTH(REGEXP_REPLACE(value, '\D','','g')) <= 11 AND LENGTH(REGEXP_REPLACE(value, '\D','','g')) <> 0 THEN
+                                CONCAT(SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),1,3),'.',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),4,3),'.',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),7,3),'-',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),10,2))
+                            WHEN LENGTH(REGEXP_REPLACE(value, '\D','','g')) > 11 AND LENGTH(REGEXP_REPLACE(value, '\D','','g')) <> 0 THEN
+                                CONCAT(SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),1,2),'.',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),3,3),'.',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),6,3),'/',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),9,4),'-',SUBSTRING(REGEXP_REPLACE(value, '\D','','g'),13,2))
+                        END
+            WHERE key = 'documento';"
         );
     },
 );
