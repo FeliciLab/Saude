@@ -606,27 +606,59 @@ class Theme extends BaseV1\Theme{
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
 
-            $result = $query->getSingleResult();
+            if (count($query->getResult())) {
+                $result = $query->getSingleResult();
 
-            $field_id = $result['id'];
-            $cpf = $data["field_{$field_id}"];
+                $field_id = $result['id'];
+                $cpf = $data["field_{$field_id}"];
 
-            $sql = "SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId";
-            $query = $app->em->createQuery($sql);
+                if (Theme::checkValidDocument($cpf)) {
+                    $sql = "SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId";
+                    $query = $app->em->createQuery($sql);
 
-            $query->setParameter('cpf', $cpf);
-            $query->setParameter('agentId', $registration->owner->id);
-            
-            $result = $query->getResult();
+                    $query->setParameter('cpf', $cpf);
+                    $query->setParameter('agentId', $registration->owner->id);
+                    
+                    $result = $query->getResult();
 
-            if($cpf && count($result)) {
-                $this->errorJson(
-                    json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400
-                );
+                    if($cpf && count($result)) {
+                        $this->errorJson(
+                            json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400
+                        );
+                    }
+                } else {
+                    $this->errorJson(
+                        json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400
+                    );
+                } 
             }
         });
     }
 
+    private static function checkValidDocument($document)
+    {
+        // Extrai somente os números
+        $document = preg_replace('/[^0-9]/is', '', $document);
+
+        // Verifica se o documento está completo
+        if (strlen($document) !== 11) return false;
+
+        // Verifica se o documento é uma sequência de números iguais
+        if (preg_match('/(\d)\1{10}/', $document)) return false;
+
+        // Faz o calculo para validar o CPF
+        for ($digits = 9; $digits < 11; $digits++) {
+            for ($sum_digits = 0, $digit_index = 0; $digit_index < $digits; $digit_index++) {
+                $sum_digits += $document[$digit_index] * (($digits + 1) - $digit_index);
+            }
+
+            $sum_digits = ((10 * $sum_digits) % 11) % 10;
+
+            if ($document[$digit_index] != $sum_digits) return false;
+        }
+
+        return true;
+    }
 
     private function validateRegistrationLimitPerOwnerProject()
     {
