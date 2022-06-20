@@ -1,21 +1,15 @@
 <?php
+
 namespace Saude;
 
-use Exception;
 use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
-use MapasCulturais\Entities;
 use MapasCulturais\Entities\Project;
-use MapasCulturais\Definitions;
 use MapasCulturais\i;
-USE MapasCulturais\Entities\Registration;
-USE MapasCulturais\Entities\Opportunity;
 
 class Theme extends BaseV1\Theme{
 
     protected static function _getTexts(){
-        $self = App::i()->view;
-
         return array(
                         
             'site: of the region' => 'do estado de Ceará',
@@ -599,65 +593,26 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('PATCH(registration.single):data', function(&$data) use ($app) {
             $registration = $app->repo('Registration')->find(intval($data['id']));
-
-            $sql = "SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc 
-                    WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'";
-            $query = $app->em->createQuery($sql);
+            $query = $app->em->createQuery("SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'");
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
 
             if (count($query->getResult())) {
                 $result = $query->getSingleResult();
-
                 $field_id = $result['id'];
                 $cpf = $data["field_{$field_id}"];
+                $query = $app->em->createQuery("SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
 
-                if (Theme::checkValidDocument($cpf)) {
-                    $sql = "SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId";
-                    $query = $app->em->createQuery($sql);
-
-                    $query->setParameter('cpf', $cpf);
-                    $query->setParameter('agentId', $registration->owner->id);
-                    
-                    $result = $query->getResult();
-
-                    if($cpf && count($result)) {
-                        $this->errorJson(
-                            json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400
-                        );
-                    }
-                } else {
-                    $this->errorJson(
-                        json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400
-                    );
-                } 
+                $query->setParameter('cpf', $cpf);
+                $query->setParameter('agentId', $registration->owner->id);
+                
+                if (checkValidDocument($cpf) && $cpf && count($query->getResult())) {
+                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
+                } elseif (!checkValidDocument($cpf) && $cpf) {
+                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400);
+                }
             }
         });
-    }
-
-    private static function checkValidDocument($document)
-    {
-        // Extrai somente os números
-        $document = preg_replace('/[^0-9]/is', '', $document);
-
-        // Verifica se o documento está completo
-        if (strlen($document) !== 11) return false;
-
-        // Verifica se o documento é uma sequência de números iguais
-        if (preg_match('/(\d)\1{10}/', $document)) return false;
-
-        // Faz o calculo para validar o CPF
-        for ($digits = 9; $digits < 11; $digits++) {
-            for ($sum_digits = 0, $digit_index = 0; $digit_index < $digits; $digit_index++) {
-                $sum_digits += $document[$digit_index] * (($digits + 1) - $digit_index);
-            }
-
-            $sum_digits = ((10 * $sum_digits) % 11) % 10;
-
-            if ($document[$digit_index] != $sum_digits) return false;
-        }
-
-        return true;
     }
 
     private function validateRegistrationLimitPerOwnerProject()
@@ -829,8 +784,6 @@ class Theme extends BaseV1\Theme{
             'private' => true
         ]);
     }
-    
-
 
     protected function _getFilters(){
         $filters = [
@@ -948,4 +901,29 @@ class Theme extends BaseV1\Theme{
         return $link_attributes;
     }
 
+}
+
+function checkValidDocument($document)
+{
+    // Extrai somente os números
+    $document = preg_replace('/[^0-9]/is', '', $document);
+
+    // Verifica se o documento está completo
+    if (strlen($document) !== 11) return false;
+
+    // Verifica se o documento é uma sequência de números iguais
+    if (preg_match('/(\d)\1{10}/', $document)) return false;
+
+    // Faz o calculo para validar o CPF
+    for ($digits = 9; $digits < 11; $digits++) {
+        for ($sum_digits = 0, $digit_index = 0; $digit_index < $digits; $digit_index++) {
+            $sum_digits += $document[$digit_index] * (($digits + 1) - $digit_index);
+        }
+
+        $sum_digits = ((10 * $sum_digits) % 11) % 10;
+
+        if ($document[$digit_index] != $sum_digits) return false;
+    }
+
+    return true;
 }
