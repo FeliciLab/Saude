@@ -3,13 +3,16 @@ use \Saude\Entities\ProfessionalCategory;
 
 $allPro = ProfessionalCategory::allProfessional();
 
-//RETORNA AS ESPECIALIDADES DO AGENTE
-$getSpecialty = ProfessionalCategory::getSpecialtyEntity($entity, 'profissionais_especialidades');
+if ($entity->id) {
+    // RETORNA AS ESPECIALIDADES DO AGENTE
+    $getSpecialty = ProfessionalCategory::getSpecialtyEntity($entity, 'profissionais_especialidades');
 
-$upCategoryAndSpecialty = ProfessionalCategory::alterCategoryProfessional($entity->id);
+    $upCategoryAndSpecialty = ProfessionalCategory::alterCategoryProfessional($entity->id);
 
-//RETORNA AS CATEGORIAS DO AGENTE
-$getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_categorias_profissionais_id');
+    // RETORNA AS CATEGORIAS DO AGENTE
+    $getCat = ProfessionalCategory::getCategoryEntity($entity->id, 'profissionais_categorias_profissionais_id');
+}
+
 ?>
 <div class="ficha-spcultura">
     <?php if ($this->isEditable() && $entity->shortDescription && strlen($entity->shortDescription) > 2000): ?>

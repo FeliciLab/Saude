@@ -60,7 +60,7 @@ $canSee = function ($view) use ($entity, $fieldsList) {
                     </span>
                 </p>
                 <!-- Campo CPF -->
-                <p class="privado">
+                <p class="privado" document-wrapper>
                     <span class="icon icon-private-info"></span>
                     <span class="label"><?php \MapasCulturais\i::_e("CPF");?>:</span>
                     <span class="js-editable <?php echo ($entity->isPropertyRequired($entity,"documento") && $editEntity? 'required': '');?>" data-edit="documento" data-original-title="<?php \MapasCulturais\i::esc_attr_e("CPF");?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Informe seu CPF  com pontos, hífens e barras");?>">
