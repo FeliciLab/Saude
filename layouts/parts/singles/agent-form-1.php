@@ -59,6 +59,14 @@ $canSee = function ($view) use ($entity, $fieldsList) {
                         <?php echo $entity->nomeCompleto; ?>
                     </span>
                 </p>
+                <!-- RG/Identidade -->
+                <p class="privado">
+                    <span class="icon icon-private-info"></span>
+                    <span class="label"><?php \MapasCulturais\i::_e("RG/Identidade"); ?>:</span>
+                    <span class="js-editable <?php echo $entity->isPropertyRequired($entity, "rg") ? 'required' : ''; ?>" data-edit="rg" data-original-title="<?php \MapasCulturais\i::esc_attr_e("RG/Identidade"); ?>" data-emptytext="<?php \MapasCulturais\i::esc_attr_e("Informe seu RG/Identidade"); ?>">
+                        <?php echo $entity->rg; ?>
+                    </span>
+                </p>
                 <!-- Campo CPF -->
                 <p class="privado" document-wrapper>
                     <span class="icon icon-private-info"></span>
