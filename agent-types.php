@@ -37,6 +37,15 @@ return array(
             'available_for_opportunities' => true
         ),
 
+        'rg' => array(
+            'private' => true,
+            'label' => \MapasCulturais\i::__('RG/Identidade'),
+            'validations' => array(
+                'unique' => \MapasCulturais\i::__('Esse RG/Identidade já está vinculado a outro cadastro'),
+            ),
+            'available_for_opportunities' => true
+        ),
+
         'documento' => array(
             'private' => true,
             'label' => \MapasCulturais\i::__('CPF ou CNPJ'),
