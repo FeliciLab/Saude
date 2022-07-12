@@ -686,17 +686,21 @@ class Theme extends BaseV1\Theme{
         //RECURSOS
         $app->view->enqueueScript('app', 'resource', 'js/ng.resource.js');
         
-        //alertas
+        // Notifications
         $app->view->enqueueStyle('app', 'pnotify', 'css/pnotify.css');
         $app->view->enqueueStyle('app', 'pnotify.brighttheme', 'css/pnotify.brighttheme.css');
         $app->view->enqueueStyle('app', 'pnotify.buttons', 'css/pnotify.buttons.css');
         $app->view->enqueueScript('app', 'pnotify', 'js/pnotify.js');
         $app->view->enqueueScript('app', 'pnotify.buttons', 'js/pnotify.buttons.js');
         $app->view->enqueueScript('app', 'pnotify.confirm', 'js/pnotify.confirm.js');
-        //Query Modal
+
+        // Modals
         $app->view->enqueueStyle('app', 'jqueryModal', 'css/remodal.css');
         $app->view->enqueueStyle('app', 'jqueryModal-theme', 'css/remodal-default-theme.css');
         $app->view->enqueueScript('app', 'jqueryModal', 'js/remodal.min.js');
+
+        // Alerts
+        $app->view->enqueueScript('app', 'sweetalert2', 'js/sweetalert2.all.min.js');
         
     }
 
