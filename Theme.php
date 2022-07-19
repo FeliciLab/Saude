@@ -537,12 +537,14 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(panel.index.content):before', function() use ($app){
             $app->view->enqueueScript('app', 'menu_names', 'js/menu_names.js');
         });
+
         /**
          * Hook para corrigir redirect para form de importação
          */
-        $app->hook('entity(Opportunity.importFields:after', function() use($app) { 
-            $entity = $this->controller->requestedEntity;
-            $app->redirect($entity->editUrl.'#tab=form-config');
+        $app->hook('entity(Opportunity.importFields:after', function () use ($app) {
+            $opportunity = $app->repo("Opportunity")->find($this->id);
+
+            $app->redirect($opportunity->editUrl . '#tab=form-config');
         });
 
         /**
