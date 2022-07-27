@@ -98,7 +98,7 @@ endif; ?>
             <?php $this->applyTemplateHook('nav.main.login', 'after'); ?>
         <?php endif; ?>
     </ul>
-    <h1 id="organization-logo" class="menu-logo-esp"><a href="https://www.esp.ce.gov.br/" target="_blank"><img src="<?php $this->asset('img/logo-prefeitura.png'); ?>" /></a></h1>
+    <h1 id="organization-logo" class="menu-logo-esp"><a href="https://www.esp.ce.gov.br/" target="_blank"><img src="<?php $this->asset('img/logo-prefeitura.svg'); ?>" /></a></h1>
     <ul id="secondary-menu">
         <li><a class="icon icon-about hltip" href="<?php echo $app->createUrl('site', 'page', array('sobre')) ?>" title="Sobre o Mapa da Saúde"></a></li> <br>
         <li><a class="icon icon-help hltip" href="<?php echo $app->createUrl('site', 'page', array('como-usar')) ?>" title="Como usar"></a></li>
