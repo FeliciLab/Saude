@@ -1,6 +1,6 @@
 .edit-box {
-  .selos{
-    > .avatar-seal{
+  .selos {
+    >.avatar-seal {
       position: relative !important;
       width: 5rem !important;
       height: 5rem !important;
@@ -11,33 +11,36 @@
     }
   }
 }
-.table{
-    background-color: transparent;
-    width: 100%;
-    max-width: 100%;
-    margin-bottom: 20px;
-  th{
+
+.table {
+  background-color: transparent;
+  width: 100%;
+  max-width: 100%;
+  margin-bottom: 20px;
+
+  th {
     background-color: #f5f5f5;
     border: 1px solid #ddd;
   }
 }
+
 .table-bordered {
   border: 1px solid #ddd;
 }
 
-@media screen and (min-width: 768px){
+@media screen and (min-width: 768px) {
   #organization-logo img {
-    width: 120px;   
+    width: 120px;
   }
 }
 
 #sealsAvailable {
   .edit-box {
     top: 0 !important;
-  }
-}
 
-.selos {
-  height: 350px;
-  overflow-y: scroll;
+    .mc-content {
+      height: 350px;
+      overflow-y: scroll;
+    }
+  }
 }
