@@ -88,24 +88,11 @@
   margin-right: 5px;
 }
 
-#account-panel {
-  div {
-    section {
-      div:nth-child(2){
-        div{
-          background: #c33;
-          a{
-            border: 1px solid #cc3333;
-          }
-        }
-        & div:hover{
-          background: rgb(179, 44, 44);
-          a{
-            background-color: rgb(179, 44, 44);
-            border: 1px solid rgb(179, 44, 44);
-          }
-        }
-      }
-    }
+#main-nav {
+  .entities-menu-border {
+    display: flex!important;
+    justify-content: center!important;
   }
-}   
+} 
+
+  
