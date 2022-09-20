@@ -576,6 +576,7 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(panel.index.nav.panel.registrations):after', function () use($app) {
             if ($app->user->is('admin')) {
                 $this->part('panel/nav-indicadores');
+                $this->part('panel/nav-atualizar-cnes');
             }
             
             if ($app->user->is('saasAdmin')) {
