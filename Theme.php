@@ -604,13 +604,30 @@ class Theme extends BaseV1\Theme{
                 $result = $query->getSingleResult();
                 $field_id = $result['id'];
                 $cpf = $data["field_{$field_id}"];
-                $query = $app->em->createQuery("SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
-
+                $query = $app->em->createQuery("SELECT IDENTITY(am.owner) FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
                 $query->setParameter('cpf', $cpf);
                 $query->setParameter('agentId', $registration->owner->id);
-                
-                if (checkValidDocument($cpf) && $cpf && count($query->getResult())) {
-                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
+
+                $result = $query->getResult();
+
+                $msgEmailVinculado = '';
+                if (!empty($result) && $result[0][1]) {
+                    $agent = $app->repo('Agent')->find($result[0][1]);
+
+                    $emailVinculado = $agent->getMetadata('emailPrivado');
+
+                    $emailVinculadoPart = explode('@', $emailVinculado);
+                    $user = substr($emailVinculadoPart[0], 0, -3);
+                    $dominio = $emailVinculadoPart[1];
+
+                    $email = $user . '***@' . $dominio;
+
+                    $msgEmailVinculado = 'CPF vinculado ao e-mail: ' . $email;
+                }
+
+
+                if (checkValidDocument($cpf) && $cpf && count($result)) {
+                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
                 } elseif (!checkValidDocument($cpf) && $cpf) {
                     $this->errorJson(json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400);
                 }
