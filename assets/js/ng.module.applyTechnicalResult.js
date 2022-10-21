@@ -88,10 +88,11 @@
                     }, 1000);
                     
                 }).
-                error(function(error, status){
+                error(function(error, status) {
+                    PNotify.removeAll();
                     new PNotify({
                         title: 'Erro!',
-                        text: 'Ocorreu um erro inesperado',
+                        text: error.data,
                         type: 'error',
                         icon: 'fa fa-exclamation-circle',
                         shadow: true
