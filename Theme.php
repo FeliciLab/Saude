@@ -279,12 +279,10 @@ class Theme extends BaseV1\Theme{
         $app->hook('POST(opportunity.updateStatusNote)', function() use($app) {
             $app = App::i();
             $opportunity_id = intval($this->postData['id']);
-
             $opportunity = $app->repo('Opportunity')->find($opportunity_id);
+            $minimum_grade = (int) $opportunity->registrationMinimumNote;
 
-            if (!$opportunity) {
-                $this->errorJson(i::__('Oportunidade não encontrada'), 400);
-            }
+            if (!$opportunity) $this->errorJson(i::__('Oportunidade não encontrada'), 400);
 
             $opportunity->checkPermission('@controll');
 
@@ -292,9 +290,7 @@ class Theme extends BaseV1\Theme{
                 $this->errorJson(i::__('Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.'), 400);
             }
 
-            if (empty($opportunity->registrationMinimumNote) && (int)$opportunity->registrationMinimumNote !== 0) {
-                $this->errorJson(i::__('Avaliação para a oportunidade não contém nota mínima'), 400);
-            }
+            if (empty($minimum_grade)) $this->errorJson(i::__('Avaliação para a oportunidade não contém nota mínima.'), 400);
 
             $dql = "SELECT 
                 r.id 
