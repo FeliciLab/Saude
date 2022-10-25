@@ -279,12 +279,10 @@ class Theme extends BaseV1\Theme{
         $app->hook('POST(opportunity.updateStatusNote)', function() use($app) {
             $app = App::i();
             $opportunity_id = intval($this->postData['id']);
-
             $opportunity = $app->repo('Opportunity')->find($opportunity_id);
+            $minimum_grade = (int) $opportunity->registrationMinimumNote;
 
-            if (!$opportunity) {
-                $this->errorJson(i::__('Oportunidade não encontrada'), 400);
-            }
+            if (!$opportunity) $this->errorJson(i::__('Oportunidade não encontrada'), 400);
 
             $opportunity->checkPermission('@controll');
 
@@ -292,9 +290,7 @@ class Theme extends BaseV1\Theme{
                 $this->errorJson(i::__('Não foi possível alterar a situação de inscrição, pois a oportunidade já foi publicada.'), 400);
             }
 
-            if (empty($opportunity->registrationMinimumNote) && (int)$opportunity->registrationMinimumNote !== 0) {
-                $this->errorJson(i::__('Avaliação para a oportunidade não contém nota mínima'), 400);
-            }
+            if (empty($minimum_grade)) $this->errorJson(i::__('Avaliação para a oportunidade não contém nota mínima.'), 400);
 
             $dql = "SELECT 
                 r.id 
@@ -576,6 +572,7 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(panel.index.nav.panel.registrations):after', function () use($app) {
             if ($app->user->is('admin')) {
                 $this->part('panel/nav-indicadores');
+                $this->part('panel/nav-atualizar-cnes');
             }
             
             if ($app->user->is('saasAdmin')) {
@@ -603,13 +600,30 @@ class Theme extends BaseV1\Theme{
                 $result = $query->getSingleResult();
                 $field_id = $result['id'];
                 $cpf = $data["field_{$field_id}"];
-                $query = $app->em->createQuery("SELECT am.id FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
-
+                $query = $app->em->createQuery("SELECT IDENTITY(am.owner) FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
                 $query->setParameter('cpf', $cpf);
                 $query->setParameter('agentId', $registration->owner->id);
-                
-                if (checkValidDocument($cpf) && $cpf && count($query->getResult())) {
-                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
+
+                $result = $query->getResult();
+
+                $msgEmailVinculado = '';
+                if (!empty($result) && $result[0][1]) {
+                    $agent = $app->repo('Agent')->find($result[0][1]);
+
+                    $emailVinculado = $agent->getMetadata('emailPrivado');
+
+                    $emailVinculadoPart = explode('@', $emailVinculado);
+                    $user = substr($emailVinculadoPart[0], 0, -3);
+                    $dominio = $emailVinculadoPart[1];
+
+                    $email = $user . '***@' . $dominio;
+
+                    $msgEmailVinculado = 'CPF vinculado ao e-mail: ' . $email;
+                }
+
+
+                if (checkValidDocument($cpf) && $cpf && count($result)) {
+                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
                 } elseif (!checkValidDocument($cpf) && $cpf) {
                     $this->errorJson(json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400);
                 }

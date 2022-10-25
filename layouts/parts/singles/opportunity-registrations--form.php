@@ -33,10 +33,13 @@ if ($entity->isRegistrationOpen()) : ?>
     <?php if ($app->auth->isUserAuthenticated()) : ?>
         <!-- // SE O USUARIO TIVER PERMISSÃO PARA MODIFICAR A ENTIDADE -->
         <?php if (!($entity->canUser('modify')) && empty($userRelation)) : ?>
-            <?php if (($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && $entity->registrationLimitPerOwner == 0)
-                || ($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && count($registrations) < $entity->registrationLimitPerOwner)
-                || ($entity->ownerEntity->registrationLimitPerOwner == 0 && count($registrations) < $entity->registrationLimitPerOwnerProject)
-                || (count($registrations) < $entity->registrationLimitPerOwnerProject && count($registrations) < $entity->registrationLimitPerOwner)
+            <?php if (($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && $entity->registrationLimitPerOwner == 0 && $entity->registrationLimit == 0)
+                || ($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && $entity->registrationLimitPerOwner == 0 && count($registrations) < $entity->registrationLimit)
+                || ($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && $entity->registrationLimit == 0 && count($registrations) < $entity->registrationLimitPerOwner)
+                || ($entity->registrationLimitPerOwner == 0 && $entity->registrationLimit == 0 && count($registrations) < $entity->ownerEntity->registrationLimitPerOwnerProject)
+                || ($entity->ownerEntity->registrationLimitPerOwnerProject == 0 && count($registrations) < $entity->registrationLimitPerOwner && count($registrations) < $entity->registrationLimit)
+                || ($entity->registrationLimitPerOwner == 0 && count($registrations) < $entity->ownerEntity->registrationLimitPerOwnerProject && count($registrations) < $entity->registrationLimit)
+                || ($entity->registrationLimit == 0 && count($registrations) < $entity->ownerEntity->registrationLimitPerOwnerProject && count($registrations) < $entity->registrationLimitPerOwner)
             ) : ?>
                 <form class="registration-form clearfix">
                     <p class="registration-help white-top" style="font-size: 14px;"><?php \MapasCulturais\i::_e("Para iniciar sua inscrição, selecione o agente responsável. Ele deve ser um agente individual (pessoa física), com um CPF válido preenchido."); ?></p>

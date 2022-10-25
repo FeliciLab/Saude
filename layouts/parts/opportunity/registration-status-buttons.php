@@ -17,6 +17,6 @@ $this->jsObject['angularAppDependencies'][] = 'module.applyTechnicalResult';
         </a>
     <?php endif; ?>
     <a class="btn btn-success" title="Atualiza o status do candidato com base na nota da oportunidade" ng-click="setAllStatusToApproved()">
-        <i class="fa fa-refresh" aria-hidden="true"></i>  Atualizar status dos candidatos para SELECIONADOS
+        <i class="fa fa-refresh" aria-hidden="true"></i> Atualizar status de TODOS os PENDENTES para SELECIONADOS
     </a>
 </div>
