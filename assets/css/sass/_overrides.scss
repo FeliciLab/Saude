@@ -46,7 +46,52 @@
 }
 
 .entity-filter {
-  .btn {
+  .btn-verified {
     padding: 0 8px 0px 35px;
+  }
+}
+
+#home-search-filter {
+  .icon {
+    margin: 0 10px 0 5px;
+  }
+}
+
+.filter {
+  .show-label {
+    color: #fff
+  }
+}
+
+#search-sort {
+  .switch-field {
+    label {
+      font-size: 0.85em;
+      padding: 1px 4px 2px;
+    }
+  }
+}
+
+.menu-stats {
+  margin-left: 0.75rem
+}
+
+#user-stats {
+  div {
+    div {
+      margin-left: 0.75rem
+    }
+  }
+}
+
+.icon-fa {
+  margin-right: 5px;
+}
+
+
+#main-nav {
+  .entities-menu-border {
+    display: flex !important;
+    justify-content: center !important;
   }
 }
