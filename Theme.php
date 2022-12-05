@@ -2,10 +2,11 @@
 
 namespace Saude;
 
-use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
-use MapasCulturais\Entities\Project;
 use MapasCulturais\i;
+use MapasCulturais\Entities\Project;
+use MapasCulturais\Entities\User;
+use MapasCulturais\Themes\BaseV1;
 
 class Theme extends BaseV1\Theme{
 
@@ -620,7 +621,6 @@ class Theme extends BaseV1\Theme{
 
                     $msgEmailVinculado = 'CPF vinculado ao e-mail: ' . $email;
                 }
-
 
                 if (checkValidDocument($cpf) && $cpf && count($result)) {
                     $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
