@@ -593,39 +593,52 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('PATCH(registration.single):data', function(&$data) use ($app) {
             $registration = $app->repo('Registration')->find(intval($data['id']));
-            $query = $app->em->createQuery("SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'");
+
+            $query = $app->em->createQuery(
+                "SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc
+                WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'"
+            );
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
 
-            if (count($query->getResult())) {
+            if ($query->getResult()) {
                 $result = $query->getSingleResult();
                 $field_id = $result['id'];
                 $cpf = $data["field_{$field_id}"];
-                $query = $app->em->createQuery("SELECT IDENTITY(am.owner) FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
+
+                $query = $app->em->createQuery(
+                    "SELECT IDENTITY(am.owner) AS agent_id FROM MapasCulturais\Entities\AgentMeta am
+                    INNER JOIN MapasCulturais\Entities\User u WITH am.owner = u.profile
+                    WHERE am.value = :cpf AND am.owner != :agentId AND u.status = :userStatus"
+                );
+
                 $query->setParameter('cpf', $cpf);
                 $query->setParameter('agentId', $registration->owner->id);
+                $query->setParameter('userStatus', User::STATUS_ENABLED);
 
                 $result = $query->getResult();
 
-                $msgEmailVinculado = '';
-                if (!empty($result) && $result[0][1]) {
-                    $agent = $app->repo('Agent')->find($result[0][1]);
-
+                if ($result) {
+                    $agent = $app->repo('Agent')->find($result[0]["agent_id"]);
+                    
                     $emailVinculado = $agent->getMetadata('emailPrivado');
-
                     $emailVinculadoPart = explode('@', $emailVinculado);
                     $user = substr($emailVinculadoPart[0], 0, -3);
                     $dominio = $emailVinculadoPart[1];
-
                     $email = $user . '***@' . $dominio;
-
                     $msgEmailVinculado = 'CPF vinculado ao e-mail: ' . $email;
-                }
 
-                if (checkValidDocument($cpf) && $cpf && count($result)) {
-                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
-                } elseif (!checkValidDocument($cpf) && $cpf) {
-                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400);
+                    if (checkValidDocument($cpf) && $cpf) {
+                        $this->errorJson(
+                            json_decode(
+                                '{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'
+                            ), 400
+                        );
+                    } elseif (!checkValidDocument($cpf) && $cpf) {
+                        $this->errorJson(
+                            json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400
+                        );
+                    }
                 }
             }
         });
