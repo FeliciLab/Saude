@@ -5,8 +5,9 @@ namespace Saude;
 use MapasCulturais\App;
 use MapasCulturais\i;
 use MapasCulturais\Entities\Project;
-use MapasCulturais\Entities\User;
 use MapasCulturais\Themes\BaseV1;
+use Saude\Repositories\Agent;
+use Saude\Utils\Validation;
 
 class Theme extends BaseV1\Theme{
 
@@ -591,7 +592,7 @@ class Theme extends BaseV1\Theme{
         /**
          * Não permite que CPF seja salvo no agente responsável pela inscrição se este já estiver vinculado a outro agente
          */
-        $app->hook('PATCH(registration.single):data', function(&$data) use ($app) {
+        $app->hook('PATCH(registration.single):data', function (&$data) use ($app) {
             $registration = $app->repo('Registration')->find(intval($data['id']));
 
             $query = $app->em->createQuery(
@@ -606,17 +607,7 @@ class Theme extends BaseV1\Theme{
                 $field_id = $result['id'];
                 $cpf = $data["field_{$field_id}"];
 
-                $query = $app->em->createQuery(
-                    "SELECT IDENTITY(am.owner) AS agent_id FROM MapasCulturais\Entities\AgentMeta am
-                    INNER JOIN MapasCulturais\Entities\User u WITH am.owner = u.profile
-                    WHERE am.value = :cpf AND am.owner != :agentId AND u.status = :userStatus"
-                );
-
-                $query->setParameter('cpf', $cpf);
-                $query->setParameter('agentId', $registration->owner->id);
-                $query->setParameter('userStatus', User::STATUS_ENABLED);
-
-                $result = $query->getResult();
+                $result = Agent::checkCpfLinkedAnotherAgent($cpf, $registration->owner->id);
 
                 if ($result) {
                     $agent = $app->repo('Agent')->find($result[0]["agent_id"]);
@@ -628,18 +619,41 @@ class Theme extends BaseV1\Theme{
                     $email = $user . '***@' . $dominio;
                     $msgEmailVinculado = 'CPF vinculado ao e-mail: ' . $email;
 
-                    if (checkValidDocument($cpf) && $cpf) {
+                    if (Validation::checkValidDocument($cpf) && $cpf) {
                         $this->errorJson(
                             json_decode(
                                 '{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'
                             ), 400
                         );
-                    } elseif (!checkValidDocument($cpf) && $cpf) {
+                    } elseif (!Validation::checkValidDocument($cpf) && $cpf) {
                         $this->errorJson(
                             json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400
                         );
                     }
                 }
+            }
+        });
+
+        $app->hook('PUT(agent.single):data', function (&$data) use ($app) {
+            $typed_cpf = $data["documento"];
+            $agent = $app->repo('Agent')->find(intval($this->data["id"]));
+
+            $result = Agent::checkCpfLinkedAnotherAgent($typed_cpf, $agent->id);
+
+            if (Validation::checkValidDocument($typed_cpf) && $result) {
+                $this->json(
+                    json_decode('{
+                        "data": {
+                            "documento": ["Já existe um cadastro vinculado a este CPF/CNPJ. Verifique se você possui outra conta no Mapa da Saúde."]
+                        },
+                        "error": true
+                    }'), 200
+                );
+            } elseif (Validation::checkValidDocument($typed_cpf)) {
+                $agent->documento = $typed_cpf;
+                $agent->save(true);
+
+                $this->json($agent);
             }
         });
     }
@@ -934,29 +948,4 @@ class Theme extends BaseV1\Theme{
         return $link_attributes;
     }
 
-}
-
-function checkValidDocument($document)
-{
-    // Extrai somente os números
-    $document = preg_replace('/[^0-9]/is', '', $document);
-
-    // Verifica se o documento está completo
-    if (strlen($document) !== 11) return false;
-
-    // Verifica se o documento é uma sequência de números iguais
-    if (preg_match('/(\d)\1{10}/', $document)) return false;
-
-    // Faz o calculo para validar o CPF
-    for ($digits = 9; $digits < 11; $digits++) {
-        for ($sum_digits = 0, $digit_index = 0; $digit_index < $digits; $digit_index++) {
-            $sum_digits += $document[$digit_index] * (($digits + 1) - $digit_index);
-        }
-
-        $sum_digits = ((10 * $sum_digits) % 11) % 10;
-
-        if ($document[$digit_index] != $sum_digits) return false;
-    }
-
-    return true;
 }
