@@ -5,6 +5,7 @@ namespace Saude;
 use MapasCulturais\App;
 use MapasCulturais\i;
 use MapasCulturais\Entities\Project;
+use MapasCulturais\Entities\User;
 use MapasCulturais\Themes\BaseV1;
 use Saude\Repositories\Agent;
 use Saude\Utils\Validation;
@@ -560,14 +561,6 @@ class Theme extends BaseV1\Theme{
             }
         });
 
-        /**
-        * Adiciona máscara de CPF/CNPJ na criação e edição de um agente
-        */
-        $app->hook('entity(Agent).get(site)', function() use ($app) {
-            $app->view->enqueueScript('app', 'agent', 'js/agent.js');
-        });
-
-
          /**
          * Adiciona novos menus no painel
          */
@@ -634,6 +627,16 @@ class Theme extends BaseV1\Theme{
             }
         });
 
+        /**
+         * Adiciona máscara de CPF/CNPJ na criação e edição de um agente
+         */
+        $app->hook('entity(Agent).get(site)', function() use ($app) {
+            $app->view->enqueueScript('app', 'agent', 'js/agent.js');
+        });
+
+        /**
+         * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo
+         */
         $app->hook('PUT(agent.single):data', function (&$data) use ($app) {
             $typed_cpf = $data["documento"];
             $agent = $app->repo('Agent')->find(intval($this->data["id"]));
@@ -654,6 +657,23 @@ class Theme extends BaseV1\Theme{
                 $agent->save(true);
 
                 $this->json($agent);
+            }
+        });
+
+        /**
+         * Verifica se CPF está vinculado a outro agente no momento da inscrição
+         * Remove CPF do agente que tem um email como Username no Keycloak
+         * Deixa o CPF somente no novo usuário, que tem o CPF como Username no Keycloak
+         */
+        $app->hook('auth.createUser:before', function ($data) use ($app) {
+            $cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data['auth']['raw']['preferred_username']);
+            $agent_meta = $app->repo('AgentMeta')->findOneBy(['value' => $cpf]);
+
+            if ($agent_meta && $agent_meta->owner->user->status === User::STATUS_ENABLED) {
+                $agent_meta->value = null;
+
+                $app->em->persist($agent_meta);
+                $app->em->flush();
             }
         });
     }
