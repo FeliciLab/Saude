@@ -634,6 +634,13 @@ class Theme extends BaseV1\Theme{
             $app->view->enqueueScript('app', 'agent', 'js/agent.js');
         });
 
+        $app->hook('template(registration.view.form):begin', function () {
+            $entity = $this->controller->requestedEntity;
+
+            $current_registration = $entity;
+            $this->jsObject['entity']['object']->category = $current_registration->category;
+        });
+
         /**
          * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo
          */
@@ -658,30 +665,6 @@ class Theme extends BaseV1\Theme{
 
                 $this->json($agent);
             }
-        });
-
-        /**
-         * Verifica se CPF está vinculado a outro agente no momento da inscrição
-         * Remove CPF do agente que tem um email como Username no Keycloak
-         * Deixa o CPF somente no novo usuário, que tem o CPF como Username no Keycloak
-         */
-        $app->hook('auth.createUser:before', function ($data) use ($app) {
-            $cpf = preg_replace("/(\d{3})(\d{3})(\d{3})(\d{2})/", "\$1.\$2.\$3-\$4", $data['auth']['raw']['preferred_username']);
-            $agent_meta = $app->repo('AgentMeta')->findOneBy(['value' => $cpf]);
-
-            if ($agent_meta && $agent_meta->owner->user->status === User::STATUS_ENABLED) {
-                $agent_meta->value = null;
-
-                $app->em->persist($agent_meta);
-                $app->em->flush();
-            }
-        });
-
-        $app->hook('template(registration.view.form):begin', function() use($app) {
-            $entity = $this->controller->requestedEntity;
-
-            $current_registration = $entity;
-            $this->jsObject['entity']['object']->category = $current_registration->category;
         });
     }
 
