@@ -642,7 +642,7 @@ class Theme extends BaseV1\Theme{
         });
 
         /**
-         * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo
+         * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo (edição do agente)
          */
         $app->hook('PUT(agent.single):data', function (&$data) use ($app) {
             $typed_cpf = $data["documento"];
@@ -659,11 +659,8 @@ class Theme extends BaseV1\Theme{
                         "error": true
                     }'), 200
                 );
-            } elseif (Validation::checkValidDocument($typed_cpf)) {
-                $agent->documento = $typed_cpf;
-                $agent->save(true);
-
-                $this->json($agent);
+            } else {
+                return;
             }
         });
     }
