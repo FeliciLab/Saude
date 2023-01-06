@@ -629,6 +629,13 @@ class Theme extends BaseV1\Theme{
                 }
             }
         });
+
+        $app->hook('template(registration.view.form):begin', function() use($app) {
+            $entity = $this->controller->requestedEntity;
+
+            $current_registration = $entity;
+            $this->jsObject['entity']['object']->category = $current_registration->category;
+        });
     }
 
     private function validateRegistrationLimitPerOwnerProject()
