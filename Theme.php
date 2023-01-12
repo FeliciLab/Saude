@@ -3,9 +3,9 @@
 namespace Saude;
 
 use MapasCulturais\App;
-use MapasCulturais\i;
 use MapasCulturais\Entities\Project;
 use MapasCulturais\Entities\User;
+use MapasCulturais\i;
 use MapasCulturais\Themes\BaseV1;
 use Saude\Repositories\Agent;
 use Saude\Utils\Validation;
@@ -580,12 +580,12 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(space.<<*>>.tab-about-extra-info):before', function(){
             $entity = $this->controller->requestedEntity;
             $this->part('singles/space-services', ['entity' => $entity]);
-        }); 
+        });
 
         /**
          * Não permite que CPF seja salvo no agente responsável pela inscrição se este já estiver vinculado a outro agente
          */
-        $app->hook('PATCH(registration.single):data', function (&$data) use ($app) {
+        $app->hook('PATCH(registration.single):data', function ($data) use ($app) {
             $registration = $app->repo('Registration')->find(intval($data['id']));
 
             $query = $app->em->createQuery(
@@ -604,7 +604,7 @@ class Theme extends BaseV1\Theme{
 
                 if ($result) {
                     $agent = $app->repo('Agent')->find($result[0]["agent_id"]);
-                    
+
                     $emailVinculado = $agent->getMetadata('emailPrivado');
                     $emailVinculadoPart = explode('@', $emailVinculado);
                     $user = substr($emailVinculadoPart[0], 0, -3);
@@ -615,12 +615,14 @@ class Theme extends BaseV1\Theme{
                     if (Validation::checkValidDocument($cpf) && $cpf) {
                         $this->errorJson(
                             json_decode(
-                                '{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'
-                            ), 400
+                                '{"field_' . $field_id . '": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'
+                            ),
+                            400
                         );
                     } elseif (!Validation::checkValidDocument($cpf) && $cpf) {
                         $this->errorJson(
-                            json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400
+                            json_decode('{"field_' . $field_id . '": ["O número de documento informado é inválido."]}'),
+                            400
                         );
                     }
                 }
@@ -630,7 +632,7 @@ class Theme extends BaseV1\Theme{
         /**
          * Adiciona máscara de CPF/CNPJ na criação e edição de um agente
          */
-        $app->hook('entity(Agent).get(site)', function() use ($app) {
+        $app->hook('entity(Agent).get(site)', function () use ($app) {
             $app->view->enqueueScript('app', 'agent', 'js/agent.js');
         });
 
@@ -644,20 +646,56 @@ class Theme extends BaseV1\Theme{
         /**
          * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo (edição do agente)
          */
-        $app->hook('PUT(agent.single):data', function (&$data) use ($app) {
+        $app->hook('PUT(agent.single):data', function ($data) use ($app) {
             $typed_cpf = $data["documento"];
             $agent = $app->repo('Agent')->find(intval($this->data["id"]));
 
             $result = Agent::checkCpfLinkedAnotherAgent($typed_cpf, $agent->id);
 
-            if (Validation::checkValidDocument($typed_cpf) && $result) {
+            if ($result && Validation::checkValidDocument($typed_cpf)) {
                 $this->json(
                     json_decode('{
                         "data": {
                             "documento": ["Já existe um cadastro vinculado a este CPF/CNPJ. Verifique se você possui outra conta no Mapa da Saúde."]
                         },
                         "error": true
-                    }'), 200
+                    }'),
+                    200
+                );
+            } else {
+                if (Validation::checkValidDocument($typed_cpf)) {
+                    $agent->documento = $typed_cpf;
+
+                    $agent->save(true);
+                }
+
+                return;
+            }
+        });
+
+        $app->hook('POST(agent.index):data', function ($data) use ($app) {
+            $typed_cpf = $data["documento"];
+
+            $query = $app->em->createQuery(
+                "SELECT IDENTITY(am.owner) AS agent_id FROM MapasCulturais\Entities\AgentMeta am
+                INNER JOIN MapasCulturais\Entities\Agent a WITH am.owner = a.id
+                WHERE am.key = 'documento' AND am.value = :cpf AND a.status = :agentStatus"
+            );
+
+            $query->setParameter('cpf', $typed_cpf);
+            $query->setParameter('agentStatus', User::STATUS_ENABLED);
+
+            $result = $query->getResult();
+
+            if ($result && Validation::checkValidDocument($typed_cpf)) {
+                $this->json(
+                    json_decode('{
+                        "data": {
+                            "documento": ["Este CPF/CNPJ já está vinculado a outro agente"]
+                        },
+                        "error": true
+                    }'),
+                    200
                 );
             } else {
                 return;
