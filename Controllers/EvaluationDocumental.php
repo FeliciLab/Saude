@@ -34,9 +34,9 @@ class EvaluationDocumental extends \MapasCulturais\Controller {
                 $fieldInvalids = '';
                 $fieldInvalids .= '<ul>';
                 foreach ($evaluation->evaluationData as $evaluationData) {
-                    if ($evaluationData && $evaluationData['evaluation'] == 'invalid') {
-                        $observacao = !empty($observacao) ? ' Observação: ' .  $evaluationData['obs'] : '';
-                        $fieldInvalids .= '<li style="color:red !important;"><b>' . $evaluationData['label'] . '</b>' . $observacao . '</li>';
+                    if ($evaluationData && $evaluationData['evaluation'] ==cd 'invalid') {
+                        $observacao = !empty($evaluationData['obs']) ? '<br /> Observação: ' .  $evaluationData['obs'] : '';
+                        $fieldInvalids .= '<li style="color:red !important;"><b>' . $evaluationData['label'] . '</b>' . $observacao . '</li><br>';
                     }
                 }
                 $fieldInvalids .= '</ul>';
