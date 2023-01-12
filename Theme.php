@@ -636,6 +636,15 @@ class Theme extends BaseV1\Theme{
             $current_registration = $entity;
             $this->jsObject['entity']['object']->category = $current_registration->category;
         });
+
+        // adiciona o botão de enviar o email na avaliação documental
+        $app->hook('template(registration.view.documentary-evaluation-view):after', function() use($app) {
+            $registration = $this->controller->requestedEntity;
+            if ($registration->opportunity->canUser('@control') && $registration->consolidatedResult == -1) {
+                $userId = $registration->controller->urlData['uid'];
+                $this->part('singles/button/evaluation-documental-sendmail--button', ['registration' => $registration, 'userId' => $userId]);
+            }
+        });
     }
 
     private function validateRegistrationLimitPerOwnerProject()
@@ -724,6 +733,9 @@ class Theme extends BaseV1\Theme{
 
         // Alerts
         $app->view->enqueueScript('app', 'sweetalert2', 'js/sweetalert2.all.min.js');
+
+        
+        $app->view->enqueueScript('app', 'sendMailRegistrationEvaluation', 'js/sendMailRegistrationEvaluation.js');
         
     }
 
@@ -804,6 +816,8 @@ class Theme extends BaseV1\Theme{
         // $app->registerController('panel',   'Saude\Controllers\Panel');
         $app->registerController('categoria-profissional', 'Saude\Controllers\ProfessionalCategory');
         $app->registerController('indicadores', 'Saude\Controllers\Indicadores');
+        $app->registerController('EvaluationDocumental', 'Saude\Controllers\EvaluationDocumental');
+
 
         $this->registerRegistrationMetadata('preliminaryResult', [
             'label' => i::__('Resultado Preliminar'),
