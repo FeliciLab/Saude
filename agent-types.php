@@ -51,7 +51,7 @@ return array(
             'label' => \MapasCulturais\i::__('CPF ou CNPJ'),
             'validations' => array(
                 'required' => \MapasCulturais\i::__('Seu documento deve ser informado.'),
-                'unique' => \MapasCulturais\i::__('Já existe um cadastro vinculado a este CPF/CNPJ. Verifique se você possui outra conta no Mapa da Saúde.'),
+                // 'unique' => \MapasCulturais\i::__('Já existe um cadastro vinculado a este CPF/CNPJ. Verifique se você possui outra conta no Mapa da Saúde.'),
                 'v::oneOf(v::cpf(),v::cnpj())' => \MapasCulturais\i::__('O número de documento informado é inválido.')
             ),
             'available_for_opportunities' => true
