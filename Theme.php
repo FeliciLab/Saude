@@ -2,10 +2,13 @@
 
 namespace Saude;
 
-use MapasCulturais\Themes\BaseV1;
 use MapasCulturais\App;
 use MapasCulturais\Entities\Project;
+use MapasCulturais\Entities\User;
 use MapasCulturais\i;
+use MapasCulturais\Themes\BaseV1;
+use Saude\Repositories\Agent;
+use Saude\Utils\Validation;
 
 class Theme extends BaseV1\Theme{
 
@@ -558,14 +561,6 @@ class Theme extends BaseV1\Theme{
             }
         });
 
-        /**
-        * Adiciona máscara de CPF/CNPJ na criação e edição de um agente
-        */
-        $app->hook('entity(Agent).get(site)', function() use ($app) {
-            $app->view->enqueueScript('app', 'agent', 'js/agent.js');
-        });
-
-
          /**
          * Adiciona novos menus no painel
          */
@@ -585,56 +580,126 @@ class Theme extends BaseV1\Theme{
         $app->hook('template(space.<<*>>.tab-about-extra-info):before', function(){
             $entity = $this->controller->requestedEntity;
             $this->part('singles/space-services', ['entity' => $entity]);
-        }); 
+        });
 
         /**
          * Não permite que CPF seja salvo no agente responsável pela inscrição se este já estiver vinculado a outro agente
          */
-        $app->hook('PATCH(registration.single):data', function(&$data) use ($app) {
+        $app->hook('PATCH(registration.single):data', function ($data) use ($app) {
             $registration = $app->repo('Registration')->find(intval($data['id']));
-            $query = $app->em->createQuery("SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'");
+
+            $query = $app->em->createQuery(
+                "SELECT rfc.id FROM MapasCulturais\Entities\RegistrationFieldConfiguration rfc
+                WHERE rfc.owner = :opportunityId AND rfc.config LIKE '%documento%'"
+            );
 
             $query->setParameter('opportunityId', $registration->opportunity->id);
 
-            if (count($query->getResult())) {
+            if ($query->getResult()) {
                 $result = $query->getSingleResult();
                 $field_id = $result['id'];
                 $cpf = $data["field_{$field_id}"];
-                $query = $app->em->createQuery("SELECT IDENTITY(am.owner) FROM MapasCulturais\Entities\AgentMeta am WHERE am.value = :cpf AND am.owner != :agentId");
-                $query->setParameter('cpf', $cpf);
-                $query->setParameter('agentId', $registration->owner->id);
 
-                $result = $query->getResult();
+                $result = Agent::checkCpfLinkedAnotherAgent($cpf, $registration->owner->id);
 
-                $msgEmailVinculado = '';
-                if (!empty($result) && $result[0][1]) {
-                    $agent = $app->repo('Agent')->find($result[0][1]);
+                if ($result) {
+                    $agent = $app->repo('Agent')->find($result[0]["agent_id"]);
 
                     $emailVinculado = $agent->getMetadata('emailPrivado');
-
                     $emailVinculadoPart = explode('@', $emailVinculado);
                     $user = substr($emailVinculadoPart[0], 0, -3);
                     $dominio = $emailVinculadoPart[1];
-
                     $email = $user . '***@' . $dominio;
-
                     $msgEmailVinculado = 'CPF vinculado ao e-mail: ' . $email;
-                }
 
-
-                if (checkValidDocument($cpf) && $cpf && count($result)) {
-                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'), 400);
-                } elseif (!checkValidDocument($cpf) && $cpf) {
-                    $this->errorJson(json_decode('{"field_'.$field_id.'": ["O número de documento informado é inválido."]}'), 400);
+                    if (Validation::checkValidDocument($cpf) && $cpf) {
+                        $this->errorJson(
+                            json_decode(
+                                '{"field_' . $field_id . '": ["Já existe um cadastro vinculado a este CPF. ' . $msgEmailVinculado . '.  Verifique se você possui outra conta no Mapa da Saúde."]}'
+                            ),
+                            400
+                        );
+                    } elseif (!Validation::checkValidDocument($cpf) && $cpf) {
+                        $this->errorJson(
+                            json_decode('{"field_' . $field_id . '": ["O número de documento informado é inválido."]}'),
+                            400
+                        );
+                    }
                 }
             }
         });
 
-        $app->hook('template(registration.view.form):begin', function() use($app) {
+        /**
+         * Adiciona máscara de CPF/CNPJ na criação e edição de um agente
+         */
+        $app->hook('entity(Agent).get(site)', function () use ($app) {
+            $app->view->enqueueScript('app', 'agent', 'js/agent.js');
+        });
+
+        $app->hook('template(registration.view.form):begin', function () {
             $entity = $this->controller->requestedEntity;
 
             $current_registration = $entity;
             $this->jsObject['entity']['object']->category = $current_registration->category;
+        });
+
+        /**
+         * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo (edição do agente)
+         */
+        $app->hook('PUT(agent.single):data', function ($data) use ($app) {
+            $typed_cpf = $data["documento"];
+            $agent = $app->repo('Agent')->find(intval($this->data["id"]));
+
+            $result = Agent::checkCpfLinkedAnotherAgent($typed_cpf, $agent->id);
+
+            if ($result && Validation::checkValidDocument($typed_cpf)) {
+                $this->json(
+                    json_decode('{
+                        "data": {
+                            "documento": ["Já existe um cadastro vinculado a este CPF/CNPJ. Verifique se você possui outra conta no Mapa da Saúde."]
+                        },
+                        "error": true
+                    }'),
+                    200
+                );
+            } else {
+                if (Validation::checkValidDocument($typed_cpf)) {
+                    $agent->documento = $typed_cpf;
+
+                    $agent->save(true);
+                }
+
+                return;
+            }
+        });
+
+        $app->hook('POST(agent.index):data', function ($data) use ($app) {
+            $typed_cpf = $data["documento"];
+
+            $query = $app->em->createQuery(
+                "SELECT IDENTITY(am.owner) AS agent_id FROM MapasCulturais\Entities\AgentMeta am
+                INNER JOIN MapasCulturais\Entities\Agent a WITH am.owner = a.id
+                WHERE am.key = 'documento' AND am.value = :cpf AND a.status = :agentStatus"
+            );
+
+            $query->setParameter('cpf', $typed_cpf);
+            $query->setParameter('agentStatus', User::STATUS_ENABLED);
+
+            $result = $query->getResult();
+
+            if ($result && Validation::checkValidDocument($typed_cpf)) {
+                $this->json(
+                    json_decode('{
+                        "data": {
+                            "documento": ["Este CPF/CNPJ já está vinculado a outro agente"]
+                        },
+                        "error": true
+                    }'),
+                    200
+                );
+            } else {
+                return;
+            }
         });
     }
 
@@ -928,29 +993,4 @@ class Theme extends BaseV1\Theme{
         return $link_attributes;
     }
 
-}
-
-function checkValidDocument($document)
-{
-    // Extrai somente os números
-    $document = preg_replace('/[^0-9]/is', '', $document);
-
-    // Verifica se o documento está completo
-    if (strlen($document) !== 11) return false;
-
-    // Verifica se o documento é uma sequência de números iguais
-    if (preg_match('/(\d)\1{10}/', $document)) return false;
-
-    // Faz o calculo para validar o CPF
-    for ($digits = 9; $digits < 11; $digits++) {
-        for ($sum_digits = 0, $digit_index = 0; $digit_index < $digits; $digit_index++) {
-            $sum_digits += $document[$digit_index] * (($digits + 1) - $digit_index);
-        }
-
-        $sum_digits = ((10 * $sum_digits) % 11) % 10;
-
-        if ($document[$digit_index] != $sum_digits) return false;
-    }
-
-    return true;
 }
