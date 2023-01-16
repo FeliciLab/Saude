@@ -112,10 +112,10 @@ class Theme extends BaseV1\Theme{
 
         /* INSCRIÇÕES */
         // modifica mensagem de ajuda no form de upload
-        $app->hook('view.partial(singles/registration-edit--upload-form).params', function (&$__data) {
+        /* $app->hook('view.partial(singles/registration-edit--upload-form).params', function (&$__data) {
             $__data['form_help'] = i::__('Consulte o edital desta oportunidade para entender as limitações de tamanho e formato dos arquivos solicitados.');
-        });
-            
+        }); */
+
         /* PROJETOS */
         // muda o nome da aba Principal para Detalhes
         $app->hook('view.partial(tab).params', function(&$__data, &$__template) {
