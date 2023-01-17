@@ -721,10 +721,12 @@ class Theme extends BaseV1\Theme{
 
         $app->hook('view.partial(tab).params', function (&$__data, &$__template) {
             $opportunity = $this->controller->requestedEntity;
-            if (!$opportunity->canUser('@control') && $this->controller->id === 'opportunity' && $this->controller->action === 'single' && $__data['id'] === 'inscritos') {
-                $enableAbaResultAfterPublishToPublic = $opportunity->enableAbaResultAfterPublishToPublic;
-                if ($enableAbaResultAfterPublishToPublic == '0') {
-                    $__template = '_empty';
+            if (!is_null($opportunity)) {
+                if (!$opportunity->canUser('@control') && $this->controller->id === 'opportunity' && $this->controller->action === 'single' && $__data['id'] === 'inscritos') {
+                    $enableAbaResultAfterPublishToPublic = $opportunity->enableAbaResultAfterPublishToPublic;
+                    if ($enableAbaResultAfterPublishToPublic == '0') {
+                        $__template = '_empty';
+                    }
                 }
             }
         });
