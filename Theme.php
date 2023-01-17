@@ -709,6 +709,25 @@ class Theme extends BaseV1\Theme{
                 return;
             }
         });
+
+
+         /**
+         * Add visão para gerenciar a aba de publicação de resultados
+         */
+        $app->hook('view.partial(singles/opportunity-registrations--rules):before', function () {
+            $entity = $this->controller->requestedEntity;
+            $this->part('singles/opportunity-field-enableAbaResultAfterPublishToPublic.php', ['entity' => $entity]);
+        }); 
+
+        $app->hook('view.partial(tab).params', function (&$__data, &$__template) {
+            $opportunity = $this->controller->requestedEntity;
+            if (!$opportunity->canUser('@control') && $this->controller->id === 'opportunity' && $this->controller->action === 'single' && $__data['id'] === 'inscritos') {
+                $enableAbaResultAfterPublishToPublic = $opportunity->enableAbaResultAfterPublishToPublic;
+                if ($enableAbaResultAfterPublishToPublic == '0') {
+                    $__template = '_empty';
+                }
+            }
+        });
     }
 
     private function validateRegistrationLimitPerOwnerProject()
@@ -863,6 +882,15 @@ class Theme extends BaseV1\Theme{
             'label' => 'Label do regulamento',
             'type' => 'text'
         ]); 
+
+        $this->registerOpportunityMetadata('enableAbaResultAfterPublishToPublic', [
+            'label' => i::__('Habilita aba de resultados após publicação'),
+            'type' => 'select',
+            'options' => (object)[
+                '0' => i::__('Não'),
+                '1' => i::__('Sim'),
+            ]
+        ]);
 
         // @todo necessário implementar validação do quantitativo de inscrições por projetos pai, o valor não deve ser maior que os valores definidos nos projetos pai e avó
         $this->registerProjectMetadata('registrationLimitPerOwnerProject', [
