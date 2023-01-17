@@ -34,5 +34,12 @@ return array(
         ),
 
         'restricted_terms' => array()
+    ),
+    4 => array(
+        'slug' => 'funcao',
+        'description' => i::__('Função'),
+        'entities' => array(
+            'MapasCulturais\Entities\Agent'
+        )
     )
 );
