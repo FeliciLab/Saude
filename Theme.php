@@ -651,8 +651,9 @@ class Theme extends BaseV1\Theme{
                 $this->part('singles/button/evaluation-documental-sendmail--button', ['registration' => $registration, 'userId' => $userId]);
             }
         });
+
         /**
-         * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo (edição do agente)
+         * Faz validação de CPF vinculado a outro agente somente se este estiver com status ativo (edição/criação do agente)
          */
         $app->hook('PUT(agent.single):data', function ($data) use ($app) {
             $typed_cpf = $data["documento"];
@@ -710,14 +711,13 @@ class Theme extends BaseV1\Theme{
             }
         });
 
-
-         /**
+        /**
          * Add visão para gerenciar a aba de publicação de resultados
          */
         $app->hook('view.partial(singles/opportunity-registrations--rules):before', function () {
             $entity = $this->controller->requestedEntity;
             $this->part('singles/opportunity-field-enableAbaResultAfterPublishToPublic.php', ['entity' => $entity]);
-        }); 
+        });
 
         $app->hook('view.partial(tab).params', function (&$__data, &$__template) {
             $opportunity = $this->controller->requestedEntity;
@@ -729,6 +729,16 @@ class Theme extends BaseV1\Theme{
                     }
                 }
             }
+        });
+
+        /**
+         * Validação de upload de arquivo somente do tipo PDF nas oportunidades da Residência
+         */
+        $app->hook('upload-registration-file', function (&$mime_types) {
+            $project_id = $this->requestedEntity->opportunity->ownerEntity->id;
+            $ids_residence_projects = array(155, 156, 158, 159, 160, 161, 162);
+
+            if (in_array($project_id, $ids_residence_projects)) $mime_types = array('application/pdf');
         });
     }
 
