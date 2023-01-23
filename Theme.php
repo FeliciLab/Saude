@@ -736,7 +736,7 @@ class Theme extends BaseV1\Theme{
          */
         $app->hook('upload-registration-file', function (&$mime_types) {
             $project_id = $this->requestedEntity->opportunity->ownerEntity->id;
-            $ids_residence_projects = array(155, 156, 158, 159, 160, 161, 162);
+            $ids_residence_projects = array(155, 156, 158, 159, 160, 161, 162, 163, 164, 166, 167);
 
             if (in_array($project_id, $ids_residence_projects)) $mime_types = array('application/pdf');
         });
